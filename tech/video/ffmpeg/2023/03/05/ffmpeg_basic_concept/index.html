@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    <meta name="description" content="Hexo Theme Redefine">
+    <meta name="author" content="Zengqiang">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-redefine.png">
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="http://fdslk.github.io/tech/video/ffmpeg/2023/03/05/ffmpeg_basic_concept/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="ffmpeg_basic_concept">
+    <meta property="og:description" content="Hexo Theme Redefine">
+    <meta property="og:url" content="http://fdslk.github.iotech/video/ffmpeg/2023/03/05/ffmpeg_basic_concept/">
+    <meta property="og:image" content="/images/redefine-logo.svg">
+    <meta property="og:site_name" content="Qiang Brother Blogs">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ffmpeg_basic_concept">
+    <meta name="twitter:description" content="Hexo Theme Redefine">
+    <meta name="twitter:image" content="/images/redefine-logo.svg">
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/redefine-logo.svg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/redefine-logo.svg">
+    <meta name="theme-color" content="#005080">
+    <link rel="shortcut icon" href="/images/redefine-logo.svg">
+    
+    <title>
+        
+            ffmpeg_basic_concept -
+        
+        Qiang Brother Blogs
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<link rel="stylesheet" href="/assets/fonts.css">
+
+    
+    
+    
+    
+    <script id="hexo-configurations">
+    let REDEFINE = window.REDEFINE || {};
+    REDEFINE.hexo_config = {"hostname":"fdslk.github.io","root":"/","language":"en"};
+    REDEFINE.theme_config = {"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true},"style":{"primary_color":"#005080","avatar":"/images/redefine-avatar.svg","favicon":"/images/redefine-logo.svg","article_img_align":"center","right_side_width":"210px","content_max_width":"1000px","nav_color":{"left":"#f78736","right":"#367df7","transparency":35},"hover":{"shadow":true,"scale":false},"first_screen":{"enable":true,"background_image":{"light":"https://evan.beee.top/img/wallhaven-wqery6-light.webp","dark":"https://evan.beee.top/img/wallhaven-wqery6-dark.webp"},"title_color":{"light":"#fff","dark":"#d1d1b6"},"description":"Welcome to my website, hope you can enjoy my articles and also you can find your tea","custom_font":{"enable":false,"font_family":null,"font_url":null}},"scroll":{"progress_bar":{"enable":true},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":true},"code_block":{"copy":true,"style":"mac","custom_font":{"enable":false,"font_family":null,"font_url":null}},"pjax":{"enable":true},"lazyload":{"enable":true},"version":"1.1.6","friend_links":{"columns":2},"home_article":{"date_format":"auto","category":{"enable":true,"limit":3},"tag":{"enable":true,"limit":3}},"plugins":{"aplayer":{"enable":false,"audio":[{"name":null,"artist":null,"url":null,"cover":null},{"name":null,"artist":null,"url":null,"cover":null}]}}};
+    REDEFINE.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+    
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <span class="pjax-progress-icon">
+            <i class="fa-solid fa-circle-notch fa-spin"></i>
+        </span>
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="menu-wrapper">
+    
+    <div class="menu-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Qiang Brother Blogs
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        
+                            <li class="menu-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-ghost"></i>
+                                        
+                                        HOME
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="menu-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/archives"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-ghost"></i>
+                                        
+                                        ARCHIVES
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="menu-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown" 
+                                    href="#" onClick="return false;">
+                                    
+                                        
+                                            <i class="fa-regular fa-ghost"></i>
+                                        
+                                        ABOUT&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                    
+                                        <li>
+                                        <a href="/about">ME
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a target="_blank" rel="noopener" href="https://github.com/Fdslk">GITHUB
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a target="_blank" rel="noopener" href="https://www.jianshu.com/u/aa8ec49eced0">JIANSHU
+                                        </a>
+                                        </li>
+                                    
+                                    </ul>
+                                
+                            </li>
+                    
+                        
+                            <li class="menu-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown" 
+                                    href="#" onClick="return false;">
+                                    
+                                        
+                                            <i class="fa-regular fa-ghost"></i>
+                                        
+                                        TAGS&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                    
+                                        <li>
+                                        <a href="/tags">ME
+                                        </a>
+                                        </li>
+                                    
+                                    </ul>
+                                
+                            </li>
+                    
+                        
+                            <li class="menu-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown" 
+                                    href="#" onClick="return false;">
+                                    
+                                        
+                                            <i class="fa-regular fa-ghost"></i>
+                                        
+                                        CATEGORIES&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                    
+                                        <li>
+                                        <a href="/categories">ME
+                                        </a>
+                                        </li>
+                                    
+                                    </ul>
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div class="menu-drawer">
+        <ul class="drawer-menu-list">
+            
+                
+                    <li class="drawer-menu-item flex-center">
+                        <a class="" 
+                        href="/"  >
+                             
+                                
+                                    <i class="fa-regular fa-ghost"></i>
+                                
+                                HOME
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-menu-item flex-center">
+                        <a class="" 
+                        href="/archives"  >
+                             
+                                
+                                    <i class="fa-regular fa-ghost"></i>
+                                
+                                ARCHIVES
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-menu-item flex-center">
+                        <a class="has-dropdown" 
+                        href="#" onClick="return false;">
+                            
+                                
+                                    <i class="fa-regular fa-ghost"></i>
+                                
+                                ABOUT&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                              
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" href="/about">ME</a>
+                            </li>
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://github.com/Fdslk">GITHUB</a>
+                            </li>
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://www.jianshu.com/u/aa8ec49eced0">JIANSHU</a>
+                            </li>
+                        
+                    
+            
+                
+                    <li class="drawer-menu-item flex-center">
+                        <a class="has-dropdown" 
+                        href="#" onClick="return false;">
+                            
+                                
+                                    <i class="fa-regular fa-ghost"></i>
+                                
+                                TAGS&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                              
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" href="/tags">ME</a>
+                            </li>
+                        
+                    
+            
+                
+                    <li class="drawer-menu-item flex-center">
+                        <a class="has-dropdown" 
+                        href="#" onClick="return false;">
+                            
+                                
+                                    <i class="fa-regular fa-ghost"></i>
+                                
+                                CATEGORIES&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                              
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" href="/categories">ME</a>
+                            </li>
+                        
+                    
+            
+
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="post-page-container">
+        <div class="article-content-container">
+
+            
+            
+                <div class="article-title">
+                    <h1 class="article-title-regular">ffmpeg_basic_concept</h1>
+                </div>
+            
+                
+            
+
+            
+                <div class="article-header">
+                    <div class="avatar">
+                        <img src="/images/redefine-avatar.svg">
+                    </div>
+                    <div class="info">
+                        <div class="author">
+                            <span class="name">Zengqiang</span>
+                            
+                                <span class="author-label">biking</span>
+                            
+                        </div>
+                        <div class="meta-info">
+                            <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="pc">2023-03-05 11:56:02</span>
+        <span class="mobile">2023-03-05 11:56</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="pc">2023-03-05 14:39:28</span>
+            <span class="mobile">2023-03-05 14:39</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/tech/">tech</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        &gt; <a href="/categories/tech/video/">video</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        &gt; <a href="/categories/tech/video/ffmpeg/">ffmpeg</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/ffmpeg/">ffmpeg</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="article-content markdown-body">
+                <h1 id="ffmpeg-java-demo"><a href="#ffmpeg-java-demo" class="headerlink" title="ffmpeg java demo"></a>ffmpeg java demo</h1><ul>
+<li>What is ffmpeg</li>
+<li>High frequency using library<ul>
+<li>libavcodec, contains all encoders and decoders, which is used to encode or decode the resource you input</li>
+<li>libavformat, deal with the <font color=red><strong>muxers</strong></font> or <font color=red><strong>demuxers</strong></font> for various container. container is a file which is used to save your video, audio streams, and anyclose <font color=red size=3 font=black>what is muxer and demuxer in pic?</font></li>
+<li>libavfilter, used to modify audio or video</li>
+<li>libavdevice, used to support different input and output devices</li>
+<li>libavutil,</li>
+<li>libwscale,</li>
+<li>libswreasample</li>
+</ul>
+</li>
+<li>ffmpeg package tools<ul>
+<li>ffmpeg, itself is a command line tool which is used to process the video or audio resource</li>
+<li>ffplay, which is a minimal video player, you can use it play a large wide of video format</li>
+<li>ffprobe, which is used to extract video or audio information</li>
+</ul>
+</li>
+</ul>
+<h2 id="Media-Concepts"><a href="#Media-Concepts" class="headerlink" title="Media Concepts"></a>Media Concepts</h2><ul>
+<li>image<ul>
+<li>pixel, is a 2D point, has color RGB or YUV, alpha value transparency</li>
+<li>resolution, the quality of the image of the number of pixel of the image</li>
+<li>Aspect Ratio, the radio of the width and height</li>
+</ul>
+</li>
+<li>Audio<ul>
+<li>smallest digital representation of a sound</li>
+<li>8&#x2F;16&#x2F;24&#x2F;32 bit value, more bits means high quality video source</li>
+<li>audio frequency, how many samples during the per second, the higher, the higher quality</li>
+<li>audio channel, which means that several audios will be played together<ul>
+<li>for example, one audio channel is named ‘Mono’, two is named ‘Stereo’ and both of them are called <code>channel layouts</code></li>
+</ul>
+</li>
+<li>audio track, organize different audio channels<ul>
+<li>for example, an audio can obtain multilingual channel, an English channel or a French chanel, and also it can take a background chanel, some of them can be mixed</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Video<ul>
+<li>sequence of images, has the time duration, Each image is called a frame</li>
+<li>Video frame rate(FPS), Frame per second</li>
+<li>video compression, not very clear about the concept? remove redundant information, Spatial redundancy (<strong>within frame</strong>), Temporal redundancy (<strong>across frame</strong>). <font color=red><strong>How to make it?</strong></font></li>
+</ul>
+</li>
+<li>Codec &amp; Container<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/96409339/206092175-0a9d1d2c-a173-4407-93a8-7b1e4b306db2.png"
+                      alt="the overview of Codec and Container"
+                ><ul>
+<li>Codec<ul>
+<li>encode, because video is a very big file, if we transfer it directly, which is an impractical idea. and decode is used to play the video</li>
+<li>some encode algorithm<ul>
+<li>video, H.264, H.265, VP9, Prores, DNxHd,</li>
+<li>audio, PCM, AAC, MP3</li>
+<li>the benefits of different codec algorithm</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Container<ul>
+<li>use to package or wrapper a media file</li>
+<li>format<ul>
+<li>video, MP4, MXF, QT&#x2F;MOV, MKV</li>
+<li>audio, WAV, M4A</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Transcoding<ul>
+<li>transfer one codec to another one</li>
+<li>why we need transcode, because it depends on different situation, sometimes, we need take care of quality, being smaller during the transporting in the internet</li>
+<li>using scenario<ul>
+<li>Transmuxing, From one container to another</li>
+<li>thumbnail generation, preview image, search hit, hover-scrubbing on the web page, poster frame</li>
+<li>Frame rate conversion<ul>
+<li>support different TV standards</li>
+<li>higher FPS: preserve slow motion quality for editing</li>
+<li>lower FPS: playback or streaming</li>
+</ul>
+</li>
+<li>Bitrate conversion<ul>
+<li>quality the higher bitrate the higher quality</li>
+<li>smaller storage space</li>
+<li>support different network bandwidth</li>
+</ul>
+</li>
+<li>change GOP size<ul>
+<li>good for editing based on I-frame (keyframe) only, 保持一个关键帧，然后可以继续操作，就可以得到动画</li>
+<li>good for compression and streaming based on long GOP</li>
+</ul>
+</li>
+<li>overlay<ul>
+<li>logo ….</li>
+</ul>
+</li>
+<li>subtitle&#x2F;capture</li>
+<li>timecode</li>
+<li>covert video resolution</li>
+<li>Audio volume adjustment</li>
+<li>Audio mixing eg: mix the person speaking voice and the background voice</li>
+<li>audio resampling, changing the frequency</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="How-to-setup-it"><a href="#How-to-setup-it" class="headerlink" title="How to setup it?"></a>How to setup it?</h2><ul>
+<li>how to get it?<ul>
+<li>No official builds</li>
+<li>Build from source code, download it from <code>github</code> repo</li>
+<li>Download Pre-build packages, Use package management tool, like <code>homebrew</code> and <code>APT</code></li>
+</ul>
+</li>
+<li>support OS<ul>
+<li>macOS <code>brew install ffmpeg</code></li>
+<li>linux </li>
+<li>Windows</li>
+</ul>
+</li>
+</ul>
+<h2 id="How-to-use-its-sub-component-tool"><a href="#How-to-use-its-sub-component-tool" class="headerlink" title="How to use its sub-component tool"></a>How to use its sub-component tool</h2><ul>
+<li>ffprobe<ul>
+<li>When you install the ffmpeg in brew, you can use ffmpeg, ffmprobe or ffmplay directly. For the part, you will use ffmprobe to analyze the video or audio resource.</li>
+<li>Input the following command, <code>ffprobe xxxx.mp4</code>, you will get the following result with log.<img  width="1293" alt="image" 
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/96409339/205582566-4f4bdc33-242e-4884-ad27-8b68c20fc433.png"
+                     
+                >
+* If you don't need any log, you can input the following command, `ffprobe -v error bunny_1080p_60fps.mp4 -show_format`, you will retrieve the whole video format details
+<div class="highlight-container" data-rel="Xml"><figure class="iseeu highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">[FORMAT]</span><br><span class="line">filename=bunny_1080p_60fps.mp4</span><br><span class="line">nb_streams=3</span><br><span class="line">nb_programs=0</span><br><span class="line">format_name=mov,mp4,m4a,3gp,3g2,mj2</span><br><span class="line">format_long_name=QuickTime / MOV</span><br><span class="line">start_time=0.000000</span><br><span class="line">duration=634.533333</span><br><span class="line">size=355856562</span><br><span class="line">bit_rate=4486529</span><br><span class="line">probe_score=100</span><br><span class="line">TAG:major_brand=isom</span><br><span class="line">TAG:minor_version=1</span><br><span class="line">TAG:compatible_brands=isomavc1</span><br><span class="line">TAG:creation_time=2013-12-16T17:59:32.000000Z</span><br><span class="line">TAG:title=Big Buck Bunny, Sunflower version</span><br><span class="line">TAG:artist=Blender Foundation 2008, Janus Bager Kristensen 2013</span><br><span class="line">TAG:comment=Creative Commons Attribution 3.0 - http://bbb3d.renderfarming.net</span><br><span class="line">TAG:genre=Animation</span><br><span class="line">TAG:composer=Sacha Goedegebure</span><br><span class="line">[/FORMAT]</span><br></pre></td></tr></table></figure></div>
+* If you want to know the details of the stream, you can input `ffprobe -v error bunny_1080p_60fps.mp4 -show_format -show_streams`
+  * with parameter `-print_format`, you can only <font color=red size=3>**format**</font> output csv or json
+  <div class="highlight-container" data-rel="Json"><figure class="iseeu highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">   <span class="attr">&quot;programs&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">   <span class="attr">&quot;streams&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">   <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;codec_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;h264&quot;</span></span><br><span class="line">   <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">   <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;codec_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;mp3&quot;</span></span><br><span class="line">   <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">   <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;codec_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ac3&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;side_data_list&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">&#123;</span><span class="punctuation">&#125;</span><span class="punctuation">]</span></span><br><span class="line">   <span class="punctuation">&#125;</span></span><br><span class="line"> <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure></div>
+  * with parameter  `-show_stream -select-streams v`, only output video stream
+  <div class="highlight-container" data-rel="Json"><figure class="iseeu highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;programs&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;streams&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">&#123;</span></span><br><span class="line">     <span class="attr">&quot;codec_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;h264&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure></div>
+  * with parameter `-show_entries stream=codec_name`, only output codec name, you might need to remove the other parameters like `-show_stream` or `-show_format`
+  * with parameter `-print_format default=noprint_wrappers=1`, remove outside tag
+  <div class="highlight-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">codec_name=h264</span><br><span class="line">codec_name=mp3</span><br><span class="line">codec_name=ac3</span><br></pre></td></tr></table></figure></div>
+  * with parameter `-print_format default=noprint_wrappers=1:nokey=1`, you can get the only value without key
+  <div class="highlight-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">h264</span><br><span class="line">mp3</span><br><span class="line">ac3</span><br></pre></td></tr></table></figure></div>
+  * You can analyze the stream information by URL directly without downloading it to loacl machine
+  `ffprobe -v error <http url link>`
+* [more details, www.ffmpeg.org/ffprobe.html](https://www.ffmpeg.org/ffprobe.html)</li>
+</ul>
+</li>
+<li>ffplay<ul>
+<li>with the parameter <code>-x , -y</code>, you can control the size of the video window</li>
+<li>with the parameter <code>-noborder</code>, you can remove the border of the video window</li>
+<li>with the parameter <code>-top -left</code>, you can control the position of the video window</li>
+<li>with the parameter <code>-fs</code>, you can get the full screen video window</li>
+<li>with the parameter <code>-an</code>, you can disable the audio</li>
+<li>with the parameter <code>vn</code>, you can disable the video<ul>
+<li>tips, you can press key <code>W</code> to switch the show-mode</li>
+</ul>
+</li>
+<li>with the parameter <code>-showmode waves</code>, you can get the video wave</li>
+<li>with the parameter <code>-loop &lt;times&gt;</code>, you can get looping video</li>
+<li>with pressing key <code>S</code>, you can step through the frames of a video one frame at a time</li>
+</ul>
+</li>
+<li>ffmpeg<ul>
+<li>overview of how to edit media<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/96409339/206382829-5b872ed9-97a5-4b17-88c6-eae1c76651e4.png"
+                      alt="overview"
+                ></li>
+<li>details<ul>
+<li>input &amp; output<ul>
+<li><code>ffmpeg -i &lt;protocol&gt;:&lt;device&gt;</code>, file is default, you also can choose the network pattern, like http, ftp, rtp etc.</li>
+<li>according to the above processing, you can run the following command like <code>ffmpeg -i input.mov ...add some filter... output.mp4</code></li>
+<li>with the parameter, <code>-f extension</code>, you can do the muxing or demux use the command. During the input process, it was used to demux. During the output process, it was used to mux.<ul>
+<li><code>ffmpeg -i input.mov ... -f ... output.extension</code></li>
+</ul>
+</li>
+<li>with parameter <code>pipe:0</code>, don’t know very well</li>
+<li>capture, I guess this can be used to record screen;<ul>
+<li><code>ffmpeg -f avfoundation -list_devices true -i &quot;&quot;</code> list the useful device in the current machine</li>
+<li>screen<ul>
+<li><code>ffmpeg -f avfoundation -i &quot;:1&quot; ....</code></li>
+</ul>
+</li>
+<li>audio (microphone)<ul>
+<li><code>ffmpeg -f avfoundation -i &quot;:2&quot; ....</code></li>
+</ul>
+</li>
+<li>webcam<ul>
+<li><code>ffmpeg -f avfoundation -i &quot;default&quot; ....</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>testing<ul>
+<li><code>ffmpeg -f lavfi -i color=color=red...</code>, <strong>lavfi</strong> is a virtual space</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>stream selection<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/96409339/206649881-25b41eed-9089-408e-a477-1daebf2695be.png"
+                      alt="the example of streams in container"
+                > <ul>
+<li>For one container, generally speaking, it includes one video stream and one more audios streams</li>
+<li>how to select a stream, <input-index>:<stream-type>:<stream-index>, these three inputs will control the stream you want to select.</li>
+<li><code>ffmpeg -v error -y -i bunny_1080p_60fps.mp4 -to 1 bunny_1080p_60fps-1s.mp4</code>, the command is used to edit a video<ul>
+<li><code>-y</code> override the file anyway</li>
+<li><code>-to</code> cut the video until 1 second</li>
+<li>For default, ffmpeg only picks up one video and one audio<ul>
+<li>get all, with parameter <code>-map 0</code></li>
+<li>get video, with parameter <code>-map 0:v</code></li>
+<li>get audio, with parameter <code>-map 0:a</code></li>
+<li>get first audio, with parameter <code>-map 0:a:0</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>You also can process multiple data together, integration some video, layout(logo), audio together<ul>
+<li><code>ffmpeg -v error -y -i bunny_1080p_60fps.mp4 -i bullfinch.mov -to 1 -map 0:v:0 -map 1:a:0 bunny_1080p_60fps-1s-mix.mp4</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>filter<ul>
+<li>do some change for the media, the common library is <code>libavfilter</code></li>
+<li>syntax, filter&#x3D;key1&#x3D;values:key2&#x3D;value2<ul>
+<li>eg: scale filter scale&#x3D;width&#x3D;1920:height&#x3D;1080<ul>
+<li>different filter labels are used <code>; [semicolon sign]</code> to split each others. <font color=red size=3>In my opinion, I think that semicolon sign is used to do the textual separation, which the filter is more readable.</font></li>
+<li>for one filter with multiple options, using <code>: [colon sign]</code> to split each other </li>
+<li>using comma <code>,</code> to split the different filter</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>it can be labeled, which can be referred for later option</li>
+<li>filter graph<ul>
+<li>with param <code>-vf</code> process graphs with <strong>single</strong> input and output, especially operate video resource</li>
+<li>eg: <div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -v error -i &lt;medida name with extension&gt; -vf</span><br><span class="line">  &quot;split[bg][ol]; // split the media with the same two parts</span><br><span class="line">  [bg]scale=width=1920:height=1080,format=gray[bg_output];</span><br><span class="line">  [ol]scale=-1:480,hflip[ol_output];</span><br><span class="line">  [bg_output][ol_output]overlay=x=W-w:y=(H-h)/2&quot; &lt;ouput file &gt; // combine two outputs togther.</span><br></pre></td></tr></table></figure></div></li>
+<li>with param <code>-filter-complex</code>, you can manipulate all the streams, like video, audio and picture.<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -v error -y -i bullfinch.mov -i logo.png -filter_complex </span><br><span class="line">&quot;[1:v]scale=-1:200[s_logo];</span><br><span class="line">[0:v][s_logo]overlay=x=W-w-50:y=H-h-50,split=2[sd_in][hd_in];</span><br><span class="line">[sd_in]scale=-2:480[sd];[hd_in]scale=-2:1080[hd]&quot;</span><br><span class="line">-map \[sd\] bully-sd.mp4 -map \[hd\] bully-hd.mp4</span><br></pre></td></tr></table></figure></div>
+<ul>
+<li>tips: If you want to use it in <font color=red><strong>zsh</strong></font>, you should add escape symbol before the special character, like <code>&#39;[&#39;, &#39;]&#39;</code></li>
+</ul>
+</li>
+<li>with param <code>-af</code>, you can do some editions on audio stream <strong>only for one</strong> input and output</li>
+<li>common filter<ul>
+<li>scale, one input and one output</li>
+<li>split, one input and multiple output</li>
+<li>overlay, multiple input and one output</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>encoding<ul>
+<li>what is kind of thing should we take into consideration? <ul>
+<li>compression</li>
+<li>quality vs size</li>
+<li>stream vs <em>post-production</em></li>
+<li>target application</li>
+<li>compatibility, check the codec is supported by the container</li>
+</ul>
+</li>
+<li>converting<ul>
+<li>If you want to transfer one container to another and don’t set the specific codec method, ffmpeg will set a default codec (suitable one).<ul>
+<li>eg: <code>ffmpeg -v error -y -i bullfinch.mov transcoded.mxf</code></li>
+<li>with parameter, <code>-vcodec &lt;codec name&gt;</code> to set specific video codec method<ul>
+<li><code>ffmpeg -encoders</code>, list all the useful codec method</li>
+</ul>
+</li>
+<li>with parameter <code>-avodec</code>, set the specific audio codec method</li>
+</ul>
+</li>
+<li>detail of AVC short for advanced video codec, H.264<ul>
+<li>codec library: libx264</li>
+<li>profile, baseline, main, high, it is optional</li>
+<li>Rate control (edit the bitrate, effect the video quality)<ul>
+<li>with parameter <code>-crf</code> </li>
+<li>CRF: constant quality, variable bitrate, focus on high quality crf 0-51, the higher, the worse quality </li>
+<li>Two-pass ABR, this is a quantitative option, with parameter <code>-b:v 2M</code>, which means that the bitrate is set as 2Mbps<ul>
+<li>tips, it cannot give you very accurate bitrate, therefore you can use two pass method. like <code>-b:v 2M -pass 1 -f null /dev/null</code>, then <code>-b:v 2M -pass 2 filename</code>. The result of the first step will be saved into the statics</li>
+</ul>
+</li>
+<li>preset, which is used to control the speed of compression, the quicker, the bigger compression file you get</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Streaming<ul>
+<li>Basic Concept<ul>
+<li>The device connect to the internet, then you can get the media resource from the internet transportation, rather than download the media directly. This process can be called as streaming.</li>
+<li>And the streaming can be consumed without any waiting just watch it directly when your device connects to the internet<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/6279298/207742871-faf39080-f180-445b-b10d-eb4f73df3f54.png"
+                      alt="overview of the streaming get or provide"
+                ></li>
+<li>Streaming playback, it is a mechanism for keep a comfortable watching experience.<ul>
+<li>Playable instantly, without downloading the whole media files</li>
+<li>Seekable, when you choose the different timeline, the media can be played based on the correct timeline rather than play it from the start</li>
+<li>Adaptive, based on different network situation (<font size=3 color=red>adaptive streaming bitrate, how to make it? not only the network situation, but also the player window size</font>)<ul>
+<li>In my opinion, it will start with a file extended with <code>m3u8</code>. Actually, the following playable videos are separated very small parts whose format is <code>ts</code>. When the network becomes worse, it will retrieve some low bitrate media resource until the network turn to the good situation.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Streaming protocol<ul>
+<li>different protocol is suitable to different situations, some are applicable to ingest, some are for distribution.<ul>
+<li>RTMP<ul>
+<li>real-time-messaging protocol</li>
+<li>based on TCP</li>
+<li>low latency</li>
+<li>stop updating, so not support to latest codec method</li>
+<li>required flash plugin</li>
+<li>is popular to live-streaming ingest</li>
+</ul>
+</li>
+<li>HTTP<ul>
+<li>widest reach</li>
+<li>TCP based</li>
+<li>unlikely to be blocked anywhere</li>
+<li>support its native player <code>HTML5 video</code>, no need to add extra plugin, like flash</li>
+<li>native support HLS and MPEG-DASH adaptive method</li>
+<li>good at distribution, not widely used to ingest</li>
+</ul>
+</li>
+<li>SRT<ul>
+<li>secure reliable transport</li>
+<li>based on UDP based</li>
+<li>faster than RTMP</li>
+<li>cannot support any browsers, because its based on UDP, but it’s extremely applicable to ingest streaming</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Progressive Download<ul>
+<li>The progressive download method downloads and caches video on the viewer’s device. A short period of time is required to buffer and cache the beginning of the media file before it starts playing</li>
+<li>single-file media<ul>
+<li>advantage<ul>
+<li>Not segmented</li>
+<li>Easier to handle</li>
+<li>native browser support</li>
+<li>copy and download easily, you can send the whole file to other services</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>container formats<ul>
+<li>MP4, WebM, Ogg, these formats are supported by native browser</li>
+</ul>
+</li>
+<li>The index<ul>
+<li>It’s used to look up the media data of a time aor frame, just like a table or a map to save the media information</li>
+<li>It will be written into the end of the mp4 file</li>
+<li>Similar to Apple player format (QuickTime, MOV)</li>
+<li>the data will get some hierarchical sections, the section are atom&#x2F;box, atom will be set into the stream during the codec period<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/6279298/208073595-5d752c26-a57a-4b2c-a9f0-1f691431aff9.png"
+                      alt="what is the atom"
+                ><br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/6279298/208075202-567b91f5-7b32-4472-b825-e8e89446d1b5.png"
+                      alt="the category of atoms"
+                ></li>
+</ul>
+</li>
+<li>fast-started<ul>
+<li><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/6279298/208084190-41a02855-edb8-4644-b2af-4399edb8563f.png"
+                      alt="fast-started structure"
+                ></li>
+<li>This will let the video be played gradually rather than download the whole file once time</li>
+<li>with command <code>ffmpeg -v trace -i &lt;video name&gt;</code>, you can get the verbose information</li>
+<li>pick atom <code>ffmpeg -v trace -i fast-start.mp4 2&gt;&amp;1 | grep -e type:\&#39;mdat\&#39; -e type:\&#39;moov\&#39;</code></li>
+<li>convert to a fast-started media <code> ffmpeg -i fast-start.mp4 -movflags +faststart -c copy test-fast-started.mp4</code><ul>
+<li>option <code>-movflag</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Adaptive Streaming<ul>
+<li>Sometime, the outside condition is changeable, for single-quality media, it just only has one quality, single resolution, bitrate choice</li>
+<li>adaptive resolution, different screen size the stream will choose some related stream. But if the screen resolution is greater than the low standard resolution and less than the high standard resolution, it will still use the higher one, take the 560p as an example, the play will still play the 720p media.</li>
+<li><font color=red>ffmpeg can do it?</font></li>
+<li>how it work<ul>
+<li>adaptive streaming solution<ul>
+<li>HLS, http live streaming<ul>
+<li>codec (H.264 avc H.265 havc) </li>
+<li>container (TS, fMP4, Fragmented MP4)</li>
+<li>manifest<ul>
+<li>m3u8 <ul>
+<li>master playlist is used to point the media playlist</li>
+<li>media playlist list the individual the segments of ts file in sequence</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>DASH, dynamic adaptive streaming over http<ul>
+<li>MPEG-DASH (mp4) </li>
+<li>codec freedom, H.264, H.265, VP9, etc. </li>
+<li>container only fMP4</li>
+<li>manifest (mdp, media presentation description, format is <code>xml</code>)</li>
+</ul>
+</li>
+<li>common characteristics<ul>
+<li>both can split media into several small segments</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>the facts need to consider when encoding the media to adaptive streaming <ul>
+<li>frame type</li>
+<li><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/6279298/209314973-8a7aa325-a305-42de-957a-ef14fd9966fe.png"
+                      alt="concept of frame"
+                ></li>
+<li>What is the self-contained in GOPs</li>
+</ul>
+</li>
+<li>how to use ffmpeg to convert the media into HLS or DASH<ul>
+<li>HLS, TS, A+V, the format of playlist is <code>m3u8</code> and the segment is <code>ts</code><ul>
+<li>&#96;&#96;&#96;yaml<br>  ffmpeg -y -i bunny_1080p_60fps.mp4 -to 10 <br>  -filter_complex “[0:v]fps&#x3D;30,split&#x3D;3[720_in][480_in][240_in];[720_in]scale&#x3D;-2:720[720_out];[480_in]scale&#x3D;-2:480[480_out];[240_in]scale&#x3D;-2:240[240_out]” <br>  -map [720_out] -map [480_out] -map [240_out] -map 0:a -map 0:a -map 0:a <br>  -b:v:0 3500k -maxrate:v:0 3500k -bufsize:v:0 3500k <br>  -b:v:1 1690k -maxrate:v:1 1690k -bufsize:v:1 1690k <br>  -b:v:2 326k -maxrate:v:2 326k -bufsize:v:2 326k <br>  -b:a:0 128k <br>  -b:a:1 96k <br>  -b:a:2 64k <br>  -x264-params “keyint&#x3D;60:min-keyint&#x3D;60:scenecut&#x3D;0” <br>  -var_stream_map “v:0,a:0,name:720-4M v:1,a:1,name:480-2M v:2,a:2,name:240p-500k” <br>  -hls_time 2 <br>  -hls_list_size 0 <br>  -hls_segment_filename adaptive-%v-%03d.ts <br>  -master_pl_name adaptive.m3u8 <br>  adaptive-%v.m3u8 <div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">          * `-b:v:0` is used to select the video stream and set the average bitrate, like `-b:v:0 128k`;</span><br><span class="line">          * `-bufsize` is used to check the average bitrate in this set value. eg: `-bufsize 128k`, During each 128k media transmission, ffmpeg will calculate the current average bitrate</span><br><span class="line">            * if the smaller value is set, the frequency of checking bitrate will be too high. Otherwise, it will take a long duration</span><br><span class="line">            * Generally speaking, it can set the same as the video average bitrate or even the half of it</span><br><span class="line">          * `-maxrate` is used to limit the max transmission bitrate. eg: Your max bandwidth is **1024kb/s**, and assuming you can totally use this bandwidth, audio will use 128k/s (this audio is stereo, 64k per channel), therefore, only 896k/s you can use, so you should set this value as your **maxrate**</span><br><span class="line">          * references</span><br><span class="line">            * [What does -bufsize do?](https://trac.ffmpeg.org/wiki/Limiting%20the%20output%20bitrate)</span><br><span class="line">            * [Encoding for streaming sites](https://trac.ffmpeg.org/wiki/EncodingForStreamingSites)</span><br><span class="line">        * HLS, TS separate the audio and video, only single audio stream, will have itself playlist manifest</span><br><span class="line">        * HLS, fMP4</span><br><span class="line">        * DASH, fMP4</span><br><span class="line">        * HLS+DASH, fMP4</span><br><span class="line">          * ![HLS DASH mixed pattern](https://user-images.githubusercontent.com/6279298/210923276-23ba054e-eec4-4120-9ac0-403ee39494b7.png) </span><br><span class="line">          * ```yaml</span><br><span class="line">            ffmpeg -y -i bullfinch.mov -to 10 \                                </span><br><span class="line">             -filter_complex &quot;[0:v]fps=30,split=3[720_in][480_in][240_in];[720_in]scale=-2:720[720_out];[480_in]scale=-2:480[480_out];[240_in]scale=-2:240[240_out]&quot; \</span><br><span class="line">             -map \[720_out\] -map \[480_out\] -map \[240_out\] -map 0:a \</span><br><span class="line">             -b:v:0 3500k -maxrate:v:0 3500k -bufsize:v:0 3500k \</span><br><span class="line">             -b:v:1 1690k -maxrate:v:1 1690k -bufsize:v:1 1690k \</span><br><span class="line">             -b:v:2 326k -maxrate:v:2 326k -bufsize:v:2 326k \</span><br><span class="line">             -b:a:2 128k \</span><br><span class="line">             -x264-params &quot;keyint=60:min-keyint=60:scenecut=0&quot; \</span><br><span class="line">             -hls_playlist 1 \</span><br><span class="line">             -hls_master_name adaptive.m3u8 \</span><br><span class="line">             -seg_duration 2 \</span><br><span class="line">             adaptive.mpd  </span><br><span class="line">            ```     </span><br><span class="line">* example of manipulate video</span><br><span class="line">  * Trimming</span><br><span class="line">    * `ffmpeg -y -v error -i nature.mp4 -ss 00:03:55 -to 240 bear.mp4`</span><br><span class="line">      * `-v [flags+]loglevel` set the processing log error verbose</span><br><span class="line">      * `-ss` set up the start second</span><br><span class="line">      * `-to` set up the total duration</span><br><span class="line">      * `-t` set up the segment duration, take the above command as an example, if you want to achieve the same behavior, you can use `-ss 00:03:55 -t 5`</span><br><span class="line">  * Merge</span><br><span class="line">    * define a list file</span><br><span class="line">      * ```text</span><br><span class="line">        file &#x27;bear.mp4&#x27;</span><br><span class="line">        file &#x27;flower.mp4&#x27;</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>ffmpeg -y -v error -f concat -i list.txt merge.mp4</code></li>
+</ul>
+</li>
+<li>Thumbnail<ul>
+<li><code>ffmpeg -v error -i bullfinch.mov -vframes 1 bullfinch-poster-image.jpg</code><ul>
+<li><code>-vframes</code> set up the number of frames</li>
+<li>You also can use filter during this processing, by the following command<ul>
+<li><code>ffmpeg -v error -i bullfinch.mov -vframes 1 -vf scale=320:180 bullfinch-poster-image-thumbnail.jpg</code></li>
+</ul>
+</li>
+<li>if you don’t want to output the first frame as the thumbnail, you can add the <code>-ss</code> before the <code>-vframes</code></li>
+<li>If you want to output multiple frame pictures, you can run the following command<ul>
+<li><code>ffmpeg -v error -i bullfinch.mov  -vf fps=1,scale=320:180 bullfinch-thumbnail-%02d.jpg</code></li>
+<li><code>-%02d</code> is a template syntax, which can be used to generate multiple file</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Scaling<ul>
+<li>resize the media or photo resource<ul>
+<li><code>-vf scale=-2:480</code>, <strong>minus two</strong> means we want to keep the aspect ratio</li>
+<li>force original aspect ratio option, <code>force_original_aspect_ratio</code></li>
+<li>If you can want to keep the desired window size, you can add the <a class="link"   target="_blank" rel="noopener" href="https://ffmpeg.org/ffmpeg-all.html#Examples-140" >pad option <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>: <code>pad=640:480:(ow-iw)/2:(oh-oh)/2</code>, with this option, you can output the video in the desired bound box.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://ffmpeg.org/ffmpeg-all.html#Examples-139" >Overlay <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a><ul>
+<li><code>ffmpeg -v error -y -i (video) -i (pic) -filter_complex &quot;overlay&quot; output_file.extension</code></li>
+<li>adjust the transparency of the overlay <code>-filter_complex &quot;[1:v]colorchannelmixer=aa=0.4[transparent_log];[0:v][transparent_log]overlay&quot;</code><ul>
+<li><code>aa</code> Adjust contribution of input red, green, blue and alpha channels for output alpha channel. Default is 1 for aa, and 0 for ar, ag and ab.</li>
+</ul>
+</li>
+<li>multiple overlay, overlay the video with logo at first, then set a label to them. Overlaying the previous output and the third input video</li>
+</ul>
+</li>
+<li>Drawing text and or timeCode<ul>
+<li>fixed text when play<ul>
+<li><code>ffplay bullfinch.mov -v error -an -vf &quot;drawtext=text=Bird&quot;</code><ul>
+<li><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/6279298/211193197-b5472769-c6da-4b7a-8758-a0c4ca25849e.png"
+                      alt="fixed draw text"
+                ></li>
+</ul>
+</li>
+<li>with parameter <code>x</code> and <code>y</code>, you can adjust its position, like <code>ffplay bullfinch.mov -v error -an -vf &quot;drawtext=fontfile=Example.ttf:text=Bird:x=(w-text_w)/2:y=(h-text_h)/2:fontsize=60&quot;</code><ul>
+<li><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/6279298/211193438-39bdde10-ab6f-45d9-85ba-a531bc880a8a.png"
+                      alt="Screen Shot 2023-01-08 at 7 22 05 PM"
+                ></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>moving text when play<ul>
+<li>with parameter <code>t</code> which represents the time, if you want the text from the top to the center you can use the following command:<ul>
+<li><code>y=t*50</code></li>
+<li>Generally speaking, If you want to move the text from the right to the left, you can add the parameter <code>x=(w-text_w)/2-100*t</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>add time code<ul>
+<li>default<ul>
+<li><code>ffplay bullfinch.mov -v error -an -vf &quot;drawtext=fontfile=Example.ttf:text=Bird:x=(w-text_w)/2:y=(h-text_h)/2:fontsize=60:timecode=&#39;00\:00\:00\:00&#39;:rate=&#39;24000/1001&#39;</code></li>
+</ul>
+</li>
+<li>with boxColor<ul>
+<li><code>:box=1: boxcolor=red@0.2</code></li>
+<li><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/6279298/211194118-45ede122-c2b4-49c7-92e7-28342c21644b.png"
+                      alt="time code with color box"
+                ></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>example of manipulation audio<ul>
+<li>extract channels<ul>
+<li>some channels play the voice, and some channels play the background music<ul>
+<li>with filter <code>amerge=inputs=2</code>, you can merge the whole stream to a one stream with multiple channels</li>
+<li>with the following command you can split the whole stream into different files <code>ffmpeg -v error -y -i two-stereo-tracks.m4a -filter_complex &quot;amerge=inputs=2,asplit=4[all0][all1][all2][all3];[all0]pan=mono|c0=c0[ch0];[all1]pan=mono|c0=c1[ch1];[all2]pan=mono|c0=c2[ch2];[all3]pan=mono|c0=c3[ch3]&quot; -map \[ch0\] ch0.m4a -map \[ch1\] ch1.m4a -map \[ch2\] ch2.m4a -map \[ch3\] ch3.m4a</code><ul>
+<li>with the filter <code>asplit</code> like <code>[in] asplit=&lt;output number&gt; [out0][out1][out2]</code>, you can get number of output</li>
+<li>with the filter <a target="_blank" rel="noopener" href="https://www.ffmpeg.org/ffmpeg-all.html#pan-1"><code>pan</code></a>, you can manipulate the audio</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>mix channels<ul>
+<li>with <code>ffmpeg -v error -y -i ch0.m4a -i ch1.m4a -i ch2.m4a -i ch3.m4a -filter_complex &quot;amerge=inputs=4&quot; mix_four_in_one_channel.m4a</code></li>
+<li>with the filter <code>amix=inputs=&lt;number of input&gt;</code>, it can work, but the mixed audio will drop down the volume</li>
+<li>with <code>&quot;amerge=inputs=4,pan=mono|c0=c0+c1+c2+c3&quot;</code>, you can avoid this issue</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            </div>
+
+            
+                <div class="post-copyright-info">
+                    <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：ffmpeg_basic_concept</li>
+        <li>Post author：Zengqiang</li>
+        <li>Create time：2023-03-05 11:56:02</li>
+        <li>
+            Post link：https://fdslk.github.io/tech/video/ffmpeg/2023/03/05/ffmpeg_basic_concept/
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+                </div>
+            
+
+            
+                <ul class="post-tags-box">
+                    
+                        <li class="tag-item">
+                            <a href="/tags/ffmpeg/">#ffmpeg</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            
+
+            
+
+            
+                <div class="article-nav">
+                    
+                        <div class="article-prev">
+                            <a class="prev"
+                            rel="prev"
+                            href="/tech/video/ffmpeg/2023/03/05/ffmpeg-simple-convert/"
+                            >
+                                <span class="left arrow-icon flex-center">
+                                    <i class="fa-solid fa-chevron-left"></i>
+                                </span>
+                                <span class="title flex-center">
+                                    <span class="post-nav-title-item">ffmpeg_simple_convert</span>
+                                    <span class="post-nav-item">Prev posts</span>
+                                </span>
+                            </a>
+                        </div>
+                    
+                    
+                        <div class="article-next">
+                            <a class="next"
+                            rel="next"
+                            href="/tech/test/java/es/2023/03/05/es-local-tests/"
+                            >
+                                <span class="title flex-center">
+                                    <span class="post-nav-title-item">es_local_tests</span>
+                                    <span class="post-nav-item">Next posts</span>
+                                </span>
+                                <span class="right arrow-icon flex-center">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </span>
+                            </a>
+                        </div>
+                    
+                </div>
+            
+
+
+            
+        </div>
+
+        
+            <div class="toc-content-container">
+                <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">On this page</div>
+        <div class="page-title">ffmpeg_basic_concept</div>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ffmpeg-java-demo"><span class="nav-text">ffmpeg java demo</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Media-Concepts"><span class="nav-text">Media Concepts</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#How-to-setup-it"><span class="nav-text">How to setup it?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#How-to-use-its-sub-component-tool"><span class="nav-text">How to use its sub-component tool</span></a></li></ol></li></ol>
+
+    </div>
+</div>
+            </div>
+        
+    </div>
+</div>
+
+
+                
+
+            </div>
+
+
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2023&nbsp;&nbsp;<i class="fa-regular fa-computer-classic"></i>&nbsp;&nbsp;<a href="/">Zengqiang</a>
+        </div>
+        
+            <script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv" class="busuanzi_container_site_uv">
+                        VISITOR COUNT&nbsp;<span id="busuanzi_value_site_uv" class="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="busuanzi_container_site_pv">
+                        TOTAL PAGE VIEWS&nbsp;<span id="busuanzi_value_site_pv" class="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            <span class="powered-by-container">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" href="https://hexo.io">Hexo</a></span>
+                <br> 
+            <span class="theme-version-container">THEME&nbsp;<a class="theme-version" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v1.1.6</a>
+        </div>
+        
+        
+        
+            <div id="start_time_div" style="display:none">
+                2022/8/17 11:45:14
+            </div>
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+        
+            <script async data-pjax>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="unfolded-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-expand-width flex-center">
+            <i class="fa-regular fa-expand"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex-center">
+                <i class="fa-regular fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="folded-tools-list">
+        <li class="right-bottom-tools tool-toggle-show flex-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/layouts/menu-shrink.js"></script>
+
+<script src="/js/tools/go-top-bottom.js"></script>
+
+<script src="/js/tools/dark-light-toggle.js"></script>
+
+
+
+
+
+    
+<script src="/js/tools/code-block.js"></script>
+
+
+
+
+    
+<script src="/js/layouts/lazyload.js"></script>
+
+
+
+
+    
+<script src="/js/tools/runtime.js"></script>
+
+    
+<script src="/js/layouts/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+
+<div class="post-scripts pjax">
+    
+        
+<script src="/js/tools/toc-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/layouts/toc.js"></script>
+
+<script src="/js/plugins/tabs.js"></script>
+
+    
+    
+</div>
+
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+            // scrollTo: true,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            REDEFINE.utils.pjaxProgressBarStart();
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            REDEFINE.utils.pjaxProgressBarEnd();
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+            REDEFINE.refresh();
+        });
+    });
+</script>
+
+
+
+
+</body>
+</html>
