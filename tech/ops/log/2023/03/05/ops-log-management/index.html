@@ -1,91 +1,403 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>ops_log_management | 🪳的Daily Blog WebSite</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="keywords" content="">
-    <meta name="description" content="How to collect, manage and visualize our log data?author: zengqiang fanglog&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;ELK&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;EFK&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp; k8s
-Background&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp; During our daily working, application status, the content...">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    <meta name="description" content="Hexo Theme Redefine">
+    <meta name="author" content="Zengqiang">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-redefine.png">
+    <!--- Seo Part-->
     
-        <link rel="icon" href="/favicon.ico">
+    <link rel="canonical" href="http://fdslk.github.io/tech/ops/log/2023/03/05/ops-log-management/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="ops_log_management">
+    <meta property="og:description" content="Hexo Theme Redefine">
+    <meta property="og:url" content="http://fdslk.github.iotech/ops/log/2023/03/05/ops-log-management/">
+    <meta property="og:image" content="/images/redefine-logo.svg">
+    <meta property="og:site_name" content="Qiang Brother Blogs">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ops_log_management">
+    <meta name="twitter:description" content="Hexo Theme Redefine">
+    <meta name="twitter:image" content="/images/redefine-logo.svg">
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/redefine-logo.svg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/redefine-logo.svg">
+    <meta name="theme-color" content="#005080">
+    <link rel="shortcut icon" href="/images/redefine-logo.svg">
+    
+    <title>
+        
+            ops_log_management -
+        
+        Qiang Brother Blogs
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<link rel="stylesheet" href="/assets/fonts.css">
+
     
     
-        
-            <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
-        
-            <link rel="stylesheet" href="/css/stage.css">
-        
-            <link rel="stylesheet" href="/css/avatar-bg.css">
-        
+    
+    
+    <script id="hexo-configurations">
+    let REDEFINE = window.REDEFINE || {};
+    REDEFINE.hexo_config = {"hostname":"fdslk.github.io","root":"/","language":"en"};
+    REDEFINE.theme_config = {"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true},"style":{"primary_color":"#005080","avatar":"/images/redefine-avatar.svg","favicon":"/images/redefine-logo.svg","article_img_align":"center","right_side_width":"210px","content_max_width":"1000px","nav_color":{"left":"#f78736","right":"#367df7","transparency":35},"hover":{"shadow":true,"scale":false},"first_screen":{"enable":true,"background_image":{"light":"https://evan.beee.top/img/wallhaven-wqery6-light.webp","dark":"https://evan.beee.top/img/wallhaven-wqery6-dark.webp"},"title_color":{"light":"#fff","dark":"#d1d1b6"},"description":"Theme Redefine","custom_font":{"enable":false,"font_family":null,"font_url":null}},"scroll":{"progress_bar":{"enable":true},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":true},"code_block":{"copy":true,"style":"mac","custom_font":{"enable":false,"font_family":null,"font_url":null}},"pjax":{"enable":true},"lazyload":{"enable":true},"version":"1.1.6","friend_links":{"columns":2},"home_article":{"date_format":"auto","category":{"enable":true,"limit":3},"tag":{"enable":true,"limit":3}},"plugins":{"aplayer":{"enable":false,"audio":[{"name":null,"artist":null,"url":null,"cover":null},{"name":null,"artist":null,"url":null,"cover":null}]}}};
+    REDEFINE.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+    
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
     
 <meta name="generator" content="Hexo 6.3.0"></head>
 
+
 <body>
-<header id="header">
-    <div class="menu">
-        <i class="fa fa-bars"></i>
-    </div>
-    <div class="header-main">
-        <h1><a href="/">🪳的Daily Blog WebSite</a></h1>
-    </div>
-    <div id="nav">
-        <div class="nav-img" id="nav-img"></div>
-        <div class="sentences">
-            云里写诗，泥里生活，岁月里洒脱。
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <span class="pjax-progress-icon">
+            <i class="fa-solid fa-circle-notch fa-spin"></i>
+        </span>
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="menu-wrapper">
+    
+    <div class="menu-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Qiang Brother Blogs
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        
+                            <li class="menu-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-ghost"></i>
+                                        
+                                        HOME
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="menu-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/archives"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-ghost"></i>
+                                        
+                                        ARCHIVES
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="menu-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown" 
+                                    href="#" onClick="return false;">
+                                    
+                                        
+                                            <i class="fa-regular fa-ghost"></i>
+                                        
+                                        ABOUT&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                    
+                                        <li>
+                                        <a href="/about">ME
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a target="_blank" rel="noopener" href="https://github.com/Fdslk">GITHUB
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a target="_blank" rel="noopener" href="https://www.jianshu.com/u/aa8ec49eced0">JIANSHU
+                                        </a>
+                                        </li>
+                                    
+                                    </ul>
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
         </div>
     </div>
+
+    <!-- Mobile drawer -->
+    <div class="menu-drawer">
+        <ul class="drawer-menu-list">
+            
+                
+                    <li class="drawer-menu-item flex-center">
+                        <a class="" 
+                        href="/"  >
+                             
+                                
+                                    <i class="fa-regular fa-ghost"></i>
+                                
+                                HOME
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-menu-item flex-center">
+                        <a class="" 
+                        href="/archives"  >
+                             
+                                
+                                    <i class="fa-regular fa-ghost"></i>
+                                
+                                ARCHIVES
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-menu-item flex-center">
+                        <a class="has-dropdown" 
+                        href="#" onClick="return false;">
+                            
+                                
+                                    <i class="fa-regular fa-ghost"></i>
+                                
+                                ABOUT&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                              
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" href="/about">ME</a>
+                            </li>
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://github.com/Fdslk">GITHUB</a>
+                            </li>
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://www.jianshu.com/u/aa8ec49eced0">JIANSHU</a>
+                            </li>
+                        
+                    
+            
+
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
 </header>
 
-<div id="content-outer">
-    <div id="content-inner">
-        <div class="clearfix">
-    <article id="post">
-        <h1>ops_log_management</h1>
-        <div class="create">
-            <span>Created</span>
-            
-                <time datetime="2023-03-05T07:04:56.000Z">
-                    2023-03-05
-                </time>
-            
-            <ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/">tech</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/ops/">ops</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/ops/log/">log</a></li></ul></li></ul></li></ul>
+
         </div>
-        <h1 id="How-to-collect-manage-and-visualize-our-log-data"><a href="#How-to-collect-manage-and-visualize-our-log-data" class="headerlink" title="How to collect, manage and visualize our log data?"></a><strong>How to collect, manage and visualize our log data?</strong></h1><p><em><strong>author: zengqiang fang</strong></em><br><code>log</code>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;<code>ELK</code>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;<code>EFK</code>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; <code>k8s</code></p>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="post-page-container">
+        <div class="article-content-container">
+
+            
+            
+                <div class="article-title">
+                    <h1 class="article-title-regular">ops_log_management</h1>
+                </div>
+            
+                
+            
+
+            
+                <div class="article-header">
+                    <div class="avatar">
+                        <img src="/images/redefine-avatar.svg">
+                    </div>
+                    <div class="info">
+                        <div class="author">
+                            <span class="name">Zengqiang</span>
+                            
+                                <span class="author-label">biking</span>
+                            
+                        </div>
+                        <div class="meta-info">
+                            <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="pc">2023-03-05 15:04:56</span>
+        <span class="mobile">2023-03-05 15:04</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="pc">2023-03-05 15:06:28</span>
+            <span class="mobile">2023-03-05 15:06</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/tech/">tech</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        &gt; <a href="/categories/tech/ops/">ops</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        &gt; <a href="/categories/tech/ops/log/">log</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="article-content markdown-body">
+                <h1 id="How-to-collect-manage-and-visualize-our-log-data"><a href="#How-to-collect-manage-and-visualize-our-log-data" class="headerlink" title="How to collect, manage and visualize our log data?"></a><strong>How to collect, manage and visualize our log data?</strong></h1><p><em><strong>author: zengqiang fang</strong></em><br><code>log</code>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;<code>ELK</code>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;<code>EFK</code>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; <code>k8s</code></p>
 <h2 id="Background"><a href="#Background" class="headerlink" title="Background"></a><strong>Background</strong></h2><p>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; During our daily working, application status, the content of http request and response, exception message, etc, which are very useful to us for debugging online issues and monitoring applications. Therefore, it is necessary to collect log data and visualize log records as a chart. In the past, we recorded log information into logs file. Then, we logged to the server to check log information or downloaded log file. According to this way, it is not only very hard to analyze log in real time, but also it is too difficult to search or filter log by key words. Nowadays, more and more services and systems are deployed in k8s clusters. Therefore, it’s no hesitation to find a new way to collect and visualize data. In the article, we will introduce two k8s supported log frameworks, which are <strong>ELK</strong> and <strong>EFK</strong>. <strong>E</strong> has the same meaning for these two frameworks, ElasticSearch engine. <strong>L</strong> means the <strong>logstash</strong>, log agent. <strong>F</strong> is <strong>fluentd</strong>, k8s Nodes level log collecting application. And <strong>K</strong> also points to the same application, Kibana. It is used to visualize log. During the rest of this article, we will have a detailed description about what they are and how to use them.</p>
 <h2 id="Logs-management-frameworks"><a href="#Logs-management-frameworks" class="headerlink" title="Logs management frameworks"></a><strong>Logs management frameworks</strong></h2><h3 id="ELK-ElasticSearch-logstash-kibana"><a href="#ELK-ElasticSearch-logstash-kibana" class="headerlink" title="ELK ElasticSearch logstash kibana"></a><strong>ELK ElasticSearch logstash kibana</strong></h3><p>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;<strong>ELK</strong> is a framework which is provided by elastic stack organization. This framework can be divided into three parts. The heart, <strong>ElasticSearch</strong> collects data and is also a data searching engine, which can provide and save data. It can be deployed onto k8s cluster and execute scalation automatically. Then, <strong>logstash</strong> is used to format log and send collecting data to ElasticSearch, like a <strong>pipeline</strong>. In the end, <strong>kibana</strong> is used to visualize the data from ElasticSearch. What’s more, a log collecting tool, <strong>beat (Filebeat)</strong> also needs to be set up for a collection application log and send the log to logstash. And the whole workflow can be presented as the Pic1.</p>
-<p><img src="https://user-images.githubusercontent.com/6279298/167979333-e95a53ab-c13e-4ceb-bca2-21196a57d3dc.png" alt="Pic1"></p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/6279298/167979333-e95a53ab-c13e-4ceb-bca2-21196a57d3dc.png"
+                      alt="Pic1"
+                ></p>
 <h3 id="EFK-ElasticSearch-fluentd-kibana"><a href="#EFK-ElasticSearch-fluentd-kibana" class="headerlink" title="EFK ElasticSearch fluentd kibana"></a><strong>EFK ElasticSearch fluentd kibana</strong></h3><p>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;<strong>EFK</strong> is another log framework and some features are similar to <strong>ELK</strong>. <strong>EFK</strong> includes a log agent, fluentd for collecting log data and sending log data to ElasticSearch. EFK is supported two endpoints which are <strong>Stackdriver Logging for use with Google Cloud Platform</strong> and <strong>ElasticSearch</strong>. Fluentd is a DeamonSet k8s resource which can be deployed into k8s Nodes as a Deamon Pod. This special pods will collect the log of the pods in the same Nodes. Therefore, <strong>EFK</strong> just needs to deploy ElasticSearch Pods, kibana interface Pods, fleuntd DeamonSet.</p>
 <h2 id="How-to-use"><a href="#How-to-use" class="headerlink" title="How to use"></a><strong>How to use</strong></h2><h3 id="ELK"><a href="#ELK" class="headerlink" title="ELK"></a><strong>ELK</strong></h3><h4 id="Deploy-ElasticSearch-engine-in-k8s"><a href="#Deploy-ElasticSearch-engine-in-k8s" class="headerlink" title="Deploy ElasticSearch engine in k8s"></a><strong>Deploy ElasticSearch engine in k8s</strong></h4><ul>
-<li>add <a target="_blank" rel="noopener" href="https://github.com/Fdslk/ops/blob/main/ELK/es-manual.yaml">es-manual.yaml file</a> which includes k8s deployment configuration and service configuration. Service file is used to expose es-manual pod. Then other services can access to ElasticSearch service freely. If you want to run es deployment in your local machine, you might specify the <strong>“discovery.type”</strong> is equal to <strong>“single-node”</strong>. The default discovery.type for ElasticSearch is <strong>multi-node</strong>. If es was set as a multi-node cluster, it would discover other nodes. Therefore, some discovery configurations need to be set up. Otherwise, you will get the following errors.</li>
+<li>add <a class="link"   target="_blank" rel="noopener" href="https://github.com/Fdslk/ops/blob/main/ELK/es-manual.yaml" >es-manual.yaml file <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> which includes k8s deployment configuration and service configuration. Service file is used to expose es-manual pod. Then other services can access to ElasticSearch service freely. If you want to run es deployment in your local machine, you might specify the <strong>“discovery.type”</strong> is equal to <strong>“single-node”</strong>. The default discovery.type for ElasticSearch is <strong>multi-node</strong>. If es was set as a multi-node cluster, it would discover other nodes. Therefore, some discovery configurations need to be set up. Otherwise, you will get the following errors.</li>
 </ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ERROR: [1] bootstrap checks failed</span><br><span class="line">[1]: the default discovery settings are unsuitable for production use; at least one of [discovery.seed_hosts, discovery.seed_providers, cluster.initial_master_nodes] must be configured</span><br><span class="line">ERROR: ElasticSearch did not exit normally - check the logs at /usr/share/ElasticSearch/logs/docker-cluster.log</span><br></pre></td></tr></table></figure>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ERROR: [1] bootstrap checks failed</span><br><span class="line">[1]: the default discovery settings are unsuitable for production use; at least one of [discovery.seed_hosts, discovery.seed_providers, cluster.initial_master_nodes] must be configured</span><br><span class="line">ERROR: ElasticSearch did not exit normally - check the logs at /usr/share/ElasticSearch/logs/docker-cluster.log</span><br></pre></td></tr></table></figure></div>
 
 <ul>
 <li><p>When everything of es is set up correctly, you can input <code>curl http://localhost:&lt;expose port&gt;</code> in your iTerms, the following result you will receive:</p>
-  <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;es-manual-ccd547885-4czd4&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;cluster_name&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;docker-cluster&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;cluster_uuid&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;WbVh_VIjS42ppWYuGwovog&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;version&quot;</span> <span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;number&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;7.8.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;build_flavor&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;default&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;build_type&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;docker&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;build_hash&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;757314695644ea9a1dc2fecd26d1a43856725e65&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;build_date&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;2020-06-14T19:35:50.234439Z&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;build_snapshot&quot;</span> <span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;lucene_version&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;8.5.1&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;minimum_wire_compatibility_version&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;6.8.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;minimum_index_compatibility_version&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;6.0.0-beta1&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;tagline&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;You Know, for Search&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure></li>
+  <div class="highlight-container" data-rel="Json"><figure class="iseeu highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;es-manual-ccd547885-4czd4&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;cluster_name&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;docker-cluster&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;cluster_uuid&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;WbVh_VIjS42ppWYuGwovog&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;version&quot;</span> <span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;number&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;7.8.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;build_flavor&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;default&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;build_type&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;docker&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;build_hash&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;757314695644ea9a1dc2fecd26d1a43856725e65&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;build_date&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;2020-06-14T19:35:50.234439Z&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;build_snapshot&quot;</span> <span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;lucene_version&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;8.5.1&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;minimum_wire_compatibility_version&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;6.8.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;minimum_index_compatibility_version&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;6.0.0-beta1&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;tagline&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;You Know, for Search&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure></div></li>
 </ul>
 <h4 id="Deploy-kibana-in-k8s"><a href="#Deploy-kibana-in-k8s" class="headerlink" title="Deploy kibana in k8s"></a><strong>Deploy kibana in k8s</strong></h4><ul>
-<li>Add a <a target="_blank" rel="noopener" href="https://github.com/Fdslk/ops/blob/main/ELK/kibana-elk.yaml">kibana deployment manifest</a> including deployment image and service information. Meanwhile, the ElasticSearch exposed url should be added into the k8s container as an environment variable. Like, <strong>ElasticSearch_HOSTS</strong>. After successfully deploying, command <code>curl http://localhost:32184/status</code> can be used to check if kibana is ready or not. What’s more, you also can utilize k8s service name as hostname with target port to communicate with es pods. When kibana runs up, the following pic can be shown after you access to <code>http://localhost:32184</code> on your browse:<br><img src="https://user-images.githubusercontent.com/6279298/168193484-750f822b-fad8-491c-8d64-3125c5190e2c.png" alt="pic2"></li>
+<li>Add a <a class="link"   target="_blank" rel="noopener" href="https://github.com/Fdslk/ops/blob/main/ELK/kibana-elk.yaml" >kibana deployment manifest <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> including deployment image and service information. Meanwhile, the ElasticSearch exposed url should be added into the k8s container as an environment variable. Like, <strong>ElasticSearch_HOSTS</strong>. After successfully deploying, command <code>curl http://localhost:32184/status</code> can be used to check if kibana is ready or not. What’s more, you also can utilize k8s service name as hostname with target port to communicate with es pods. When kibana runs up, the following pic can be shown after you access to <code>http://localhost:32184</code> on your browse:<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/6279298/168193484-750f822b-fad8-491c-8d64-3125c5190e2c.png"
+                      alt="pic2"
+                ></li>
 </ul>
 <h4 id="Deploy-logstash-in-k8s"><a href="#Deploy-logstash-in-k8s" class="headerlink" title="Deploy logstash in k8s"></a><strong>Deploy logstash in k8s</strong></h4><ul>
-<li><p>add <a target="_blank" rel="noopener" href="https://github.com/Fdslk/ops/blob/main/ELK/logstash.yaml">logstash k8s manifest file</a> and <a target="_blank" rel="noopener" href="https://github.com/Fdslk/ops/blob/main/ELK/logstash.conf">configuration file</a>. Based on the first file, we can deploy logstash service in k8s cluster. In the second file, we will define the input and output of the data. logstash.config will be defined as a k8s configMap resource. Then deployment will volume the configMap into k8s pod, which can be used by logstash service.</p>
+<li><p>add <a class="link"   target="_blank" rel="noopener" href="https://github.com/Fdslk/ops/blob/main/ELK/logstash.yaml" >logstash k8s manifest file <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> and <a class="link"   target="_blank" rel="noopener" href="https://github.com/Fdslk/ops/blob/main/ELK/logstash.conf" >configuration file <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>. Based on the first file, we can deploy logstash service in k8s cluster. In the second file, we will define the input and output of the data. logstash.config will be defined as a k8s configMap resource. Then deployment will volume the configMap into k8s pod, which can be used by logstash service.</p>
 <ul>
-<li>input the following command to create ConfigMap<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create configmap logstash-config --from-file ./logstash.conf</span><br></pre></td></tr></table></figure></li>
+<li>input the following command to create ConfigMap<br><div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create configmap logstash-config --from-file ./logstash.conf</span><br></pre></td></tr></table></figure></div></li>
 <li>create deployment</li>
 <li>after logstash starts up, we can input <code>kubectl logs &lt;pods name&gt; -f</code> for obtaining useful log data.</li>
 </ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[2022-05-13T08:18:20,309][INFO ][logstash.outputs.ElasticSearch][main] Installing ElasticSearch template to _template/logstash</span><br><span class="line">[2022-05-13T08:18:21,040][INFO ][logstash.inputs.beats    ][main] Beats inputs: Starting input listener &#123;:address=&gt;&quot;0.0.0.0:5044&quot;&#125;</span><br><span class="line">[2022-05-13T08:18:21,057][INFO ][logstash.javapipeline    ][main] Pipeline started &#123;&quot;pipeline.id&quot;=&gt;&quot;main&quot;&#125;</span><br><span class="line">[2022-05-13T08:18:21,150][INFO ][logstash.agent           ] Pipelines running &#123;:count=&gt;1, :running_pipelines=&gt;[:main], :non_running_pipelines=&gt;[]&#125;</span><br><span class="line">[2022-05-13T08:18:21,194][INFO ][org.logstash.beats.Server][main][be216883a18a1108d5ceab3d012b51b20564d3e53d37fdaf62f0441690df42ff] Starting server on port: 5044</span><br><span class="line">[2022-05-13T08:18:21,439][INFO ][logstash.agent           ] Successfully started Logstash API endpoint &#123;:port=&gt;9600&#125;</span><br></pre></td></tr></table></figure></li>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[2022-05-13T08:18:20,309][INFO ][logstash.outputs.ElasticSearch][main] Installing ElasticSearch template to _template/logstash</span><br><span class="line">[2022-05-13T08:18:21,040][INFO ][logstash.inputs.beats    ][main] Beats inputs: Starting input listener &#123;:address=&gt;&quot;0.0.0.0:5044&quot;&#125;</span><br><span class="line">[2022-05-13T08:18:21,057][INFO ][logstash.javapipeline    ][main] Pipeline started &#123;&quot;pipeline.id&quot;=&gt;&quot;main&quot;&#125;</span><br><span class="line">[2022-05-13T08:18:21,150][INFO ][logstash.agent           ] Pipelines running &#123;:count=&gt;1, :running_pipelines=&gt;[:main], :non_running_pipelines=&gt;[]&#125;</span><br><span class="line">[2022-05-13T08:18:21,194][INFO ][org.logstash.beats.Server][main][be216883a18a1108d5ceab3d012b51b20564d3e53d37fdaf62f0441690df42ff] Starting server on port: 5044</span><br><span class="line">[2022-05-13T08:18:21,439][INFO ][logstash.agent           ] Successfully started Logstash API endpoint &#123;:port=&gt;9600&#125;</span><br></pre></td></tr></table></figure></div></li>
 </ul>
 <h4 id="Deploy-Filebeat-and-Log-generating-application"><a href="#Deploy-Filebeat-and-Log-generating-application" class="headerlink" title="Deploy Filebeat and Log generating application"></a><strong>Deploy Filebeat and Log generating application</strong></h4><ul>
-<li><p>In the end, we will deploy the log collector sidercar, Filebeat. It will collect log data from a sharing log file and send the data to the logstash. At first, we need to define <a target="_blank" rel="noopener" href="https://github.com/Fdslk/ops/blob/main/ELK/filebeat.yml">filebeat manifest</a>, which will illustrate where the filebeat reads the log and where the log is sended. You can input the command to create configMaps for filebeat configuration <code>kubectl create configmap file-beat-config --from-file ./filebeat.yml</code>. Then this configuration will be volumed into pods. When you deploy the log generator application and filebeat application. Then logstash will receive log data from being listened port. To check if the log system works normally or not. You can open your browser and input <code>http://localhost:32184/</code>, kibana GUI will represent to you as follows <strong>pic3</strong>. In order to see the log information, a <strong>Index Pattern</strong> needs to be created first.</p>
+<li><p>In the end, we will deploy the log collector sidercar, Filebeat. It will collect log data from a sharing log file and send the data to the logstash. At first, we need to define <a class="link"   target="_blank" rel="noopener" href="https://github.com/Fdslk/ops/blob/main/ELK/filebeat.yml" >filebeat manifest <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>, which will illustrate where the filebeat reads the log and where the log is sended. You can input the command to create configMaps for filebeat configuration <code>kubectl create configmap file-beat-config --from-file ./filebeat.yml</code>. Then this configuration will be volumed into pods. When you deploy the log generator application and filebeat application. Then logstash will receive log data from being listened port. To check if the log system works normally or not. You can open your browser and input <code>http://localhost:32184/</code>, kibana GUI will represent to you as follows <strong>pic3</strong>. In order to see the log information, a <strong>Index Pattern</strong> needs to be created first.</p>
 <ul>
 <li>how to create “Index Pattern”<ul>
 <li>open kibana dashboard</li>
 <li>click stack management</li>
 <li>click index pattern</li>
-<li>create new index pattern like <strong>filebeat</strong>*, index is defined in the logstash.conf file<br><img src="https://user-images.githubusercontent.com/6279298/168613317-c88bbf58-3af2-4706-8e12-383a321801a5.png" alt="pic3"></li>
+<li>create new index pattern like <strong>filebeat</strong>*, index is defined in the logstash.conf file<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/6279298/168613317-c88bbf58-3af2-4706-8e12-383a321801a5.png"
+                      alt="pic3"
+                ></li>
 </ul>
 </li>
 </ul>
@@ -100,16 +412,26 @@ Background&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp; During our da
 <li>The same as the former Kibana deployment manifest</li>
 </ul>
 <h4 id="Deploy-fluentd"><a href="#Deploy-fluentd" class="headerlink" title="Deploy fluentd"></a><strong>Deploy fluentd</strong></h4><ul>
-<li><p>At here, we will define a <a target="_blank" rel="noopener" href="https://github.com/Fdslk/ops/blob/main/ELK/fluentd-manual.yml">DeamonSet manifest to deploy fluentd</a> which deploy a Pods for collecting the Pods log and docker container log. If everything is set up correctly, you will see the following pic after input KQL <code>kubernetes.namespace_name : &quot;default&quot;</code>.<br><img src="https://user-images.githubusercontent.com/6279298/169063264-d1088d57-00b4-4be7-b168-7597dcf4706c.png" alt="pic4"></p>
+<li><p>At here, we will define a <a class="link"   target="_blank" rel="noopener" href="https://github.com/Fdslk/ops/blob/main/ELK/fluentd-manual.yml" >DeamonSet manifest to deploy fluentd <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> which deploy a Pods for collecting the Pods log and docker container log. If everything is set up correctly, you will see the following pic after input KQL <code>kubernetes.namespace_name : &quot;default&quot;</code>.<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/6279298/169063264-d1088d57-00b4-4be7-b168-7597dcf4706c.png"
+                      alt="pic4"
+                ></p>
 </li>
-<li><p>Here is some information about the resource DaemonSet from <a target="_blank" rel="noopener" href="https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/">kubernetes official website</a></p>
+<li><p>Here is some information about the resource DaemonSet from <a class="link"   target="_blank" rel="noopener" href="https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/" >kubernetes official website <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
 <ul>
 <li>A DaemonSet ensures that all (or some) Nodes run a copy of a Pod. As nodes are added to the cluster, Pods are added to them. As nodes are removed from the cluster, those Pods are garbage collected. Deleting a DaemonSet will clean up the Pods it created.</li>
 </ul>
 </li>
 </ul>
 <h4 id="Deploy-business-service-application"><a href="#Deploy-business-service-application" class="headerlink" title="Deploy business service application"></a><strong>Deploy business service application</strong></h4><ul>
-<li>In our daily delivery, we always deploy our application in k8s. Take <a target="_blank" rel="noopener" href="https://github.com/Fdslk/ops/blob/main/ELK/log-application.yaml">log-application.yaml</a> as an example, we use <strong>slf4j.Logger</strong> to print log on the application console. When a request hits the log-application, it will print its stdout on the console, which will be scanned by fluentd and it will send the log data to ElasticSearch. The following picture <strong>pic5</strong> will be represented.<br><img src="https://user-images.githubusercontent.com/6279298/169491169-7d6b4a79-9e18-4116-8be8-03ece9fe25a5.png" alt="pic6"></li>
+<li>In our daily delivery, we always deploy our application in k8s. Take <a class="link"   target="_blank" rel="noopener" href="https://github.com/Fdslk/ops/blob/main/ELK/log-application.yaml" >log-application.yaml <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> as an example, we use <strong>slf4j.Logger</strong> to print log on the application console. When a request hits the log-application, it will print its stdout on the console, which will be scanned by fluentd and it will send the log data to ElasticSearch. The following picture <strong>pic5</strong> will be represented.<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/6279298/169491169-7d6b4a79-9e18-4116-8be8-03ece9fe25a5.png"
+                      alt="pic6"
+                ></li>
 </ul>
 <h2 id="How-difference-between-them"><a href="#How-difference-between-them" class="headerlink" title="How difference between them"></a><strong>How difference between them</strong></h2><ul>
 <li><strong>Components</strong><ul>
@@ -132,8 +454,8 @@ Background&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp; During our da
 </ul>
 </li>
 <li>fluentd<ul>
-<li><a target="_blank" rel="noopener" href="https://docs.fluentd.org/deployment/fluentd-ui">fluentd UI browser</a> (Install, uninstall, and upgrade Fluentd plugins)</li>
-<li><a target="_blank" rel="noopener" href="https://github.com/fluent/fluentd-kubernetes-daemonset/blob/master/docker-image/v1.14/debian-ElasticSearch7/Dockerfile">Dockerfile</a></li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://docs.fluentd.org/deployment/fluentd-ui" >fluentd UI browser <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> (Install, uninstall, and upgrade Fluentd plugins)</li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://github.com/fluent/fluentd-kubernetes-daemonset/blob/master/docker-image/v1.14/debian-ElasticSearch7/Dockerfile" >Dockerfile <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
 </ul>
 </li>
 </ul>
@@ -144,9 +466,9 @@ Background&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp; During our da
 </li>
 <li>More information<ul>
 <li>If you want to get more comparison information, you can take the following references a look.</li>
-<li><a target="_blank" rel="noopener" href="https://www.educba.com/fluentd-vs-logstash/?source=leftnav">Difference Between Fluentd vs Logstash</a></li>
-<li><a target="_blank" rel="noopener" href="https://platform9.com/blog/kubernetes-logging-comparing-fluentd-vs-logstash/">Kubernetes Logging: Comparing Fluentd vs. Logstash</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.loomsystems.com/blog/single-post/2017/01/30/a-comparison-of-fluentd-vs-logstash-log-collector">Fluentd vs. LogStash: A Feature Comparison</a></li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://www.educba.com/fluentd-vs-logstash/?source=leftnav" >Difference Between Fluentd vs Logstash <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://platform9.com/blog/kubernetes-logging-comparing-fluentd-vs-logstash/" >Kubernetes Logging: Comparing Fluentd vs. Logstash <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://www.loomsystems.com/blog/single-post/2017/01/30/a-comparison-of-fluentd-vs-logstash-log-collector" >Fluentd vs. LogStash: A Feature Comparison <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
 </ul>
 </li>
 </ul>
@@ -157,60 +479,329 @@ Background&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp; During our da
 <li><strong>visualization&amp;analysis</strong>, providing KQL for querying data and drawing charts. Providing lots of categories of charts can help us do some analysis.</li>
 <li><strong>open-resource and active communities for supporting unknown issues</strong></li>
 </ul>
-<p><strong>In the end</strong>, all the manifests are provided in my <a target="_blank" rel="noopener" href="https://github.com/Fdslk/ops/tree/main/ELK">github</a></p>
+<p><strong>In the end</strong>, all the manifests are provided in my <a class="link"   target="_blank" rel="noopener" href="https://github.com/Fdslk/ops/tree/main/ELK" >github <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
 
-        <div>
+            </div>
+
+            
+                <div class="post-copyright-info">
+                    <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：ops_log_management</li>
+        <li>Post author：Zengqiang</li>
+        <li>Create time：2023-03-05 15:04:56</li>
+        <li>
+            Post link：https://fdslk.github.io/tech/ops/log/2023/03/05/ops-log-management/
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+                </div>
+            
+
+            
+
+            
+
+            
+                <div class="article-nav">
+                    
+                        <div class="article-prev">
+                            <a class="prev"
+                            rel="prev"
+                            href="/tech/shell/2023/03/05/shell-file-operation/"
+                            >
+                                <span class="left arrow-icon flex-center">
+                                    <i class="fa-solid fa-chevron-left"></i>
+                                </span>
+                                <span class="title flex-center">
+                                    <span class="post-nav-title-item">shell_file_operation</span>
+                                    <span class="post-nav-item">Prev posts</span>
+                                </span>
+                            </a>
+                        </div>
+                    
+                    
+                        <div class="article-next">
+                            <a class="next"
+                            rel="next"
+                            href="/tech/ops/cache/2023/03/05/ops-vanish/"
+                            >
+                                <span class="title flex-center">
+                                    <span class="post-nav-title-item">ops_vanish</span>
+                                    <span class="post-nav-item">Next posts</span>
+                                </span>
+                                <span class="right arrow-icon flex-center">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </span>
+                            </a>
+                        </div>
+                    
+                </div>
+            
+
+
             
         </div>
-        <div class="bottom-line"></div>
+
         
-    <nav id="article-nav">
+            <div class="toc-content-container">
+                <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">On this page</div>
+        <div class="page-title">ops_log_management</div>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#How-to-collect-manage-and-visualize-our-log-data"><span class="nav-text">How to collect, manage and visualize our log data?</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Background"><span class="nav-text">Background</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Logs-management-frameworks"><span class="nav-text">Logs management frameworks</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ELK-ElasticSearch-logstash-kibana"><span class="nav-text">ELK ElasticSearch logstash kibana</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#EFK-ElasticSearch-fluentd-kibana"><span class="nav-text">EFK ElasticSearch fluentd kibana</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#How-to-use"><span class="nav-text">How to use</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ELK"><span class="nav-text">ELK</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Deploy-ElasticSearch-engine-in-k8s"><span class="nav-text">Deploy ElasticSearch engine in k8s</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Deploy-kibana-in-k8s"><span class="nav-text">Deploy kibana in k8s</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Deploy-logstash-in-k8s"><span class="nav-text">Deploy logstash in k8s</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Deploy-Filebeat-and-Log-generating-application"><span class="nav-text">Deploy Filebeat and Log generating application</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#EFK"><span class="nav-text">EFK</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Deploy-ElasticSearch"><span class="nav-text">Deploy ElasticSearch</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Deploy-kibana"><span class="nav-text">Deploy kibana</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Deploy-fluentd"><span class="nav-text">Deploy fluentd</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Deploy-business-service-application"><span class="nav-text">Deploy business service application</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#How-difference-between-them"><span class="nav-text">How difference between them</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Conclusions"><span class="nav-text">Conclusions</span></a></li></ol></li></ol>
+
+    </div>
+</div>
+            </div>
         
-            <a href="/tech/shell/2023/03/05/shell-file-operation/" id="article-nav-newer" class="article-nav-link-wrap">
-        <span class="article-nav-title">
-            
-                shell_file_operation
-            
-        </span>
-                <strong class="article-nav-caption">&gt;</strong>
-            </a>
-        
-        
-            <a href="/tech/ops/cache/2023/03/05/ops-vanish/" id="article-nav-older" class="article-nav-link-wrap">
-                <strong class="article-nav-caption">&lt;</strong>
-                <span class="article-nav-title">
-                    
-                        ops_vanish
-                </span>
+    </div>
+</div>
+
+
                 
-            </a>
-        
-    </nav>
+
+            </div>
 
 
-        
-    </article>
-    <div id="toc">
-        
-            <h2>Table of Contents</h2>
-            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#How-to-collect-manage-and-visualize-our-log-data"><span class="toc-number">1.</span> <span class="toc-text">How to collect, manage and visualize our log data?</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Background"><span class="toc-number">1.1.</span> <span class="toc-text">Background</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Logs-management-frameworks"><span class="toc-number">1.2.</span> <span class="toc-text">Logs management frameworks</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ELK-ElasticSearch-logstash-kibana"><span class="toc-number">1.2.1.</span> <span class="toc-text">ELK ElasticSearch logstash kibana</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#EFK-ElasticSearch-fluentd-kibana"><span class="toc-number">1.2.2.</span> <span class="toc-text">EFK ElasticSearch fluentd kibana</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#How-to-use"><span class="toc-number">1.3.</span> <span class="toc-text">How to use</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ELK"><span class="toc-number">1.3.1.</span> <span class="toc-text">ELK</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Deploy-ElasticSearch-engine-in-k8s"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">Deploy ElasticSearch engine in k8s</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Deploy-kibana-in-k8s"><span class="toc-number">1.3.1.2.</span> <span class="toc-text">Deploy kibana in k8s</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Deploy-logstash-in-k8s"><span class="toc-number">1.3.1.3.</span> <span class="toc-text">Deploy logstash in k8s</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Deploy-Filebeat-and-Log-generating-application"><span class="toc-number">1.3.1.4.</span> <span class="toc-text">Deploy Filebeat and Log generating application</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#EFK"><span class="toc-number">1.3.2.</span> <span class="toc-text">EFK</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Deploy-ElasticSearch"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">Deploy ElasticSearch</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Deploy-kibana"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">Deploy kibana</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Deploy-fluentd"><span class="toc-number">1.3.2.3.</span> <span class="toc-text">Deploy fluentd</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Deploy-business-service-application"><span class="toc-number">1.3.2.4.</span> <span class="toc-text">Deploy business service application</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#How-difference-between-them"><span class="toc-number">1.4.</span> <span class="toc-text">How difference between them</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conclusions"><span class="toc-number">1.5.</span> <span class="toc-text">Conclusions</span></a></li></ol></li></ol>
-        
-    </div>
-</div>
 
-    </div>
-</div>
-<footer id="footer">
-    <div id="copyright">&copy; Zengqiang Fang  2023</div>
-    <div id="theme">
-        Powered by <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a>. Theme by <a target="_blank" rel="noopener" href="https://github.com/markyong/hexo-theme-stage">Stage</a>
-    </div>
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2023&nbsp;&nbsp;<i class="fa-regular fa-computer-classic"></i>&nbsp;&nbsp;<a href="/">Zengqiang</a>
+        </div>
+        
+            <script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv" class="busuanzi_container_site_uv">
+                        VISITOR COUNT&nbsp;<span id="busuanzi_value_site_uv" class="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="busuanzi_container_site_pv">
+                        TOTAL PAGE VIEWS&nbsp;<span id="busuanzi_value_site_pv" class="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            <span class="powered-by-container">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" href="https://hexo.io">Hexo</a></span>
+                <br> 
+            <span class="theme-version-container">THEME&nbsp;<a class="theme-version" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v1.1.6</a>
+        </div>
+        
+        
+        
+            <div id="start_time_div" style="display:none">
+                2022/8/17 11:45:14
+            </div>
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+        
+            <script async data-pjax>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
 </footer>
-<script src="/lib/js/waterrippleeffect.min.js"></script>
-<script src="/js/header-bg.main.js"></script>
+        </div>
+    </div>
 
-    <script src="/lib/js/smooth-scroll.min.js"></script>
-    <script src="/js/toc.main.js"></script>
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="unfolded-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-expand-width flex-center">
+            <i class="fa-regular fa-expand"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex-center">
+                <i class="fa-regular fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="folded-tools-list">
+        <li class="right-bottom-tools tool-toggle-show flex-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/layouts/menu-shrink.js"></script>
+
+<script src="/js/tools/go-top-bottom.js"></script>
+
+<script src="/js/tools/dark-light-toggle.js"></script>
+
+
+
+
+
+    
+<script src="/js/tools/code-block.js"></script>
+
+
+
+
+    
+<script src="/js/layouts/lazyload.js"></script>
+
+
+
+
+    
+<script src="/js/tools/runtime.js"></script>
+
+    
+<script src="/js/layouts/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+
+<div class="post-scripts pjax">
+    
+        
+<script src="/js/tools/toc-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/layouts/toc.js"></script>
+
+<script src="/js/plugins/tabs.js"></script>
+
+    
+    
+</div>
+
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+            // scrollTo: true,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            REDEFINE.utils.pjaxProgressBarStart();
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            REDEFINE.utils.pjaxProgressBarEnd();
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+            REDEFINE.refresh();
+        });
+    });
+</script>
+
+
+
 
 </body>
 </html>

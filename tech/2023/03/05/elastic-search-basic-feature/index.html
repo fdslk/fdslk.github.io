@@ -1,64 +1,358 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>elastic_search_basic_feature | 🪳的Daily Blog WebSite</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="keywords" content="">
-    <meta name="description" content="Elastic Search 基础知识基本概念es是什么
-es是一个分布式文件存储系统，意味着es可以拥有多个节点 节点间如何同步数据？
-各种复杂的数据都会以json的格式进行序列化，然后进行存储
-使用反向索引的方式来存储数据，这个索引中存储了整个文档中所有的去重之后的词条  什么是inverted-index？
-在es中，不同类型数据会使用不同的存储结构，比如说，文本会用inverted-index方式存储，而数字则会使用KDB tree来储存，这样不同的索引方式使得es能够很快的查询到数据
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    <meta name="description" content="Hexo Theme Redefine">
+    <meta name="author" content="Zengqiang">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-redefine.png">
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="http://fdslk.github.io/tech/2023/03/05/elastic-search-basic-feature/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="elastic_search_basic_feature">
+    <meta property="og:description" content="Hexo Theme Redefine">
+    <meta property="og:url" content="http://fdslk.github.iotech/2023/03/05/elastic-search-basic-feature/">
+    <meta property="og:image" content="/images/redefine-logo.svg">
+    <meta property="og:site_name" content="Qiang Brother Blogs">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="elastic_search_basic_feature">
+    <meta name="twitter:description" content="Hexo Theme Redefine">
+    <meta name="twitter:image" content="/images/redefine-logo.svg">
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/redefine-logo.svg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/redefine-logo.svg">
+    <meta name="theme-color" content="#005080">
+    <link rel="shortcut icon" href="/images/redefine-logo.svg">
+    
+    <title>
+        
+            elastic_search_basic_feature -
+        
+        Qiang Brother Blogs
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
 
-es如何查询和分析数据查询
-es并不是一个凭空而产生的的一个搜索引擎，在他的底层使用是Apache的Lucene搜索引擎 什么...">
     
-        <link rel="icon" href="/favicon.ico">
+<link rel="stylesheet" href="/assets/fonts.css">
+
     
     
-        
-            <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
-        
-            <link rel="stylesheet" href="/css/stage.css">
-        
-            <link rel="stylesheet" href="/css/avatar-bg.css">
-        
+    
+    
+    <script id="hexo-configurations">
+    let REDEFINE = window.REDEFINE || {};
+    REDEFINE.hexo_config = {"hostname":"fdslk.github.io","root":"/","language":"en"};
+    REDEFINE.theme_config = {"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true},"style":{"primary_color":"#005080","avatar":"/images/redefine-avatar.svg","favicon":"/images/redefine-logo.svg","article_img_align":"center","right_side_width":"210px","content_max_width":"1000px","nav_color":{"left":"#f78736","right":"#367df7","transparency":35},"hover":{"shadow":true,"scale":false},"first_screen":{"enable":true,"background_image":{"light":"https://evan.beee.top/img/wallhaven-wqery6-light.webp","dark":"https://evan.beee.top/img/wallhaven-wqery6-dark.webp"},"title_color":{"light":"#fff","dark":"#d1d1b6"},"description":"Theme Redefine","custom_font":{"enable":false,"font_family":null,"font_url":null}},"scroll":{"progress_bar":{"enable":true},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":true},"code_block":{"copy":true,"style":"mac","custom_font":{"enable":false,"font_family":null,"font_url":null}},"pjax":{"enable":true},"lazyload":{"enable":true},"version":"1.1.6","friend_links":{"columns":2},"home_article":{"date_format":"auto","category":{"enable":true,"limit":3},"tag":{"enable":true,"limit":3}},"plugins":{"aplayer":{"enable":false,"audio":[{"name":null,"artist":null,"url":null,"cover":null},{"name":null,"artist":null,"url":null,"cover":null}]}}};
+    REDEFINE.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+    
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
     
 <meta name="generator" content="Hexo 6.3.0"></head>
 
+
 <body>
-<header id="header">
-    <div class="menu">
-        <i class="fa fa-bars"></i>
-    </div>
-    <div class="header-main">
-        <h1><a href="/">🪳的Daily Blog WebSite</a></h1>
-    </div>
-    <div id="nav">
-        <div class="nav-img" id="nav-img"></div>
-        <div class="sentences">
-            时光荏苒，旦夕之间，略有遗憾，似白驹过隙，蹉跎自悟。
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <span class="pjax-progress-icon">
+            <i class="fa-solid fa-circle-notch fa-spin"></i>
+        </span>
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="menu-wrapper">
+    
+    <div class="menu-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Qiang Brother Blogs
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        
+                            <li class="menu-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-ghost"></i>
+                                        
+                                        HOME
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="menu-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/archives"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-ghost"></i>
+                                        
+                                        ARCHIVES
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="menu-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown" 
+                                    href="#" onClick="return false;">
+                                    
+                                        
+                                            <i class="fa-regular fa-ghost"></i>
+                                        
+                                        ABOUT&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                    
+                                        <li>
+                                        <a href="/about">ME
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a target="_blank" rel="noopener" href="https://github.com/Fdslk">GITHUB
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a target="_blank" rel="noopener" href="https://www.jianshu.com/u/aa8ec49eced0">JIANSHU
+                                        </a>
+                                        </li>
+                                    
+                                    </ul>
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
         </div>
     </div>
+
+    <!-- Mobile drawer -->
+    <div class="menu-drawer">
+        <ul class="drawer-menu-list">
+            
+                
+                    <li class="drawer-menu-item flex-center">
+                        <a class="" 
+                        href="/"  >
+                             
+                                
+                                    <i class="fa-regular fa-ghost"></i>
+                                
+                                HOME
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-menu-item flex-center">
+                        <a class="" 
+                        href="/archives"  >
+                             
+                                
+                                    <i class="fa-regular fa-ghost"></i>
+                                
+                                ARCHIVES
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-menu-item flex-center">
+                        <a class="has-dropdown" 
+                        href="#" onClick="return false;">
+                            
+                                
+                                    <i class="fa-regular fa-ghost"></i>
+                                
+                                ABOUT&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                              
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" href="/about">ME</a>
+                            </li>
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://github.com/Fdslk">GITHUB</a>
+                            </li>
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://www.jianshu.com/u/aa8ec49eced0">JIANSHU</a>
+                            </li>
+                        
+                    
+            
+
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
 </header>
 
-<div id="content-outer">
-    <div id="content-inner">
-        <div class="clearfix">
-    <article id="post">
-        <h1>elastic_search_basic_feature</h1>
-        <div class="create">
-            <span>Created</span>
-            
-                <time datetime="2023-03-05T06:04:07.000Z">
-                    2023-03-05
-                </time>
-            
-            <ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/">tech</a></li></ul>
+
         </div>
-        <h1 id="Elastic-Search-基础知识"><a href="#Elastic-Search-基础知识" class="headerlink" title="Elastic Search 基础知识"></a>Elastic Search 基础知识</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="es是什么"><a href="#es是什么" class="headerlink" title="es是什么"></a>es是什么</h3><ul>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="post-page-container">
+        <div class="article-content-container">
+
+            
+            
+                <div class="article-title">
+                    <h1 class="article-title-regular">elastic_search_basic_feature</h1>
+                </div>
+            
+                
+            
+
+            
+                <div class="article-header">
+                    <div class="avatar">
+                        <img src="/images/redefine-avatar.svg">
+                    </div>
+                    <div class="info">
+                        <div class="author">
+                            <span class="name">Zengqiang</span>
+                            
+                                <span class="author-label">biking</span>
+                            
+                        </div>
+                        <div class="meta-info">
+                            <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="pc">2023-03-05 14:04:07</span>
+        <span class="mobile">2023-03-05 14:04</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="pc">2023-03-05 15:15:10</span>
+            <span class="mobile">2023-03-05 15:15</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/tech/">tech</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/es/">es</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="article-content markdown-body">
+                <h1 id="Elastic-Search-基础知识"><a href="#Elastic-Search-基础知识" class="headerlink" title="Elastic Search 基础知识"></a>Elastic Search 基础知识</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="es是什么"><a href="#es是什么" class="headerlink" title="es是什么"></a>es是什么</h3><ul>
 <li>es是一个分布式文件存储系统，意味着es可以拥有多个节点 <strong><span style="color:yellow">节点间如何同步数据？</span></strong></li>
 <li>各种复杂的数据都会以json的格式进行序列化，然后进行存储</li>
 <li>使用反向索引的方式来存储数据，这个索引中存储了整个文档中所有的去重之后的词条  <strong><span style="color:yellow">什么是inverted-index？</span></strong></li>
@@ -151,7 +445,7 @@ es并不是一个凭空而产生的的一个搜索引擎，在他的底层使用
 <li>可以用被用来做筛选的字段是：<code>_name, _host_ip, _publish_ip, _ip, _host, _id, _tier and _tier_preference</code></li>
 </ul>
 </li>
-<li>节点延迟分配设置，<code>Delay allocation</code>，当集群上的某个节点离群之后，分配给这个节点的片区资源将会被重新分配，但是如果shard的<code>delay</code>时间，那么这些shard就可能在当前离线node在超时前恢复，重新分配给这个node，减少了一定的操作开销 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PUT _all/_settings</span><br><span class="line">&#123;</span><br><span class="line">  &quot;settings&quot;: &#123;</span><br><span class="line">   &quot;index.unassigned.node_left.delayed_timeout&quot;: &quot;5m&quot;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>节点延迟分配设置，<code>Delay allocation</code>，当集群上的某个节点离群之后，分配给这个节点的片区资源将会被重新分配，但是如果shard的<code>delay</code>时间，那么这些shard就可能在当前离线node在超时前恢复，重新分配给这个node，减少了一定的操作开销 <div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PUT _all/_settings</span><br><span class="line">&#123;</span><br><span class="line">  &quot;settings&quot;: &#123;</span><br><span class="line">   &quot;index.unassigned.node_left.delayed_timeout&quot;: &quot;5m&quot;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></li>
 <li>每个node总共分配的片区，<code>Total shards per node</code></li>
 <li>数据层配置，<code>Data tier allocation</code> <strong style="color:yellow">what is the <code>data tiers</code> ?</strong></li>
 </ul>
@@ -170,7 +464,7 @@ es并不是一个凭空而产生的的一个搜索引擎，在他的底层使用
 <li>每一个数据被es储存的时候，field按照不同的类型储存，而field具有不同的property，比如说<code>_source</code>，可以修改这个属性的储存格式，使得es的search更加的快</li>
 <li>类别<ul>
 <li><strong style="color:yellow">dynamic?</strong> <ul>
-<li>可以自定义一个mapping，以下例子的含义是，在data index中，定义一个mapping type <code>_doc</code>，字段名称为<code>count</code>，数据类型为<code>long</code><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PUT data/_doc/1 </span><br><span class="line">&#123; &quot;count&quot;: 5 &#125;****</span><br></pre></td></tr></table></figure></li>
+<li>可以自定义一个mapping，以下例子的含义是，在data index中，定义一个mapping type <code>_doc</code>，字段名称为<code>count</code>，数据类型为<code>long</code><div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PUT data/_doc/1 </span><br><span class="line">&#123; &quot;count&quot;: 5 &#125;****</span><br></pre></td></tr></table></figure></div></li>
 <li>es中有一个参数<code>dynamic</code>来控制是否会自动的创建一个类型mapping，简而言之，dynamic mapping就是会给新加入的数据自动匹配到一种类型来存储在es中，<strong style="color:yellow">如果没有找到对应的数据类型，是否会使用默认类型？貌似默认类型就是<code>text</code></strong></li>
 <li>除了es自己提供的一些mapping template之外，es还提供了接口让我们来自定义mapping template<ul>
 <li>类型<ul>
@@ -185,7 +479,7 @@ es并不是一个凭空而产生的的一个搜索引擎，在他的底层使用
 </li>
 <li>explicit<ul>
 <li>定义mapping的定义，🌰： 比如说哪个字符串字段应该被当做是一个全文本字段。。。，静态mapping以我现在的理解，有点像是一个字段的对应的关系</li>
-<li>以以下的命令为一个例子，该命令的作用是在创建一个index的同时，定义一个mapping关系，只有当你储存一个数据，该数据的field是<code>age</code>，该field的值将会以<code>integer</code>的类型来储存<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">PUT /my-index-000001</span><br><span class="line">&#123;</span><br><span class="line">  &quot;mappings&quot;: &#123;</span><br><span class="line">      &quot;properties&quot;: &#123;</span><br><span class="line">      &quot;age&quot;:    &#123; &quot;type&quot;: &quot;integer&quot; &#125;,  </span><br><span class="line">      &quot;email&quot;:  &#123; &quot;type&quot;: &quot;keyword&quot;  &#125;,</span><br><span class="line">      &quot;name&quot;:   &#123; &quot;type&quot;: &quot;text&quot;  &#125;     </span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>以以下的命令为一个例子，该命令的作用是在创建一个index的同时，定义一个mapping关系，只有当你储存一个数据，该数据的field是<code>age</code>，该field的值将会以<code>integer</code>的类型来储存<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">PUT /my-index-000001</span><br><span class="line">&#123;</span><br><span class="line">  &quot;mappings&quot;: &#123;</span><br><span class="line">      &quot;properties&quot;: &#123;</span><br><span class="line">      &quot;age&quot;:    &#123; &quot;type&quot;: &quot;integer&quot; &#125;,  </span><br><span class="line">      &quot;email&quot;:  &#123; &quot;type&quot;: &quot;keyword&quot;  &#125;,</span><br><span class="line">      &quot;name&quot;:   &#123; &quot;type&quot;: &quot;text&quot;  &#125;     </span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></li>
 </ul>
 </li>
 <li>区别，<code>dynamic</code>不需要指定具体的field名称，<code>explicit</code>需要指定具体的字段名称，再根据字段的名称来存储字段内容的类型</li>
@@ -255,58 +549,335 @@ es并不是一个凭空而产生的的一个搜索引擎，在他的底层使用
 </ul>
 <h2 id="data-streams"><a href="#data-streams" class="headerlink" title="data streams"></a>data streams</h2><p>* </p>
 
-        <div>
-            <ul class="tags-category-list" itemprop="keywords"><li class="tags-category-list-item"><a class="tags-category-list-link" href="/tags/es/" rel="tag">es</a></li></ul>
-        </div>
-        <div class="bottom-line"></div>
-        
-    <nav id="article-nav">
-        
-            <a href="/uncategorized/2023/03/05/integration-new-relic/" id="article-nav-newer" class="article-nav-link-wrap">
-        <span class="article-nav-title">
+            </div>
+
             
-                integration_new_relic
+                <div class="post-copyright-info">
+                    <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：elastic_search_basic_feature</li>
+        <li>Post author：Zengqiang</li>
+        <li>Create time：2023-03-05 14:04:07</li>
+        <li>
+            Post link：https://fdslk.github.io/tech/2023/03/05/elastic-search-basic-feature/
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+                </div>
             
-        </span>
-                <strong class="article-nav-caption">&gt;</strong>
-            </a>
-        
-        
-            <a href="/tech/java/lint/2023/03/05/code-lint/" id="article-nav-older" class="article-nav-link-wrap">
-                <strong class="article-nav-caption">&lt;</strong>
-                <span class="article-nav-title">
+
+            
+                <ul class="post-tags-box">
                     
-                        code_lint
-                </span>
+                        <li class="tag-item">
+                            <a href="/tags/es/">#es</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            
+
+            
+
+            
+                <div class="article-nav">
+                    
+                        <div class="article-prev">
+                            <a class="prev"
+                            rel="prev"
+                            href="/uncategorized/2023/03/05/integration-new-relic/"
+                            >
+                                <span class="left arrow-icon flex-center">
+                                    <i class="fa-solid fa-chevron-left"></i>
+                                </span>
+                                <span class="title flex-center">
+                                    <span class="post-nav-title-item">integration_new_relic</span>
+                                    <span class="post-nav-item">Prev posts</span>
+                                </span>
+                            </a>
+                        </div>
+                    
+                    
+                        <div class="article-next">
+                            <a class="next"
+                            rel="next"
+                            href="/tech/java/lint/2023/03/05/code-lint/"
+                            >
+                                <span class="title flex-center">
+                                    <span class="post-nav-title-item">code_lint</span>
+                                    <span class="post-nav-item">Next posts</span>
+                                </span>
+                                <span class="right arrow-icon flex-center">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </span>
+                            </a>
+                        </div>
+                    
+                </div>
+            
+
+
+            
+        </div>
+
+        
+            <div class="toc-content-container">
+                <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">On this page</div>
+        <div class="page-title">elastic_search_basic_feature</div>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Elastic-Search-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="nav-text">Elastic Search 基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#es%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-text">es是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#es%E5%A6%82%E4%BD%95%E6%9F%A5%E8%AF%A2%E5%92%8C%E5%88%86%E6%9E%90%E6%95%B0%E6%8D%AE"><span class="nav-text">es如何查询和分析数据</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2"><span class="nav-text">查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E6%9E%90"><span class="nav-text">分析</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#es%E7%9A%84%E9%AB%98%E5%8F%AF%E7%94%A8%EF%BC%88%E6%89%A9%E5%B1%95-amp-%E5%BC%B9%E6%80%A7%E6%94%B6%E7%BC%A9%EF%BC%89"><span class="nav-text">es的高可用（扩展&amp;弹性收缩）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8"><span class="nav-text">如何使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%AF%E6%8C%81%E7%9A%84%E7%B3%BB%E7%BB%9F"><span class="nav-text">支持的系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE"><span class="nav-text">配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%87%E7%BA%A7"><span class="nav-text">升级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#index-%E7%B4%A2%E5%BC%95-%E6%A8%A1%E5%9D%97%EF%BC%8C%E6%AF%8F%E4%B8%80%E4%B8%AA%E5%B0%8F%E8%8A%82%E9%83%BD%E5%8F%AF%E4%BB%A5%E8%A2%AB%E5%BD%93%E5%81%9A%E6%98%AF%E4%B8%80%E4%B8%AAmodule"><span class="nav-text">index(索引)模块，每一个小节都可以被当做是一个module</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mapping"><span class="nav-text">mapping</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#text-analysis%EF%BC%88%E6%96%87%E5%AD%97%E5%88%86%E6%9E%90%EF%BC%89"><span class="nav-text">text analysis（文字分析）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Index-templates"><span class="nav-text">Index templates</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#data-streams"><span class="nav-text">data streams</span></a></li></ol></li></ol>
+
+    </div>
+</div>
+            </div>
+        
+    </div>
+</div>
+
+
                 
-            </a>
-        
-    </nav>
+
+            </div>
 
 
-        
-    </article>
-    <div id="toc">
-        
-            <h2>Table of Contents</h2>
-            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Elastic-Search-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">1.</span> <span class="toc-text">Elastic Search 基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#es%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.1.1.</span> <span class="toc-text">es是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#es%E5%A6%82%E4%BD%95%E6%9F%A5%E8%AF%A2%E5%92%8C%E5%88%86%E6%9E%90%E6%95%B0%E6%8D%AE"><span class="toc-number">1.1.2.</span> <span class="toc-text">es如何查询和分析数据</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E6%9E%90"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">分析</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#es%E7%9A%84%E9%AB%98%E5%8F%AF%E7%94%A8%EF%BC%88%E6%89%A9%E5%B1%95-amp-%E5%BC%B9%E6%80%A7%E6%94%B6%E7%BC%A9%EF%BC%89"><span class="toc-number">1.1.3.</span> <span class="toc-text">es的高可用（扩展&amp;弹性收缩）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8"><span class="toc-number">1.2.</span> <span class="toc-text">如何使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%94%AF%E6%8C%81%E7%9A%84%E7%B3%BB%E7%BB%9F"><span class="toc-number">1.2.1.</span> <span class="toc-text">支持的系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-number">1.2.2.</span> <span class="toc-text">配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%87%E7%BA%A7"><span class="toc-number">1.2.3.</span> <span class="toc-text">升级</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#index-%E7%B4%A2%E5%BC%95-%E6%A8%A1%E5%9D%97%EF%BC%8C%E6%AF%8F%E4%B8%80%E4%B8%AA%E5%B0%8F%E8%8A%82%E9%83%BD%E5%8F%AF%E4%BB%A5%E8%A2%AB%E5%BD%93%E5%81%9A%E6%98%AF%E4%B8%80%E4%B8%AAmodule"><span class="toc-number">1.2.4.</span> <span class="toc-text">index(索引)模块，每一个小节都可以被当做是一个module</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mapping"><span class="toc-number">1.2.5.</span> <span class="toc-text">mapping</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#text-analysis%EF%BC%88%E6%96%87%E5%AD%97%E5%88%86%E6%9E%90%EF%BC%89"><span class="toc-number">1.3.</span> <span class="toc-text">text analysis（文字分析）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Index-templates"><span class="toc-number">1.4.</span> <span class="toc-text">Index templates</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#data-streams"><span class="toc-number">1.5.</span> <span class="toc-text">data streams</span></a></li></ol></li></ol>
-        
-    </div>
-</div>
 
-    </div>
-</div>
-<footer id="footer">
-    <div id="copyright">&copy; Zengqiang Fang  2023</div>
-    <div id="theme">
-        Powered by <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a>. Theme by <a target="_blank" rel="noopener" href="https://github.com/markyong/hexo-theme-stage">Stage</a>
-    </div>
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2023&nbsp;&nbsp;<i class="fa-regular fa-computer-classic"></i>&nbsp;&nbsp;<a href="/">Zengqiang</a>
+        </div>
+        
+            <script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv" class="busuanzi_container_site_uv">
+                        VISITOR COUNT&nbsp;<span id="busuanzi_value_site_uv" class="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="busuanzi_container_site_pv">
+                        TOTAL PAGE VIEWS&nbsp;<span id="busuanzi_value_site_pv" class="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            <span class="powered-by-container">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" href="https://hexo.io">Hexo</a></span>
+                <br> 
+            <span class="theme-version-container">THEME&nbsp;<a class="theme-version" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v1.1.6</a>
+        </div>
+        
+        
+        
+            <div id="start_time_div" style="display:none">
+                2022/8/17 11:45:14
+            </div>
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+        
+            <script async data-pjax>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
 </footer>
-<script src="/lib/js/waterrippleeffect.min.js"></script>
-<script src="/js/header-bg.main.js"></script>
+        </div>
+    </div>
 
-    <script src="/lib/js/smooth-scroll.min.js"></script>
-    <script src="/js/toc.main.js"></script>
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="unfolded-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-expand-width flex-center">
+            <i class="fa-regular fa-expand"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex-center">
+                <i class="fa-regular fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="folded-tools-list">
+        <li class="right-bottom-tools tool-toggle-show flex-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/layouts/menu-shrink.js"></script>
+
+<script src="/js/tools/go-top-bottom.js"></script>
+
+<script src="/js/tools/dark-light-toggle.js"></script>
+
+
+
+
+
+    
+<script src="/js/tools/code-block.js"></script>
+
+
+
+
+    
+<script src="/js/layouts/lazyload.js"></script>
+
+
+
+
+    
+<script src="/js/tools/runtime.js"></script>
+
+    
+<script src="/js/layouts/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+
+<div class="post-scripts pjax">
+    
+        
+<script src="/js/tools/toc-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/layouts/toc.js"></script>
+
+<script src="/js/plugins/tabs.js"></script>
+
+    
+    
+</div>
+
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+            // scrollTo: true,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            REDEFINE.utils.pjaxProgressBarStart();
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            REDEFINE.utils.pjaxProgressBarEnd();
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+            REDEFINE.refresh();
+        });
+    });
+</script>
+
+
+
 
 </body>
 </html>

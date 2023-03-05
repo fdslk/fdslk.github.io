@@ -1,80 +1,406 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>ffmpeg_simple_convert | 🪳的Daily Blog WebSite</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="keywords" content="">
-    <meta name="description" content="浅谈ffmpeg为什么要分享这个玩意&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;One day, 我在Mac上下载了一部电影，然后想拷贝到U盘中，然后再连接电视上的接口。这时候呢，正当我要拷贝电影的时候，遇到了我的知识盲区了，为啥我的U盘能检测到，但是电脑上的文件没法往U盘里头送，但是U盘里面东西又可以往外面传呢？我尝试了下面几种方法：
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    <meta name="description" content="Hexo Theme Redefine">
+    <meta name="author" content="Zengqiang">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-redefine.png">
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="http://fdslk.github.io/tech/video/ffmpeg/2023/03/05/ffmpeg-simple-convert/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="ffmpeg_simple_convert">
+    <meta property="og:description" content="Hexo Theme Redefine">
+    <meta property="og:url" content="http://fdslk.github.iotech/video/ffmpeg/2023/03/05/ffmpeg-simple-convert/">
+    <meta property="og:image" content="/images/redefine-logo.svg">
+    <meta property="og:site_name" content="Qiang Brother Blogs">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ffmpeg_simple_convert">
+    <meta name="twitter:description" content="Hexo Theme Redefine">
+    <meta name="twitter:image" content="/images/redefine-logo.svg">
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/redefine-logo.svg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/redefine-logo.svg">
+    <meta name="theme-color" content="#005080">
+    <link rel="shortcut icon" href="/images/redefine-logo.svg">
+    
+    <title>
+        
+            ffmpeg_simple_convert -
+        
+        Qiang Brother Blogs
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
 
-翻箱倒柜，找出其他的U盘，一个个的试&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;#10006;
-给电脑加一个hub，然后把U盘插到hub上&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;am...">
     
-        <link rel="icon" href="/favicon.ico">
+<link rel="stylesheet" href="/assets/fonts.css">
+
     
     
-        
-            <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
-        
-            <link rel="stylesheet" href="/css/stage.css">
-        
-            <link rel="stylesheet" href="/css/avatar-bg.css">
-        
+    
+    
+    <script id="hexo-configurations">
+    let REDEFINE = window.REDEFINE || {};
+    REDEFINE.hexo_config = {"hostname":"fdslk.github.io","root":"/","language":"en"};
+    REDEFINE.theme_config = {"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true},"style":{"primary_color":"#005080","avatar":"/images/redefine-avatar.svg","favicon":"/images/redefine-logo.svg","article_img_align":"center","right_side_width":"210px","content_max_width":"1000px","nav_color":{"left":"#f78736","right":"#367df7","transparency":35},"hover":{"shadow":true,"scale":false},"first_screen":{"enable":true,"background_image":{"light":"https://evan.beee.top/img/wallhaven-wqery6-light.webp","dark":"https://evan.beee.top/img/wallhaven-wqery6-dark.webp"},"title_color":{"light":"#fff","dark":"#d1d1b6"},"description":"Theme Redefine","custom_font":{"enable":false,"font_family":null,"font_url":null}},"scroll":{"progress_bar":{"enable":true},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":true},"code_block":{"copy":true,"style":"mac","custom_font":{"enable":false,"font_family":null,"font_url":null}},"pjax":{"enable":true},"lazyload":{"enable":true},"version":"1.1.6","friend_links":{"columns":2},"home_article":{"date_format":"auto","category":{"enable":true,"limit":3},"tag":{"enable":true,"limit":3}},"plugins":{"aplayer":{"enable":false,"audio":[{"name":null,"artist":null,"url":null,"cover":null},{"name":null,"artist":null,"url":null,"cover":null}]}}};
+    REDEFINE.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+    
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
     
 <meta name="generator" content="Hexo 6.3.0"></head>
 
+
 <body>
-<header id="header">
-    <div class="menu">
-        <i class="fa fa-bars"></i>
-    </div>
-    <div class="header-main">
-        <h1><a href="/">🪳的Daily Blog WebSite</a></h1>
-    </div>
-    <div id="nav">
-        <div class="nav-img" id="nav-img"></div>
-        <div class="sentences">
-            How goes the world with you?
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <span class="pjax-progress-icon">
+            <i class="fa-solid fa-circle-notch fa-spin"></i>
+        </span>
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="menu-wrapper">
+    
+    <div class="menu-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Qiang Brother Blogs
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        
+                            <li class="menu-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-ghost"></i>
+                                        
+                                        HOME
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="menu-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/archives"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-ghost"></i>
+                                        
+                                        ARCHIVES
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="menu-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown" 
+                                    href="#" onClick="return false;">
+                                    
+                                        
+                                            <i class="fa-regular fa-ghost"></i>
+                                        
+                                        ABOUT&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                    
+                                        <li>
+                                        <a href="/about">ME
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a target="_blank" rel="noopener" href="https://github.com/Fdslk">GITHUB
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a target="_blank" rel="noopener" href="https://www.jianshu.com/u/aa8ec49eced0">JIANSHU
+                                        </a>
+                                        </li>
+                                    
+                                    </ul>
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
         </div>
     </div>
+
+    <!-- Mobile drawer -->
+    <div class="menu-drawer">
+        <ul class="drawer-menu-list">
+            
+                
+                    <li class="drawer-menu-item flex-center">
+                        <a class="" 
+                        href="/"  >
+                             
+                                
+                                    <i class="fa-regular fa-ghost"></i>
+                                
+                                HOME
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-menu-item flex-center">
+                        <a class="" 
+                        href="/archives"  >
+                             
+                                
+                                    <i class="fa-regular fa-ghost"></i>
+                                
+                                ARCHIVES
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-menu-item flex-center">
+                        <a class="has-dropdown" 
+                        href="#" onClick="return false;">
+                            
+                                
+                                    <i class="fa-regular fa-ghost"></i>
+                                
+                                ABOUT&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                              
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" href="/about">ME</a>
+                            </li>
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://github.com/Fdslk">GITHUB</a>
+                            </li>
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://www.jianshu.com/u/aa8ec49eced0">JIANSHU</a>
+                            </li>
+                        
+                    
+            
+
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
 </header>
 
-<div id="content-outer">
-    <div id="content-inner">
-        <div class="clearfix">
-    <article id="post">
-        <h1>ffmpeg_simple_convert</h1>
-        <div class="create">
-            <span>Created</span>
-            
-                <time datetime="2023-03-05T03:57:25.000Z">
-                    2023-03-05
-                </time>
-            
-            <ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/">tech</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/video/">video</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/video/ffmpeg/">ffmpeg</a></li></ul></li></ul></li></ul>
+
         </div>
-        <h1 id="浅谈ffmpeg"><a href="#浅谈ffmpeg" class="headerlink" title="浅谈ffmpeg"></a>浅谈ffmpeg</h1><h2 id="为什么要分享这个玩意"><a href="#为什么要分享这个玩意" class="headerlink" title="为什么要分享这个玩意"></a>为什么要分享这个玩意</h2><p>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;<font size=4 color=red><strong>One day,</strong></font> 我在Mac上下载了一部电影，然后想拷贝到U盘中，然后再连接电视上的接口。这时候呢，正当我要拷贝电影的时候，遇到了我的知识盲区了，为啥我的U盘能检测到，但是电脑上的文件没法往U盘里头送，但是U盘里面东西又可以往外面传呢？我尝试了下面几种方法：</p>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="post-page-container">
+        <div class="article-content-container">
+
+            
+            
+                <div class="article-title">
+                    <h1 class="article-title-regular">ffmpeg_simple_convert</h1>
+                </div>
+            
+                
+            
+
+            
+                <div class="article-header">
+                    <div class="avatar">
+                        <img src="/images/redefine-avatar.svg">
+                    </div>
+                    <div class="info">
+                        <div class="author">
+                            <span class="name">Zengqiang</span>
+                            
+                                <span class="author-label">biking</span>
+                            
+                        </div>
+                        <div class="meta-info">
+                            <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="pc">2023-03-05 11:57:25</span>
+        <span class="mobile">2023-03-05 11:57</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="pc">2023-03-05 14:39:12</span>
+            <span class="mobile">2023-03-05 14:39</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/tech/">tech</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        &gt; <a href="/categories/tech/video/">video</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        &gt; <a href="/categories/tech/video/ffmpeg/">ffmpeg</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/ffmpeg-coverting-format/">ffmpeg, coverting format</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="article-content markdown-body">
+                <h1 id="浅谈ffmpeg"><a href="#浅谈ffmpeg" class="headerlink" title="浅谈ffmpeg"></a>浅谈ffmpeg</h1><h2 id="为什么要分享这个玩意"><a href="#为什么要分享这个玩意" class="headerlink" title="为什么要分享这个玩意"></a>为什么要分享这个玩意</h2><p>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;<font size=4 color=red><strong>One day,</strong></font> 我在Mac上下载了一部电影，然后想拷贝到U盘中，然后再连接电视上的接口。这时候呢，正当我要拷贝电影的时候，遇到了我的知识盲区了，为啥我的U盘能检测到，但是电脑上的文件没法往U盘里头送，但是U盘里面东西又可以往外面传呢？我尝试了下面几种方法：</p>
 <ul>
 <li>翻箱倒柜，找出其他的U盘，一个个的试&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;#10006;</li>
 <li>给电脑加一个hub，然后把U盘插到hub上&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;#10006; </li>
 <li>尝试不同的Mac&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;#10006;</li>
 </ul>
-<p>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;没法子了，只能Google一下了，其实就是格式的问题，U盘和移动硬盘一般都是NTFS格式的，而Mac是不支持这个格式磁盘的写入的，所以在Mac上无法拷贝文件到U盘。所以，要么就是格式化U盘，然后再重新刷U盘。<br><img src="https://user-images.githubusercontent.com/6279298/211694505-dac30b23-e055-4201-85c5-54c09544cb95.png" alt="Girl in a jacket" width="60" height="60"></p>
-<p>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;算了要不我直接在Mac上看吧，Mac上的唯一的播放器只有<code>QuickTimer</code>, 但是此播放器能支持的格式又是有限了，下载的电影格式一般都是<code>mkv</code>格式为主，所以QuickTime自然也就不支持的咯。这时候，解决办法想了两个。要么下载一个可以支持其他格式的播放器，要么就是转格式。我选择了后者，作为新生代农民工的我呢还是想要用自己的手艺来解决这个问题，那就是写代码搞定，其实是没有找到比较好的工具。<br>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;开始Google，<code>how to convert mkv to mp4 in java</code> <img width="200" alt="how to convert mkv to mp4 in java" src="https://user-images.githubusercontent.com/6279298/211951360-4aa64823-af8b-4005-815e-53942aa3c2e5.png"> ,<br><code>how to convert mkv to mp4 in python</code><img width="200" alt="how to convert mkv to mp4 in python" src="https://user-images.githubusercontent.com/6279298/211951383-352e6dde-5ca9-4615-be68-32ba84f1cf60.png"> ,<br><code>~ in golang</code> <img width="200" alt="how to convert mkv to mp4 in golang" src="https://user-images.githubusercontent.com/6279298/211951464-68d133a1-3748-4d34-a5f3-2f08333f43ed.png"><br>从每个搜索结果中都能发现一个相同的工具<font color=red size=3><strong>ffmpeg</strong></font>, 很好奇这个是干嘛的的东西，大家就接着往下看吧</p>
-<h2 id="ffmpeg是什么"><a href="#ffmpeg是什么" class="headerlink" title="ffmpeg是什么"></a>ffmpeg是什么</h2><p>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;<font><strong>FFmpeg</strong></font>是一个免费的开源软件项目，由一套处理视频、音频和其他多媒体文件和流的库和程序组成。ffmpeg主要是被当做命令行工具来使用，ffmpeg主要用于处理视频和音频文件。它被广泛用于格式转换、基本编辑(修剪和拼接)、视频缩放、视频后期制作效果</p><br>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;FFmpeg除了本身的工具之外，实际上是被分成了是三个工具<code>ffmpeg</code>，<code>ffprobe</code>以及<code>ffplay</code>。<a target="_blank" rel="noopener" href="http://ffmpeg.org/ffprobe.html">ffprobe</a>主要用于分析流媒体数据，提取流媒体中的音视频信息，<a target="_blank" rel="noopener" href="http://ffmpeg.org/ffplay.html">ffplay</a>是ffmpeg开发的minimal的视频播放器，但是这三类工具都是命令行工具，对于不太了解计算机的同学来说不是特别的友好。<br>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;ffmpeg整体都是基于<code>C++</code>开发的一套框架，因为是开源项目，所以有很大的DIY空间。于此同时，对于不太熟悉<code>C++</code>的同学来说，如果想用ffmpeg来做一些二次开发，现在也有很多其他语言的wrapper包，以下这几个是star数比较多，而且提了issue作者会给回答的项目：</p>
+<p>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;没法子了，只能Google一下了，其实就是格式的问题，U盘和移动硬盘一般都是NTFS格式的，而Mac是不支持这个格式磁盘的写入的，所以在Mac上无法拷贝文件到U盘。所以，要么就是格式化U盘，然后再重新刷U盘。<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/6279298/211694505-dac30b23-e055-4201-85c5-54c09544cb95.png"
+                      alt="Girl in a jacket" width="60" height="60"
+                ></p>
+<p>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;算了要不我直接在Mac上看吧，Mac上的唯一的播放器只有<code>QuickTimer</code>, 但是此播放器能支持的格式又是有限了，下载的电影格式一般都是<code>mkv</code>格式为主，所以QuickTime自然也就不支持的咯。这时候，解决办法想了两个。要么下载一个可以支持其他格式的播放器，要么就是转格式。我选择了后者，作为新生代农民工的我呢还是想要用自己的手艺来解决这个问题，那就是写代码搞定，其实是没有找到比较好的工具。<br>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;开始Google，<code>how to convert mkv to mp4 in java</code> <img  width="200" alt="how to convert mkv to mp4 in java" 
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/6279298/211951360-4aa64823-af8b-4005-815e-53942aa3c2e5.png"
+                     
+                > ,<br><code>how to convert mkv to mp4 in python</code><img  width="200" alt="how to convert mkv to mp4 in python" 
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/6279298/211951383-352e6dde-5ca9-4615-be68-32ba84f1cf60.png"
+                     
+                > ,<br><code>~ in golang</code> <img  width="200" alt="how to convert mkv to mp4 in golang" 
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/6279298/211951464-68d133a1-3748-4d34-a5f3-2f08333f43ed.png"
+                     
+                ><br>从每个搜索结果中都能发现一个相同的工具<font color=red size=3><strong>ffmpeg</strong></font>, 很好奇这个是干嘛的的东西，大家就接着往下看吧</p>
+<h2 id="ffmpeg是什么"><a href="#ffmpeg是什么" class="headerlink" title="ffmpeg是什么"></a>ffmpeg是什么</h2><p>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;<font><strong>FFmpeg</strong></font>是一个免费的开源软件项目，由一套处理视频、音频和其他多媒体文件和流的库和程序组成。ffmpeg主要是被当做命令行工具来使用，ffmpeg主要用于处理视频和音频文件。它被广泛用于格式转换、基本编辑(修剪和拼接)、视频缩放、视频后期制作效果</p><br>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;FFmpeg除了本身的工具之外，实际上是被分成了是三个工具<code>ffmpeg</code>，<code>ffprobe</code>以及<code>ffplay</code>。<a class="link"   target="_blank" rel="noopener" href="http://ffmpeg.org/ffprobe.html" >ffprobe <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>主要用于分析流媒体数据，提取流媒体中的音视频信息，<a class="link"   target="_blank" rel="noopener" href="http://ffmpeg.org/ffplay.html" >ffplay <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>是ffmpeg开发的minimal的视频播放器，但是这三类工具都是命令行工具，对于不太了解计算机的同学来说不是特别的友好。<br>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;ffmpeg整体都是基于<code>C++</code>开发的一套框架，因为是开源项目，所以有很大的DIY空间。于此同时，对于不太熟悉<code>C++</code>的同学来说，如果想用ffmpeg来做一些二次开发，现在也有很多其他语言的wrapper包，以下这几个是star数比较多，而且提了issue作者会给回答的项目：</p>
 <ul>
 <li>java <ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/bytedeco/javacpp-presets/tree/master/ffmpeg">javacpp-presets</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/bramp/ffmpeg-cli-wrapper">ffmpeg-cli-wrapper</a></li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://github.com/bytedeco/javacpp-presets/tree/master/ffmpeg" >javacpp-presets <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://github.com/bramp/ffmpeg-cli-wrapper" >ffmpeg-cli-wrapper <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
 </ul>
 </li>
 <li>go<ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/u2takey/ffmpeg-go">ffmpeg-go</a></li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://github.com/u2takey/ffmpeg-go" >ffmpeg-go <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
 </ul>
 </li>
 </ul>
-<p>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;这里还有一个小提醒给大家，ffmpeg这么好用，其实很多的播放器都是基于了ffmpeg做了二次开发，那么对于使用ffmpeg的开发者来说，就有一条不成文的规则，如果你使用了这个框架，你就需要开源你的项目，否则你可能会被钉在ffmpeg的<a target="_blank" rel="noopener" href="http://ffmpeg.org/shame.html">Hall of Shame(耻辱柱)</a></p>
+<p>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;这里还有一个小提醒给大家，ffmpeg这么好用，其实很多的播放器都是基于了ffmpeg做了二次开发，那么对于使用ffmpeg的开发者来说，就有一条不成文的规则，如果你使用了这个框架，你就需要开源你的项目，否则你可能会被钉在ffmpeg的<a class="link"   target="_blank" rel="noopener" href="http://ffmpeg.org/shame.html" >Hall of Shame(耻辱柱) <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
 <p>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;下面给大家顺带说一下，ffmpeg中使用的一些高频率的library</p>
 <ul>
 <li>libavcodec, 提供了一个通用的编码&#x2F;解码框架，包含音频、视频和字幕流的多个解码器和编码器</li>
@@ -83,7 +409,7 @@
 <li>libavdevice，提供了一个通用框架，用于从许多常见的多媒体输入&#x2F;输出设备抓取和呈现，并支持多种输入和输出设备，例如Video4Linux2、VfW、DShow和ALSA</li>
 </ul>
 <h2 id="ffmpeg的一些基础用法"><a href="#ffmpeg的一些基础用法" class="headerlink" title="ffmpeg的一些基础用法"></a>ffmpeg的一些基础用法</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ul>
-<li>大家可以根据自己的平台下载对应的安装包，在<a target="_blank" rel="noopener" href="http://ffmpeg.org/download.html#get-sources">ffmpeg官网</a>可以直接下载</li>
+<li>大家可以根据自己的平台下载对应的安装包，在<a class="link"   target="_blank" rel="noopener" href="http://ffmpeg.org/download.html#get-sources" >ffmpeg官网 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>可以直接下载</li>
 <li>在Mac电脑上还可以使用<code>brew</code>直接安装，运行以下命令：<code>brew install ffmpeg</code></li>
 </ul>
 <h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><h4 id="ffplay"><a href="#ffplay" class="headerlink" title="ffplay"></a>ffplay</h4><p>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;ffplay使用方式非常简单，这里给大家介绍一些简单的命令</p>
@@ -92,81 +418,373 @@
 <li><code>ffplay -x -y &lt;input source path&gt;</code> 这样就可以指定视频播放窗口的大小</li>
 <li><code>ffplay -fs &lt;input source path&gt;</code> 视频开始以全屏模式播放 </p></li>
 </ul>
-<p>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;除此之外，ffplay还很多其他的option，大家如果有兴趣可以参照官网的<a target="_blank" rel="noopener" href="http://ffmpeg.org/ffplay.html#Main-options">说明</a>尝试</p>
+<p>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;除此之外，ffplay还很多其他的option，大家如果有兴趣可以参照官网的<a class="link"   target="_blank" rel="noopener" href="http://ffmpeg.org/ffplay.html#Main-options" >说明 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>尝试</p>
 <h4 id="ffprobe"><a href="#ffprobe" class="headerlink" title="ffprobe"></a>ffprobe</h4><p>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;ffprobe主要就是用于分析流媒体中的信息，比如说，你想知道，该视频中有几个视频流，有几个音频流，以及各自的编码方式是什么，等等诸如此类的东西，再给大家分享一些简单的命令</p>
 <ul>
 <li><code>ffprobe -v error &lt;input source path&gt; -show_format</code>, 用这个命令你就可以看到你这个容器中的流媒体的一些基本数据，如果你觉得用默认格式输出不好看的话，还可以添加一个参数，<code>-print_format json</code>，其中的参数<code>v</code>代表的是verbose<ul>
-<li>json文件中展现了container的信息，其中包括了container的文件名称，bitrate等等<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;format&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;filename&quot;</span><span class="punctuation">:</span> <span class="string">&quot;bullfinch.mov&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;nb_streams&quot;</span><span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;nb_programs&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;format_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;mov,mp4,m4a,3gp,3g2,mj2&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;format_long_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;QuickTime / MOV&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;start_time&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.000000&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;duration&quot;</span><span class="punctuation">:</span> <span class="string">&quot;5.022000&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;size&quot;</span><span class="punctuation">:</span> <span class="string">&quot;143724856&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;bit_rate&quot;</span><span class="punctuation">:</span> <span class="string">&quot;228952379&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;probe_score&quot;</span><span class="punctuation">:</span> <span class="number">100</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;tags&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">          <span class="attr">&quot;major_brand&quot;</span><span class="punctuation">:</span> <span class="string">&quot;qt  &quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;minor_version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;512&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;compatible_brands&quot;</span><span class="punctuation">:</span> <span class="string">&quot;qt  &quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;encoder&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Lavf58.45.100&quot;</span></span><br><span class="line">      <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure></li>
+<li>json文件中展现了container的信息，其中包括了container的文件名称，bitrate等等<div class="highlight-container" data-rel="Json"><figure class="iseeu highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;format&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;filename&quot;</span><span class="punctuation">:</span> <span class="string">&quot;bullfinch.mov&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;nb_streams&quot;</span><span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;nb_programs&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;format_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;mov,mp4,m4a,3gp,3g2,mj2&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;format_long_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;QuickTime / MOV&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;start_time&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.000000&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;duration&quot;</span><span class="punctuation">:</span> <span class="string">&quot;5.022000&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;size&quot;</span><span class="punctuation">:</span> <span class="string">&quot;143724856&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;bit_rate&quot;</span><span class="punctuation">:</span> <span class="string">&quot;228952379&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;probe_score&quot;</span><span class="punctuation">:</span> <span class="number">100</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;tags&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">          <span class="attr">&quot;major_brand&quot;</span><span class="punctuation">:</span> <span class="string">&quot;qt  &quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;minor_version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;512&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;compatible_brands&quot;</span><span class="punctuation">:</span> <span class="string">&quot;qt  &quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;encoder&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Lavf58.45.100&quot;</span></span><br><span class="line">      <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure></div></li>
 </ul>
 </li>
 <li><code>ffprobe -v error &lt;input source path&gt; -show_streams</code> 这里会展示出所有的stream的信息，所以使用参数<code>-select_streams</code>来选择某一种流媒体，再在后面添加一个<code>v</code>或者<code>a</code>。前者代表是video，后者是audio<ul>
-<li>视频流的数据，这里会列出当前流媒体中视频流中的编码方式等等数据<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;streams&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">      <span class="punctuation">&#123;</span></span><br><span class="line">          <span class="attr">&quot;index&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;codec_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;prores&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;codec_long_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Apple ProRes (iCodec Pro)&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;profile&quot;</span><span class="punctuation">:</span> <span class="string">&quot;HQ&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;codec_type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;video&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;codec_tag_string&quot;</span><span class="punctuation">:</span> <span class="string">&quot;apch&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;codec_tag&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0x68637061&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;width&quot;</span><span class="punctuation">:</span> <span class="number">1920</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;height&quot;</span><span class="punctuation">:</span> <span class="number">1080</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;coded_width&quot;</span><span class="punctuation">:</span> <span class="number">1920</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;coded_height&quot;</span><span class="punctuation">:</span> <span class="number">1080</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;closed_captions&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;film_grain&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;has_b_frames&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;sample_aspect_ratio&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1:1&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;display_aspect_ratio&quot;</span><span class="punctuation">:</span> <span class="string">&quot;16:9&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;pix_fmt&quot;</span><span class="punctuation">:</span> <span class="string">&quot;yuv422p10le&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;level&quot;</span><span class="punctuation">:</span> <span class="number">-99</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;color_range&quot;</span><span class="punctuation">:</span> <span class="string">&quot;tv&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;field_order&quot;</span><span class="punctuation">:</span> <span class="string">&quot;progressive&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;refs&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0x1&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;r_frame_rate&quot;</span><span class="punctuation">:</span> <span class="string">&quot;30000/1001&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;avg_frame_rate&quot;</span><span class="punctuation">:</span> <span class="string">&quot;30000/1001&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;time_base&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1/30000&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;start_pts&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;start_time&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.000000&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;duration_ts&quot;</span><span class="punctuation">:</span> <span class="number">150150</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;duration&quot;</span><span class="punctuation">:</span> <span class="string">&quot;5.005000&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;bit_rate&quot;</span><span class="punctuation">:</span> <span class="string">&quot;229589904&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;bits_per_raw_sample&quot;</span><span class="punctuation">:</span> <span class="string">&quot;10&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;nb_frames&quot;</span><span class="punctuation">:</span> <span class="string">&quot;150&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;disposition&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">              <span class="attr">&quot;default&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;dub&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;original&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;comment&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;lyrics&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;karaoke&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;forced&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;hearing_impaired&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;visual_impaired&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;clean_effects&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;attached_pic&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;timed_thumbnails&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;captions&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;descriptions&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;metadata&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;dependent&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;still_image&quot;</span><span class="punctuation">:</span> <span class="number">0</span></span><br><span class="line">          <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;tags&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">              <span class="attr">&quot;language&quot;</span><span class="punctuation">:</span> <span class="string">&quot;eng&quot;</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;handler_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;VideoHandler&quot;</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;vendor_id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;FFMP&quot;</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;encoder&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Lavc58.91.100 prores_ks&quot;</span></span><br><span class="line">          <span class="punctuation">&#125;</span></span><br><span class="line">      <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure></li>
-<li>如果我们想过滤一些只有我们关心的数据，可以使用<code>-show_entries stream=codec_name,codec_type,duration</code>，来选择我们想要的数据，这样返回的数据就会比较简洁<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;programs&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line"></span><br><span class="line">  <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;streams&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">      <span class="punctuation">&#123;</span></span><br><span class="line">          <span class="attr">&quot;codec_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;prores&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;codec_type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;video&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;duration&quot;</span><span class="punctuation">:</span> <span class="string">&quot;5.005000&quot;</span></span><br><span class="line">      <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure></li>
+<li>视频流的数据，这里会列出当前流媒体中视频流中的编码方式等等数据<div class="highlight-container" data-rel="Json"><figure class="iseeu highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;streams&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">      <span class="punctuation">&#123;</span></span><br><span class="line">          <span class="attr">&quot;index&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;codec_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;prores&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;codec_long_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Apple ProRes (iCodec Pro)&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;profile&quot;</span><span class="punctuation">:</span> <span class="string">&quot;HQ&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;codec_type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;video&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;codec_tag_string&quot;</span><span class="punctuation">:</span> <span class="string">&quot;apch&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;codec_tag&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0x68637061&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;width&quot;</span><span class="punctuation">:</span> <span class="number">1920</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;height&quot;</span><span class="punctuation">:</span> <span class="number">1080</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;coded_width&quot;</span><span class="punctuation">:</span> <span class="number">1920</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;coded_height&quot;</span><span class="punctuation">:</span> <span class="number">1080</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;closed_captions&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;film_grain&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;has_b_frames&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;sample_aspect_ratio&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1:1&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;display_aspect_ratio&quot;</span><span class="punctuation">:</span> <span class="string">&quot;16:9&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;pix_fmt&quot;</span><span class="punctuation">:</span> <span class="string">&quot;yuv422p10le&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;level&quot;</span><span class="punctuation">:</span> <span class="number">-99</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;color_range&quot;</span><span class="punctuation">:</span> <span class="string">&quot;tv&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;field_order&quot;</span><span class="punctuation">:</span> <span class="string">&quot;progressive&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;refs&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0x1&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;r_frame_rate&quot;</span><span class="punctuation">:</span> <span class="string">&quot;30000/1001&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;avg_frame_rate&quot;</span><span class="punctuation">:</span> <span class="string">&quot;30000/1001&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;time_base&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1/30000&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;start_pts&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;start_time&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.000000&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;duration_ts&quot;</span><span class="punctuation">:</span> <span class="number">150150</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;duration&quot;</span><span class="punctuation">:</span> <span class="string">&quot;5.005000&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;bit_rate&quot;</span><span class="punctuation">:</span> <span class="string">&quot;229589904&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;bits_per_raw_sample&quot;</span><span class="punctuation">:</span> <span class="string">&quot;10&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;nb_frames&quot;</span><span class="punctuation">:</span> <span class="string">&quot;150&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;disposition&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">              <span class="attr">&quot;default&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;dub&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;original&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;comment&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;lyrics&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;karaoke&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;forced&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;hearing_impaired&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;visual_impaired&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;clean_effects&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;attached_pic&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;timed_thumbnails&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;captions&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;descriptions&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;metadata&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;dependent&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;still_image&quot;</span><span class="punctuation">:</span> <span class="number">0</span></span><br><span class="line">          <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;tags&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">              <span class="attr">&quot;language&quot;</span><span class="punctuation">:</span> <span class="string">&quot;eng&quot;</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;handler_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;VideoHandler&quot;</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;vendor_id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;FFMP&quot;</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;encoder&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Lavc58.91.100 prores_ks&quot;</span></span><br><span class="line">          <span class="punctuation">&#125;</span></span><br><span class="line">      <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure></div></li>
+<li>如果我们想过滤一些只有我们关心的数据，可以使用<code>-show_entries stream=codec_name,codec_type,duration</code>，来选择我们想要的数据，这样返回的数据就会比较简洁<div class="highlight-container" data-rel="Json"><figure class="iseeu highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;programs&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line"></span><br><span class="line">  <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;streams&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">      <span class="punctuation">&#123;</span></span><br><span class="line">          <span class="attr">&quot;codec_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;prores&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;codec_type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;video&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;duration&quot;</span><span class="punctuation">:</span> <span class="string">&quot;5.005000&quot;</span></span><br><span class="line">      <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure></div></li>
 </ul>
 </li>
 </ul>
 <h4 id="ffmpeg"><a href="#ffmpeg" class="headerlink" title="ffmpeg"></a>ffmpeg</h4><p>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;ffmpeg应该来说是这个里面BOSS了，能干的事情简直是太多了，比如说转换格式，剪辑视频，合并视频，添加视频的overlay，替换流媒体的音频，操作音频（合并声道，修改声道），生成playback文件等等</p>
 <ul>
-<li>转换格式就是ffmpeg非常基础的技能了，<code>ffmpeg -v error -y -i &lt;input source path&gt; &lt;output file name&gt;.mp4</code>。以下的场景是我们在网络上下载了一段视频，扩展名是<code>mkv</code>。这个显然是无法在Mac直接播放的<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;programs&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line"></span><br><span class="line">    <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;streams&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;codec_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;h264&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;codec_long_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10&quot;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;format&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;filename&quot;</span><span class="punctuation">:</span> <span class="string">&quot;test.mkv&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;nb_streams&quot;</span><span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;nb_programs&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;format_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;matroska,webm&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;format_long_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Matroska / WebM&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;start_time&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.000000&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;duration&quot;</span><span class="punctuation">:</span> <span class="string">&quot;5.016000&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;size&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1941253&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;bit_rate&quot;</span><span class="punctuation">:</span> <span class="string">&quot;3096097&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;probe_score&quot;</span><span class="punctuation">:</span> <span class="number">100</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;tags&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;COMPATIBLE_BRANDS&quot;</span><span class="punctuation">:</span> <span class="string">&quot;qt  &quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;MAJOR_BRAND&quot;</span><span class="punctuation">:</span> <span class="string">&quot;qt  &quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;MINOR_VERSION&quot;</span><span class="punctuation">:</span> <span class="string">&quot;512&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;ENCODER&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Lavf59.16.100&quot;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-我们来使用ffmpeg的转换技能，把<code>mkv</code>格式的文件转换成<code>mov</code>, <code>ffmpeg -v error -y -i test.mkv  test.mov</code>，这里不用指定流的编码方式，因为在转换的过程中会设定默认的合适的codec方法，等上一会，视频就是转好了。当我点击的时候给我来了个这个<img width="100" alt="image" src="https://user-images.githubusercontent.com/6279298/213137069-6b427048-435f-4f68-a81f-3f2fd6401974.png">，打开是能打开，但是看不了视频，只闻其声不见其人。我用ffprobe分析了一下stream的数据，发现codec的方式h264，quicktime是不支持的。<br>这时我添加了一个参数<code>ffmpeg -v error -y -i test.mkv  -vcodec prores test.mov</code>。这波操作，OK了，可以打开了</p><br>&amp;#8194;&amp;#8194;&amp;#8194;&amp;#8194;这时又有细心的朋友发现了些啥，为啥同样视频只是经过了一次转换，大小相差这么大<img width="200" alt="image" src="https://user-images.githubusercontent.com/6279298/213139598-262c3a73-3881-42a8-92c2-e2a1e0279bda.png">。具体原因是啥呢，我再用ffprobe分析一波。原来是因为<code>bitrate</code>相差了很多哦，这玩意就是用来决定视频的清晰度的。查了一下文档，原来ffmpeg在不设定bitrate的时候，为了加快转换速度自己又自作主张的加了点戏，减少了一些bitrate。<img width="1031" alt="image" src="https://user-images.githubusercontent.com/6279298/213140159-19c49e5d-72a3-4b9e-85ca-a1bf2d6bd7c1.png">
+<li>转换格式就是ffmpeg非常基础的技能了，<code>ffmpeg -v error -y -i &lt;input source path&gt; &lt;output file name&gt;.mp4</code>。以下的场景是我们在网络上下载了一段视频，扩展名是<code>mkv</code>。这个显然是无法在Mac直接播放的<div class="highlight-container" data-rel="Json"><figure class="iseeu highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;programs&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line"></span><br><span class="line">    <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;streams&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;codec_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;h264&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;codec_long_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10&quot;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;format&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;filename&quot;</span><span class="punctuation">:</span> <span class="string">&quot;test.mkv&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;nb_streams&quot;</span><span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;nb_programs&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;format_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;matroska,webm&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;format_long_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Matroska / WebM&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;start_time&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.000000&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;duration&quot;</span><span class="punctuation">:</span> <span class="string">&quot;5.016000&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;size&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1941253&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;bit_rate&quot;</span><span class="punctuation">:</span> <span class="string">&quot;3096097&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;probe_score&quot;</span><span class="punctuation">:</span> <span class="number">100</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;tags&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;COMPATIBLE_BRANDS&quot;</span><span class="punctuation">:</span> <span class="string">&quot;qt  &quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;MAJOR_BRAND&quot;</span><span class="punctuation">:</span> <span class="string">&quot;qt  &quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;MINOR_VERSION&quot;</span><span class="punctuation">:</span> <span class="string">&quot;512&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;ENCODER&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Lavf59.16.100&quot;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure></div>
+我们来使用ffmpeg的转换技能，把<code>mkv</code>格式的文件转换成<code>mov</code>, <code>ffmpeg -v error -y -i test.mkv  test.mov</code>，这里不用指定流的编码方式，因为在转换的过程中会设定默认的合适的codec方法，等上一会，视频就是转好了。当我点击的时候给我来了个这个<img  width="100" alt="image" 
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/6279298/213137069-6b427048-435f-4f68-a81f-3f2fd6401974.png"
+                     
+                >，打开是能打开，但是看不了视频，只闻其声不见其人。我用ffprobe分析了一下stream的数据，发现codec的方式h264，quicktime是不支持的。<br>这时我添加了一个参数<code>ffmpeg -v error -y -i test.mkv  -vcodec prores test.mov</code>。这波操作，OK了，可以打开了</p><br>&amp;#8194;&amp;#8194;&amp;#8194;&amp;#8194;这时又有细心的朋友发现了些啥，为啥同样视频只是经过了一次转换，大小相差这么大<img  width="200" alt="image" 
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/6279298/213139598-262c3a73-3881-42a8-92c2-e2a1e0279bda.png"
+                     
+                >。具体原因是啥呢，我再用ffprobe分析一波。原来是因为<code>bitrate</code>相差了很多哦，这玩意就是用来决定视频的清晰度的。查了一下文档，原来ffmpeg在不设定bitrate的时候，为了加快转换速度自己又自作主张的加了点戏，减少了一些bitrate。<img  width="1031" alt="image" 
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/6279298/213140159-19c49e5d-72a3-4b9e-85ca-a1bf2d6bd7c1.png"
+                     
+                >
 &#8194;&#8194;&#8194;&#8194;那如果我想保持原来的大小该怎么办呢？这里我们可以使用`two-pass`的方式来设置想要转换的视频的bitrate的大小
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -v error -y -i test.mkv -vcodec prores -b:v 4M -pass 1 -f null /dev/null</span><br><span class="line">&amp;&amp; ffmpeg -v error -y -i test.mkv -vcodec prores -b:v 4M -pass 2 test.mov</span><br></pre></td></tr></table></figure></li>
+<div class="highlight-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -v error -y -i test.mkv -vcodec prores -b:v 4M -pass 1 -f null /dev/null</span><br><span class="line">&amp;&amp; ffmpeg -v error -y -i test.mkv -vcodec prores -b:v 4M -pass 2 test.mov</span><br></pre></td></tr></table></figure></div></li>
 </ul>
 <h2 id="心得"><a href="#心得" class="headerlink" title="心得"></a>心得</h2><p>&amp;#8194;&amp;#8194;&amp;#8194;&amp;#8194;故事讲到这里，算是已经都讲完了，也实现了在Mac上直接播放的愿望。其实在学习ffmpeg的过程中还是了解到了很多图像相关的概念的，在这里我只是介绍了ffmpeg冰山一角的能力。当然在学习的过程中也越遇到一些自己一知半解的问题，如果大家有相关经验可以一块交流啊。</p>
 <p>&amp;#8194;&amp;#8194;&amp;#8194;&amp;#8194;<font size=5><strong>最后</strong></font>预祝大家<font size=6 color=red face="微软雅黑"><strong>新</strong></font><font size=4 color=yellow face="微软雅黑"><strong>年</strong></font><font size=5 color=green face="微软雅黑"><strong>快</strong></font><font size=8 color=pink face="微软雅黑"><strong>乐</strong></font> <font size=4><strong>!!!</strong></font></p>
 
-        <div>
-            <ul class="tags-category-list" itemprop="keywords"><li class="tags-category-list-item"><a class="tags-category-list-link" href="/tags/ffmpeg-coverting-format/" rel="tag">ffmpeg, coverting format</a></li></ul>
-        </div>
-        <div class="bottom-line"></div>
-        
-    <nav id="article-nav">
-        
-            <a href="/tech/java/lint/2023/03/05/code-lint/" id="article-nav-newer" class="article-nav-link-wrap">
-        <span class="article-nav-title">
+            </div>
+
             
-                code_lint
+                <div class="post-copyright-info">
+                    <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：ffmpeg_simple_convert</li>
+        <li>Post author：Zengqiang</li>
+        <li>Create time：2023-03-05 11:57:25</li>
+        <li>
+            Post link：https://fdslk.github.io/tech/video/ffmpeg/2023/03/05/ffmpeg-simple-convert/
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+                </div>
             
-        </span>
-                <strong class="article-nav-caption">&gt;</strong>
-            </a>
-        
-        
-            <a href="/tech/video/ffmpeg/2023/03/05/ffmpeg_basic_concept/" id="article-nav-older" class="article-nav-link-wrap">
-                <strong class="article-nav-caption">&lt;</strong>
-                <span class="article-nav-title">
+
+            
+                <ul class="post-tags-box">
                     
-                        ffmpeg_basic_concept
-                </span>
+                        <li class="tag-item">
+                            <a href="/tags/ffmpeg-coverting-format/">#ffmpeg, coverting format</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            
+
+            
+
+            
+                <div class="article-nav">
+                    
+                        <div class="article-prev">
+                            <a class="prev"
+                            rel="prev"
+                            href="/tech/java/lint/2023/03/05/code-lint/"
+                            >
+                                <span class="left arrow-icon flex-center">
+                                    <i class="fa-solid fa-chevron-left"></i>
+                                </span>
+                                <span class="title flex-center">
+                                    <span class="post-nav-title-item">code_lint</span>
+                                    <span class="post-nav-item">Prev posts</span>
+                                </span>
+                            </a>
+                        </div>
+                    
+                    
+                        <div class="article-next">
+                            <a class="next"
+                            rel="next"
+                            href="/tech/video/ffmpeg/2023/03/05/ffmpeg_basic_concept/"
+                            >
+                                <span class="title flex-center">
+                                    <span class="post-nav-title-item">ffmpeg_basic_concept</span>
+                                    <span class="post-nav-item">Next posts</span>
+                                </span>
+                                <span class="right arrow-icon flex-center">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </span>
+                            </a>
+                        </div>
+                    
+                </div>
+            
+
+
+            
+        </div>
+
+        
+            <div class="toc-content-container">
+                <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">On this page</div>
+        <div class="page-title">ffmpeg_simple_convert</div>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B5%85%E8%B0%88ffmpeg"><span class="nav-text">浅谈ffmpeg</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%88%86%E4%BA%AB%E8%BF%99%E4%B8%AA%E7%8E%A9%E6%84%8F"><span class="nav-text">为什么要分享这个玩意</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ffmpeg%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-text">ffmpeg是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ffmpeg%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9F%BA%E7%A1%80%E7%94%A8%E6%B3%95"><span class="nav-text">ffmpeg的一些基础用法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8"><span class="nav-text">使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ffplay"><span class="nav-text">ffplay</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ffprobe"><span class="nav-text">ffprobe</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ffmpeg"><span class="nav-text">ffmpeg</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BF%83%E5%BE%97"><span class="nav-text">心得</span></a></li></ol></li></ol>
+
+    </div>
+</div>
+            </div>
+        
+    </div>
+</div>
+
+
                 
-            </a>
-        
-    </nav>
+
+            </div>
 
 
-        
-    </article>
-    <div id="toc">
-        
-            <h2>Table of Contents</h2>
-            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B5%85%E8%B0%88ffmpeg"><span class="toc-number">1.</span> <span class="toc-text">浅谈ffmpeg</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%88%86%E4%BA%AB%E8%BF%99%E4%B8%AA%E7%8E%A9%E6%84%8F"><span class="toc-number">1.1.</span> <span class="toc-text">为什么要分享这个玩意</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ffmpeg%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.2.</span> <span class="toc-text">ffmpeg是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ffmpeg%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9F%BA%E7%A1%80%E7%94%A8%E6%B3%95"><span class="toc-number">1.3.</span> <span class="toc-text">ffmpeg的一些基础用法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">1.3.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-number">1.3.2.</span> <span class="toc-text">使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ffplay"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">ffplay</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ffprobe"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">ffprobe</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ffmpeg"><span class="toc-number">1.3.2.3.</span> <span class="toc-text">ffmpeg</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%83%E5%BE%97"><span class="toc-number">1.4.</span> <span class="toc-text">心得</span></a></li></ol></li></ol>
-        
-    </div>
-</div>
 
-    </div>
-</div>
-<footer id="footer">
-    <div id="copyright">&copy; Zengqiang Fang  2023</div>
-    <div id="theme">
-        Powered by <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a>. Theme by <a target="_blank" rel="noopener" href="https://github.com/markyong/hexo-theme-stage">Stage</a>
-    </div>
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2023&nbsp;&nbsp;<i class="fa-regular fa-computer-classic"></i>&nbsp;&nbsp;<a href="/">Zengqiang</a>
+        </div>
+        
+            <script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv" class="busuanzi_container_site_uv">
+                        VISITOR COUNT&nbsp;<span id="busuanzi_value_site_uv" class="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="busuanzi_container_site_pv">
+                        TOTAL PAGE VIEWS&nbsp;<span id="busuanzi_value_site_pv" class="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            <span class="powered-by-container">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" href="https://hexo.io">Hexo</a></span>
+                <br> 
+            <span class="theme-version-container">THEME&nbsp;<a class="theme-version" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v1.1.6</a>
+        </div>
+        
+        
+        
+            <div id="start_time_div" style="display:none">
+                2022/8/17 11:45:14
+            </div>
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+        
+            <script async data-pjax>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
 </footer>
-<script src="/lib/js/waterrippleeffect.min.js"></script>
-<script src="/js/header-bg.main.js"></script>
+        </div>
+    </div>
 
-    <script src="/lib/js/smooth-scroll.min.js"></script>
-    <script src="/js/toc.main.js"></script>
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="unfolded-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-expand-width flex-center">
+            <i class="fa-regular fa-expand"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex-center">
+                <i class="fa-regular fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="folded-tools-list">
+        <li class="right-bottom-tools tool-toggle-show flex-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/layouts/menu-shrink.js"></script>
+
+<script src="/js/tools/go-top-bottom.js"></script>
+
+<script src="/js/tools/dark-light-toggle.js"></script>
+
+
+
+
+
+    
+<script src="/js/tools/code-block.js"></script>
+
+
+
+
+    
+<script src="/js/layouts/lazyload.js"></script>
+
+
+
+
+    
+<script src="/js/tools/runtime.js"></script>
+
+    
+<script src="/js/layouts/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+
+<div class="post-scripts pjax">
+    
+        
+<script src="/js/tools/toc-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/layouts/toc.js"></script>
+
+<script src="/js/plugins/tabs.js"></script>
+
+    
+    
+</div>
+
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+            // scrollTo: true,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            REDEFINE.utils.pjaxProgressBarStart();
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            REDEFINE.utils.pjaxProgressBarEnd();
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+            REDEFINE.refresh();
+        });
+    });
+</script>
+
+
+
 
 </body>
 </html>

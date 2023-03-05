@@ -1,61 +1,355 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>ops_skaffold | 🪳的Daily Blog WebSite</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="keywords" content="">
-    <meta name="description" content="minimal CI&amp;#x2F;CD 工具 skaffold&amp;amp;nbsp;
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    <meta name="description" content="Hexo Theme Redefine">
+    <meta name="author" content="Zengqiang">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-redefine.png">
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="http://fdslk.github.io/tech/ops/cd/2023/03/05/ops-skaffold/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="ops_skaffold">
+    <meta property="og:description" content="Hexo Theme Redefine">
+    <meta property="og:url" content="http://fdslk.github.iotech/ops/CD/2023/03/05/ops-skaffold/">
+    <meta property="og:image" content="/images/redefine-logo.svg">
+    <meta property="og:site_name" content="Qiang Brother Blogs">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ops_skaffold">
+    <meta name="twitter:description" content="Hexo Theme Redefine">
+    <meta name="twitter:image" content="/images/redefine-logo.svg">
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/redefine-logo.svg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/redefine-logo.svg">
+    <meta name="theme-color" content="#005080">
+    <link rel="shortcut icon" href="/images/redefine-logo.svg">
+    
+    <title>
+        
+            ops_skaffold -
+        
+        Qiang Brother Blogs
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
 
-阅读时长：30min
+    
+<link rel="stylesheet" href="/assets/fonts.css">
 
-背景 &amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp; 项目上使用了很多的ops工具，但是每一个ops的工具又只使用了一部分的功能。其中Jenkins用来构建我们的pipeline主体框架，打包镜像是采用的skaffold中jib模式，镜像的推送采用的是jenkinsX，部署又是使用的helm+argocd。工具太多，看得人天花乱醉的。让人觉得这个项目很高大上哈哈哈。然后我们不想让这个项目在我们看起来很高大上，所以我们准备一个一个的把这些ops工具来变low（熟悉）。在这篇文章中，我...">
-    
-        <link rel="icon" href="/favicon.ico">
     
     
-        
-            <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
-        
-            <link rel="stylesheet" href="/css/stage.css">
-        
-            <link rel="stylesheet" href="/css/avatar-bg.css">
-        
+    
+    
+    <script id="hexo-configurations">
+    let REDEFINE = window.REDEFINE || {};
+    REDEFINE.hexo_config = {"hostname":"fdslk.github.io","root":"/","language":"en"};
+    REDEFINE.theme_config = {"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true},"style":{"primary_color":"#005080","avatar":"/images/redefine-avatar.svg","favicon":"/images/redefine-logo.svg","article_img_align":"center","right_side_width":"210px","content_max_width":"1000px","nav_color":{"left":"#f78736","right":"#367df7","transparency":35},"hover":{"shadow":true,"scale":false},"first_screen":{"enable":true,"background_image":{"light":"https://evan.beee.top/img/wallhaven-wqery6-light.webp","dark":"https://evan.beee.top/img/wallhaven-wqery6-dark.webp"},"title_color":{"light":"#fff","dark":"#d1d1b6"},"description":"Theme Redefine","custom_font":{"enable":false,"font_family":null,"font_url":null}},"scroll":{"progress_bar":{"enable":true},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":true},"code_block":{"copy":true,"style":"mac","custom_font":{"enable":false,"font_family":null,"font_url":null}},"pjax":{"enable":true},"lazyload":{"enable":true},"version":"1.1.6","friend_links":{"columns":2},"home_article":{"date_format":"auto","category":{"enable":true,"limit":3},"tag":{"enable":true,"limit":3}},"plugins":{"aplayer":{"enable":false,"audio":[{"name":null,"artist":null,"url":null,"cover":null},{"name":null,"artist":null,"url":null,"cover":null}]}}};
+    REDEFINE.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+    
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
     
 <meta name="generator" content="Hexo 6.3.0"></head>
 
+
 <body>
-<header id="header">
-    <div class="menu">
-        <i class="fa fa-bars"></i>
-    </div>
-    <div class="header-main">
-        <h1><a href="/">🪳的Daily Blog WebSite</a></h1>
-    </div>
-    <div id="nav">
-        <div class="nav-img" id="nav-img"></div>
-        <div class="sentences">
-            云里写诗，泥里生活，岁月里洒脱。
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <span class="pjax-progress-icon">
+            <i class="fa-solid fa-circle-notch fa-spin"></i>
+        </span>
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="menu-wrapper">
+    
+    <div class="menu-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Qiang Brother Blogs
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        
+                            <li class="menu-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-ghost"></i>
+                                        
+                                        HOME
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="menu-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/archives"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-ghost"></i>
+                                        
+                                        ARCHIVES
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="menu-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown" 
+                                    href="#" onClick="return false;">
+                                    
+                                        
+                                            <i class="fa-regular fa-ghost"></i>
+                                        
+                                        ABOUT&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                    
+                                        <li>
+                                        <a href="/about">ME
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a target="_blank" rel="noopener" href="https://github.com/Fdslk">GITHUB
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a target="_blank" rel="noopener" href="https://www.jianshu.com/u/aa8ec49eced0">JIANSHU
+                                        </a>
+                                        </li>
+                                    
+                                    </ul>
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
         </div>
     </div>
+
+    <!-- Mobile drawer -->
+    <div class="menu-drawer">
+        <ul class="drawer-menu-list">
+            
+                
+                    <li class="drawer-menu-item flex-center">
+                        <a class="" 
+                        href="/"  >
+                             
+                                
+                                    <i class="fa-regular fa-ghost"></i>
+                                
+                                HOME
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-menu-item flex-center">
+                        <a class="" 
+                        href="/archives"  >
+                             
+                                
+                                    <i class="fa-regular fa-ghost"></i>
+                                
+                                ARCHIVES
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-menu-item flex-center">
+                        <a class="has-dropdown" 
+                        href="#" onClick="return false;">
+                            
+                                
+                                    <i class="fa-regular fa-ghost"></i>
+                                
+                                ABOUT&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                              
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" href="/about">ME</a>
+                            </li>
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://github.com/Fdslk">GITHUB</a>
+                            </li>
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://www.jianshu.com/u/aa8ec49eced0">JIANSHU</a>
+                            </li>
+                        
+                    
+            
+
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
 </header>
 
-<div id="content-outer">
-    <div id="content-inner">
-        <div class="clearfix">
-    <article id="post">
-        <h1>ops_skaffold</h1>
-        <div class="create">
-            <span>Created</span>
-            
-                <time datetime="2023-03-05T06:57:57.000Z">
-                    2023-03-05
-                </time>
-            
-            <ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/">tech</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/ops/">ops</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/ops/CD/">CD</a></li></ul></li></ul></li></ul>
+
         </div>
-        <h2 id="minimal-CI-x2F-CD-工具-skaffold"><a href="#minimal-CI-x2F-CD-工具-skaffold" class="headerlink" title="minimal CI&#x2F;CD 工具 skaffold"></a>minimal CI&#x2F;CD 工具 skaffold</h2><p>&amp;nbsp;</p>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="post-page-container">
+        <div class="article-content-container">
+
+            
+            
+                <div class="article-title">
+                    <h1 class="article-title-regular">ops_skaffold</h1>
+                </div>
+            
+                
+            
+
+            
+                <div class="article-header">
+                    <div class="avatar">
+                        <img src="/images/redefine-avatar.svg">
+                    </div>
+                    <div class="info">
+                        <div class="author">
+                            <span class="name">Zengqiang</span>
+                            
+                                <span class="author-label">biking</span>
+                            
+                        </div>
+                        <div class="meta-info">
+                            <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="pc">2023-03-05 14:57:57</span>
+        <span class="mobile">2023-03-05 14:57</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="pc">2023-03-05 15:06:38</span>
+            <span class="mobile">2023-03-05 15:06</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/tech/">tech</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        &gt; <a href="/categories/tech/ops/">ops</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        &gt; <a href="/categories/tech/ops/CD/">CD</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="article-content markdown-body">
+                <h2 id="minimal-CI-x2F-CD-工具-skaffold"><a href="#minimal-CI-x2F-CD-工具-skaffold" class="headerlink" title="minimal CI&#x2F;CD 工具 skaffold"></a>minimal CI&#x2F;CD 工具 skaffold</h2><p>&amp;nbsp;</p>
 <ul>
 <li><p>阅读时长：30min</p>
 </li>
@@ -64,7 +358,12 @@
 <li><p><font color="Green" size="5"><strong>Skaffold是什么?</strong></font><br>  Skaffold是一个可以让kubernetes本地应用程序的持续开发更容易的命令行工具，换句话来说Skaffold能够用很便捷的方式在本地k8s集群中很快部署的一类工具。<br>* 利用dockerfile，jib（Maven&amp;Gradle）等工具打包镜像以及推送镜像<br>* 与kubectl或者helm chart集成，在本地k8s集群中部署docker镜像<br>* 利用container-structure-test或者test command测试镜像或者代码<br>* 热更新服务<br>* 端口暴露</p>
 <ul>
 <li>Skaffold的主要workflow包括代码变动的检查，代码镜像的构建，镜像的测试，镜像的推送以及镜像的部署。是一个可以实现一个最小单元的minimal pipeline，如摘自官网的【图一】所示。</li>
-<li>Skaffold是一个基于<strong>golang</strong>开发的<strong>cobra.Command</strong> library的CLI应用工具。使用brew install skaffold安装好之后，skaffold的可执行文件被移动到了系统的 <strong>&#x2F;usr&#x2F;local&#x2F;bin</strong>目录下。<br>  <img src="https://user-images.githubusercontent.com/6279298/160609255-b9b1fe0c-853e-467e-9c17-acd31743e29f.png" alt="【图一】"><p style="text-align:center" > 【图一】 </p></li>
+<li>Skaffold是一个基于<strong>golang</strong>开发的<strong>cobra.Command</strong> library的CLI应用工具。使用brew install skaffold安装好之后，skaffold的可执行文件被移动到了系统的 <strong>&#x2F;usr&#x2F;local&#x2F;bin</strong>目录下。<br>  <img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/6279298/160609255-b9b1fe0c-853e-467e-9c17-acd31743e29f.png"
+                      alt="【图一】"
+                ><p style="text-align:center" > 【图一】 </p></li>
 </ul>
 </li>
 <li><p><font color="pink" size="5"><strong>怎么用？</strong></font><br>  </br> &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;上面说了这么多的skaffold的介绍，那么这个工具具体怎么用？本文将以<strong>java webflux application</strong>来作为我们的demo。</p>
@@ -90,23 +389,38 @@
 <li>workflow<ul>
 <li><p>Skaffold初始化</p>
 <ul>
-<li>在当前项目的目录下执行<font style="font-family:courier;" size="4"><em><strong>Skaffold init</strong></em></font>，skaffold会根据项目构建工具来进行打包。因为在pom文件中指定了jib打包，如【图二】所示。当skaffold检测到项目中使用的jib 插件打包项目镜像时，将会出现如【图三】所示的提示。<br>  <img src="https://user-images.githubusercontent.com/6279298/160611958-6d8a5056-5cea-4f8b-91a7-735b2f103068.png" alt="【图二】">  <p style="text-align:center" > 【图二】 </p></li>
+<li>在当前项目的目录下执行<font style="font-family:courier;" size="4"><em><strong>Skaffold init</strong></em></font>，skaffold会根据项目构建工具来进行打包。因为在pom文件中指定了jib打包，如【图二】所示。当skaffold检测到项目中使用的jib 插件打包项目镜像时，将会出现如【图三】所示的提示。<br>  <img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/6279298/160611958-6d8a5056-5cea-4f8b-91a7-735b2f103068.png"
+                      alt="【图二】"
+                >  <p style="text-align:center" > 【图二】 </p></li>
 </ul>
-<p>  <img src="https://user-images.githubusercontent.com/6279298/160623736-9666d566-ddc0-49f1-8c39-5c9f8b4c6905.png" alt="【图三】"><br>  <p style="text-align:center" > 【图三】 </p></p>
+<p>  <img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/6279298/160623736-9666d566-ddc0-49f1-8c39-5c9f8b4c6905.png"
+                      alt="【图三】"
+                ><br>  <p style="text-align:center" > 【图三】 </p></p>
 <ul>
 <li>Tips：    <ul>
 <li><p>如果使用skaffold的init命令来初始化manifest，默认会初始化使用kubectl的方式来部署镜像。所以会出现如【图四】所示的错误。处理方式很简单，在当前目录下添加上k8s manifest（最简单就是一个pods.yaml文件，如果需要配置更多，加上对应的deployment，</p>
 </li>
 <li><p>如果对于k8s manifest没有什么特殊的要求（只需要让当前项目能够在本地的k8s cluster中run起来）</p>
 <ul>
-<li>生成k8s manifest    <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">            kubectl create deployment my-app --image=my-image --dry-run -o yaml &gt; deployment.yaml</span><br><span class="line">            ```   </span><br><span class="line">            * 在run skaffold init生成对应的skaffold</span><br><span class="line">            service）即可。</span><br><span class="line"></span><br><span class="line">![【图四】](https://user-images.githubusercontent.com/6279298/160624657-094f90bd-6179-455a-948f-77dac043a3ce.png)</span><br><span class="line">    &lt;p style=&quot;text-align:center&quot; &gt; 【图四】 &lt;/p&gt;</span><br><span class="line"></span><br><span class="line">* 构建镜像</span><br><span class="line">    * 运行命令&lt;font style=&quot;font-family:courier;&quot; size=&quot;4&quot;&gt;***skaffold build***&lt;/font&gt;</span><br><span class="line">    * skaffold提供给了多种打包方式，包括Dockerfile，jib maven&amp;gradle，buildpacks，Bazel，Ko，custom script。</span><br><span class="line">    * 当前demo中使用了jib maven的方式打包，只需要在skaffold中指定build的方式如下所示的配置：</span><br><span class="line"></span><br><span class="line">    ```yaml</span><br><span class="line">    build:</span><br><span class="line">        artifacts:</span><br><span class="line">        - image: skaffold-webflux-example</span><br><span class="line">            jib:</span><br><span class="line">            args:</span><br><span class="line">            - -Psync</span><br><span class="line">            sync: </span><br><span class="line">                auto: true</span><br><span class="line">        local: &#123;&#125;</span><br></pre></td></tr></table></figure></li>
+<li>生成k8s manifest    <div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">            kubectl create deployment my-app --image=my-image --dry-run -o yaml &gt; deployment.yaml</span><br><span class="line">            ```   </span><br><span class="line">            * 在run skaffold init生成对应的skaffold</span><br><span class="line">            service）即可。</span><br><span class="line"></span><br><span class="line">![【图四】](https://user-images.githubusercontent.com/6279298/160624657-094f90bd-6179-455a-948f-77dac043a3ce.png)</span><br><span class="line">    &lt;p style=&quot;text-align:center&quot; &gt; 【图四】 &lt;/p&gt;</span><br><span class="line"></span><br><span class="line">* 构建镜像</span><br><span class="line">    * 运行命令&lt;font style=&quot;font-family:courier;&quot; size=&quot;4&quot;&gt;***skaffold build***&lt;/font&gt;</span><br><span class="line">    * skaffold提供给了多种打包方式，包括Dockerfile，jib maven&amp;gradle，buildpacks，Bazel，Ko，custom script。</span><br><span class="line">    * 当前demo中使用了jib maven的方式打包，只需要在skaffold中指定build的方式如下所示的配置：</span><br><span class="line"></span><br><span class="line">    ```yaml</span><br><span class="line">    build:</span><br><span class="line">        artifacts:</span><br><span class="line">        - image: skaffold-webflux-example</span><br><span class="line">            jib:</span><br><span class="line">            args:</span><br><span class="line">            - -Psync</span><br><span class="line">            sync: </span><br><span class="line">                auto: true</span><br><span class="line">        local: &#123;&#125;</span><br></pre></td></tr></table></figure></div></li>
 </ul>
 </li>
 </ul>
 </li>
 <li>在运行<font style="font-family:courier;" size="4"><em><strong>docker images</strong></em></font>查看镜像是否，打包成功，如【图五】所示：</li>
 </ul>
-<p>  <img src="https://user-images.githubusercontent.com/6279298/160626812-97cc9ac5-3200-46d9-9268-797b578a3944.png" alt="【图五】"><br>  <p style="text-align:center" > 【图五】 </p>                  </p>
+<p>  <img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/6279298/160626812-97cc9ac5-3200-46d9-9268-797b578a3944.png"
+                      alt="【图五】"
+                ><br>  <p style="text-align:center" > 【图五】 </p>                  </p>
 </li>
 <li><p>测试镜像</p>
 <ul>
@@ -123,8 +437,13 @@
 <li>部署方式的支持<ul>
 <li>Kubectl <font color="yellow">*</font> （在demo中采用kubectl apply的方式来部署镜像）<ul>
 <li><p>运行命令<font style="font-family:courier;" size="4"><em><strong>Skaffold deploy</strong></em></font>，并在skaffold.yaml中加入如下的配置：</p>
-  <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">    <span class="attr">kubectl:</span></span><br><span class="line">        <span class="attr">manifests:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">k8s-web.yaml</span></span><br></pre></td></tr></table></figure></li>
-<li><p>使用<em><strong>kubectl get pods</strong></em>，查看节点是否部署成功，如【图六】所示：<br>  <img src="https://user-images.githubusercontent.com/6279298/160628288-7d5d16a0-77e0-47c9-993c-32fa2823fce1.png" alt="【图六】"></p>
+  <div class="highlight-container" data-rel="Yaml"><figure class="iseeu highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">    <span class="attr">kubectl:</span></span><br><span class="line">        <span class="attr">manifests:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">k8s-web.yaml</span></span><br></pre></td></tr></table></figure></div></li>
+<li><p>使用<em><strong>kubectl get pods</strong></em>，查看节点是否部署成功，如【图六】所示：<br>  <img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/6279298/160628288-7d5d16a0-77e0-47c9-993c-32fa2823fce1.png"
+                      alt="【图六】"
+                ></p>
 </li>
 <li><p>使用<em><strong>kubectl port-forward 【pods name】 8080:8080</strong></em>, 运行<code>curl --get http://localhost:8080/hello</code>，查看服务是否能够成功被访问。（部署之后，k8s中的服务的端口并没有被暴露，所以需要操作一下端口映射）。</p>
 </li>
@@ -151,9 +470,9 @@
 <li>时间戳</li>
 </ul>
 </li>
-<li><font style="font-family:courier;" size="4"><em><strong>Port forward</strong></em></font> （端口映射)  <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">portForward:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">resourceType:</span> <span class="string">deployment</span></span><br><span class="line"><span class="attr">resourceName:</span> <span class="string">skaffold-webflux-example-web</span></span><br><span class="line"><span class="attr">namespace:</span> <span class="string">default</span></span><br><span class="line"><span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line"><span class="attr">localPort:</span> <span class="number">8080</span>    </span><br></pre></td></tr></table></figure></li>
+<li><font style="font-family:courier;" size="4"><em><strong>Port forward</strong></em></font> （端口映射)  <div class="highlight-container" data-rel="Yaml"><figure class="iseeu highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">portForward:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">resourceType:</span> <span class="string">deployment</span></span><br><span class="line"><span class="attr">resourceName:</span> <span class="string">skaffold-webflux-example-web</span></span><br><span class="line"><span class="attr">namespace:</span> <span class="string">default</span></span><br><span class="line"><span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line"><span class="attr">localPort:</span> <span class="number">8080</span>    </span><br></pre></td></tr></table></figure></div></li>
 <li><font style="font-family:courier;" size="4"><em><strong>File sync</strong></em></font>（热部署）<ul>
-<li>auto，仅适用于jib，bulidpack的打包模式，加入一下配置  <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">jib:</span></span><br><span class="line">    <span class="attr">args:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">-Psync</span></span><br></pre></td></tr></table></figure></li>
+<li>auto，仅适用于jib，bulidpack的打包模式，加入一下配置  <div class="highlight-container" data-rel="Yaml"><figure class="iseeu highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">jib:</span></span><br><span class="line">    <span class="attr">args:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">-Psync</span></span><br></pre></td></tr></table></figure></div></li>
 <li>infer</li>
 <li>manual</li>
 </ul>
@@ -161,7 +480,7 @@
 </ul>
 </li>
 <li><p>完整skaffold yaml manifest</p>
-  <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">skaffold/v2beta26</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Config</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">rxjavademo</span></span><br><span class="line"><span class="attr">build:</span></span><br><span class="line"><span class="attr">tagPolicy:</span></span><br><span class="line">    <span class="attr">envTemplate:</span></span><br><span class="line">    <span class="attr">template:</span> <span class="string">&quot;<span class="template-variable">&#123;&#123;.FOO&#125;&#125;</span>&quot;</span></span><br><span class="line"><span class="attr">artifacts:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">image:</span> <span class="string">skaffold-webflux-example</span></span><br><span class="line">    <span class="attr">jib:</span></span><br><span class="line">    <span class="attr">args:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">-Psync</span></span><br><span class="line">    <span class="attr">sync:</span> </span><br><span class="line">    <span class="attr">auto:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">local:</span> &#123;&#125;</span><br><span class="line">    </span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line"><span class="attr">kubectl:</span></span><br><span class="line">    <span class="attr">manifests:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">k8s-web.yaml</span></span><br><span class="line"></span><br><span class="line"><span class="attr">test:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">image:</span> <span class="string">skaffold-webflux-example</span></span><br><span class="line">    <span class="attr">structureTests:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;./structure-test/*&#x27;</span></span><br><span class="line">    <span class="attr">custom:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">command:</span> <span class="string">./scripts/test.sh</span></span><br><span class="line">        <span class="attr">timeoutSeconds:</span> <span class="number">60</span></span><br><span class="line"></span><br><span class="line"><span class="attr">portForward:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">resourceType:</span> <span class="string">deployment</span></span><br><span class="line"><span class="attr">resourceName:</span> <span class="string">skaffold-webflux-example-web</span></span><br><span class="line"><span class="attr">namespace:</span> <span class="string">default</span></span><br><span class="line"><span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line"><span class="attr">localPort:</span> <span class="number">8080</span>    </span><br></pre></td></tr></table></figure></li>
+  <div class="highlight-container" data-rel="Yaml"><figure class="iseeu highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">skaffold/v2beta26</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Config</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">rxjavademo</span></span><br><span class="line"><span class="attr">build:</span></span><br><span class="line"><span class="attr">tagPolicy:</span></span><br><span class="line">    <span class="attr">envTemplate:</span></span><br><span class="line">    <span class="attr">template:</span> <span class="string">&quot;<span class="template-variable">&#123;&#123;.FOO&#125;&#125;</span>&quot;</span></span><br><span class="line"><span class="attr">artifacts:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">image:</span> <span class="string">skaffold-webflux-example</span></span><br><span class="line">    <span class="attr">jib:</span></span><br><span class="line">    <span class="attr">args:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">-Psync</span></span><br><span class="line">    <span class="attr">sync:</span> </span><br><span class="line">    <span class="attr">auto:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">local:</span> &#123;&#125;</span><br><span class="line">    </span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line"><span class="attr">kubectl:</span></span><br><span class="line">    <span class="attr">manifests:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">k8s-web.yaml</span></span><br><span class="line"></span><br><span class="line"><span class="attr">test:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">image:</span> <span class="string">skaffold-webflux-example</span></span><br><span class="line">    <span class="attr">structureTests:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;./structure-test/*&#x27;</span></span><br><span class="line">    <span class="attr">custom:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">command:</span> <span class="string">./scripts/test.sh</span></span><br><span class="line">        <span class="attr">timeoutSeconds:</span> <span class="number">60</span></span><br><span class="line"></span><br><span class="line"><span class="attr">portForward:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">resourceType:</span> <span class="string">deployment</span></span><br><span class="line"><span class="attr">resourceName:</span> <span class="string">skaffold-webflux-example-web</span></span><br><span class="line"><span class="attr">namespace:</span> <span class="string">default</span></span><br><span class="line"><span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line"><span class="attr">localPort:</span> <span class="number">8080</span>    </span><br></pre></td></tr></table></figure></div></li>
 </ul>
 </li>
 </ul>
@@ -170,16 +489,26 @@
 <ul>
 <li><p><font color="" size="4"><strong>这个是做这个分享中最坑的一个部分！！!</strong></font>根据文档中的介绍，如果是使用jib模式的话，可以采用<code>auto aync</code>的方式。设置之后，并不生效，反而会报错， <code>WARN[0044] Skipping deploy due to sync error: copying files: didn&#39;t sync any files</code></p>
 </li>
-<li><p>在git上遇见相同的问题<br>  <a target="_blank" rel="noopener" href="https://github.com/GoogleContainerTools/skaffold/issues/4246">Skipping deploy due to sync error: copying files: didn’t sync any files #4246
-  </a></p>
+<li><p>在git上遇见相同的问题<br>  <a class="link"   target="_blank" rel="noopener" href="https://github.com/GoogleContainerTools/skaffold/issues/4246" >Skipping deploy due to sync error: copying files: didn’t sync any files #4246
+   <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
 </li>
-<li><p>当时我使用的版本是<strong>1.35.0</strong>，然后我升级到了最新的版本<code>brew ungrade skaffold</code>，然后deploy镜像，满心欢喜的想着，改变代码，能够热部署。文件确实被显示生效了，但是，application的内容并没有更新。如下所示：<br>  <img src="https://user-images.githubusercontent.com/6279298/160637419-babb88a1-7190-4076-83fa-6e7b36d2f356.gif" alt="not work"></p>
+<li><p>当时我使用的版本是<strong>1.35.0</strong>，然后我升级到了最新的版本<code>brew ungrade skaffold</code>，然后deploy镜像，满心欢喜的想着，改变代码，能够热部署。文件确实被显示生效了，但是，application的内容并没有更新。如下所示：<br>  <img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/6279298/160637419-babb88a1-7190-4076-83fa-6e7b36d2f356.gif"
+                      alt="not work"
+                ></p>
 </li>
-<li><p>没生效之前采用的部署模式是<strong>skaffold+helm</strong>的模式（为啥没有生效得继续读读源码了23333），我换了一种模式，采用了<strong>skaffold+kubectl</strong>的部署模式。首先在项目的pom文件中添加一个id为sync的Profiles，该依赖的作用是，只要类路径上的文件发生变化，使用<strong>spring-boot-devtools</strong>的应用程序就会<a target="_blank" rel="noopener" href="https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools.restart">自动重启</a>，如下所示：</p>
-  <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">profiles</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">profile</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">id</span>&gt;</span>sync<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-devtools<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">optional</span>&gt;</span>true<span class="tag">&lt;/<span class="name">optional</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">profile</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">profiles</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>没生效之前采用的部署模式是<strong>skaffold+helm</strong>的模式（为啥没有生效得继续读读源码了23333），我换了一种模式，采用了<strong>skaffold+kubectl</strong>的部署模式。首先在项目的pom文件中添加一个id为sync的Profiles，该依赖的作用是，只要类路径上的文件发生变化，使用<strong>spring-boot-devtools</strong>的应用程序就会<a class="link"   target="_blank" rel="noopener" href="https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools.restart" >自动重启 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>，如下所示：</p>
+  <div class="highlight-container" data-rel="Xml"><figure class="iseeu highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">profiles</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">profile</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">id</span>&gt;</span>sync<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-devtools<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">optional</span>&gt;</span>true<span class="tag">&lt;/<span class="name">optional</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">profile</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">profiles</span>&gt;</span></span><br></pre></td></tr></table></figure></div></li>
 <li><p>然后在skaffold.yaml的<strong>build</strong>的section中加了以下的内容，这样可以为maven传递参数，从而激活profile，让application重新启动</p>
-  <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">jib:</span></span><br><span class="line">    <span class="attr">args:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">-Psync</span></span><br></pre></td></tr></table></figure></li>
-<li><p>终于成功了！！！！<br>  <img src="https://user-images.githubusercontent.com/6279298/160638449-ee65fd8b-d833-42b3-a5f6-0ebc0b67e8ae.gif" alt="ok"></p>
+  <div class="highlight-container" data-rel="Yaml"><figure class="iseeu highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">jib:</span></span><br><span class="line">    <span class="attr">args:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">-Psync</span></span><br></pre></td></tr></table></figure></div></li>
+<li><p>终于成功了！！！！<br>  <img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/6279298/160638449-ee65fd8b-d833-42b3-a5f6-0ebc0b67e8ae.gif"
+                      alt="ok"
+                ></p>
 </li>
 </ul>
 </li>
@@ -212,60 +541,329 @@
 <ul>
 <li><font style="font-family:courier;" size="5" color="yellow">感谢大家看到最后，如果不正确的地方，不吝赐教</font></li>
 </ul>
-<p><a target="_blank" rel="noopener" href="https://github.com/Fdslk/ops/tree/main/skaffoldDemo">skaffold</a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/Fdslk/ops/tree/main/skaffoldDemo" >skaffold <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
 
-        <div>
+            </div>
+
+            
+                <div class="post-copyright-info">
+                    <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：ops_skaffold</li>
+        <li>Post author：Zengqiang</li>
+        <li>Create time：2023-03-05 14:57:57</li>
+        <li>
+            Post link：https://fdslk.github.io/tech/ops/CD/2023/03/05/ops-skaffold/
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+                </div>
+            
+
+            
+
+            
+
+            
+                <div class="article-nav">
+                    
+                        <div class="article-prev">
+                            <a class="prev"
+                            rel="prev"
+                            href="/tech/ops/package/2023/03/05/ops-helm/"
+                            >
+                                <span class="left arrow-icon flex-center">
+                                    <i class="fa-solid fa-chevron-left"></i>
+                                </span>
+                                <span class="title flex-center">
+                                    <span class="post-nav-title-item">ops_helm</span>
+                                    <span class="post-nav-item">Prev posts</span>
+                                </span>
+                            </a>
+                        </div>
+                    
+                    
+                        <div class="article-next">
+                            <a class="next"
+                            rel="next"
+                            href="/tech/ops/CD/2023/03/05/ops-argocd/"
+                            >
+                                <span class="title flex-center">
+                                    <span class="post-nav-title-item">ops_argocd</span>
+                                    <span class="post-nav-item">Next posts</span>
+                                </span>
+                                <span class="right arrow-icon flex-center">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </span>
+                            </a>
+                        </div>
+                    
+                </div>
+            
+
+
             
         </div>
-        <div class="bottom-line"></div>
+
         
-    <nav id="article-nav">
+            <div class="toc-content-container">
+                <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">On this page</div>
+        <div class="page-title">ops_skaffold</div>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#minimal-CI-x2F-CD-%E5%B7%A5%E5%85%B7-skaffold"><span class="nav-text">minimal CI&#x2F;CD 工具 skaffold</span></a></li></ol>
+
+    </div>
+</div>
+            </div>
         
-            <a href="/tech/ops/package/2023/03/05/ops-helm/" id="article-nav-newer" class="article-nav-link-wrap">
-        <span class="article-nav-title">
-            
-                ops_helm
-            
-        </span>
-                <strong class="article-nav-caption">&gt;</strong>
-            </a>
-        
-        
-            <a href="/tech/ops/CD/2023/03/05/ops-argocd/" id="article-nav-older" class="article-nav-link-wrap">
-                <strong class="article-nav-caption">&lt;</strong>
-                <span class="article-nav-title">
-                    
-                        ops_argocd
-                </span>
+    </div>
+</div>
+
+
                 
-            </a>
-        
-    </nav>
+
+            </div>
 
 
-        
-    </article>
-    <div id="toc">
-        
-            <h2>Table of Contents</h2>
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#minimal-CI-x2F-CD-%E5%B7%A5%E5%85%B7-skaffold"><span class="toc-number">1.</span> <span class="toc-text">minimal CI&#x2F;CD 工具 skaffold</span></a></li></ol>
-        
-    </div>
-</div>
 
-    </div>
-</div>
-<footer id="footer">
-    <div id="copyright">&copy; Zengqiang Fang  2023</div>
-    <div id="theme">
-        Powered by <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a>. Theme by <a target="_blank" rel="noopener" href="https://github.com/markyong/hexo-theme-stage">Stage</a>
-    </div>
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2023&nbsp;&nbsp;<i class="fa-regular fa-computer-classic"></i>&nbsp;&nbsp;<a href="/">Zengqiang</a>
+        </div>
+        
+            <script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv" class="busuanzi_container_site_uv">
+                        VISITOR COUNT&nbsp;<span id="busuanzi_value_site_uv" class="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="busuanzi_container_site_pv">
+                        TOTAL PAGE VIEWS&nbsp;<span id="busuanzi_value_site_pv" class="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            <span class="powered-by-container">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" href="https://hexo.io">Hexo</a></span>
+                <br> 
+            <span class="theme-version-container">THEME&nbsp;<a class="theme-version" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v1.1.6</a>
+        </div>
+        
+        
+        
+            <div id="start_time_div" style="display:none">
+                2022/8/17 11:45:14
+            </div>
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+        
+            <script async data-pjax>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
 </footer>
-<script src="/lib/js/waterrippleeffect.min.js"></script>
-<script src="/js/header-bg.main.js"></script>
+        </div>
+    </div>
 
-    <script src="/lib/js/smooth-scroll.min.js"></script>
-    <script src="/js/toc.main.js"></script>
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="unfolded-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-expand-width flex-center">
+            <i class="fa-regular fa-expand"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex-center">
+                <i class="fa-regular fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="folded-tools-list">
+        <li class="right-bottom-tools tool-toggle-show flex-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/layouts/menu-shrink.js"></script>
+
+<script src="/js/tools/go-top-bottom.js"></script>
+
+<script src="/js/tools/dark-light-toggle.js"></script>
+
+
+
+
+
+    
+<script src="/js/tools/code-block.js"></script>
+
+
+
+
+    
+<script src="/js/layouts/lazyload.js"></script>
+
+
+
+
+    
+<script src="/js/tools/runtime.js"></script>
+
+    
+<script src="/js/layouts/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+
+<div class="post-scripts pjax">
+    
+        
+<script src="/js/tools/toc-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/layouts/toc.js"></script>
+
+<script src="/js/plugins/tabs.js"></script>
+
+    
+    
+</div>
+
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+            // scrollTo: true,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            REDEFINE.utils.pjaxProgressBarStart();
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            REDEFINE.utils.pjaxProgressBarEnd();
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+            REDEFINE.refresh();
+        });
+    });
+</script>
+
+
+
 
 </body>
 </html>
