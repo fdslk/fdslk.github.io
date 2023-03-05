@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>ops_vanish | 🪳的Daily Blog WebSite</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Varnish using for new fresh What is varnish  Varnish is a http  cache tool for accelerating http request response. The configuration language of varnish is named as VCL, which can handle the incoming">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ops_vanish">
+<meta property="og:url" content="http://fdslk.github.io/tech/ops/cache/2023/03/05/ops-vanish/index.html">
+<meta property="og:site_name" content="🪳的Daily Blog WebSite">
+<meta property="og:description" content="Varnish using for new fresh What is varnish  Varnish is a http  cache tool for accelerating http request response. The configuration language of varnish is named as VCL, which can handle the incoming">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://user-images.githubusercontent.com/6279298/165006846-8501c3a2-e6ea-43c6-81c1-88416128468c.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/6279298/165884032-802f7273-aa55-4aee-8109-eff0742a445d.png">
+<meta property="article:published_time" content="2023-03-05T07:04:12.000Z">
+<meta property="article:modified_time" content="2023-03-05T07:07:12.053Z">
+<meta property="article:author" content="Zengqiang Fang">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/6279298/165006846-8501c3a2-e6ea-43c6-81c1-88416128468c.png">
+  
+    <link rel="alternate" href="/atom.xml" title="🪳的Daily Blog WebSite" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">🪳的Daily Blog WebSite</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://fdslk.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-ops-vanish" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/tech/ops/cache/2023/03/05/ops-vanish/" class="article-date">
+  <time class="dt-published" datetime="2023-03-05T07:04:12.000Z" itemprop="datePublished">2023-03-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/tech/">tech</a>►<a class="article-category-link" href="/categories/tech/ops/">ops</a>►<a class="article-category-link" href="/categories/tech/ops/cache/">cache</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      ops_vanish
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Varnish-using-for-new-fresh"><a href="#Varnish-using-for-new-fresh" class="headerlink" title="Varnish using for new fresh"></a>Varnish using for new fresh</h1><ul>
+<li><p><strong>What</strong> is varnish</p>
+<ul>
+<li>Varnish is a http  cache tool for accelerating http request response.</li>
+<li>The configuration language of varnish is named as <strong>VCL</strong>, which can handle the incoming requests<ul>
+<li>decide what content you want to server</li>
+<li>from where you want to get the content</li>
+<li>how the request or response should be altered</li>
+<li>beef-sandwich<br><img src="https://user-images.githubusercontent.com/6279298/165006846-8501c3a2-e6ea-43c6-81c1-88416128468c.png" alt="varnish in network"></li>
+<li>How does it work<ul>
+<li>based on VCL program, it can ‘Which backend has this content, how long time can we cache it, is it accessible for this request, should it be redirected elsewhere and so on’.</li>
+<li><strong>VCL</strong> can be compiled into C-program which is complied into a shared lib. <strong>This will happen to varnish loads VCL program.</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>core features<ul>
+<li>caching, using Cache-Control HTTP header</li>
+<li>Content Composition</li>
+<li>support many different OS platforms</li>
+<li>full control of every request</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>How</strong> to install varnish</p>
+<ul>
+<li><code>brew install varnish</code></li>
+<li><code>sudo mv  /usr/local/opt/varnish/sbin/varnishd /usr/local/bin/</code></li>
+<li>then varnishd can be executed directly</li>
+</ul>
+</li>
+<li><p><strong>How</strong> to use varnish</p>
+<ul>
+<li><p>in local</p>
+<ul>
+<li>add default.vcl file</li>
+<li>run the following cmd <code>varnishd -a :6081,HTTP -f default.vcl -F</code><ul>
+<li>-a listening port</li>
+<li>-f configuration file location</li>
+<li>-F run varnish in the front</li>
+</ul>
+</li>
+<li>call the <code>127.0.0.1/api/public</code> for testing</li>
+</ul>
+</li>
+<li><p>by docker</p>
+<ul>
+<li><p>use docker cmd directly</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">docker run --rm -v $(PWD)/default-docker.vcl:/etc/varnish/default.vcl:ro \  </span><br><span class="line">    --tmpfs /var/lib/varnish/varnishd:exec \</span><br><span class="line">    --name my-varnish-container \</span><br><span class="line">    -p 8081:80 \</span><br><span class="line">    -e VARNISH_SIZE=2G \</span><br><span class="line">    varnish</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>varnish proxy the local machine service, the host of vcl should be set as <strong>“docker.mac.for.localhost”</strong>.</li>
+<li>tips:<ul>
+<li>varnish port in docker is <strong>80</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>use docker file</p>
+<ul>
+<li><p>create a docker file</p>
+</li>
+<li><p>mount the vcl file into your custom image</p>
+</li>
+<li><p>run your custom image</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -it --tmpfs /var/lib/varnish/varnishd:exec -p <span class="number">8081</span>:<span class="number">80</span> local-varnish</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>docker-compose</p>
+</li>
+</ul>
+</li>
+<li><p>in local k8s</p>
+<ul>
+<li>create k8s configMap for mounting default.vcl</li>
+</ul>
+<p><code>kubectl create configmap varnish-vcl --from-file=default.vcl</code></p>
+<ul>
+<li>deploy</li>
+</ul>
+<p><code>kubectl apply -f deployment/deployment.yaml</code></p>
+<ul>
+<li>call api</li>
+</ul>
+<p><code>http://localhost:6081/api/public</code></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;message&quot;</span><span class="punctuation">:</span> <span class="string">&quot;All good. You DO NOT need to be authenticated to call /api/public.&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>validate</p>
+<ul>
+<li><p>step1</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl exec -it varnish-proxy-5b4844596c-22hsl -c varnish-for-be -- sh</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>step2<br><code>run varnishlog</code><br><img src="https://user-images.githubusercontent.com/6279298/165884032-802f7273-aa55-4aee-8109-eff0742a445d.png" alt="request detail"></p>
+</li>
+</ul>
+</li>
+<li><p>issue:</p>
+<ul>
+<li>if not define the <strong>Type</strong> in service yaml, it will use the default value <strong>ClusterIP</strong></li>
+<li>Solution: add <strong>type: NodePort</strong> under spec section</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://github.com/Fdslk/ops/tree/main/varnish">varnish</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://fdslk.github.io/tech/ops/cache/2023/03/05/ops-vanish/" data-id="clev2anbc001lj8hs661u12am" data-title="ops_vanish" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/tech/ops/log/2023/03/05/ops-log-management/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          ops_log_management
+        
+      </div>
+    </a>
+  
+  
+    <a href="/tech/ops/k8s/secret/2023/03/05/ops-k8s-secret/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">ops_k8s_secret</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">tech</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/dotnet-core/">dotnet-core</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/">java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/design-pattern/">design-pattern</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/lint/">lint</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/spring-boot/">spring-boot</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/spring-boot/101/">101</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/spring-boot/auth0/">auth0</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/spring-boot/jwt/">jwt</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/spring-boot/starter/">starter</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/spring-boot/webflux/">webflux</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/swagger/">swagger</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/swagger/open-api/">open-api</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/kotlin/">kotlin</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/kotlin/101/">101</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/kotlin/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/kotlin/idea-pulgins/">idea pulgins</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/ops/">ops</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/ops/CD/">CD</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/ops/cache/">cache</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/ops/k8s/">k8s</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/ops/k8s/secret/">secret</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/ops/log/">log</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/ops/package/">package</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/shell/">shell</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/test/">test</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/test/gatling/">gatling</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/test/java/">java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/test/java/es/">es</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/video/">video</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/video/ffmpeg/">ffmpeg</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/techt/">techt</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/techt/java/">java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/techt/java/java-feature-option-optional/">java feature option-optional</a></li></ul></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/elastic-search-java-test/" rel="tag">elastic search, java, test</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es/" rel="tag">es</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ffmpeg/" rel="tag">ffmpeg</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ffmpeg-coverting-format/" rel="tag">ffmpeg, coverting format</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ffmpeg-media-server/" rel="tag">ffmpeg, media-server</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-design-pattern-easy-rule/" rel="tag">java, design-pattern, easy-rule</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-lint/" rel="tag">java, lint</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-spring-customer-starter/" rel="tag">java, spring, customer-starter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-spring-boot-auth0/" rel="tag">java, spring-boot, auth0</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/elastic-search-java-test/" style="font-size: 10px;">elastic search, java, test</a> <a href="/tags/es/" style="font-size: 10px;">es</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/ffmpeg-coverting-format/" style="font-size: 10px;">ffmpeg, coverting format</a> <a href="/tags/ffmpeg-media-server/" style="font-size: 10px;">ffmpeg, media-server</a> <a href="/tags/java-design-pattern-easy-rule/" style="font-size: 10px;">java, design-pattern, easy-rule</a> <a href="/tags/java-lint/" style="font-size: 10px;">java, lint</a> <a href="/tags/java-spring-customer-starter/" style="font-size: 10px;">java, spring, customer-starter</a> <a href="/tags/java-spring-boot-auth0/" style="font-size: 10px;">java, spring-boot, auth0</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/tech/dotnet-core/2023/03/05/dotnet-core-related/">dotnet_core_related</a>
+          </li>
+        
+          <li>
+            <a href="/tech/test/gatling/2023/03/05/gatling-load-test/">gatling_load_test</a>
+          </li>
+        
+          <li>
+            <a href="/tech/test/gatling/2023/03/05/gatling-101/">gatling_101</a>
+          </li>
+        
+          <li>
+            <a href="/tech/shell/2023/03/05/shell-disk-operation/">shell_disk_operation</a>
+          </li>
+        
+          <li>
+            <a href="/tech/shell/2023/03/05/shell-file-operation/">shell_file_operation</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 Zengqiang Fang<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

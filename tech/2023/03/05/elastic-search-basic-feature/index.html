@@ -6,13 +6,15 @@
   
   <title>elastic_search_basic_feature | 🪳的Daily Blog WebSite</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="article">
+  <meta name="description" content="Elastic Search 基础知识基本概念es是什么 es是一个分布式文件存储系统，意味着es可以拥有多个节点 节点间如何同步数据？ 各种复杂的数据都会以json的格式进行序列化，然后进行存储 使用反向索引的方式来存储数据，这个索引中存储了整个文档中所有的去重之后的词条  什么是inverted-index？ 在es中，不同类型数据会使用不同的存储结构，比如说，文本会用inverted-ind">
+<meta property="og:type" content="article">
 <meta property="og:title" content="elastic_search_basic_feature">
 <meta property="og:url" content="http://fdslk.github.io/tech/2023/03/05/elastic-search-basic-feature/index.html">
 <meta property="og:site_name" content="🪳的Daily Blog WebSite">
+<meta property="og:description" content="Elastic Search 基础知识基本概念es是什么 es是一个分布式文件存储系统，意味着es可以拥有多个节点 节点间如何同步数据？ 各种复杂的数据都会以json的格式进行序列化，然后进行存储 使用反向索引的方式来存储数据，这个索引中存储了整个文档中所有的去重之后的词条  什么是inverted-index？ 在es中，不同类型数据会使用不同的存储结构，比如说，文本会用inverted-ind">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-03-05T06:04:07.000Z">
-<meta property="article:modified_time" content="2023-03-05T06:06:34.400Z">
+<meta property="article:modified_time" content="2023-03-05T07:15:10.968Z">
 <meta property="article:author" content="Zengqiang Fang">
 <meta property="article:tag" content="es">
 <meta name="twitter:card" content="summary">
@@ -98,11 +100,207 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        
+        <h1 id="Elastic-Search-基础知识"><a href="#Elastic-Search-基础知识" class="headerlink" title="Elastic Search 基础知识"></a>Elastic Search 基础知识</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="es是什么"><a href="#es是什么" class="headerlink" title="es是什么"></a>es是什么</h3><ul>
+<li>es是一个分布式文件存储系统，意味着es可以拥有多个节点 <strong><span style="color:yellow">节点间如何同步数据？</span></strong></li>
+<li>各种复杂的数据都会以json的格式进行序列化，然后进行存储</li>
+<li>使用反向索引的方式来存储数据，这个索引中存储了整个文档中所有的去重之后的词条  <strong><span style="color:yellow">什么是inverted-index？</span></strong></li>
+<li>在es中，不同类型数据会使用不同的存储结构，比如说，文本会用<code>inverted-index</code>方式存储，而数字则会使用<code>KDB tree</code>来储存，这样不同的索引方式使得es能够很快的查询到数据</li>
+</ul>
+<h3 id="es如何查询和分析数据"><a href="#es如何查询和分析数据" class="headerlink" title="es如何查询和分析数据"></a>es如何查询和分析数据</h3><h4 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h4><ul>
+<li>es并不是一个凭空而产生的的一个搜索引擎，在他的底层使用是Apache的Lucene搜索引擎 <strong><span style="color:yellow">什么是Apache Lucene？</span></strong></li>
+<li>对于一些简单的请求，ES提供了RESTFUL-api，可以使用command line模式或者kibana的console来submit <code>index</code> 和 <code>search</code>的请求；对于更多的复杂场景，es还开发基于各种编程语言的客户端</li>
+<li>es支持的查询方式<ul>
+<li>结构化查询，将查询的语句SQL化 🌰：</li>
+<li>全文本查询，es将会通过输入的词条，查询全部的document，然后再根据relevance排序将数据返回 🌰：</li>
+</ul>
+</li>
+</ul>
+<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><ul>
+<li>所谓的分析数据，其实就是在聚合数据，🌰：在某个人群中的女性占比多少，某个人群中的某个年龄段的女性占比多少，某个人群中的某个职业的女性占比多少</li>
+</ul>
+<h3 id="es的高可用（扩展-amp-弹性收缩）"><a href="#es的高可用（扩展-amp-弹性收缩）" class="headerlink" title="es的高可用（扩展&amp;弹性收缩）"></a>es的高可用（扩展&amp;弹性收缩）</h3><ul>
+<li>es本身就是一个分布式的文档储存工具，随着数量的增加，我们可以通过增加节点数的方式来扩展每个es cluster的性能</li>
+<li>es的索引其实是一个或者多个的物理分片的集合，在储存的过程中会把一个文档的索引储存在多个分片上，而这些分片又会被储存在不同的节点上。而每个分片都有一个主从，当为主的储存片区出现问题时，就使用从片区。</li>
+<li>使用<code>CCR</code>来保证主从数据备份 <strong><span style="color:yellow">什么是CCR(Cross-cluster replication)？</span></strong></li>
+</ul>
+<h2 id="如何使用"><a href="#如何使用" class="headerlink" title="如何使用"></a>如何使用</h2><h3 id="支持的系统"><a href="#支持的系统" class="headerlink" title="支持的系统"></a>支持的系统</h3><ul>
+<li>linux &amp; macOS: 使用tar.gz</li>
+<li>windows: 使用zip</li>
+<li>Debian, Ubuntu, and other Debian-based systems: deb</li>
+<li>rpm</li>
+<li>docker</li>
+</ul>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><ul>
+<li>配置文件：elasticsearch.yml, jvm.options, log4j2.properties</li>
+<li>设置的种类: persistent, transient, elasticsearch.yml, 默认值 <span style="color:red">上述顺序也是更新顺序</span></li>
+<li>具体的配置类型<ul>
+<li>最主要的配置类型<ul>
+<li>Path settings </li>
+<li>Cluster name setting</li>
+<li>Node name setting</li>
+<li>Network host settings</li>
+<li>Discovery settings</li>
+<li>Heap size settings</li>
+<li>JVM heap dump path setting</li>
+<li>GC logging settings</li>
+<li>Temporary directory settings</li>
+<li>JVM fatal error log setting</li>
+<li>Cluster backups</li>
+</ul>
+</li>
+<li>ES配置中敏感数据：elasticsearch-keystore</li>
+<li>审核配置：根据我的理解，这个应该是配置，通过API访问es时是否需要提供用户名和密码</li>
+<li>断路器配置：防止内存溢出</li>
+<li>基于分片的分配以及路由设置</li>
+<li>跨集群复制配置</li>
+<li>发现&amp;集群信息设置</li>
+<li>字段&amp;数据缓存设置</li>
+<li>health-check设置</li>
+<li>index生命周期设置</li>
+<li>index management settings(索引管理配置)</li>
+<li>机器学习配置</li>
+<li>节点设置，（多个节点构成了一个cluster，cluster中的节点可以通过http或者transport traffic协议）</li>
+<li>网络设置，用户访问es使用http协议，节点之间使用transport traffic的协议</li>
+<li>节点查询缓设置，存放每个节点查询 <strong><span style="color:yellow">不确定是缓存查询条件还是查询条件查询到的内容？</span></strong></li>
+<li>查询设置，🌰：查询最大数量</li>
+<li>查询通知设置 (<em>Watcher settings</em>)</li>
+</ul>
+</li>
+</ul>
+<h3 id="升级"><a href="#升级" class="headerlink" title="升级"></a>升级</h3><ul>
+<li>老版本的indices的兼容性考虑，🌰：6.x版本的es的indices和8.x版本的升级，可能先要将原有的indices删除掉，在使用新的<ul>
+<li>当es的版本升级之后，需要检查在新版本中是否有即将<code>archived</code>的功能，<ul>
+<li><code>GET _cluster/settings?flat_settings=true&amp;filter_path=persistent.archived*</code>, 如果返回结果是空的，表示没有<code>archived</code>节点设置</li>
+<li><code>GET */_settings?flat_settings=true&amp;filter_path=**.settings.archived*</code>，检查是否有<code>archived</code>的index设置</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>REST-API的迁移，是一个break changing, <span style="color:yellow"><strong>两种版本的restful接口有什么区别?</strong></span></li>
+<li>JVM版本的升级，高版本的es需要java 17及以上的版本</li>
+<li>es提供了<code>archive functionality</code>，该功能可以把老版本的indices导入到新版本的es中 <strong><span style="color:yellow">How to?</strong></li>
+</ul>
+<h3 id="index-索引-模块，每一个小节都可以被当做是一个module"><a href="#index-索引-模块，每一个小节都可以被当做是一个module" class="headerlink" title="index(索引)模块，每一个小节都可以被当做是一个module"></a>index(索引)模块，每一个小节都可以被当做是一个<code>module</code></h3><ul>
+<li>分为静态和动态设置，<strong style="color:yellow">这两种设置之间的区别是什么？</strong></li>
+<li>分析，在index module中该模块将用来转换一个字符串为一个独立的词条，<ul>
+<li>而这些词条将会被加入到inverted-index中，这样是为了这个文档可以被搜索 <strong style="color:yellow">How to?</strong></li>
+<li>被用来进行high-level-queries，使用<code>match</code> query来产生搜索词条</li>
+</ul>
+</li>
+<li>索引片区分配模块<ul>
+<li>分配片区所属的node，<code>Shard allocation filtering</code><ul>
+<li>conditions包括，require，exclude，include</li>
+<li>可以用被用来做筛选的字段是：<code>_name, _host_ip, _publish_ip, _ip, _host, _id, _tier and _tier_preference</code></li>
+</ul>
+</li>
+<li>节点延迟分配设置，<code>Delay allocation</code>，当集群上的某个节点离群之后，分配给这个节点的片区资源将会被重新分配，但是如果shard的<code>delay</code>时间，那么这些shard就可能在当前离线node在超时前恢复，重新分配给这个node，减少了一定的操作开销 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PUT _all/_settings</span><br><span class="line">&#123;</span><br><span class="line">  &quot;settings&quot;: &#123;</span><br><span class="line">   &quot;index.unassigned.node_left.delayed_timeout&quot;: &quot;5m&quot;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>每个node总共分配的片区，<code>Total shards per node</code></li>
+<li>数据层配置，<code>Data tier allocation</code> <strong style="color:yellow">what is the <code>data tiers</code> ?</strong></li>
+</ul>
+</li>
+<li>索引块，可以用来控制es index的可被使用的操作，读，写，metadata操作 <strong style="color:yellow">应用场景是啥?</strong></li>
+<li>分片合并，在es中所有的shard都是一个Lucene索引，那么这些个碎片在一定时间内都是可以被合并成一个大的碎片，进而被继续使用 <strong style="color:yellow">这里感觉有点儿像储存解空间的碎片回收?</strong></li>
+<li>相似性模块，每个field都有一个相似性评分，该评分是用来评价查询回来的document的匹配度，通过es提供的接口，我们可以设置不同的相似性计算算法，</li>
+<li>慢查询日志，可以设置查询时间超过多少秒就是一个不同级别的日志，🌰 ：<code>index.search.slowlog.threshold.query.warn: 10s</code>，某个查询的执行时间超过了10s, 就会被记录成一个warning级别的日志，该配置使用<code>log4j2.properties</code></li>
+<li>储存方式 <code>index.store.type:</code>，该配置可以使用config&#x2F;elasticserch.yml，也可以使用es提供给的settings api更新</li>
+<li>transaction log简称为<code>tranlog</code>，这些日志只要在一个Lucene的一次commit时才会记录日志， <strong style="color:yellow">什么是一次Lucene commit?</strong></li>
+<li>history retention</li>
+<li>index sort 一个新建的index，Lucene的不会创建任何的排序规则，需要es提供的restful api改变sort规则</li>
+<li>indexing pressure <strong style="color:yellow">分散集群的压力的？</strong></li>
+</ul>
+<h3 id="mapping"><a href="#mapping" class="headerlink" title="mapping"></a>mapping</h3><ul>
+<li>每一个数据被es储存的时候，field按照不同的类型储存，而field具有不同的property，比如说<code>_source</code>，可以修改这个属性的储存格式，使得es的search更加的快</li>
+<li>类别<ul>
+<li><strong style="color:yellow">dynamic?</strong> <ul>
+<li>可以自定义一个mapping，以下例子的含义是，在data index中，定义一个mapping type <code>_doc</code>，字段名称为<code>count</code>，数据类型为<code>long</code><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PUT data/_doc/1 </span><br><span class="line">&#123; &quot;count&quot;: 5 &#125;****</span><br></pre></td></tr></table></figure></li>
+<li>es中有一个参数<code>dynamic</code>来控制是否会自动的创建一个类型mapping，简而言之，dynamic mapping就是会给新加入的数据自动匹配到一种类型来存储在es中，<strong style="color:yellow">如果没有找到对应的数据类型，是否会使用默认类型？貌似默认类型就是<code>text</code></strong></li>
+<li>除了es自己提供的一些mapping template之外，es还提供了接口让我们来自定义mapping template<ul>
+<li>类型<ul>
+<li>匹配的类型</li>
+<li>匹配和未匹配到的过滤条件</li>
+<li>某个字段的路径匹配规则</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>explicit<ul>
+<li>定义mapping的定义，🌰： 比如说哪个字符串字段应该被当做是一个全文本字段。。。，静态mapping以我现在的理解，有点像是一个字段的对应的关系</li>
+<li>以以下的命令为一个例子，该命令的作用是在创建一个index的同时，定义一个mapping关系，只有当你储存一个数据，该数据的field是<code>age</code>，该field的值将会以<code>integer</code>的类型来储存<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">PUT /my-index-000001</span><br><span class="line">&#123;</span><br><span class="line">  &quot;mappings&quot;: &#123;</span><br><span class="line">      &quot;properties&quot;: &#123;</span><br><span class="line">      &quot;age&quot;:    &#123; &quot;type&quot;: &quot;integer&quot; &#125;,  </span><br><span class="line">      &quot;email&quot;:  &#123; &quot;type&quot;: &quot;keyword&quot;  &#125;,</span><br><span class="line">      &quot;name&quot;:   &#123; &quot;type&quot;: &quot;text&quot;  &#125;     </span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>区别，<code>dynamic</code>不需要指定具体的field名称，<code>explicit</code>需要指定具体的字段名称，再根据字段的名称来存储字段内容的类型</li>
+</ul>
+</li>
+<li>runtime field, 运行时字段，在添加时，不会添加新的索引，不用定义任何的数据匹配关系<ul>
+<li>好处，可以在不改变原有值的情况下，定义runtime的mapping关系，然后再通过新定义的mapping的字段的condition过滤出符合条件的values</li>
+<li>需要均衡的地方</li>
+<li>runtime依旧是mapping的一种，但是这种方式需要定义一个<code>runtime</code>的<code>mapping</code>，然后再在这个mapping中定义一个<code>plainless script</code>来操作对应字段数据的值</li>
+<li>runtime的mapping的优先级是高于index mapping，所以如果你在你的index中定义一个runtime的mapping，在查询的时候会覆盖之前的存入值的类型，<strong style="color:yellow">不确定是否会改变之前已存入的数据的值，还是只是在查询时的临时的改变？</strong></li>
+<li>复写字段值在查询的时候，但是不会改变原有值，只会对匹配上的值做一些<strong>计算</strong>或者<strong>类型转换</strong>诸如此类的操作</li>
+</ul>
+</li>
+<li>field数据类型<ul>
+<li>基础类型，binary, boolean, Keywords, Numbers, Dates, alias</li>
+<li>对象&amp;关系类型，object，flatten，nested，join</li>
+<li>结构体数据类型，Range，ip，version，murmur3</li>
+<li>聚合数据类型，aggregate_metric_double，histogram</li>
+<li>文本搜索类型，text fields, annotated-text, completion, search_as_you_type, token_count</li>
+<li>文档排序类型，dense_type, rank_feature, rank_features</li>
+<li>空间数据类型，geo_type, geo_shape, point, shape</li>
+</ul>
+</li>
+<li>Metadata fields</li>
+<li>提供参数，这些参数主要作用于值类型的数据类型，但是这是参数，并不是适应于每个数据类型，举个🌰 ：对于<code>analyer</code>参数，只适应于<code>text</code>类型的数据</li>
+<li>mapping限制设置<ul>
+<li>index对应的所有的字段的最大数量</li>
+<li>index对应的mapping的最大深度</li>
+</ul>
+</li>
+<li>8.0以上的es不在支持mapping type，</li>
+</ul>
+<h2 id="text-analysis（文字分析）"><a href="#text-analysis（文字分析）" class="headerlink" title="text analysis（文字分析）"></a>text analysis（文字分析）</h2><ul>
+<li>这个feature是用来处理非结构化数据，将非结构化数据处理成结构化的数据（这样的结构化数据是被优化的，利于search的结构）<font color="yellow" size=3><strong>什么样的数据时非结构化的数据，将源数据做了处理，什么样的数据会被当做非结构化的数据</strong></font></li>
+<li>对于这个功能，只要在用户搜索<code>text</code>类型的数据时，才会被触发</li>
+<li>在text analysis的过程中，es做了两件事 <ul>
+<li>tokenization，将一个存入的string index分解成多个词，这样，用不同的组合搜索都能够搜索到匹配的词条</li>
+<li>normalization，有些词的大小写不一样，或者存入的词是单数，但是实际上查询的是负数，还有就是同义词的匹配<ul>
+<li>那么在存储的时候就会做一些统一化的处理<ul>
+<li>词语都做lowercase的处理，来保持一致</li>
+<li>有单数，也有负数的时候，统一将index设置为单数来处理</li>
+<li>对于同义词，用一个有语义相似的index进行统一处理</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>以上两种操作都是es的内置操作，如果想使用一些个性化的操作，可以通过配置<code>build-in-analyzer</code>来实现</li>
+</ul>
+</li>
+<li>基本概念<ul>
+<li>对于所有的analyzer都是由是哪个较低level的内置模块组成<ul>
+<li>character filters（optional），将非通用的字符转换成具有同等含义的通用字符，比如将<code>Hindu-Arabic</code>转换成<code>Arabic-Latin</code>，还可以过滤一些有其他意义的特殊字符</li>
+<li>tokenizers（required），将一个phrase拆分成一个个的单词</li>
+<li>token filters （optional），将词条进行lowercase处理，remove stop word，etc</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Index-templates"><a href="#Index-templates" class="headerlink" title="Index templates"></a>Index templates</h2><ul>
+<li>用来定义数据存储的格式</li>
+<li>index模板分为，index templates&amp;component templates<ul>
+<li>index template: 就和通俗易懂，该template使用的的范围主要是当前的index，，index中可以使用多个component template，添加优先级，这个功能主要用于如果匹配到几个相同的template时，可以根据优先级来定使用哪个</li>
+<li>component template：类似于组件，并不属于哪一个特定的template</li>
+</ul>
+</li>
+</ul>
+<h2 id="data-streams"><a href="#data-streams" class="headerlink" title="data streams"></a>data streams</h2><p>* </p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://fdslk.github.io/tech/2023/03/05/elastic-search-basic-feature/" data-id="clev0pch80007ephshqfc1nh2" data-title="elastic_search_basic_feature" class="article-share-link">Share</a>
+      <a data-url="http://fdslk.github.io/tech/2023/03/05/elastic-search-basic-feature/" data-id="clev2anay000cj8hs2n2fhofp" data-title="elastic_search_basic_feature" class="article-share-link">Share</a>
       
       
       
@@ -143,7 +341,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/java/">java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/java/101/">101</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/spring-boot/">spring-boot</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/java/spring-boot/webflux/">webflux</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">tech</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/ffmpeg/">ffmpeg</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/ffmpeg/media-server/">media server</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/ffmpeg/video-convert/">video convert</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/">java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/design-pattern/">design-pattern</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/lint/">lint</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/spring-boot/">spring-boot</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/spring-boot/auth0/">auth0</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/spring-boot/jwt/">jwt</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/swagger/">swagger</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/swagger/open-api/">open-api</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/test/">test</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/test/java/">java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/test/java/es/">es</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/video/">video</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/video/ffmpeg/">ffmpeg</a></li></ul></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">tech</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/dotnet-core/">dotnet-core</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/">java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/design-pattern/">design-pattern</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/lint/">lint</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/spring-boot/">spring-boot</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/spring-boot/101/">101</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/spring-boot/auth0/">auth0</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/spring-boot/jwt/">jwt</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/spring-boot/starter/">starter</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/spring-boot/webflux/">webflux</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/swagger/">swagger</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/swagger/open-api/">open-api</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/kotlin/">kotlin</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/kotlin/101/">101</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/kotlin/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/kotlin/idea-pulgins/">idea pulgins</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/ops/">ops</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/ops/CD/">CD</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/ops/cache/">cache</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/ops/k8s/">k8s</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/ops/k8s/secret/">secret</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/ops/log/">log</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/ops/package/">package</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/shell/">shell</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/test/">test</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/test/gatling/">gatling</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/test/java/">java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/test/java/es/">es</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/video/">video</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/video/ffmpeg/">ffmpeg</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/techt/">techt</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/techt/java/">java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/techt/java/java-feature-option-optional/">java feature option-optional</a></li></ul></li></ul></li></ul>
     </div>
   </div>
 
@@ -185,23 +383,23 @@
       <ul>
         
           <li>
-            <a href="/tech/java/spring-boot/jwt/2023/03/05/integration-jwt/">integration_jwt</a>
+            <a href="/tech/dotnet-core/2023/03/05/dotnet-core-related/">dotnet_core_related</a>
           </li>
         
           <li>
-            <a href="/tech/java/swagger/open-api/2023/03/05/open-api-swagger/">open_api_swagger</a>
+            <a href="/tech/test/gatling/2023/03/05/gatling-load-test/">gatling_load_test</a>
           </li>
         
           <li>
-            <a href="/java/spring-boot/webflux/2023/03/05/webflux-api/">webflux_api</a>
+            <a href="/tech/test/gatling/2023/03/05/gatling-101/">gatling_101</a>
           </li>
         
           <li>
-            <a href="/java/101/2023/03/05/option-optional-difference/">option_optional_difference</a>
+            <a href="/tech/shell/2023/03/05/shell-disk-operation/">shell_disk_operation</a>
           </li>
         
           <li>
-            <a href="/uncategorized/2023/03/05/integration-new-relic/">integration_new_relic</a>
+            <a href="/tech/shell/2023/03/05/shell-file-operation/">shell_file_operation</a>
           </li>
         
       </ul>

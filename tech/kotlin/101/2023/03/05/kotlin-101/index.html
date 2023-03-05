@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>kotlin_101 | 🪳的Daily Blog WebSite</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Kotlin 101 practiceHow to create a kotlin project IntelliJ IDEA click File -&gt; New -&gt; Kotlin, IDEA will help to create kotlin project with JVM You also can use REPL (Read-Eval-Print-Loop) interac">
+<meta property="og:type" content="article">
+<meta property="og:title" content="kotlin_101">
+<meta property="og:url" content="http://fdslk.github.io/tech/kotlin/101/2023/03/05/kotlin-101/index.html">
+<meta property="og:site_name" content="🪳的Daily Blog WebSite">
+<meta property="og:description" content="Kotlin 101 practiceHow to create a kotlin project IntelliJ IDEA click File -&gt; New -&gt; Kotlin, IDEA will help to create kotlin project with JVM You also can use REPL (Read-Eval-Print-Loop) interac">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-03-05T06:45:27.000Z">
+<meta property="article:modified_time" content="2023-03-05T06:46:48.327Z">
+<meta property="article:author" content="Zengqiang Fang">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="🪳的Daily Blog WebSite" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">🪳的Daily Blog WebSite</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://fdslk.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-kotlin-101" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/tech/kotlin/101/2023/03/05/kotlin-101/" class="article-date">
+  <time class="dt-published" datetime="2023-03-05T06:45:27.000Z" itemprop="datePublished">2023-03-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/tech/">tech</a>►<a class="article-category-link" href="/categories/tech/kotlin/">kotlin</a>►<a class="article-category-link" href="/categories/tech/kotlin/101/">101</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      kotlin_101
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Kotlin-101-practice"><a href="#Kotlin-101-practice" class="headerlink" title="Kotlin 101 practice"></a>Kotlin 101 practice</h1><h2 id="How-to-create-a-kotlin-project-IntelliJ-IDEA"><a href="#How-to-create-a-kotlin-project-IntelliJ-IDEA" class="headerlink" title="How to create a kotlin project IntelliJ IDEA"></a>How to create a kotlin project IntelliJ IDEA</h2><ul>
+<li>click <strong>File</strong> -&gt; <strong>New</strong> -&gt; <strong>Kotlin</strong>, IDEA will help to create kotlin project with JVM</li>
+<li>You also can use REPL (Read-Eval-Print-Loop) interactive shell to practice the basic kotlin syntax</li>
+</ul>
+<h2 id="Kotlin-basic-syntax"><a href="#Kotlin-basic-syntax" class="headerlink" title="Kotlin basic syntax"></a>Kotlin basic syntax</h2><ul>
+<li>Kotlin is very similar to java language, but also there is several difficulties between them.<ul>
+<li>using <code>fun</code> to define a function</li>
+<li>no semicolons in the end of a line</li>
+<li>using parentheses for function arguments</li>
+<li>using curly brace to define function block</li>
+</ul>
+</li>
+<li>Syntax<ul>
+<li>operator <code>var</code> and <code>val</code>, var is for mutable definition, val is for immutable definition.</li>
+<li>define variable type: <code>var rocks: Int = 1</code>, type is behind the variable and divided by colon.</li>
+<li>nullability<ul>
+<li>using operator <code>?</code> to define a nullable variable</li>
+<li>using operator <code>!!</code> to make a not-null announcement</li>
+</ul>
+</li>
+<li>list<ul>
+<li>listOf is immutable</li>
+<li>mutableListOf is mutable</li>
+</ul>
+</li>
+<li>array: create array by build-in function <code>arrayOf</code></li>
+<li>loop<ul>
+<li>do&#x2F; while</li>
+<li>foreach</li>
+<li>repeat<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">repeat(<span class="number">2</span>) &#123;</span><br><span class="line">   println(<span class="string">&quot;A fish is swimming&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>function<ul>
+<li>without return value<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">feedTheFish</span><span class="params">()</span></span> &#123;</span><br><span class="line">   println(<span class="string">&quot;test&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>with return value<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">feedTheFishWithValue</span><span class="params">()</span></span>: String &#123;</span><br><span class="line">   <span class="keyword">val</span> test = <span class="string">&quot;test string&quot;</span></span><br><span class="line">   <span class="keyword">return</span> test </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>default value of parameter<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">functionWithDefaultValueArgument</span><span class="params">(speed: <span class="type">String</span> = <span class="string">&quot;test speed&quot;</span>)</span></span> &#123;</span><br><span class="line">    println(<span class="string">&quot;test argument value <span class="variable">$speed</span>&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>lambdas</li>
+</ul>
+<p><code>var lambdas = &#123; inputValue: Int -&gt; inputValue / 2&#125;</code></p>
+<ul>
+<li>higher-order-functions: passing a lambda to another function<ul>
+<li>return value<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">returnValue</span><span class="params">(x: <span class="type">Int</span>, y: <span class="type">Int</span>, operate: (<span class="type">Int</span>, <span class="type">Int</span>) -&gt; <span class="type">Int</span>)</span></span>: <span class="built_in">Int</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> operate(x, y)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>you pass a lambdas, function or just a simple value as an input to a function</li>
+<li>lambdas<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> sum = &#123;(x: <span class="built_in">Int</span>, y: <span class="built_in">Int</span>) -&gt; x + y&#125;</span><br><span class="line">returnValue(<span class="number">1</span>, <span class="number">2</span>, sum)</span><br></pre></td></tr></table></figure></li>
+<li>regular function<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">sum</span><span class="params">(x: <span class="type">Int</span>, y:<span class="type">Int</span>)</span></span>: <span class="built_in">Int</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> x + y</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">returnValue(<span class="number">1</span>, <span class="number">2</span>, ::sum)</span><br></pre></td></tr></table></figure></li>
+<li>simple value</li>
+</ul>
+</li>
+<li>return function<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">operate</span><span class="params">()</span></span>: (<span class="built_in">Int</span>, <span class="built_in">Int</span>) -&gt; <span class="built_in">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> sum <span class="comment">//::sum &#x27;**sum**&#x27; is defined as a regular function, the former is a lambda expression</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>extensions, only can access to public api<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Class.extensionFunctionName(arg: type): returnValue &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.value</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>OO related knowledge<ul>
+<li>class<ul>
+<li>no needs to create getter and setter, they are created automatically.</li>
+<li>no needs to create an individual constructor method, rather than defining a constructor with class directly<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyClass</span>(arg1: String, arg2: String) &#123;</span><br><span class="line">    <span class="keyword">var</span> arg1Internal1: String = arg1</span><br><span class="line">    <span class="keyword">var</span> arg1Internal2: String = arg2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>providing init block in class constructor, you can write some logic in the init block</li>
+<li>providing secondary constructor in class<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyClass</span>(arg1: String, arg2: String) &#123;</span><br><span class="line">    <span class="keyword">var</span> arg1Internal1: String = arg1</span><br><span class="line">    <span class="keyword">var</span> arg1Internal2: String = arg2</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">constructor</span>(arg: <span class="built_in">Int</span>): <span class="keyword">this</span>() &#123;</span><br><span class="line">        <span class="comment">//your logic</span></span><br><span class="line">    &#125;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>subclass<ul>
+<li>by default kotlin cannot be subclassed, otherwise adding operator <code>open</code> before your class, the same as the property and member</li>
+</ul>
+</li>
+<li>inheritance<ul>
+<li>if the setter is defined as following block, it will throw <code>Exception in thread &quot;main&quot; java.lang.StackOverflowError</code><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="keyword">var</span> shape: String</span><br><span class="line">             <span class="keyword">get</span>() = towerTankShape</span><br><span class="line">             <span class="keyword">set</span>(value) &#123;</span><br><span class="line">                shape = value</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>delegation<ul>
+<li>declare an object as a singleton object which can set default color value and doesn’t need<br>to override super property<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">object</span> GolderColor: FishColor &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="keyword">val</span> color = <span class="string">&quot;golder&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ImplementClass</span>(fishColor: FishColor = GolderColor): Fishcolor <span class="keyword">by</span> fishColor &#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>special class<ul>
+<li>singleton class: just declares <a style="color:yellow"><strong>object</strong></a> operator key word </li>
+<li>enum class: just add <a style="color:yellow"><strong>enum</strong></a> key word</li>
+<li>sealed class<ul>
+<li>need to be added in the same file with the subclass</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>special data structure<ul>
+<li>pairs connect with two values by <strong>to</strong> keyword<ul>
+<li>pair can be constructed and deconstructed<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> pair = <span class="string">&quot;part one&quot;</span> to <span class="string">&quot;part two&quot;</span></span><br><span class="line">println(<span class="string">&quot;<span class="subst">$&#123;pair.first&#125;</span> with <span class="subst">$&#123;pair.second&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// nested pair</span></span><br><span class="line">(<span class="string">&quot;out part one&quot;</span> to <span class="string">&quot;out part two&quot;</span>) to <span class="string">&quot;inside part two&quot;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>triples is similar with java</li>
+<li>const: <ul>
+<li><strong>const</strong> keyword only can be used in object singleton class</li>
+<li>using const in class<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyClass</span> &#123;</span><br><span class="line">   <span class="keyword">companion</span> <span class="keyword">object</span> &#123;</span><br><span class="line">     <span class="keyword">const</span> <span class="keyword">val</span> CONSTANT3 = <span class="string">&quot;constant in companion&quot;</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>generic<ul>
+<li>class: how to define a generic class<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">GenericClass</span>&lt;<span class="type">T</span>&gt; (<span class="keyword">val</span> specificClass: T)</span><br></pre></td></tr></table></figure></li>
+<li>usage<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">GenericClass&lt;SpecificClass&gt;(SpecificClass())</span><br><span class="line"><span class="comment">// the class name in angle bracket can be removed as follow</span></span><br><span class="line">GenericClass(SpecificClass()) </span><br></pre></td></tr></table></figure></li>
+<li>methods</li>
+<li>functions</li>
+</ul>
+</li>
+<li>annotation<ul>
+<li>add <strong>annotation</strong> key work before the class<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">annotation</span> <span class="keyword">class</span> <span class="title class_">KotlinClass</span> </span><br></pre></td></tr></table></figure></li>
+<li><code>findAnnotation</code> method to get target annotation<ul>
+<li>target annotation, add <strong>@Target</strong> before the annotation class<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target(AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY, AnnotationTarget.FUNCTION)</span></span><br><span class="line"><span class="keyword">annotation</span> <span class="keyword">class</span> <span class="title class_">OnGet</span></span><br></pre></td></tr></table></figure></li>
+<li>then if this function scans related annotation, the later code block will add some logic</li>
+</ul>
+</li>
+<li><code>::class</code> is used to reflect the class internal information.<ul>
+<li>tips: you need to import <code>implementation(&quot;org.jetbrains.kotlin:kotlin-reflect:1.6.21&quot;)</code></li>
+</ul>
+</li>
+<li><code>@</code> keyword can be used as a labeled break, which can control the program flow</li>
+</ul>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">test</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="symbol">outstop@</span> <span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">1</span> .. <span class="number">100</span>)&#123;</span><br><span class="line">        print(<span class="string">&quot;<span class="variable">$i</span>&quot;</span>)</span><br><span class="line">        <span class="keyword">for</span> (j <span class="keyword">in</span> <span class="number">1</span> .. <span class="number">100</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span> (i &gt; <span class="number">10</span>)</span><br><span class="line">               <span class="keyword">break</span> <span class="meta">@outstop</span></span><br><span class="line">        &#125; </span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://github.com/Fdslk/KotlinRepository/blob/main/KotlinCodePractice">source code</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://fdslk.github.io/tech/kotlin/101/2023/03/05/kotlin-101/" data-id="clev2anb70014j8hshnngg4ti" data-title="kotlin_101" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/tech/kotlin/Android/2023/03/05/Android-app-101/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Android_app_101
+        
+      </div>
+    </a>
+  
+  
+    <a href="/tech/kotlin/idea-pulgins/2023/03/05/intellig-plugin-development/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">intellig_plugin_development</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">tech</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/dotnet-core/">dotnet-core</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/">java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/design-pattern/">design-pattern</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/lint/">lint</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/spring-boot/">spring-boot</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/spring-boot/101/">101</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/spring-boot/auth0/">auth0</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/spring-boot/jwt/">jwt</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/spring-boot/starter/">starter</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/spring-boot/webflux/">webflux</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/swagger/">swagger</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/swagger/open-api/">open-api</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/kotlin/">kotlin</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/kotlin/101/">101</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/kotlin/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/kotlin/idea-pulgins/">idea pulgins</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/ops/">ops</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/ops/CD/">CD</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/ops/cache/">cache</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/ops/k8s/">k8s</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/ops/k8s/secret/">secret</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/ops/log/">log</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/ops/package/">package</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/shell/">shell</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/test/">test</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/test/gatling/">gatling</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/test/java/">java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/test/java/es/">es</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/video/">video</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/video/ffmpeg/">ffmpeg</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/techt/">techt</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/techt/java/">java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/techt/java/java-feature-option-optional/">java feature option-optional</a></li></ul></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/elastic-search-java-test/" rel="tag">elastic search, java, test</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es/" rel="tag">es</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ffmpeg/" rel="tag">ffmpeg</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ffmpeg-coverting-format/" rel="tag">ffmpeg, coverting format</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ffmpeg-media-server/" rel="tag">ffmpeg, media-server</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-design-pattern-easy-rule/" rel="tag">java, design-pattern, easy-rule</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-lint/" rel="tag">java, lint</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-spring-customer-starter/" rel="tag">java, spring, customer-starter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-spring-boot-auth0/" rel="tag">java, spring-boot, auth0</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/elastic-search-java-test/" style="font-size: 10px;">elastic search, java, test</a> <a href="/tags/es/" style="font-size: 10px;">es</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/ffmpeg-coverting-format/" style="font-size: 10px;">ffmpeg, coverting format</a> <a href="/tags/ffmpeg-media-server/" style="font-size: 10px;">ffmpeg, media-server</a> <a href="/tags/java-design-pattern-easy-rule/" style="font-size: 10px;">java, design-pattern, easy-rule</a> <a href="/tags/java-lint/" style="font-size: 10px;">java, lint</a> <a href="/tags/java-spring-customer-starter/" style="font-size: 10px;">java, spring, customer-starter</a> <a href="/tags/java-spring-boot-auth0/" style="font-size: 10px;">java, spring-boot, auth0</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/tech/dotnet-core/2023/03/05/dotnet-core-related/">dotnet_core_related</a>
+          </li>
+        
+          <li>
+            <a href="/tech/test/gatling/2023/03/05/gatling-load-test/">gatling_load_test</a>
+          </li>
+        
+          <li>
+            <a href="/tech/test/gatling/2023/03/05/gatling-101/">gatling_101</a>
+          </li>
+        
+          <li>
+            <a href="/tech/shell/2023/03/05/shell-disk-operation/">shell_disk_operation</a>
+          </li>
+        
+          <li>
+            <a href="/tech/shell/2023/03/05/shell-file-operation/">shell_file_operation</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 Zengqiang Fang<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>shell_file_operation | 🪳的Daily Blog WebSite</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="file operationdefinition 什么是Linux的文件系统？ cat cat -n 对输出的内容加上行号 -b 对输出的内容（除空白行外）都加上行号 &#x2F;dev&#x2F;null &gt; [file name] 清空当前file的内容     chgrp 改变文件或目录的所属群组 -v&#x2F;-c 改变当前文件的群组  eg：如果想将当前目录下的README文件移">
+<meta property="og:type" content="article">
+<meta property="og:title" content="shell_file_operation">
+<meta property="og:url" content="http://fdslk.github.io/tech/shell/2023/03/05/shell-file-operation/index.html">
+<meta property="og:site_name" content="🪳的Daily Blog WebSite">
+<meta property="og:description" content="file operationdefinition 什么是Linux的文件系统？ cat cat -n 对输出的内容加上行号 -b 对输出的内容（除空白行外）都加上行号 &#x2F;dev&#x2F;null &gt; [file name] 清空当前file的内容     chgrp 改变文件或目录的所属群组 -v&#x2F;-c 改变当前文件的群组  eg：如果想将当前目录下的README文件移">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://user-images.githubusercontent.com/6279298/162874839-056be677-25a3-4789-947b-0fc1a96f1865.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/6279298/162874947-1d422664-7729-45e5-8aa5-9e4603b63419.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/6279298/162893983-ea9da932-b846-4b49-bc1c-e3c22d0caf3c.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/6279298/162893460-62b9b0be-b466-48b0-833a-c02bd7bca2c1.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/6279298/162903067-a272cf38-8d12-4a4b-84de-bb17677eaa46.png">
+<meta property="article:published_time" content="2023-03-05T07:08:12.000Z">
+<meta property="article:modified_time" content="2023-03-05T07:14:56.649Z">
+<meta property="article:author" content="Zengqiang Fang">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/6279298/162874839-056be677-25a3-4789-947b-0fc1a96f1865.png">
+  
+    <link rel="alternate" href="/atom.xml" title="🪳的Daily Blog WebSite" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">🪳的Daily Blog WebSite</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://fdslk.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-shell-file-operation" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/tech/shell/2023/03/05/shell-file-operation/" class="article-date">
+  <time class="dt-published" datetime="2023-03-05T07:08:12.000Z" itemprop="datePublished">2023-03-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/tech/">tech</a>►<a class="article-category-link" href="/categories/tech/shell/">shell</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      shell_file_operation
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="file-operation"><a href="#file-operation" class="headerlink" title="file operation"></a>file operation</h1><h2 id="definition"><a href="#definition" class="headerlink" title="definition"></a>definition</h2><ul>
+<li>什么是Linux的文件系统？</li>
+<li>cat<ul>
+<li>cat<ul>
+<li>-n 对输出的内容加上行号</li>
+<li>-b 对输出的内容（除空白行外）都加上行号</li>
+<li>&#x2F;dev&#x2F;null &gt; [file name] 清空当前file的内容</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>chgrp 改变文件或目录的所属群组<ul>
+<li><p>-v&#x2F;-c 改变当前文件的群组</p>
+<ul>
+<li><p>eg：如果想将当前目录下的README文件移动到bin group中</p>
+<ul>
+<li>chgrp -c bin REMDME.md</li>
+<li><img src="https://user-images.githubusercontent.com/6279298/162874839-056be677-25a3-4789-947b-0fc1a96f1865.png" alt="error notification"></li>
+<li>查看当前用户的所属的用户组 <code>group</code><br><img src="https://user-images.githubusercontent.com/6279298/162874947-1d422664-7729-45e5-8aa5-9e4603b63419.png" alt="当前用户所属用户组"></li>
+<li>运行一下命令将用户添加至指定用户组</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo dseditgroup -o edit -a username -t user groupname</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>使用场景<ul>
+<li>用户权限隔离</li>
+<li><strong>咋实现的~可以深究一下</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>-R 循环递归处理，将当前目录下的其他的文件采用同样的处理</p>
+</li>
+</ul>
+</li>
+<li>chmod <strong>(change mode)</strong><ul>
+<li>r - 4, w - 2, x - 1</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="left">user</th>
+<th align="center">group</th>
+<th align="right">other user</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">u</td>
+<td align="center">g</td>
+<td align="right">o</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p>chown <strong>(chanage owner)</strong></p>
+<ul>
+<li>tip: 必须root用户才能执行该命令</li>
+</ul>
+</li>
+<li><p>比较两个文件的不同</p>
+</li>
+<li><p>diff</p>
+<ul>
+<li>diff<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">diff README.md ../README.md -y -W 50</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><img src="https://user-images.githubusercontent.com/6279298/162893983-ea9da932-b846-4b49-bc1c-e3c22d0caf3c.png" alt="并排比较"></p>
+<ul>
+<li><p>tips：**|** 表示同行有不同，**&lt;** 后文件比前文件少一行，**&gt;**后文件比前文件多一行</p>
+</li>
+<li><p>diff file1 file2 | diffstat, 统计两个文件的变化字数</p>
+</li>
+<li><p>cmp</p>
+<ul>
+<li>输出两个文件第一处不相同的位置</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://user-images.githubusercontent.com/6279298/162893460-62b9b0be-b466-48b0-833a-c02bd7bca2c1.png" alt="diff"></p>
+<ul>
+<li><p>file: 检索文件类型</p>
+<ul>
+<li>-b 只输出文件类型，不输出文件名称</li>
+<li>-i 输出文件MIME</li>
+</ul>
+</li>
+<li><p>find 查找文件，并执行bash命令</p>
+<ul>
+<li><p>syntax:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find   path   -option   [   -print ]   [ -exec   -ok   command ]   &#123;&#125; \;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>-mindepth 1 -maxdepth 1 指定文件查找深度</p>
+</li>
+<li><p>应用</p>
+<ul>
+<li>利用find命令执行多repository的git pull<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find . -mindepth 1 -maxdepth 1 -type d -print -exec git -C &#123;&#125; pull \;</span><br></pre></td></tr></table></figure></li>
+<li>寻找当前目录下子目录（最小，最大深度为1），文件类型为directory，**{}** 作为find命令的输出目录，**;** 作为 -exec的终结符，**&#x2F;** 作为Semicolon的转义字符</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>ln <strong>(link file)</strong> 使文件和一固定的文件目录建立链接，然后就可以直接使用该文件，避免了文件的拷贝，减少重复的磁盘占用</p>
+<ul>
+<li><code>ln -s filename link name</code></li>
+</ul>
+<p><img src="https://user-images.githubusercontent.com/6279298/162903067-a272cf38-8d12-4a4b-84de-bb17677eaa46.png" alt="soft link"></p>
+<ul>
+<li>怎么实现的??</li>
+</ul>
+</li>
+<li><p>阅读文件</p>
+<ul>
+<li>less</li>
+<li>more（分页读取数据）</li>
+</ul>
+</li>
+<li><p>编辑文件</p>
+<ul>
+<li>sed 对文件内容做基础的替换 (linux与macOS上有区别)<ul>
+<li>linux:<ul>
+<li>sed <strong>-i</strong> s’new&#x2F;original’ (将文件内容替换并保存)</li>
+<li>sed <strong>-i_bkp</strong> ~ (将文件内容替换并保存，备份)</li>
+</ul>
+</li>
+<li>maxOS<ul>
+<li>sed -i “” ~</li>
+<li>sed -i “bkp” ~</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>提取字符</p>
+<ul>
+<li>cut 获取文件中，每一行的某个位置的值</li>
+<li>linux<ul>
+<li><code>cut -d&#39; &#39; -f1</code></li>
+</ul>
+</li>
+<li>mac<ul>
+<li><code>cut -f1 -d &#39; &#39;</code> or <code>cut -d&#39; &#39; -f1</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>统计</p>
+<ul>
+<li>词数 <code>wc -w</code></li>
+<li>行数 <code>wc -l</code></li>
+<li><strong>tip</strong>: mac中使用wc命令的输出的前面会有很多的空格，所以如果使用管道的传递结果的话，使用单个空格处理的话要注意</li>
+</ul>
+</li>
+<li><p>管道 <strong>|</strong></p>
+<ul>
+<li>将上一步执行结果的内容作为参数传递给下一步执行</li>
+<li>eg: <code>wc -l file|cut -d&#39; &#39; -f1</code>,输出file的行数，然后再对输出结果做cut处理</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://fdslk.github.io/tech/shell/2023/03/05/shell-file-operation/" data-id="clev2anbd001pj8hs7grqdn5y" data-title="shell_file_operation" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/tech/shell/2023/03/05/shell-disk-operation/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          shell_disk_operation
+        
+      </div>
+    </a>
+  
+  
+    <a href="/tech/ops/log/2023/03/05/ops-log-management/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">ops_log_management</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">tech</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/dotnet-core/">dotnet-core</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/">java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/design-pattern/">design-pattern</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/lint/">lint</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/spring-boot/">spring-boot</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/spring-boot/101/">101</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/spring-boot/auth0/">auth0</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/spring-boot/jwt/">jwt</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/spring-boot/starter/">starter</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/spring-boot/webflux/">webflux</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/swagger/">swagger</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/swagger/open-api/">open-api</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/kotlin/">kotlin</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/kotlin/101/">101</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/kotlin/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/kotlin/idea-pulgins/">idea pulgins</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/ops/">ops</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/ops/CD/">CD</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/ops/cache/">cache</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/ops/k8s/">k8s</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/ops/k8s/secret/">secret</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/ops/log/">log</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/ops/package/">package</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/shell/">shell</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/test/">test</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/test/gatling/">gatling</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/test/java/">java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/test/java/es/">es</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/video/">video</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/video/ffmpeg/">ffmpeg</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/techt/">techt</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/techt/java/">java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/techt/java/java-feature-option-optional/">java feature option-optional</a></li></ul></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/elastic-search-java-test/" rel="tag">elastic search, java, test</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es/" rel="tag">es</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ffmpeg/" rel="tag">ffmpeg</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ffmpeg-coverting-format/" rel="tag">ffmpeg, coverting format</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ffmpeg-media-server/" rel="tag">ffmpeg, media-server</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-design-pattern-easy-rule/" rel="tag">java, design-pattern, easy-rule</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-lint/" rel="tag">java, lint</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-spring-customer-starter/" rel="tag">java, spring, customer-starter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-spring-boot-auth0/" rel="tag">java, spring-boot, auth0</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/elastic-search-java-test/" style="font-size: 10px;">elastic search, java, test</a> <a href="/tags/es/" style="font-size: 10px;">es</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/ffmpeg-coverting-format/" style="font-size: 10px;">ffmpeg, coverting format</a> <a href="/tags/ffmpeg-media-server/" style="font-size: 10px;">ffmpeg, media-server</a> <a href="/tags/java-design-pattern-easy-rule/" style="font-size: 10px;">java, design-pattern, easy-rule</a> <a href="/tags/java-lint/" style="font-size: 10px;">java, lint</a> <a href="/tags/java-spring-customer-starter/" style="font-size: 10px;">java, spring, customer-starter</a> <a href="/tags/java-spring-boot-auth0/" style="font-size: 10px;">java, spring-boot, auth0</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/tech/dotnet-core/2023/03/05/dotnet-core-related/">dotnet_core_related</a>
+          </li>
+        
+          <li>
+            <a href="/tech/test/gatling/2023/03/05/gatling-load-test/">gatling_load_test</a>
+          </li>
+        
+          <li>
+            <a href="/tech/test/gatling/2023/03/05/gatling-101/">gatling_101</a>
+          </li>
+        
+          <li>
+            <a href="/tech/shell/2023/03/05/shell-disk-operation/">shell_disk_operation</a>
+          </li>
+        
+          <li>
+            <a href="/tech/shell/2023/03/05/shell-file-operation/">shell_file_operation</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 Zengqiang Fang<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
