@@ -1,0 +1,183 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>ops_helm | 🪳的Daily Blog WebSite</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="">
+    <meta name="description" content="helm一种CI&amp;#x2F;CD工具
+definition: helm可以被当做是k8s的包管理工具，利用helm可以部署自己的应用程序以及其他依赖服务应用，如redis，mysql等等。
+
+如何在本地的k8s集群中使用helm部署服务
+
+preparation
+
+docker-desktop or minikube
+
+brew install helm
+
+using helm version to check it works
+
+
+
+helm create &amp;lt;your chart name&amp;gt;
+
+create a folder name webdemo
+
+folder structure
+
+template&amp;...">
+    
+        <link rel="icon" href="/favicon.ico">
+    
+    
+        
+            <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+        
+            <link rel="stylesheet" href="/css/stage.css">
+        
+            <link rel="stylesheet" href="/css/avatar-bg.css">
+        
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+<header id="header">
+    <div class="menu">
+        <i class="fa fa-bars"></i>
+    </div>
+    <div class="header-main">
+        <h1><a href="/">🪳的Daily Blog WebSite</a></h1>
+    </div>
+    <div id="nav">
+        <div class="nav-img" id="nav-img"></div>
+        <div class="sentences">
+            How goes the world with you?
+        </div>
+    </div>
+</header>
+
+<div id="content-outer">
+    <div id="content-inner">
+        <div class="clearfix">
+    <article id="post">
+        <h1>ops_helm</h1>
+        <div class="create">
+            <span>Created</span>
+            
+                <time datetime="2023-03-05T07:01:29.000Z">
+                    2023-03-05
+                </time>
+            
+            <ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/">tech</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/ops/">ops</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/ops/package/">package</a></li></ul></li></ul></li></ul>
+        </div>
+        <h1 id="helm一种CI-x2F-CD工具"><a href="#helm一种CI-x2F-CD工具" class="headerlink" title="helm一种CI&#x2F;CD工具"></a>helm一种CI&#x2F;CD工具</h1><ul>
+<li><p>definition: helm可以被当做是k8s的包管理工具，利用helm可以部署自己的应用程序以及其他依赖服务应用，如redis，mysql等等。</p>
+</li>
+<li><p>如何在本地的k8s集群中使用helm部署服务</p>
+<ul>
+<li><p>preparation</p>
+<ul>
+<li><p>docker-desktop or minikube</p>
+</li>
+<li><p>brew install helm</p>
+</li>
+<li><p>using helm version to check it works</p>
+</li>
+</ul>
+</li>
+<li><p>helm create <code>&lt;your chart name&gt;</code></p>
+</li>
+<li><p>create a folder name webdemo</p>
+<ul>
+<li><p>folder structure</p>
+<ul>
+<li><p>template&#x2F; 存储一些基本的k8s部署文件</p>
+</li>
+<li><p>Chart chart包的基本信息</p>
+</li>
+<li><p>values.yaml 模板信息中的替换信息</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>helm packge <code>&lt;you are chart&gt;</code> 创建部署tgz包</p>
+</li>
+<li><p>helm install <code>&lt;your server name&gt;</code> <code>&lt;your chart tgz package name&gt;</code></p>
+</li>
+<li><p>helm list 列出部署成功服务</p>
+</li>
+</ul>
+<p><img src="https://user-images.githubusercontent.com/6279298/156680275-7d2c8297-a7bc-4b3c-8b46-591bb20cac90.png" alt="成功截图"></p>
+<ul>
+<li><p>helm delete 删除部署以及k8s中的部署</p>
+</li>
+<li><p>helm get manifest 列出部署chart的k8s manifest文件</p>
+</li>
+</ul>
+<p> <img src="https://user-images.githubusercontent.com/6279298/156680958-0fa1870a-21fe-4c75-9741-fd00e12c0082.png" alt="成功截图"></p>
+</li>
+<li><p>如何添加自己的application</p>
+</li>
+<li><p>如何将helm添加到Jenkins</p>
+</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://github.com/Fdslk/ops/tree/main/helmDemo">helm</a></p>
+
+        <div>
+            
+        </div>
+        <div class="bottom-line"></div>
+        
+    <nav id="article-nav">
+        
+            <a href="/tech/ops/k8s/secret/2023/03/05/ops-k8s-secret/" id="article-nav-newer" class="article-nav-link-wrap">
+        <span class="article-nav-title">
+            
+                ops_k8s_secret
+            
+        </span>
+                <strong class="article-nav-caption">&gt;</strong>
+            </a>
+        
+        
+            <a href="/tech/ops/CD/2023/03/05/ops-skaffold/" id="article-nav-older" class="article-nav-link-wrap">
+                <strong class="article-nav-caption">&lt;</strong>
+                <span class="article-nav-title">
+                    
+                        ops_skaffold
+                </span>
+                
+            </a>
+        
+    </nav>
+
+
+        
+    </article>
+    <div id="toc">
+        
+            <h2>Table of Contents</h2>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#helm%E4%B8%80%E7%A7%8DCI-x2F-CD%E5%B7%A5%E5%85%B7"><span class="toc-number">1.</span> <span class="toc-text">helm一种CI&#x2F;CD工具</span></a></li></ol>
+        
+    </div>
+</div>
+
+    </div>
+</div>
+<footer id="footer">
+    <div id="copyright">&copy; Zengqiang Fang  2023</div>
+    <div id="theme">
+        Powered by <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a>. Theme by <a target="_blank" rel="noopener" href="https://github.com/markyong/hexo-theme-stage">Stage</a>
+    </div>
+</footer>
+<script src="/lib/js/waterrippleeffect.min.js"></script>
+<script src="/js/header-bg.main.js"></script>
+
+    <script src="/lib/js/smooth-scroll.min.js"></script>
+    <script src="/js/toc.main.js"></script>
+
+</body>
+</html>

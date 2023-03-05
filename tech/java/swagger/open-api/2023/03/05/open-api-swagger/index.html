@@ -1,0 +1,164 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>open_api_swagger | 🪳的Daily Blog WebSite</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="">
+    <meta name="description" content="Open-apiswagger
+How to?
+add open-api dependency, different framework needs import different maven dependency,for our demo, we should add webflux related openapi dependency1234&amp;lt;groupId&amp;gt;org.springdoc&amp;lt;/groupId&amp;gt;&amp;lt;artifactId&amp;gt;springdoc-openapi-webflux-ui&amp;lt;/artifactId&amp;gt;&amp;lt;version&amp;gt;1.6.4&amp;lt;/versi...">
+    
+        <link rel="icon" href="/favicon.ico">
+    
+    
+        
+            <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+        
+            <link rel="stylesheet" href="/css/stage.css">
+        
+            <link rel="stylesheet" href="/css/avatar-bg.css">
+        
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+<header id="header">
+    <div class="menu">
+        <i class="fa fa-bars"></i>
+    </div>
+    <div class="header-main">
+        <h1><a href="/">🪳的Daily Blog WebSite</a></h1>
+    </div>
+    <div id="nav">
+        <div class="nav-img" id="nav-img"></div>
+        <div class="sentences">
+            时光荏苒，旦夕之间，略有遗憾，似白驹过隙，蹉跎自悟。
+        </div>
+    </div>
+</header>
+
+<div id="content-outer">
+    <div id="content-inner">
+        <div class="clearfix">
+    <article id="post">
+        <h1>open_api_swagger</h1>
+        <div class="create">
+            <span>Created</span>
+            
+                <time datetime="2023-03-05T06:19:07.000Z">
+                    2023-03-05
+                </time>
+            
+            <ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/">tech</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/java/">java</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/java/swagger/">swagger</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/java/swagger/open-api/">open-api</a></li></ul></li></ul></li></ul></li></ul>
+        </div>
+        <h1 id="Open-api"><a href="#Open-api" class="headerlink" title="Open-api"></a>Open-api</h1><h2 id="swagger"><a href="#swagger" class="headerlink" title="swagger"></a>swagger</h2><ul>
+<li>How to?<ul>
+<li>add open-api dependency, different framework needs import different maven dependency,<br>for our demo, we should add <strong>webflux related openapi dependency</strong><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;groupId&gt;org.springdoc&lt;/groupId&gt;</span><br><span class="line">&lt;artifactId&gt;springdoc-openapi-webflux-ui&lt;/artifactId&gt;</span><br><span class="line">&lt;version&gt;1.6.4&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></li>
+<li>how to verify it<ul>
+<li>access to swagger ui <code>http://localhost:8080/context-path/swagger-ui/index.html</code><ul>
+<li>if context-path isn’t set in application.properties, the default one is the root “&#x2F;“</li>
+</ul>
+</li>
+<li>access to open-api description <code>http://server:port/context-path/v3/api-docs</code></li>
+</ul>
+</li>
+<li>path customization<ul>
+<li>add <code>springdoc.api-docs.path</code> in application.properties</li>
+<li>add <code>springdoc.swagger-ui.path</code> in application.properties</li>
+</ul>
+</li>
+<li>how to generate yaml format open-api file<ul>
+<li>add the following plugin in your project<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">   <span class="string">&lt;plugin&gt;</span></span><br><span class="line">	<span class="string">&lt;groupId&gt;org.springdoc&lt;/groupId&gt;</span></span><br><span class="line">	<span class="string">&lt;artifactId&gt;springdoc-openapi-maven-plugin&lt;/artifactId&gt;</span></span><br><span class="line">	<span class="string">&lt;version&gt;1.0&lt;/version&gt;</span></span><br><span class="line">	<span class="string">&lt;executions&gt;</span></span><br><span class="line">		<span class="string">&lt;execution&gt;</span></span><br><span class="line">			<span class="string">&lt;id&gt;integration-test&lt;/id&gt;</span></span><br><span class="line">			<span class="string">&lt;goals&gt;</span></span><br><span class="line">				<span class="string">&lt;goal&gt;generate&lt;/goal&gt;</span></span><br><span class="line">			<span class="string">&lt;/goals&gt;</span></span><br><span class="line">		<span class="string">&lt;/execution&gt;</span></span><br><span class="line">	<span class="string">&lt;/executions&gt;</span></span><br><span class="line">	<span class="string">&lt;configuration&gt;</span></span><br><span class="line">		<span class="string">&lt;apiDocsUrl&gt;http://localhost:8080/v3/api-docs.yaml</span></span><br><span class="line">		<span class="string">&lt;/apiDocsUrl&gt;</span></span><br><span class="line">		<span class="string">&lt;outputFileName&gt;openapi.yaml&lt;/outputFileName&gt;</span></span><br><span class="line">	<span class="string">&lt;/configuration&gt;</span></span><br><span class="line"><span class="string">&lt;/plugin&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li>run <code>mvn verify -Dspring.application.admin.enabled=true -Pintegration -Dspringdoc.writer-with-default-pretty-printer=true</code>,<br>then the openapi.yaml will be created in your <em><strong>.&#x2F;target</strong></em> directory</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="open-api-validation-for-controller-contract"><a href="#open-api-validation-for-controller-contract" class="headerlink" title="open-api validation for controller contract"></a>open-api validation for controller contract</h2><ul>
+<li>swagger-request-validator-restassured to create integration test</li>
+<li>add dependency<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">      &lt;groupId&gt;com.atlassian.oai&lt;/groupId&gt;</span><br><span class="line">      &lt;artifactId&gt;swagger-request-validator-restassured&lt;/artifactId&gt;</span><br><span class="line">      &lt;version&gt;$&#123;swagger-request-validator.version&#125;&lt;/version&gt;</span><br><span class="line">      &lt;scope&gt;test&lt;/scope&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>using the above command to generate yaml file</li>
+</ul>
+</li>
+<li>actually, <code>OpenApiValidationFilter</code> also reuse <code>OpenApiInteractionValidator</code> capability, which includes a filter interface for validate the<br>whole response in the request.</li>
+<li>If you want to do more things, like logger, whiteRules filter, you can create a customFilter extending the OpenApiValidationFilter.<br>And override method <code>filter</code> as follows:</li>
+<li><pre><code class="java">public static class CustomValidationFilter extends OpenApiValidationFilter &#123;
+
+      public CustomValidationFilter(String specUrlOrDefinition) &#123;
+          super(specUrlOrDefinition);
+      &#125;
+
+      @Override
+      public Response filter(FilterableRequestSpecification requestSpec, FilterableResponseSpecification responseSpec, FilterContext ctx) &#123;
+          log.info(format(&quot;[&#123;0&#125;]request from: &#123;1&#125;&quot;,requestSpec.getMethod(), requestSpec.getBaseUri() + requestSpec.getDerivedPath()));
+          return super.filter(requestSpec, responseSpec, ctx);
+      &#125;
+  &#125;
+</code></pre>
+</li>
+</ul>
+<h2 id="How-to-run-test"><a href="#How-to-run-test" class="headerlink" title="How to run test"></a>How to run test</h2><ul>
+<li>run application by <code>./mvnw spring-boot::run </code></li>
+<li>run test by <code>mvn clean test</code></li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://github.com/Fdslk/javaLearning/blob/master/code/openapidemo">source code</a></p>
+
+        <div>
+            
+        </div>
+        <div class="bottom-line"></div>
+        
+    <nav id="article-nav">
+        
+            <a href="/tech/java/spring-boot/jwt/2023/03/05/integration-jwt/" id="article-nav-newer" class="article-nav-link-wrap">
+        <span class="article-nav-title">
+            
+                integration_jwt
+            
+        </span>
+                <strong class="article-nav-caption">&gt;</strong>
+            </a>
+        
+        
+            <a href="/tech/java/spring-boot/webflux/2023/03/05/webflux-api/" id="article-nav-older" class="article-nav-link-wrap">
+                <strong class="article-nav-caption">&lt;</strong>
+                <span class="article-nav-title">
+                    
+                        webflux_api
+                </span>
+                
+            </a>
+        
+    </nav>
+
+
+        
+    </article>
+    <div id="toc">
+        
+            <h2>Table of Contents</h2>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Open-api"><span class="toc-number">1.</span> <span class="toc-text">Open-api</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#swagger"><span class="toc-number">1.1.</span> <span class="toc-text">swagger</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#open-api-validation-for-controller-contract"><span class="toc-number">1.2.</span> <span class="toc-text">open-api validation for controller contract</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#How-to-run-test"><span class="toc-number">1.3.</span> <span class="toc-text">How to run test</span></a></li></ol></li></ol>
+        
+    </div>
+</div>
+
+    </div>
+</div>
+<footer id="footer">
+    <div id="copyright">&copy; Zengqiang Fang  2023</div>
+    <div id="theme">
+        Powered by <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a>. Theme by <a target="_blank" rel="noopener" href="https://github.com/markyong/hexo-theme-stage">Stage</a>
+    </div>
+</footer>
+<script src="/lib/js/waterrippleeffect.min.js"></script>
+<script src="/js/header-bg.main.js"></script>
+
+    <script src="/lib/js/smooth-scroll.min.js"></script>
+    <script src="/js/toc.main.js"></script>
+
+</body>
+</html>

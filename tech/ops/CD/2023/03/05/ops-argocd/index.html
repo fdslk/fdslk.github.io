@@ -1,0 +1,190 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>ops_argocd | 🪳的Daily Blog WebSite</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="">
+    <meta name="description" content="how to set up argo-cd-config
+pre
+
+defination
+
+argo cd is a common CD tool for kubernates
+
+
+steps
+
+create a namespace in local k8s cluster by follow cmd: kubectl create namespace argocd
+
+pull necessary resource to namespacekubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifes...">
+    
+        <link rel="icon" href="/favicon.ico">
+    
+    
+        
+            <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+        
+            <link rel="stylesheet" href="/css/stage.css">
+        
+            <link rel="stylesheet" href="/css/avatar-bg.css">
+        
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+<header id="header">
+    <div class="menu">
+        <i class="fa fa-bars"></i>
+    </div>
+    <div class="header-main">
+        <h1><a href="/">🪳的Daily Blog WebSite</a></h1>
+    </div>
+    <div id="nav">
+        <div class="nav-img" id="nav-img"></div>
+        <div class="sentences">
+            How goes the world with you?
+        </div>
+    </div>
+</header>
+
+<div id="content-outer">
+    <div id="content-inner">
+        <div class="clearfix">
+    <article id="post">
+        <h1>ops_argocd</h1>
+        <div class="create">
+            <span>Created</span>
+            
+                <time datetime="2023-03-05T06:56:21.000Z">
+                    2023-03-05
+                </time>
+            
+            <ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/">tech</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/ops/">ops</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/ops/CD/">CD</a></li></ul></li></ul></li></ul>
+        </div>
+        <h1 id="how-to-set-up-argo-cd-config"><a href="#how-to-set-up-argo-cd-config" class="headerlink" title="how to set up argo-cd-config"></a>how to set up argo-cd-config</h1><ul>
+<li><p>pre</p>
+</li>
+<li><p>defination</p>
+<ul>
+<li>argo cd is a common CD tool for kubernates</li>
+</ul>
+</li>
+<li><p>steps</p>
+<ul>
+<li><p>create a namespace in local k8s cluster by follow cmd:<br></br> <code>kubectl create namespace argocd</code></p>
+</li>
+<li><p>pull necessary resource to namespace<br></br><code>kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml</code></p>
+</li>
+<li><p>check argo cd resource<br></br><code>kubectl get pods -n argocd</code><br> <img src="https://user-images.githubusercontent.com/6279298/146896505-bcead6e6-4078-4fd0-ac29-287ec4f0299a.png" alt="result"></p>
+</li>
+<li><p>how to see argocd UI<br></br><code>kubectl get svc -n argocd</code><br> <img src="https://user-images.githubusercontent.com/6279298/146896613-315f5aae-e7cd-42f7-8ebe-fd5ba90ac587.png" alt="result"><br></br><code>kubectl port-forward -n argocd svc/argocd-server 8080:443</code><br> <img src="https://user-images.githubusercontent.com/6279298/146896604-014cd48b-fbc2-4f8e-b68c-0ca801ebbdf9.png" alt="result"></p>
+</li>
+<li><p>how to login argo ci ui<br></br><code>kubectl get secret argocd-initial-admin-secret -n argocd  -o yaml</code></p>
+<pre><code class="&#123;">&quot;apiVersion&quot;: &quot;v1&quot;,
+&quot;data&quot;: &#123;
+    &quot;password&quot;: &quot;QXp0TnVWZWVra1NSa3Jxdw==&quot;
+&#125;,
+&quot;kind&quot;: &quot;Secret&quot;,
+&quot;metadata&quot;: &#123;
+    &quot;creationTimestamp&quot;: &quot;2021-12-20T14:17:16Z&quot;,
+    &quot;managedFields&quot;: [
+        &#123;
+            &quot;apiVersion&quot;: &quot;v1&quot;,
+            &quot;fieldsType&quot;: &quot;FieldsV1&quot;,
+            &quot;fieldsV1&quot;: &#123;
+                &quot;f:data&quot;: &#123;
+                    &quot;.&quot;: &#123;&#125;,
+                    &quot;f:password&quot;: &#123;&#125;
+                &#125;,
+                &quot;f:type&quot;: &#123;&#125;
+            &#125;,
+            &quot;manager&quot;: &quot;argocd-server&quot;,
+            &quot;operation&quot;: &quot;Update&quot;,
+            &quot;time&quot;: &quot;2021-12-20T14:17:16Z&quot;
+        &#125;
+    ],
+    &quot;name&quot;: &quot;argocd-initial-admin-secret&quot;,
+    &quot;namespace&quot;: &quot;argocd&quot;,
+    &quot;resourceVersion&quot;: &quot;3856&quot;,
+    &quot;selfLink&quot;: &quot;/api/v1/namespaces/argocd/secrets/argocd-initial-admin-secret&quot;,
+    &quot;uid&quot;: &quot;0d60128c-7140-429e-89e9-6fe59ae9e86d&quot;
+&#125;,
+&quot;type&quot;: &quot;Opaque&quot;&#125;
+</code></pre>
+</li>
+<li><p>decode pwd by base64<br></br><code>echo QXp0TnVWZWVra1NSa3Jxdw== | base64 --decode</code></p>
+</li>
+<li><p>how to make the argo cd config work<br></br> <code>kubectl apply -f application.yaml</code><br><img src="https://user-images.githubusercontent.com/6279298/146899503-9dc092c7-d330-493b-aa65-ca0b1de3b1b2.png" alt="result"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="noted"><a href="#noted" class="headerlink" title="noted"></a>noted</h2><ul>
+<li>if your repository is not a public repo, it will need to be public or config authorization</li>
+<li>must use the stable manifest for argocd install.yaml<ul>
+<li></br><code>kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml</code></li>
+<li>issue: cannot async</li>
+</ul>
+</li>
+<li><code>syncOptions: - CreateNameSpace=true</code></li>
+</ul>
+<p> not use,<br>     cannot create a namespace automatically.</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Fdslk/ops/tree/main/argocd-app-config">argocd</a></p>
+
+        <div>
+            
+        </div>
+        <div class="bottom-line"></div>
+        
+    <nav id="article-nav">
+        
+            <a href="/tech/ops/CD/2023/03/05/ops-skaffold/" id="article-nav-newer" class="article-nav-link-wrap">
+        <span class="article-nav-title">
+            
+                ops_skaffold
+            
+        </span>
+                <strong class="article-nav-caption">&gt;</strong>
+            </a>
+        
+        
+            <a href="/tech/kotlin/Android/2023/03/05/Android-app-room-database/" id="article-nav-older" class="article-nav-link-wrap">
+                <strong class="article-nav-caption">&lt;</strong>
+                <span class="article-nav-title">
+                    
+                        Android_app_room_database
+                </span>
+                
+            </a>
+        
+    </nav>
+
+
+        
+    </article>
+    <div id="toc">
+        
+            <h2>Table of Contents</h2>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#how-to-set-up-argo-cd-config"><span class="toc-number">1.</span> <span class="toc-text">how to set up argo-cd-config</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#noted"><span class="toc-number">1.1.</span> <span class="toc-text">noted</span></a></li></ol></li></ol>
+        
+    </div>
+</div>
+
+    </div>
+</div>
+<footer id="footer">
+    <div id="copyright">&copy; Zengqiang Fang  2023</div>
+    <div id="theme">
+        Powered by <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a>. Theme by <a target="_blank" rel="noopener" href="https://github.com/markyong/hexo-theme-stage">Stage</a>
+    </div>
+</footer>
+<script src="/lib/js/waterrippleeffect.min.js"></script>
+<script src="/js/header-bg.main.js"></script>
+
+    <script src="/lib/js/smooth-scroll.min.js"></script>
+    <script src="/js/toc.main.js"></script>
+
+</body>
+</html>

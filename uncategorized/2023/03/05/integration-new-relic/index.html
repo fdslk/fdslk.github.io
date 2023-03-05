@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>integration_new_relic | 🪳的Daily Blog WebSite</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="">
+    <meta name="description" content="How to integrate newRelic into spring-boot applicationFrom the stackoverflow, I found three ways to implement newRelic integration.
+Way one locally test by java cmd
+we can download java agent from the following url.
+unzip the zip file
+modify the license_key and app_name
+run mvn package to build your application j...">
+    
+        <link rel="icon" href="/favicon.ico">
+    
+    
+        
+            <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+        
+            <link rel="stylesheet" href="/css/stage.css">
+        
+            <link rel="stylesheet" href="/css/avatar-bg.css">
+        
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+<header id="header">
+    <div class="menu">
+        <i class="fa fa-bars"></i>
+    </div>
+    <div class="header-main">
+        <h1><a href="/">🪳的Daily Blog WebSite</a></h1>
+    </div>
+    <div id="nav">
+        <div class="nav-img" id="nav-img"></div>
+        <div class="sentences">
+            时光荏苒，旦夕之间，略有遗憾，似白驹过隙，蹉跎自悟。
+        </div>
+    </div>
+</header>
+
+<div id="content-outer">
+    <div id="content-inner">
+        <div class="clearfix">
+    <article id="post">
+        <h1>integration_new_relic</h1>
+        <div class="create">
+            <span>Created</span>
+            
+                <time datetime="2023-03-05T06:07:20.000Z">
+                    2023-03-05
+                </time>
+            
+            
+        </div>
+        <h1 id="How-to-integrate-newRelic-into-spring-boot-application"><a href="#How-to-integrate-newRelic-into-spring-boot-application" class="headerlink" title="How to integrate newRelic into spring-boot application"></a>How to integrate newRelic into spring-boot application</h1><h2 id="From-the-stackoverflow-I-found-three-ways-to-implement-newRelic-integration"><a href="#From-the-stackoverflow-I-found-three-ways-to-implement-newRelic-integration" class="headerlink" title="From the stackoverflow, I found three ways to implement newRelic integration."></a>From the <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/26901959/new-relic-for-spring-boot">stackoverflow</a>, I found three ways to implement newRelic integration.</h2><ul>
+<li>Way one locally test by java cmd<ul>
+<li>we can download java agent from the following <a target="_blank" rel="noopener" href="https://docs.newrelic.com/docs/release-notes/agent-release-notes/java-release-notes/">url</a>.</li>
+<li>unzip the zip file</li>
+<li>modify the license_key and app_name</li>
+<li>run <code>mvn package</code> to build your application jar package</li>
+<li>Enter this command java -javagent: &lt;path to your new relic jar&gt;\newrelic.jar -jar &lt;path to your application jar&gt;\<you rapplication jar name>.jar</li>
+<li>go to newrelic console<ul>
+<li>your application APM<br><img src="https://user-images.githubusercontent.com/96409339/166885858-57be9335-04e4-4269-b843-13d8b8d1c195.png" alt="APM service name"></li>
+<li>other metrics<br><img src="https://user-images.githubusercontent.com/96409339/166887000-12aa2119-ed36-409c-a4d0-293935025627.png" alt="metrics charts"></li>
+<li>logs contents<br><img src="https://user-images.githubusercontent.com/96409339/166887340-305a0dd5-4ca7-49f7-bd49-cbdd93c2a594.png" alt="logs contents"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Way two using newRelic agent locally<ul>
+<li>using intellig idea jvm, add newrelic.jar path to jvm option</li>
+<li>open Edit Configuration -&gt;<br><img src="https://user-images.githubusercontent.com/6279298/167244182-60e5ec52-6162-48e2-bb6f-18160ab409aa.png" alt="add agent path to jvm option"></li>
+<li>click debug&#x2F;run</li>
+<li>console will</li>
+</ul>
+</li>
+<li>Way three using maven dependency<ul>
+<li>add maven dependency<ul>
+<li><pre><code class="xml">&lt;dependency&gt;
+    &lt;groupId&gt;com.newrelic.telemetry&lt;/groupId&gt;
+    &lt;artifactId&gt;micrometer-registry-new-relic&lt;/artifactId&gt;
+    &lt;version&gt;0.8.0&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+</li>
+</ul>
+</li>
+<li>add <code>NewRelicMetricsExportAutoConfiguration</code> as a java been to auto detect interface<ul>
+<li>For example, adding apikey, application service name. etc. By Override existed methods.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Way four using dockerfile to access new relic agent<ul>
+<li>add new Dockerfile</li>
+<li>copy code src, pom, newrelic agent into docker images</li>
+<li><code>docker build -t local/newrelicjava .</code></li>
+<li><code>docker run -it -p 8080:8080 local/newrelicjava</code></li>
+</ul>
+</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://github.com/Fdslk/javaLearning/blob/master/code/newrelic">source code</a></p>
+
+        <div>
+            
+        </div>
+        <div class="bottom-line"></div>
+        
+    <nav id="article-nav">
+        
+            <a href="/tech/java/java-feature-option-optional/2023/03/05/option-optional-difference/" id="article-nav-newer" class="article-nav-link-wrap">
+        <span class="article-nav-title">
+            
+                option_optional_difference
+            
+        </span>
+                <strong class="article-nav-caption">&gt;</strong>
+            </a>
+        
+        
+            <a href="/tech/2023/03/05/elastic-search-basic-feature/" id="article-nav-older" class="article-nav-link-wrap">
+                <strong class="article-nav-caption">&lt;</strong>
+                <span class="article-nav-title">
+                    
+                        elastic_search_basic_feature
+                </span>
+                
+            </a>
+        
+    </nav>
+
+
+        
+    </article>
+    <div id="toc">
+        
+            <h2>Table of Contents</h2>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#How-to-integrate-newRelic-into-spring-boot-application"><span class="toc-number">1.</span> <span class="toc-text">How to integrate newRelic into spring-boot application</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#From-the-stackoverflow-I-found-three-ways-to-implement-newRelic-integration"><span class="toc-number">1.1.</span> <span class="toc-text">From the stackoverflow, I found three ways to implement newRelic integration.</span></a></li></ol></li></ol>
+        
+    </div>
+</div>
+
+    </div>
+</div>
+<footer id="footer">
+    <div id="copyright">&copy; Zengqiang Fang  2023</div>
+    <div id="theme">
+        Powered by <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a>. Theme by <a target="_blank" rel="noopener" href="https://github.com/markyong/hexo-theme-stage">Stage</a>
+    </div>
+</footer>
+<script src="/lib/js/waterrippleeffect.min.js"></script>
+<script src="/js/header-bg.main.js"></script>
+
+    <script src="/lib/js/smooth-scroll.min.js"></script>
+    <script src="/js/toc.main.js"></script>
+
+</body>
+</html>

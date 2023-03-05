@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>integration_auth0_in_spring-boot | 🪳的Daily Blog WebSite</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="">
+    <meta name="description" content="Auth0 In Spring-BootWhat is auth0?
+Auth0 is a open-source service for providing authentication and authorization.
+You can create a auth0 application on the auth0 server, then it will generate clientId and client secret to you.
+Then you don’t need to create any authentication or authorization business in your mach...">
+    
+        <link rel="icon" href="/favicon.ico">
+    
+    
+        
+            <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+        
+            <link rel="stylesheet" href="/css/stage.css">
+        
+            <link rel="stylesheet" href="/css/avatar-bg.css">
+        
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+<header id="header">
+    <div class="menu">
+        <i class="fa fa-bars"></i>
+    </div>
+    <div class="header-main">
+        <h1><a href="/">🪳的Daily Blog WebSite</a></h1>
+    </div>
+    <div id="nav">
+        <div class="nav-img" id="nav-img"></div>
+        <div class="sentences">
+            时光荏苒，旦夕之间，略有遗憾，似白驹过隙，蹉跎自悟。
+        </div>
+    </div>
+</header>
+
+<div id="content-outer">
+    <div id="content-inner">
+        <div class="clearfix">
+    <article id="post">
+        <h1>integration_auth0_in_spring-boot</h1>
+        <div class="create">
+            <span>Created</span>
+            
+                <time datetime="2023-03-05T03:44:09.000Z">
+                    2023-03-05
+                </time>
+            
+            <ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/">tech</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/java/">java</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/java/spring-boot/">spring-boot</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/java/spring-boot/auth0/">auth0</a></li></ul></li></ul></li></ul></li></ul>
+        </div>
+        <h1 id="Auth0-In-Spring-Boot"><a href="#Auth0-In-Spring-Boot" class="headerlink" title="Auth0 In Spring-Boot"></a>Auth0 In Spring-Boot</h1><h2 id="What-is-auth0"><a href="#What-is-auth0" class="headerlink" title="What is auth0?"></a>What is auth0?</h2><ul>
+<li>Auth0 is a open-source service for providing authentication and authorization.</li>
+<li>You can create a auth0 application on the auth0 server, then it will generate clientId and client secret to you.</li>
+<li>Then you don’t need to create any authentication or authorization business in your machine<br>which can cut the unnecessary cost.</li>
+</ul>
+<h2 id="How-to-use-auth0-in-spring-boot"><a href="#How-to-use-auth0-in-spring-boot" class="headerlink" title="How to use auth0 in spring-boot?"></a>How to use auth0 in spring-boot?</h2><ul>
+<li>Firstly, you are supposed to create your auth0 application. <ul>
+<li>applications-&gt;applications-&gt;choose the category -&gt; create application<br><img src="https://user-images.githubusercontent.com/6279298/164350380-e1c2fbb2-7e41-42c3-8ea4-0158c1b97f4b.png" alt="create new application"></li>
+</ul>
+</li>
+<li>Secondly, you are supposed to create an application api to let your resource application can be protected<br><img src="https://user-images.githubusercontent.com/6279298/164351057-82118c2e-4e93-4287-8575-bd05b28e5d8d.png" alt="create new  api"></li>
+<li>Thirdly, you can test the newly api for obtaining a token by curl cmd.<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">curl --request POST \</span><br><span class="line">--url ‘&lt;DOMAIN&gt;/oauth/token&#x27; \</span><br><span class="line">--header &#x27;content-type: application/x-www-form-urlencoded&#x27; \</span><br><span class="line">--data grant_type=client_credentials \</span><br><span class="line">--data &#x27;client_id=YOUR_CLIENT_ID&#x27; \</span><br><span class="line">--data client_secret=YOUR_CLIENT_SECRET \</span><br><span class="line">--data audience=YOUR_API_IDENTIFIER</span><br></pre></td></tr></table></figure></li>
+<li>Adding spring-boot dependency in your application<ul>
+<li>add Oauth2 maven dependency</li>
+<li>setup OAuth2 configuration<ul>
+<li>set up the audience</li>
+<li>set up the issuer-url</li>
+</ul>
+</li>
+<li>add validator implements the OAuth2TokenValidator</li>
+<li>configure api permission</li>
+</ul>
+</li>
+</ul>
+<h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips:"></a>Tips:</h2><ul>
+<li>If this occurs to you:<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;error&quot;</span><span class="punctuation">:</span><span class="string">&quot;access_denied&quot;</span><span class="punctuation">,</span><span class="attr">&quot;error_description&quot;</span><span class="punctuation">:</span><span class="string">&quot;Client is not authorized to access \&quot;https://quickstarts/api\&quot;. You need to create a \&quot;client-grant\&quot; associated to this API. See: https://auth0.com/docs/api/v2#!/Client_Grants/post_client_grants&quot;</span><span class="punctuation">&#125;</span>%</span><br></pre></td></tr></table></figure></li>
+<li>solution<ul>
+<li>api should authorize the newly app.<br><img src="https://user-images.githubusercontent.com/6279298/164351811-db721670-2d43-4051-9b5f-429a3fc1be51.png"></li>
+</ul>
+</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://github.com/auth0-samples/auth0-spring-security5-api-sample/tree/master/01-Authorization-MVC/src">more details about how to use auth0 in spring-boot</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Fdslk/javaLearning/blob/master/code/authbyzero">code source</a></p>
+
+        <div>
+            <ul class="tags-category-list" itemprop="keywords"><li class="tags-category-list-item"><a class="tags-category-list-link" href="/tags/java-spring-boot-auth0/" rel="tag">java, spring-boot, auth0</a></li></ul>
+        </div>
+        <div class="bottom-line"></div>
+        
+    <nav id="article-nav">
+        
+            <a href="/tech/java/spring-boot/101/2023/03/05/spring101/" id="article-nav-newer" class="article-nav-link-wrap">
+        <span class="article-nav-title">
+            
+                spring101
+            
+        </span>
+                <strong class="article-nav-caption">&gt;</strong>
+            </a>
+        
+        
+            <a href="/tech/java/spring-boot/starter/2023/03/05/java-customer-starter/" id="article-nav-older" class="article-nav-link-wrap">
+                <strong class="article-nav-caption">&lt;</strong>
+                <span class="article-nav-title">
+                    
+                        java_customer_starter
+                </span>
+                
+            </a>
+        
+    </nav>
+
+
+        
+    </article>
+    <div id="toc">
+        
+            <h2>Table of Contents</h2>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Auth0-In-Spring-Boot"><span class="toc-number">1.</span> <span class="toc-text">Auth0 In Spring-Boot</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#What-is-auth0"><span class="toc-number">1.1.</span> <span class="toc-text">What is auth0?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#How-to-use-auth0-in-spring-boot"><span class="toc-number">1.2.</span> <span class="toc-text">How to use auth0 in spring-boot?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips"><span class="toc-number">1.3.</span> <span class="toc-text">Tips:</span></a></li></ol></li></ol>
+        
+    </div>
+</div>
+
+    </div>
+</div>
+<footer id="footer">
+    <div id="copyright">&copy; Zengqiang Fang  2023</div>
+    <div id="theme">
+        Powered by <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a>. Theme by <a target="_blank" rel="noopener" href="https://github.com/markyong/hexo-theme-stage">Stage</a>
+    </div>
+</footer>
+<script src="/lib/js/waterrippleeffect.min.js"></script>
+<script src="/js/header-bg.main.js"></script>
+
+    <script src="/lib/js/smooth-scroll.min.js"></script>
+    <script src="/js/toc.main.js"></script>
+
+</body>
+</html>

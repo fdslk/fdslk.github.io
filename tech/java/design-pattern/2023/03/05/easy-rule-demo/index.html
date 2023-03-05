@@ -1,0 +1,236 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>easy_rule_demo | 🪳的Daily Blog WebSite</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="">
+    <meta name="description" content="优雅的实现策略阅读本文大约10min
+什么是easy rule
+easy rule 是一个rule engine工具，用来代替复杂的if else block，在代码中使得业务能够得到更好的分离，从而让代码能够更好的使用策略模式来分离业务
+easy rule除了支持java以外还支持，Go，Groovy，C# 
+更多关于rule engine的details，给大家推荐一篇老马的文章RulesEngine
+与之相同的还有很多其他的java language的rule engine
+Drool
+OpenL Tablets
+RuleBook
+
+
+
+如何使用easy rule
+如何用不同的方式创建rule
+以面向对象的形式(O...">
+    
+        <link rel="icon" href="/favicon.ico">
+    
+    
+        
+            <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+        
+            <link rel="stylesheet" href="/css/stage.css">
+        
+            <link rel="stylesheet" href="/css/avatar-bg.css">
+        
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+<header id="header">
+    <div class="menu">
+        <i class="fa fa-bars"></i>
+    </div>
+    <div class="header-main">
+        <h1><a href="/">🪳的Daily Blog WebSite</a></h1>
+    </div>
+    <div id="nav">
+        <div class="nav-img" id="nav-img"></div>
+        <div class="sentences">
+            时光荏苒，旦夕之间，略有遗憾，似白驹过隙，蹉跎自悟。
+        </div>
+    </div>
+</header>
+
+<div id="content-outer">
+    <div id="content-inner">
+        <div class="clearfix">
+    <article id="post">
+        <h1>easy_rule_demo</h1>
+        <div class="create">
+            <span>Created</span>
+            
+                <time datetime="2023-03-05T03:50:50.000Z">
+                    2023-03-05
+                </time>
+            
+            <ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/">tech</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/java/">java</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/java/design-pattern/">design-pattern</a></li></ul></li></ul></li></ul>
+        </div>
+        <h1 id="优雅的实现策略"><a href="#优雅的实现策略" class="headerlink" title="优雅的实现策略"></a>优雅的实现策略</h1><p><a href="#">阅读本文大约10min</a></p>
+<h2 id="什么是easy-rule"><a href="#什么是easy-rule" class="headerlink" title="什么是easy rule"></a>什么是easy rule</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/j-easy/easy-rules">easy rule</a> 是一个rule engine工具，用来代替复杂的<code>if</code> <code>else</code> block，在代码中使得业务能够得到更好的分离，从而让代码能够更好的使用策略模式来分离业务</li>
+<li><code>easy rule</code>除了支持java以外还支持，<code>Go</code>，<code>Groovy</code>，<code>C#</code> </li>
+<li>更多关于rule engine的details，给大家推荐一篇老马的文章<a target="_blank" rel="noopener" href="https://martinfowler.com/bliki/RulesEngine.html">RulesEngine</a></li>
+<li>与之相同的还有很多其他的java language的rule engine<ul>
+<li><a target="_blank" rel="noopener" href="https://www.drools.org/">Drool</a></li>
+<li><a target="_blank" rel="noopener" href="https://openl-tablets.org/">OpenL Tablets</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/deliveredtechnologies/rulebook">RuleBook</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="如何使用easy-rule"><a href="#如何使用easy-rule" class="headerlink" title="如何使用easy rule"></a>如何使用easy rule</h2><ul>
+<li><font size=4><strong>如何用不同的方式创建rule</strong></font><ul>
+<li><font size=3><strong>以面向对象的形式(</strong><em>OO</em><strong>)</strong></font><ul>
+<li>添加依赖，根据项目而定，<code>maven</code>和<code>gradle</code>都支持，在本文中使用maven<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.jeasy<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>easy-rules-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li>创建抽象类<code>BasicTestRule</code>继承easyRule中的<code>BasicRule</code>, 重载<code>evaluate()</code> &amp; <code>execute()</code>方法，前者为了执行不同的rule匹配规则，后者为了自定义执行满足条件之后的操作，🌰 ：打印某些日志，或者改变原先的facts的值；在以下的例子中，将对传入的facts与规则匹配上的时候在重载的<code>execute()</code>方法中执行了<code>setter</code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">BasicTestRule</span> <span class="keyword">extends</span> <span class="title class_">BasicRule</span> &#123;</span><br><span class="line">    </span><br><span class="line">   <span class="keyword">public</span> <span class="title function_">BasicTestRule</span><span class="params">(<span class="keyword">final</span> String name, <span class="keyword">final</span> <span class="type">int</span> priority)</span> &#123;</span><br><span class="line">       <span class="built_in">super</span>(name, DEFAULT_DESCRIPTION, priority);</span><br><span class="line">   &#125;</span><br><span class="line">    </span><br><span class="line">   <span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="type">boolean</span> <span class="title function_">hitCondition</span><span class="params">(<span class="keyword">final</span> RuleResult creatureFacts)</span>;</span><br><span class="line">   <span class="keyword">protected</span> <span class="keyword">abstract</span> String <span class="title function_">getType</span><span class="params">()</span>;</span><br><span class="line">   </span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">final</span> <span class="type">boolean</span> <span class="title function_">evaluate</span><span class="params">(<span class="keyword">final</span> Facts facts)</span> &#123;</span><br><span class="line">       <span class="keyword">return</span> hitCondition(facts.get(FACTS));</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title function_">execute</span><span class="params">(<span class="keyword">final</span> Facts facts)</span> &#123;</span><br><span class="line">       <span class="type">RuleResult</span> <span class="variable">ruleResult</span> <span class="operator">=</span> facts.get(FACTS);</span><br><span class="line">       ruleResult.setResultType(String.format(<span class="string">&quot;The class is %s&quot;</span>, getType()));</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在以上的例子中，<code>evaluate</code>函数是放置了一个<strong>Condition</strong>函数<code>hitCondition()</code>，一旦条件符合就会返回<code>TRUE</code>，表明该rule被匹配</li>
+</ul>
+</li>
+<li>定义满足条件的抽象函数<code>hitCondition</code>，每个rule继承Basic方法的之后，实现<code>hitCondition</code>方法，以demo中的<code>PersonTestRule</code>中被重载的函数为例： <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">protected</span> <span class="type">boolean</span> <span class="title function_">hitCondition</span><span class="params">(RuleResult creatureFacts)</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> Objects.equals(creatureFacts.getClassType(), <span class="built_in">this</span>.getClass().getSimpleName());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>当传入的 facts的type和当前类名一致时，将会被匹配上，并且在<code>BasicTestRule</code>中，同样重载了easyRule提供的<code>execute()</code>，当rule被匹配之后，将会执行该函数。在父类<code>BasicTestRule</code>中，提供了抽象方法<code>getType()</code>，在不同的子类型中会返回自己类的全称，然后被父类中<code>execute()</code>调用<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">protected</span> String <span class="title function_">getType</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> PersonTestRule.class.toString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><font size=3><strong>annotation的形式</strong></font><ul>
+<li>给类定义Rule名称，该注解将会把该类标记成一个rule，标记之后可以用上述步骤在Rules中注册</li>
+</ul>
+<p><code>@Rule(name = &quot;AnnotationTestRule&quot;, description = &quot;using annotation to match rule&quot;)</code></p>
+<ul>
+<li>定义一个<code>Condition</code>注解的方法，这里定义满足条件的标准<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Condition</span></span><br><span class="line"> <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">hitCondition</span><span class="params">(<span class="meta">@Fact(&quot;facts&quot;)</span> RuleResult ruleResult)</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> Objects.equals(ruleResult.getClassType(), <span class="built_in">this</span>.getClass().getSimpleName());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>定义一个<code>Action</code>注解的方法，这里定义当条件满足时的要做的业务<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> <span class="meta">@Action</span></span><br><span class="line"> <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">getType</span><span class="params">()</span> &#123;</span><br><span class="line">  System.out.println(AnnotationTestRule.class);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><font size=3><strong>Expression的形式定义rule</strong></font><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Rule</span> <span class="variable">testRule</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MVELRule</span>()</span><br><span class="line">            .name(<span class="string">&quot;Test Rule&quot;</span>)</span><br><span class="line">            .description(<span class="string">&quot;if class Type is `test`&quot;</span>)</span><br><span class="line">            .when(<span class="string">&quot;ruleResult.classType == &#x27;test&#x27;&quot;</span>)</span><br><span class="line">            .then(<span class="string">&quot;ruleResult.setResultType(&#x27;test&#x27;);&quot;</span>);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>初始化<code>MVELRule</code>，定义rule的<code>name</code>，<code>description</code>，触发条件<code>when</code>，action <code>then</code></li>
+<li>tips，定义Facts时需要保持key value和表达式中操作对象的名称一致<ul>
+<li><code> facts.put(&quot;ruleResult&quot;, ruleResult);</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><font size=3><strong>fluent programmatic的形式定义rule</strong></font><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Rule</span> <span class="variable">rule</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">RuleBuilder</span>()</span><br><span class="line">              .description(<span class="string">&quot;test&quot;</span>)</span><br><span class="line">              .name(<span class="string">&quot;checkAdult&quot;</span>)</span><br><span class="line">              .when(condition -&gt; &#123;</span><br><span class="line">                  <span class="type">RuleResult</span> <span class="variable">facts</span> <span class="operator">=</span> condition.get(<span class="string">&quot;facts&quot;</span>);</span><br><span class="line">                  <span class="keyword">return</span> facts.getClassType().equals(<span class="string">&quot;test&quot;</span>);</span><br><span class="line">              &#125;)</span><br><span class="line">              .then(facts -&gt; &#123;</span><br><span class="line">                  <span class="type">RuleResult</span> <span class="variable">ruleResult</span> <span class="operator">=</span> facts.get(<span class="string">&quot;facts&quot;</span>);</span><br><span class="line">                  System.out.println(<span class="string">&quot;--------matches-------&quot;</span>);</span><br><span class="line">                  ruleResult.setResultType(<span class="string">&quot;test&quot;</span>);</span><br><span class="line">              &#125;)</span><br><span class="line">              .build();</span><br></pre></td></tr></table></figure>
+<ul>
+<li>创建<code>RuleBuilder</code>，以builder的形式定义了Rule的描述<code>description</code>，名称<code>name</code>，条件<code>when</code>以及满足条件之后需要执行的行为<code>then</code></li>
+</ul>
+</li>
+<li><font size=3><strong>rule yml的形式定义rule</strong></font><ul>
+<li>定义一个yml文件，同样的，<code>MVELRuleFactory</code>也支持<code>json</code>格式的文件</li>
+<li>加入依赖<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.jeasy<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>easy-rules-mvel<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li>使用fileReader读取文件，构造到<code>MVELRuleFactory</code>中<ul>
+<li>首先先定义一个MVELRule的Factory，入参是用来接受rule文件的解析格式，easyRule支持<code>yml</code>&amp;<code>json</code>两种<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="type">MVELRuleFactory</span> <span class="variable">ruleFactory</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MVELRuleFactory</span>(<span class="keyword">new</span> <span class="title class_">YamlRuleDefinitionReader</span>());</span><br><span class="line">```  </span><br><span class="line">* 如果在一个yml文件中定义了多个rule，使用`createRules`，否则使用`createRule`</span><br><span class="line">```java</span><br><span class="line"><span class="type">Rules</span> <span class="variable">multipleRules</span> <span class="operator">=</span> ruleFactory.createRules(<span class="keyword">new</span> <span class="title class_">InputStreamReader</span>(resourceAsStream));</span><br></pre></td></tr></table></figure></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/imona/tutorial/wiki/MVEL-Guide#foreach">MVEL语法</a></li>
+<li>如果遇到以下的错误 <code>[Error: could not access field: org.zqf.easyruledemo.Person.age]</code><ul>
+<li>我的解决方法是将<code>Person</code>变成一个公有的方法 <strong style="color:green">原因是我当时第一次写的时候，是将<code>Person</code>定义在了当前的测试类中，所以当前class的级别为<code>default</code>，使用的范围是在当前包下。但是当easy rule的要使用person类中的方法时，因为没有在同一个包下，所以访问不了。</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>第一个🌰 是在一个yml文件中定义了多个规则，但是每一个规则都是一个简单规则，使用<code>---</code>分隔<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">non</span> <span class="string">adult</span> <span class="string">rule</span></span><br><span class="line"><span class="attr">description:</span> <span class="string">when</span> <span class="string">age</span> <span class="string">is</span> <span class="string">less</span> <span class="string">than</span> <span class="string">or</span> <span class="string">equal</span> <span class="number">18</span><span class="string">,</span> <span class="string">then</span> <span class="string">mark</span> <span class="string">as</span> <span class="string">non-adult</span></span><br><span class="line"><span class="attr">priority:</span> <span class="number">1</span></span><br><span class="line"><span class="attr">condition:</span> <span class="string">&quot;person.age &lt;= 18&quot;</span></span><br><span class="line"><span class="attr">actions:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">&quot;person.setAdult(false);&quot;</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">adult</span> <span class="string">rule</span></span><br><span class="line"><span class="attr">description:</span> <span class="string">when</span> <span class="string">age</span> <span class="string">is</span> <span class="string">greater</span> <span class="string">than</span> <span class="number">18</span><span class="string">,</span> <span class="string">then</span> <span class="string">mark</span> <span class="string">as</span> <span class="string">adult</span></span><br><span class="line"><span class="attr">priority:</span> <span class="number">2</span></span><br><span class="line"><span class="attr">condition:</span> <span class="string">&quot;person.age &gt; 18&quot;</span></span><br><span class="line"><span class="attr">actions:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">&quot;person.setAdult(true);&quot;</span></span><br></pre></td></tr></table></figure></li>
+<li><font size=2 color=red><strong>支持组合规则，适用于较为复杂的场景</strong></font><ul>
+<li><code>UnitRuleGroup</code>，在yml中定义<code>compositeRuleType</code>为<code>UnitRuleGroup</code>，被定义的规则需要都被匹配上才能被选择上，如果有一个<strong>子规则</strong>没有匹配上，那么结果仍然不会被匹配，这些规则具有<strong style="color:green">原子性</strong><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">adult</span> <span class="string">check</span> <span class="string">composing</span> <span class="string">rule</span></span><br><span class="line"><span class="attr">ompositeRuleType:</span> <span class="string">UnitRuleGroup</span></span><br><span class="line"><span class="attr">riority:</span> <span class="number">1</span></span><br><span class="line"><span class="attr">omposingRules:</span></span><br><span class="line"> <span class="attr">name:</span> <span class="string">adult</span></span><br><span class="line"> <span class="attr">description:</span> <span class="string">If</span> <span class="string">the</span> <span class="string">age</span> <span class="string">is</span> <span class="string">more</span> <span class="string">than</span> <span class="number">18</span></span><br><span class="line"> <span class="attr">priority:</span> <span class="number">1</span></span><br><span class="line"> <span class="attr">condition:</span> <span class="string">&quot;person.age &gt; 18&quot;</span></span><br><span class="line"> <span class="attr">actions:</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">&quot;person.setAdult(true);&quot;</span></span><br><span class="line"> <span class="attr">name:</span> <span class="string">foo-adult</span></span><br><span class="line"> <span class="attr">description:</span> <span class="string">If</span> <span class="string">the</span> <span class="string">name</span> <span class="string">is</span> <span class="string">&#x27;foo&#x27;</span></span><br><span class="line"> <span class="attr">priority:</span> <span class="number">1</span></span><br><span class="line"> <span class="attr">condition:</span> <span class="string">&quot;person.name == &#x27;foo&#x27;&quot;</span></span><br><span class="line"> <span class="attr">actions:</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">&quot;person.setAdult(true);&quot;</span></span><br></pre></td></tr></table></figure></li>
+<li><code>ConditionalRuleGroup</code>，举个🌰：这种group类似于一种组合拳，有一个规则必须先执行，然后再看有没有其他的规则能够匹配上，就像登录一样，验证通过之后，再去做一些其他的操作<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">adult</span> <span class="string">check</span> <span class="string">Condiftional</span> <span class="string">rule</span> <span class="string">Group</span></span><br><span class="line"><span class="attr">compositeRuleType:</span> <span class="string">ConditionalRuleGroup</span></span><br><span class="line"><span class="attr">priority:</span> <span class="number">1</span></span><br><span class="line"><span class="attr">composingRules:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">adult</span></span><br><span class="line">  <span class="attr">description:</span> <span class="string">If</span> <span class="string">the</span> <span class="string">age</span> <span class="string">is</span> <span class="string">more</span> <span class="string">than</span> <span class="number">18</span></span><br><span class="line">  <span class="attr">priority:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">condition:</span> <span class="string">&quot;person.age &gt; 18&quot;</span></span><br><span class="line">  <span class="attr">actions:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">&quot;person.setAdult(true);&quot;</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">foo-adult</span></span><br><span class="line">  <span class="attr">description:</span> <span class="string">If</span> <span class="string">the</span> <span class="string">name</span> <span class="string">is</span> <span class="string">&#x27;foo&#x27;</span></span><br><span class="line">  <span class="attr">priority:</span> <span class="number">2</span></span><br><span class="line">  <span class="attr">condition:</span> <span class="string">&quot;person.name == &#x27;foo&#x27;&quot;</span></span><br><span class="line">  <span class="attr">actions:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">&quot;person.setAdult(true);&quot;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li>tips，<code>ConditionalRuleGroup</code>将会检查<code>composingRules</code>中的优先级，其中只允许有一个<code>priority=1</code>的<strong>子规则</strong></li>
+</ul>
+</li>
+<li><code>ActivationRuleGroup</code>，只会有一个子规则匹配上，那么就会忽略其他的规则，直接执行这个被选择上的规则<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">adult</span> <span class="string">check</span> <span class="string">Condiftional</span> <span class="string">rule</span> <span class="string">Group</span></span><br><span class="line"> <span class="attr">compositeRuleType:</span> <span class="string">ActivationRuleGroup</span></span><br><span class="line"> <span class="attr">priority:</span> <span class="number">1</span></span><br><span class="line"> <span class="attr">composingRules:</span></span><br><span class="line"> <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">adult</span></span><br><span class="line">   <span class="attr">description:</span> <span class="string">If</span> <span class="string">the</span> <span class="string">age</span> <span class="string">is</span> <span class="string">more</span> <span class="string">than</span> <span class="number">18</span></span><br><span class="line">   <span class="attr">priority:</span> <span class="number">1</span></span><br><span class="line">   <span class="attr">condition:</span> <span class="string">&quot;person.age &gt; 18&quot;</span></span><br><span class="line">   <span class="attr">actions:</span></span><br><span class="line">   <span class="bullet">-</span> <span class="string">&quot;person.setAdult(true);&quot;</span></span><br><span class="line"> <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">foo-adult</span></span><br><span class="line">   <span class="attr">description:</span> <span class="string">If</span> <span class="string">the</span> <span class="string">name</span> <span class="string">is</span> <span class="string">&#x27;foo&#x27;</span></span><br><span class="line">   <span class="attr">priority:</span> <span class="number">2</span></span><br><span class="line">   <span class="attr">condition:</span> <span class="string">&quot;person.name == &#x27;foo&#x27;&quot;</span></span><br><span class="line">   <span class="attr">actions:</span></span><br><span class="line">   <span class="bullet">-</span> <span class="string">&quot;person.setAdult(true);&quot;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><font size=3><strong>对于<code>spring boot</code>项目，可以使用注解的方式，注入Rules</strong></font><ul>
+<li>定义一个Rule的configuration class，对该类使用注解<code>@Configuration</code>，spring boot的bean容器就会在启动的时候，将当前父类<code>BasicVegetableRule</code>下所有子类都加载到入参<code>basicVegetableRules</code>中，当然如果想要使用java的bean的便利，那么对于需要加载的子类也需要加上注解<code>@Component</code>。这样在spring boot项目启动的时候就会将其扫描到这个<code>Set</code>中。<code>Rule</code>是一个<strong style='color:RED'>interface</strong>，所以所有的实现都可以转成其本身。<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RuleBeans</span> &#123;</span><br><span class="line"><span class="meta">@Bean(&quot;BasicVegetableRule&quot;)</span></span><br><span class="line"><span class="keyword">public</span> Rules <span class="title function_">BasicVegetableRules</span><span class="params">(<span class="keyword">final</span> Set&lt;BasicVegetableRule&gt; basicVegetableRules)</span> &#123;</span><br><span class="line">   <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Rules</span>(basicVegetableRules.stream().map(Rule.class::cast).collect(Collectors.toSet()));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PotatoRule</span> <span class="keyword">extends</span> <span class="title class_">BasicVegetableRule</span> &#123;</span><br><span class="line">   xxxxx;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>在spring boot项目中，有一些不同的业务场景，可能需要用到大量的<code>if else</code>来完成不同的业务场景。将这些Component利用Java bean加载到Set对象中，将其构造到<code>Rules</code>，进而可以直接传入ruleEngine中完成规则匹配</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><font size=4><strong>如何使用ruleEngine</strong></font><ul>
+<li>定义RuleEngine，初始化rule parameter参数   <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">RulesEngineParameters</span> <span class="variable">parameters</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">RulesEngineParameters</span>()</span><br><span class="line">                                 .skipOnFirstAppliedRule(<span class="literal">true</span>)</span><br><span class="line">                                 .skipOnFirstFailedRule(<span class="literal">false</span>)</span><br><span class="line">                                 .skipOnFirstNonTriggeredRule(<span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>setSkipOnFirstAppliedRule</code>，这个配置决定了是否匹配到第一个rule就直接返回了</li>
+<li><code>isSkipOnFirstNonTriggeredRule</code>，当第一个规则没有被匹配成功的时候，如果当前值设置为<code>true</code>的时候，将不会执行其他的规则，一般可以设置为<code>false</code>，我理解这个是给最高优先级的规则匹配，如果第一个匹配不上，不用关心其他的规则</li>
+<li><code>skipOnFirstFailedRule</code>，当第一个匹配到的规则失败的时候，将会返回匹配到的下一个规则</li>
+</ul>
+</li>
+<li>创建ruleEngine <code>DefaultRulesEngine rulesEngine = new DefaultRulesEngine(parameters);</code></li>
+<li>定义Rule，并注册rule<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Rules</span> <span class="variable">rules</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Rules</span>();</span><br><span class="line">rules.register(<span class="keyword">new</span> <span class="title class_">PersonTestRule</span>());</span><br></pre></td></tr></table></figure></li>
+<li>定义Facts<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Facts</span> <span class="variable">facts</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Facts</span>();</span><br><span class="line"><span class="type">RuleResult</span> <span class="variable">ruleResult</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">RuleResult</span>();</span><br><span class="line">ruleResult.setClassType(classType);</span><br><span class="line">facts.put(FACTS, ruleResult);</span><br></pre></td></tr></table></figure></li>
+<li>最后定义一个通用的方法，使用RuleEngine的<code>fire</code>方法，来触发规则匹配<br><code>rulesEngine.fire(rules, facts);</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h2><ul>
+<li>rule engine可以将复杂的业务解耦，使每个类的职责更单一，方便维护与后期的扩展</li>
+<li>对于较为简单的规则，因为rule的优先级不同，以及被分散在每一个类中，这样可能不如使用<code>if else</code>直观，需要有足够的上下文，才能将每个rule联系起来</li>
+</ul>
+<h2 id="Q-amp-A"><a href="#Q-amp-A" class="headerlink" title="Q&amp;A"></a>Q&amp;A</h2><ul>
+<li>如果两个rule的优先级相同，rule在Rules的顺序是什么呢？<ul>
+<li><strong>answer</strong>：当两个rule的优先级相同时，匹配rule的顺序会使用rule的注册顺序，反之使用优先级(priority)排序</li>
+</ul>
+</li>
+</ul>
+<h2 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/Fdslk/javaLearning/tree/master/code/easyRule">非spring boot</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Fdslk/javaLearning/tree/master/code/easyruledemo">spring boot</a></li>
+</ul>
+
+        <div>
+            <ul class="tags-category-list" itemprop="keywords"><li class="tags-category-list-item"><a class="tags-category-list-link" href="/tags/java-design-pattern-easy-rule/" rel="tag">java, design-pattern, easy-rule</a></li></ul>
+        </div>
+        <div class="bottom-line"></div>
+        
+    <nav id="article-nav">
+        
+            <a href="/tech/test/java/es/2023/03/05/es-local-tests/" id="article-nav-newer" class="article-nav-link-wrap">
+        <span class="article-nav-title">
+            
+                es_local_tests
+            
+        </span>
+                <strong class="article-nav-caption">&gt;</strong>
+            </a>
+        
+        
+            <a href="/tech/java/spring-boot/101/2023/03/05/spring101/" id="article-nav-older" class="article-nav-link-wrap">
+                <strong class="article-nav-caption">&lt;</strong>
+                <span class="article-nav-title">
+                    
+                        spring101
+                </span>
+                
+            </a>
+        
+    </nav>
+
+
+        
+    </article>
+    <div id="toc">
+        
+            <h2>Table of Contents</h2>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BC%98%E9%9B%85%E7%9A%84%E5%AE%9E%E7%8E%B0%E7%AD%96%E7%95%A5"><span class="toc-number">1.</span> <span class="toc-text">优雅的实现策略</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFeasy-rule"><span class="toc-number">1.1.</span> <span class="toc-text">什么是easy rule</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8easy-rule"><span class="toc-number">1.2.</span> <span class="toc-text">如何使用easy rule</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number">1.3.</span> <span class="toc-text">优缺点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Q-amp-A"><span class="toc-number">1.4.</span> <span class="toc-text">Q&amp;A</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Demo"><span class="toc-number">1.5.</span> <span class="toc-text">Demo</span></a></li></ol></li></ol>
+        
+    </div>
+</div>
+
+    </div>
+</div>
+<footer id="footer">
+    <div id="copyright">&copy; Zengqiang Fang  2023</div>
+    <div id="theme">
+        Powered by <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a>. Theme by <a target="_blank" rel="noopener" href="https://github.com/markyong/hexo-theme-stage">Stage</a>
+    </div>
+</footer>
+<script src="/lib/js/waterrippleeffect.min.js"></script>
+<script src="/js/header-bg.main.js"></script>
+
+    <script src="/lib/js/smooth-scroll.min.js"></script>
+    <script src="/js/toc.main.js"></script>
+
+</body>
+</html>

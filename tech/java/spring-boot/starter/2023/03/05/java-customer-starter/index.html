@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>java_customer_starter | 🪳的Daily Blog WebSite</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="">
+    <meta name="description" content="为什么要开发 spring starter
+为了理解为什么我们需要开发spring starter这样的一个工具，主要原因还要从spring mvc开始说起。因为早期的MVC框架中，如果要引入其他的依赖，需要在项目的xml中配置很多。那如果依赖的的越多，或者项目的越复杂，那么加入的配置也会越多，最终导致我们xml文件也会非常的复杂。
+
+因为有了👆🏻的痛点之后，spring加入了auto-configuration的技术
+
+什么是auto-configuration?
+可以把classpath中的jar包自动的导入在JVM中
+需要被auto-configuration的依赖都会被列举在spring.property文件...">
+    
+        <link rel="icon" href="/favicon.ico">
+    
+    
+        
+            <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+        
+            <link rel="stylesheet" href="/css/stage.css">
+        
+            <link rel="stylesheet" href="/css/avatar-bg.css">
+        
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+<header id="header">
+    <div class="menu">
+        <i class="fa fa-bars"></i>
+    </div>
+    <div class="header-main">
+        <h1><a href="/">🪳的Daily Blog WebSite</a></h1>
+    </div>
+    <div id="nav">
+        <div class="nav-img" id="nav-img"></div>
+        <div class="sentences">
+            How goes the world with you?
+        </div>
+    </div>
+</header>
+
+<div id="content-outer">
+    <div id="content-inner">
+        <div class="clearfix">
+    <article id="post">
+        <h1>java_customer_starter</h1>
+        <div class="create">
+            <span>Created</span>
+            
+                <time datetime="2023-03-05T03:43:13.000Z">
+                    2023-03-05
+                </time>
+            
+            <ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/">tech</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/java/">java</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/java/spring-boot/">spring-boot</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/java/spring-boot/starter/">starter</a></li></ul></li></ul></li></ul></li></ul>
+        </div>
+        <h2 id="为什么要开发-spring-starter"><a href="#为什么要开发-spring-starter" class="headerlink" title="为什么要开发 spring starter"></a>为什么要开发 spring starter</h2><ul>
+<li><p>为了理解为什么我们需要开发spring starter这样的一个工具，主要原因还要从spring mvc开始说起。因为早期的MVC框架中，如果要引入其他的依赖，需要在项目的xml中配置很多。那如果依赖的的越多，或者项目的越复杂，那么加入的配置也会越多，最终导致我们xml文件也会非常的复杂。</p>
+</li>
+<li><p>因为有了👆🏻的痛点之后，spring加入了<strong>auto-configuration</strong>的技术</p>
+<ul>
+<li>什么是auto-configuration?<ul>
+<li>可以把<strong>classpath</strong>中的jar包自动的导入在JVM中</li>
+<li>需要被auto-configuration的依赖都会被列举在<strong>spring.property</strong>文件中</li>
+<li>使用注解<strong>AutoConfiguration</strong>或者 <strong>SpringBootApplication</strong>在项目中加上，就可以使用auto-configuration的特性</li>
+<li>在pom文件中加入</li>
+<li>&lt; dependency &gt;<br>&lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;<br>&lt;artifactId&gt;spring-boot-configuration-processor&lt;&#x2F;artifactId&gt;<br>&lt;optional&gt;true&lt;&#x2F;optional&gt;<br>&lt;&#x2F;dependency&gt;<ul>
+<li><a target="_blank" rel="noopener" href="https://www.baeldung.com/intellij-resolve-spring-boot-configuration-properties">Cannot Resolve Spring Boot Configuration Properties Error</a></li>
+<li>加入了上述依赖之后，没有重新构建的时候都会在target&#x2F;classes&#x2F;创建’META-INF&#x2F;‘</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="什么是spring-starter"><a href="#什么是spring-starter" class="headerlink" title="什么是spring starter"></a>什么是spring starter</h2><ul>
+<li>starter可以在spring boot启动的时候把一些开源的资源文件或者一些配置文件提前加载到java bean中，这样就可以避免一些依赖的重复引入</li>
+<li>auto configuration class<ul>
+<li>在resource&#x2F;META-INF文件目录下，创建一个文件<strong>spring.factories</strong>，当spring boot启动的时候，加载spring.factories中的包含的对象<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># Auto Configure</span><br><span class="line">org.springframework.boot.autoconfigure.EnableAutoConfiguration=\</span><br><span class="line">org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.cassandra.CassandraAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration</span><br></pre></td></tr></table></figure></li>
+<li>不是加到了这个文件中，就会都能够正常使用，只是spring boot在启动的时候，会将这些类（以及相关的beans）加载到java bean中</li>
+<li>这些被引用的类，就可以被开箱即用</li>
+</ul>
+</li>
+<li>从application.property中装载自定的属性<ul>
+<li>使用注解**ConfigurationProperties(prefix &#x3D; “timeout”)**，关联java类中的属性和application中的关系</li>
+<li>使用注解<strong>Configuration</strong>定义java bean类型</li>
+<li>创建MATE-INF文件夹，并在创建<strong>additional-spring-configuration-metadata.json</strong>文件定义需要自动装载的property的名字</li>
+</ul>
+</li>
+<li>如何自定一个starter<ul>
+<li>定义自动配置的模块</li>
+<li>将需要自动化加载的类添加在configuration文件中，并加上注解<strong>ConditionalOnClass</strong></li>
+<li>pom文件中添加<strong>spring-boot-autoconfigure</strong></li>
+<li>在srping.factories中加上对应的configuration</li>
+<li>start命名规则<ul>
+<li>不能以<strong>spring boot</strong>开头</li>
+<li>以<strong>name-spring-boot-starter</strong>的格式来命名</li>
+</ul>
+</li>
+<li>自定中的starter不能在pom文件中添加其他的starter</li>
+</ul>
+</li>
+</ul>
+<h3 id="如何使用custom-starter"><a href="#如何使用custom-starter" class="headerlink" title="如何使用custom starter"></a>如何使用custom starter</h3><ul>
+<li>运行<code>mvn package</code>生成jar</li>
+<li>导入jar<ul>
+<li><code>mvn install:install-file</code></li>
+<li>将jar复制到当前目录下，pom引用时，加入<strong>system</strong>的标签，读取本地的jar</li>
+</ul>
+</li>
+</ul>
+<h2 id="如何配置slf4j的日志格式"><a href="#如何配置slf4j的日志格式" class="headerlink" title="如何配置slf4j的日志格式"></a>如何配置slf4j的日志格式</h2><ul>
+<li>引入<strong>spring-boot-starter-log4j2</strong>的pom依赖</li>
+<li>排除其他引入了logger的started，运行命令 <code>mvn dependency:tree</code>检查引入logger的dependency</li>
+<li>如果遇到问题，可能需要删除对应的external library，然后再用reload pom依赖</li>
+<li>加入log4j2.xml在resource目录下</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://github.com/Fdslk/javaLearning/blob/master/code/customstarter">code source</a></p>
+
+        <div>
+            <ul class="tags-category-list" itemprop="keywords"><li class="tags-category-list-item"><a class="tags-category-list-link" href="/tags/java-spring-customer-starter/" rel="tag">java, spring, customer-starter</a></li></ul>
+        </div>
+        <div class="bottom-line"></div>
+        
+    <nav id="article-nav">
+        
+            <a href="/tech/java/spring-boot/auth0/2023/03/05/integration-auth0-in-spring-boot/" id="article-nav-newer" class="article-nav-link-wrap">
+        <span class="article-nav-title">
+            
+                integration_auth0_in_spring-boot
+            
+        </span>
+                <strong class="article-nav-caption">&gt;</strong>
+            </a>
+        
+        
+            <a href="/tech/video/ffmpeg/2023/03/05/streaming_protocol/" id="article-nav-older" class="article-nav-link-wrap">
+                <strong class="article-nav-caption">&lt;</strong>
+                <span class="article-nav-title">
+                    
+                        Streaming protocol
+                </span>
+                
+            </a>
+        
+    </nav>
+
+
+        
+    </article>
+    <div id="toc">
+        
+            <h2>Table of Contents</h2>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%BC%80%E5%8F%91-spring-starter"><span class="toc-number">1.</span> <span class="toc-text">为什么要开发 spring starter</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFspring-starter"><span class="toc-number">2.</span> <span class="toc-text">什么是spring starter</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8custom-starter"><span class="toc-number">2.1.</span> <span class="toc-text">如何使用custom starter</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AEslf4j%E7%9A%84%E6%97%A5%E5%BF%97%E6%A0%BC%E5%BC%8F"><span class="toc-number">3.</span> <span class="toc-text">如何配置slf4j的日志格式</span></a></li></ol>
+        
+    </div>
+</div>
+
+    </div>
+</div>
+<footer id="footer">
+    <div id="copyright">&copy; Zengqiang Fang  2023</div>
+    <div id="theme">
+        Powered by <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a>. Theme by <a target="_blank" rel="noopener" href="https://github.com/markyong/hexo-theme-stage">Stage</a>
+    </div>
+</footer>
+<script src="/lib/js/waterrippleeffect.min.js"></script>
+<script src="/js/header-bg.main.js"></script>
+
+    <script src="/lib/js/smooth-scroll.min.js"></script>
+    <script src="/js/toc.main.js"></script>
+
+</body>
+</html>

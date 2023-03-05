@@ -1,0 +1,215 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Android_app_fragment | 🪳的Daily Blog WebSite</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="">
+    <meta name="description" content="fragment
+fragment can be used by different activity
+keep the following code which can be used to load fragment content12345678 override fun onCreateView(    inflater: LayoutInflater, container: ViewGroup?,    savedInstanceState: Bundle?): View? &amp;#123;    val binding = DataBindingUtil.inflate&amp;lt;PlaceholderLayoutB...">
+    
+        <link rel="icon" href="/favicon.ico">
+    
+    
+        
+            <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+        
+            <link rel="stylesheet" href="/css/stage.css">
+        
+            <link rel="stylesheet" href="/css/avatar-bg.css">
+        
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+<header id="header">
+    <div class="menu">
+        <i class="fa fa-bars"></i>
+    </div>
+    <div class="header-main">
+        <h1><a href="/">🪳的Daily Blog WebSite</a></h1>
+    </div>
+    <div id="nav">
+        <div class="nav-img" id="nav-img"></div>
+        <div class="sentences">
+            时光荏苒，旦夕之间，略有遗憾，似白驹过隙，蹉跎自悟。
+        </div>
+    </div>
+</header>
+
+<div id="content-outer">
+    <div id="content-inner">
+        <div class="clearfix">
+    <article id="post">
+        <h1>Android_app_fragment</h1>
+        <div class="create">
+            <span>Created</span>
+            
+                <time datetime="2023-03-05T06:50:08.000Z">
+                    2023-03-05
+                </time>
+            
+            <ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/">tech</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/kotlin/">kotlin</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/kotlin/Android/">Android</a></li></ul></li></ul></li></ul>
+        </div>
+        <h1 id="fragment"><a href="#fragment" class="headerlink" title="fragment"></a>fragment</h1><ul>
+<li>fragment can be used by different activity</li>
+<li>keep the following code which can be used to load fragment content<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreateView</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    inflater: <span class="type">LayoutInflater</span>, container: <span class="type">ViewGroup</span>?,</span></span></span><br><span class="line"><span class="params"><span class="function">    savedInstanceState: <span class="type">Bundle</span>?</span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span>: View? &#123;</span><br><span class="line">    <span class="keyword">val</span> binding = DataBindingUtil.inflate&lt;PlaceholderLayoutBinding&gt;(inflater,</span><br><span class="line">        R.layout.placeholder_layout,container,<span class="literal">false</span>)</span><br><span class="line">    <span class="keyword">return</span> binding.root</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure></li>
+<li>navigation<ul>
+<li>how to<ul>
+<li>add navigation dependency</li>
+<li>add navigation resource file click res-&gt;new Resource File-&gt;choose type is Navigation</li>
+<li>create <code>navigation host fragment </code><ul>
+<li>should set the attribute “fragment&gt;<a href="android:name=&quot;androidx.navigation.fragment.NavHostFragment&quot;">android:name=&quot;androidx.navigation.fragment.NavHostFragment&quot;</a>“ </li>
+<li>How does NavHostFragment works<ul>
+<li>Each NavHostFragment has a NavController that defines valid navigation within the navigation host. This includes the NavGraph as well as navzigation state such as current location and back stack that will be saved and restored along with the NavHostFragment itself.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>modify activity_main.xml<ul>
+<li>set navGraph</li>
+<li>set defaultNavHost (will intercept system back button)</li>
+</ul>
+</li>
+<li>add fragment to navigation graph: adding a click event can help to jump to other page<ul>
+<li>click add new destination (if you cannot preview the fragment, after you add this to your navigation, you can add <code>tools:layout=&quot;@layout/fragment_title&quot;</code>)</li>
+<li>add action to connect two different fragment</li>
+</ul>
+</li>
+<li>modify system back button behavior in navigation.xml<ul>
+<li>set <strong>PopUp</strong>, this property can specify the back button destination</li>
+<li>set <strong>PopupToInclusive</strong>, this property is a boolean value. If it is set as <strong>false</strong> or not set, it will keep the popup specified destination. Otherwise, it will remove all the destination actions.</li>
+</ul>
+</li>
+<li>add up button<ul>
+<li>This button has the same behavior like the system back button</li>
+<li>Don’t need to make a new one from zero</li>
+</ul>
+</li>
+<li>navigation drawer<ul>
+<li>It likes a panel which is appeal to the side of the user screen. </li>
+<li>how to<ul>
+<li>create navigation_menu</li>
+<li>wrap all the elements by the <strong><DrawerLayout></strong></li>
+<li>when swipe your screen from left to right, the menu navigation will be represented</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>share content from internal app<ul>
+<li>how to pass some arguments safer<ul>
+<li>using plugin <code>Safe Args</code>, it will create a <code>NavDirection</code> class which can pass arguments between fragment.</li>
+<li>tips: only add <code>dependencies</code> block in <code>buildscript</code> can work<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">buildscript &#123;</span><br><span class="line">   ....</span><br><span class="line">   dependencies &#123;&#125;</span><br><span class="line">   ....</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></li>
+<li>enable navDirections in app level gradle by adding <code>apply plugin: &#39;androidx.navigation.safeargs&#39;</code>  </li>
+<li>adding arguments in related fragment</li>
+<li>using NavDirections to pass parameters</li>
+<li>receive arguments <code>val args = GameWonFragmentArgs.fromBundle(requireArguments())</code></li>
+<li>Intent<ul>
+<li>implicit, generally speaking, you don’t need to know who executes this actions</li>
+<li>explicit</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>activity lifecycle<ul>
+<li>Good understanding of lifecycle can help developer respond to lifecycle state change correctly, which can reduce some strange bugs and confusing behavior for your users, and also waste lots of android system resource.<ul>
+<li>initialize-&gt;create-&gt;start-&gt;resume-&gt;start-&gt;create-&gt;destroy</li>
+</ul>
+</li>
+<li>Activity<ul>
+<li><strong>onCreate</strong>, only execute once when the app start first</li>
+<li><strong>onStart</strong> || <strong>onRestart</strong>， onStart will be called once, when the app start at first. On Restart will be called, when the app is visible. </li>
+<li><strong>onResume</strong>  When the app resumed, when app is focused by user.</li>
+<li><strong>onPause</strong> out of being focusing</li>
+<li><strong>onStop</strong> when the app is invisible</li>
+<li><strong>onDestroy</strong> GC operation</li>
+</ul>
+</li>
+<li>Fragment<ul>
+<li>onCreate, onAttach</li>
+<li>onStart, onViewCreated, onCreateView</li>
+<li>onResume</li>
+<li>onPause</li>
+<li>onStop, onDestroyView</li>
+<li>onDestroy, onDetach</li>
+</ul>
+</li>
+<li>callback between two lifecycle states</li>
+</ul>
+</li>
+<li>Logging in android console<ul>
+<li>android inline log method: <code>Log.i(&quot;MainActivity&quot;, this.localClassName)</code> </li>
+<li>timber<ul>
+<li>add dependency <code>implementation &#39;com.jakewharton.timber:timber:4.7.1&#39;</code></li>
+<li>then click sync</li>
+<li>start application and observe log in Logcat</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://developer.android.com/codelabs/kotlin-android-training-add-navigation#11">more details</a></p>
+
+        <div>
+            
+        </div>
+        <div class="bottom-line"></div>
+        
+    <nav id="article-nav">
+        
+            <a href="/tech/kotlin/Android/2023/03/05/Android-app-liveData-viewModel/" id="article-nav-newer" class="article-nav-link-wrap">
+        <span class="article-nav-title">
+            
+                Android_app_liveData_viewModel
+            
+        </span>
+                <strong class="article-nav-caption">&gt;</strong>
+            </a>
+        
+        
+            <a href="/tech/kotlin/Android/2023/03/05/android_app_color/" id="article-nav-older" class="article-nav-link-wrap">
+                <strong class="article-nav-caption">&lt;</strong>
+                <span class="article-nav-title">
+                    
+                        android_app_color
+                </span>
+                
+            </a>
+        
+    </nav>
+
+
+        
+    </article>
+    <div id="toc">
+        
+            <h2>Table of Contents</h2>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#fragment"><span class="toc-number">1.</span> <span class="toc-text">fragment</span></a></li></ol>
+        
+    </div>
+</div>
+
+    </div>
+</div>
+<footer id="footer">
+    <div id="copyright">&copy; Zengqiang Fang  2023</div>
+    <div id="theme">
+        Powered by <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a>. Theme by <a target="_blank" rel="noopener" href="https://github.com/markyong/hexo-theme-stage">Stage</a>
+    </div>
+</footer>
+<script src="/lib/js/waterrippleeffect.min.js"></script>
+<script src="/js/header-bg.main.js"></script>
+
+    <script src="/lib/js/smooth-scroll.min.js"></script>
+    <script src="/js/toc.main.js"></script>
+
+</body>
+</html>

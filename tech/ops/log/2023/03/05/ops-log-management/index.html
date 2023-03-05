@@ -1,0 +1,216 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>ops_log_management | 🪳的Daily Blog WebSite</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="">
+    <meta name="description" content="How to collect, manage and visualize our log data?author: zengqiang fanglog&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;ELK&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;EFK&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp; k8s
+Background&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp; During our daily working, application status, the content...">
+    
+        <link rel="icon" href="/favicon.ico">
+    
+    
+        
+            <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+        
+            <link rel="stylesheet" href="/css/stage.css">
+        
+            <link rel="stylesheet" href="/css/avatar-bg.css">
+        
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+<header id="header">
+    <div class="menu">
+        <i class="fa fa-bars"></i>
+    </div>
+    <div class="header-main">
+        <h1><a href="/">🪳的Daily Blog WebSite</a></h1>
+    </div>
+    <div id="nav">
+        <div class="nav-img" id="nav-img"></div>
+        <div class="sentences">
+            云里写诗，泥里生活，岁月里洒脱。
+        </div>
+    </div>
+</header>
+
+<div id="content-outer">
+    <div id="content-inner">
+        <div class="clearfix">
+    <article id="post">
+        <h1>ops_log_management</h1>
+        <div class="create">
+            <span>Created</span>
+            
+                <time datetime="2023-03-05T07:04:56.000Z">
+                    2023-03-05
+                </time>
+            
+            <ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/">tech</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/ops/">ops</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/ops/log/">log</a></li></ul></li></ul></li></ul>
+        </div>
+        <h1 id="How-to-collect-manage-and-visualize-our-log-data"><a href="#How-to-collect-manage-and-visualize-our-log-data" class="headerlink" title="How to collect, manage and visualize our log data?"></a><strong>How to collect, manage and visualize our log data?</strong></h1><p><em><strong>author: zengqiang fang</strong></em><br><code>log</code>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;<code>ELK</code>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;<code>EFK</code>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; <code>k8s</code></p>
+<h2 id="Background"><a href="#Background" class="headerlink" title="Background"></a><strong>Background</strong></h2><p>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; During our daily working, application status, the content of http request and response, exception message, etc, which are very useful to us for debugging online issues and monitoring applications. Therefore, it is necessary to collect log data and visualize log records as a chart. In the past, we recorded log information into logs file. Then, we logged to the server to check log information or downloaded log file. According to this way, it is not only very hard to analyze log in real time, but also it is too difficult to search or filter log by key words. Nowadays, more and more services and systems are deployed in k8s clusters. Therefore, it’s no hesitation to find a new way to collect and visualize data. In the article, we will introduce two k8s supported log frameworks, which are <strong>ELK</strong> and <strong>EFK</strong>. <strong>E</strong> has the same meaning for these two frameworks, ElasticSearch engine. <strong>L</strong> means the <strong>logstash</strong>, log agent. <strong>F</strong> is <strong>fluentd</strong>, k8s Nodes level log collecting application. And <strong>K</strong> also points to the same application, Kibana. It is used to visualize log. During the rest of this article, we will have a detailed description about what they are and how to use them.</p>
+<h2 id="Logs-management-frameworks"><a href="#Logs-management-frameworks" class="headerlink" title="Logs management frameworks"></a><strong>Logs management frameworks</strong></h2><h3 id="ELK-ElasticSearch-logstash-kibana"><a href="#ELK-ElasticSearch-logstash-kibana" class="headerlink" title="ELK ElasticSearch logstash kibana"></a><strong>ELK ElasticSearch logstash kibana</strong></h3><p>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;<strong>ELK</strong> is a framework which is provided by elastic stack organization. This framework can be divided into three parts. The heart, <strong>ElasticSearch</strong> collects data and is also a data searching engine, which can provide and save data. It can be deployed onto k8s cluster and execute scalation automatically. Then, <strong>logstash</strong> is used to format log and send collecting data to ElasticSearch, like a <strong>pipeline</strong>. In the end, <strong>kibana</strong> is used to visualize the data from ElasticSearch. What’s more, a log collecting tool, <strong>beat (Filebeat)</strong> also needs to be set up for a collection application log and send the log to logstash. And the whole workflow can be presented as the Pic1.</p>
+<p><img src="https://user-images.githubusercontent.com/6279298/167979333-e95a53ab-c13e-4ceb-bca2-21196a57d3dc.png" alt="Pic1"></p>
+<h3 id="EFK-ElasticSearch-fluentd-kibana"><a href="#EFK-ElasticSearch-fluentd-kibana" class="headerlink" title="EFK ElasticSearch fluentd kibana"></a><strong>EFK ElasticSearch fluentd kibana</strong></h3><p>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;<strong>EFK</strong> is another log framework and some features are similar to <strong>ELK</strong>. <strong>EFK</strong> includes a log agent, fluentd for collecting log data and sending log data to ElasticSearch. EFK is supported two endpoints which are <strong>Stackdriver Logging for use with Google Cloud Platform</strong> and <strong>ElasticSearch</strong>. Fluentd is a DeamonSet k8s resource which can be deployed into k8s Nodes as a Deamon Pod. This special pods will collect the log of the pods in the same Nodes. Therefore, <strong>EFK</strong> just needs to deploy ElasticSearch Pods, kibana interface Pods, fleuntd DeamonSet.</p>
+<h2 id="How-to-use"><a href="#How-to-use" class="headerlink" title="How to use"></a><strong>How to use</strong></h2><h3 id="ELK"><a href="#ELK" class="headerlink" title="ELK"></a><strong>ELK</strong></h3><h4 id="Deploy-ElasticSearch-engine-in-k8s"><a href="#Deploy-ElasticSearch-engine-in-k8s" class="headerlink" title="Deploy ElasticSearch engine in k8s"></a><strong>Deploy ElasticSearch engine in k8s</strong></h4><ul>
+<li>add <a target="_blank" rel="noopener" href="https://github.com/Fdslk/ops/blob/main/ELK/es-manual.yaml">es-manual.yaml file</a> which includes k8s deployment configuration and service configuration. Service file is used to expose es-manual pod. Then other services can access to ElasticSearch service freely. If you want to run es deployment in your local machine, you might specify the <strong>“discovery.type”</strong> is equal to <strong>“single-node”</strong>. The default discovery.type for ElasticSearch is <strong>multi-node</strong>. If es was set as a multi-node cluster, it would discover other nodes. Therefore, some discovery configurations need to be set up. Otherwise, you will get the following errors.</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ERROR: [1] bootstrap checks failed</span><br><span class="line">[1]: the default discovery settings are unsuitable for production use; at least one of [discovery.seed_hosts, discovery.seed_providers, cluster.initial_master_nodes] must be configured</span><br><span class="line">ERROR: ElasticSearch did not exit normally - check the logs at /usr/share/ElasticSearch/logs/docker-cluster.log</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>When everything of es is set up correctly, you can input <code>curl http://localhost:&lt;expose port&gt;</code> in your iTerms, the following result you will receive:</p>
+  <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;es-manual-ccd547885-4czd4&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;cluster_name&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;docker-cluster&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;cluster_uuid&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;WbVh_VIjS42ppWYuGwovog&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;version&quot;</span> <span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;number&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;7.8.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;build_flavor&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;default&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;build_type&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;docker&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;build_hash&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;757314695644ea9a1dc2fecd26d1a43856725e65&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;build_date&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;2020-06-14T19:35:50.234439Z&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;build_snapshot&quot;</span> <span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;lucene_version&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;8.5.1&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;minimum_wire_compatibility_version&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;6.8.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;minimum_index_compatibility_version&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;6.0.0-beta1&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;tagline&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;You Know, for Search&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="Deploy-kibana-in-k8s"><a href="#Deploy-kibana-in-k8s" class="headerlink" title="Deploy kibana in k8s"></a><strong>Deploy kibana in k8s</strong></h4><ul>
+<li>Add a <a target="_blank" rel="noopener" href="https://github.com/Fdslk/ops/blob/main/ELK/kibana-elk.yaml">kibana deployment manifest</a> including deployment image and service information. Meanwhile, the ElasticSearch exposed url should be added into the k8s container as an environment variable. Like, <strong>ElasticSearch_HOSTS</strong>. After successfully deploying, command <code>curl http://localhost:32184/status</code> can be used to check if kibana is ready or not. What’s more, you also can utilize k8s service name as hostname with target port to communicate with es pods. When kibana runs up, the following pic can be shown after you access to <code>http://localhost:32184</code> on your browse:<br><img src="https://user-images.githubusercontent.com/6279298/168193484-750f822b-fad8-491c-8d64-3125c5190e2c.png" alt="pic2"></li>
+</ul>
+<h4 id="Deploy-logstash-in-k8s"><a href="#Deploy-logstash-in-k8s" class="headerlink" title="Deploy logstash in k8s"></a><strong>Deploy logstash in k8s</strong></h4><ul>
+<li><p>add <a target="_blank" rel="noopener" href="https://github.com/Fdslk/ops/blob/main/ELK/logstash.yaml">logstash k8s manifest file</a> and <a target="_blank" rel="noopener" href="https://github.com/Fdslk/ops/blob/main/ELK/logstash.conf">configuration file</a>. Based on the first file, we can deploy logstash service in k8s cluster. In the second file, we will define the input and output of the data. logstash.config will be defined as a k8s configMap resource. Then deployment will volume the configMap into k8s pod, which can be used by logstash service.</p>
+<ul>
+<li>input the following command to create ConfigMap<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create configmap logstash-config --from-file ./logstash.conf</span><br></pre></td></tr></table></figure></li>
+<li>create deployment</li>
+<li>after logstash starts up, we can input <code>kubectl logs &lt;pods name&gt; -f</code> for obtaining useful log data.</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[2022-05-13T08:18:20,309][INFO ][logstash.outputs.ElasticSearch][main] Installing ElasticSearch template to _template/logstash</span><br><span class="line">[2022-05-13T08:18:21,040][INFO ][logstash.inputs.beats    ][main] Beats inputs: Starting input listener &#123;:address=&gt;&quot;0.0.0.0:5044&quot;&#125;</span><br><span class="line">[2022-05-13T08:18:21,057][INFO ][logstash.javapipeline    ][main] Pipeline started &#123;&quot;pipeline.id&quot;=&gt;&quot;main&quot;&#125;</span><br><span class="line">[2022-05-13T08:18:21,150][INFO ][logstash.agent           ] Pipelines running &#123;:count=&gt;1, :running_pipelines=&gt;[:main], :non_running_pipelines=&gt;[]&#125;</span><br><span class="line">[2022-05-13T08:18:21,194][INFO ][org.logstash.beats.Server][main][be216883a18a1108d5ceab3d012b51b20564d3e53d37fdaf62f0441690df42ff] Starting server on port: 5044</span><br><span class="line">[2022-05-13T08:18:21,439][INFO ][logstash.agent           ] Successfully started Logstash API endpoint &#123;:port=&gt;9600&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="Deploy-Filebeat-and-Log-generating-application"><a href="#Deploy-Filebeat-and-Log-generating-application" class="headerlink" title="Deploy Filebeat and Log generating application"></a><strong>Deploy Filebeat and Log generating application</strong></h4><ul>
+<li><p>In the end, we will deploy the log collector sidercar, Filebeat. It will collect log data from a sharing log file and send the data to the logstash. At first, we need to define <a target="_blank" rel="noopener" href="https://github.com/Fdslk/ops/blob/main/ELK/filebeat.yml">filebeat manifest</a>, which will illustrate where the filebeat reads the log and where the log is sended. You can input the command to create configMaps for filebeat configuration <code>kubectl create configmap file-beat-config --from-file ./filebeat.yml</code>. Then this configuration will be volumed into pods. When you deploy the log generator application and filebeat application. Then logstash will receive log data from being listened port. To check if the log system works normally or not. You can open your browser and input <code>http://localhost:32184/</code>, kibana GUI will represent to you as follows <strong>pic3</strong>. In order to see the log information, a <strong>Index Pattern</strong> needs to be created first.</p>
+<ul>
+<li>how to create “Index Pattern”<ul>
+<li>open kibana dashboard</li>
+<li>click stack management</li>
+<li>click index pattern</li>
+<li>create new index pattern like <strong>filebeat</strong>*, index is defined in the logstash.conf file<br><img src="https://user-images.githubusercontent.com/6279298/168613317-c88bbf58-3af2-4706-8e12-383a321801a5.png" alt="pic3"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>At here you have learned how to make a ELK log system on your application.</p>
+</li>
+</ul>
+<h3 id="EFK"><a href="#EFK" class="headerlink" title="EFK"></a><strong>EFK</strong></h3><h4 id="Deploy-ElasticSearch"><a href="#Deploy-ElasticSearch" class="headerlink" title="Deploy ElasticSearch"></a><strong>Deploy ElasticSearch</strong></h4><ul>
+<li>The same as the former ElasticSearch deployment manifest</li>
+</ul>
+<h4 id="Deploy-kibana"><a href="#Deploy-kibana" class="headerlink" title="Deploy kibana"></a><strong>Deploy kibana</strong></h4><ul>
+<li>The same as the former Kibana deployment manifest</li>
+</ul>
+<h4 id="Deploy-fluentd"><a href="#Deploy-fluentd" class="headerlink" title="Deploy fluentd"></a><strong>Deploy fluentd</strong></h4><ul>
+<li><p>At here, we will define a <a target="_blank" rel="noopener" href="https://github.com/Fdslk/ops/blob/main/ELK/fluentd-manual.yml">DeamonSet manifest to deploy fluentd</a> which deploy a Pods for collecting the Pods log and docker container log. If everything is set up correctly, you will see the following pic after input KQL <code>kubernetes.namespace_name : &quot;default&quot;</code>.<br><img src="https://user-images.githubusercontent.com/6279298/169063264-d1088d57-00b4-4be7-b168-7597dcf4706c.png" alt="pic4"></p>
+</li>
+<li><p>Here is some information about the resource DaemonSet from <a target="_blank" rel="noopener" href="https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/">kubernetes official website</a></p>
+<ul>
+<li>A DaemonSet ensures that all (or some) Nodes run a copy of a Pod. As nodes are added to the cluster, Pods are added to them. As nodes are removed from the cluster, those Pods are garbage collected. Deleting a DaemonSet will clean up the Pods it created.</li>
+</ul>
+</li>
+</ul>
+<h4 id="Deploy-business-service-application"><a href="#Deploy-business-service-application" class="headerlink" title="Deploy business service application"></a><strong>Deploy business service application</strong></h4><ul>
+<li>In our daily delivery, we always deploy our application in k8s. Take <a target="_blank" rel="noopener" href="https://github.com/Fdslk/ops/blob/main/ELK/log-application.yaml">log-application.yaml</a> as an example, we use <strong>slf4j.Logger</strong> to print log on the application console. When a request hits the log-application, it will print its stdout on the console, which will be scanned by fluentd and it will send the log data to ElasticSearch. The following picture <strong>pic5</strong> will be represented.<br><img src="https://user-images.githubusercontent.com/6279298/169491169-7d6b4a79-9e18-4116-8be8-03ece9fe25a5.png" alt="pic6"></li>
+</ul>
+<h2 id="How-difference-between-them"><a href="#How-difference-between-them" class="headerlink" title="How difference between them"></a><strong>How difference between them</strong></h2><ul>
+<li><strong>Components</strong><ul>
+<li>For this part, it is very obvious that <strong>ELK</strong> is composed of ElasticSearch, Logstash, filebeats and Kibana. However, <strong>EFK</strong> just includes ElasticSearch, fluentd and Kibana.</li>
+</ul>
+</li>
+<li><strong>Mechanism</strong><ul>
+<li>In <strong>ELK</strong> framework, the core feature is the logstash used as a log sending agent. Logstash just likes a log transportation center which can re-process the format, filter and enrichment of logs. It’s very memory-consuming. We can’t deploy a logstash into a container with other logging applications. Therefore, filebeat, a lightweight log collector, works as a log agent to send log to logstash.</li>
+<li>In <strong>EFK</strong> framework, fluentd is the core feature. fluentd is deployed on k8s cluster as a DeamonSet resource, which can collect the node metrics and log. And it doesn’t need another log transportation agents. Only if fluentd is set with enough permission, the container and nodes log can be collected directly.</li>
+</ul>
+</li>
+<li><strong>log agent performance</strong><ul>
+<li>logstash is written by JRuby and runs on JVM.</li>
+<li>fluentd is written by CRuby, which consumes less memory than logstash.</li>
+</ul>
+</li>
+<li><strong>Configuration</strong><ul>
+<li>logstash<ul>
+<li>You can add your own manifest to set up input and output rules, log format, etc.</li>
+</ul>
+</li>
+<li>fluentd<ul>
+<li><a target="_blank" rel="noopener" href="https://docs.fluentd.org/deployment/fluentd-ui">fluentd UI browser</a> (Install, uninstall, and upgrade Fluentd plugins)</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/fluent/fluentd-kubernetes-daemonset/blob/master/docker-image/v1.14/debian-ElasticSearch7/Dockerfile">Dockerfile</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Usage scenarios</strong><ul>
+<li>For <strong>ELK</strong>, it needs more memory. Therefore, logstash might not be suitable for the low-memory machine. On the other hand, <strong>EFK</strong> just consumes less memory. In my opinion, EFK might have a wide range of applications.</li>
+</ul>
+</li>
+<li>More information<ul>
+<li>If you want to get more comparison information, you can take the following references a look.</li>
+<li><a target="_blank" rel="noopener" href="https://www.educba.com/fluentd-vs-logstash/?source=leftnav">Difference Between Fluentd vs Logstash</a></li>
+<li><a target="_blank" rel="noopener" href="https://platform9.com/blog/kubernetes-logging-comparing-fluentd-vs-logstash/">Kubernetes Logging: Comparing Fluentd vs. Logstash</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.loomsystems.com/blog/single-post/2017/01/30/a-comparison-of-fluentd-vs-logstash-log-collector">Fluentd vs. LogStash: A Feature Comparison</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="Conclusions"><a href="#Conclusions" class="headerlink" title="Conclusions"></a><strong>Conclusions</strong></h2><p>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;According to this article, two popular log frameworks, <strong>ELK</strong>&amp;<strong>EFK</strong> are introduced to you. Nowadays, application system is significant to our daily development, production troubleshooting, and product issue back-track for finding root result. What’s more, with the log platform generating, several <strong>advantages</strong> comes up to my mind:</p>
+<ul>
+<li><strong>log-centralized</strong>, with the above two log frameworks, the log of application, docker container and nodes cluster are gathered into one place. As log centralizes, our debugging becomes more and more easy.</li>
+<li><strong>real-time</strong>, log agent, logstash and fluentd will almost send system logs to ES in real-time. Because of their real-time file content and port listening, we can obtain real-time log feedback for online issues troubleshooting.</li>
+<li><strong>visualization&amp;analysis</strong>, providing KQL for querying data and drawing charts. Providing lots of categories of charts can help us do some analysis.</li>
+<li><strong>open-resource and active communities for supporting unknown issues</strong></li>
+</ul>
+<p><strong>In the end</strong>, all the manifests are provided in my <a target="_blank" rel="noopener" href="https://github.com/Fdslk/ops/tree/main/ELK">github</a></p>
+
+        <div>
+            
+        </div>
+        <div class="bottom-line"></div>
+        
+    <nav id="article-nav">
+        
+            <a href="/tech/shell/2023/03/05/shell-file-operation/" id="article-nav-newer" class="article-nav-link-wrap">
+        <span class="article-nav-title">
+            
+                shell_file_operation
+            
+        </span>
+                <strong class="article-nav-caption">&gt;</strong>
+            </a>
+        
+        
+            <a href="/tech/ops/cache/2023/03/05/ops-vanish/" id="article-nav-older" class="article-nav-link-wrap">
+                <strong class="article-nav-caption">&lt;</strong>
+                <span class="article-nav-title">
+                    
+                        ops_vanish
+                </span>
+                
+            </a>
+        
+    </nav>
+
+
+        
+    </article>
+    <div id="toc">
+        
+            <h2>Table of Contents</h2>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#How-to-collect-manage-and-visualize-our-log-data"><span class="toc-number">1.</span> <span class="toc-text">How to collect, manage and visualize our log data?</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Background"><span class="toc-number">1.1.</span> <span class="toc-text">Background</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Logs-management-frameworks"><span class="toc-number">1.2.</span> <span class="toc-text">Logs management frameworks</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ELK-ElasticSearch-logstash-kibana"><span class="toc-number">1.2.1.</span> <span class="toc-text">ELK ElasticSearch logstash kibana</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#EFK-ElasticSearch-fluentd-kibana"><span class="toc-number">1.2.2.</span> <span class="toc-text">EFK ElasticSearch fluentd kibana</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#How-to-use"><span class="toc-number">1.3.</span> <span class="toc-text">How to use</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ELK"><span class="toc-number">1.3.1.</span> <span class="toc-text">ELK</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Deploy-ElasticSearch-engine-in-k8s"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">Deploy ElasticSearch engine in k8s</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Deploy-kibana-in-k8s"><span class="toc-number">1.3.1.2.</span> <span class="toc-text">Deploy kibana in k8s</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Deploy-logstash-in-k8s"><span class="toc-number">1.3.1.3.</span> <span class="toc-text">Deploy logstash in k8s</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Deploy-Filebeat-and-Log-generating-application"><span class="toc-number">1.3.1.4.</span> <span class="toc-text">Deploy Filebeat and Log generating application</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#EFK"><span class="toc-number">1.3.2.</span> <span class="toc-text">EFK</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Deploy-ElasticSearch"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">Deploy ElasticSearch</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Deploy-kibana"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">Deploy kibana</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Deploy-fluentd"><span class="toc-number">1.3.2.3.</span> <span class="toc-text">Deploy fluentd</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Deploy-business-service-application"><span class="toc-number">1.3.2.4.</span> <span class="toc-text">Deploy business service application</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#How-difference-between-them"><span class="toc-number">1.4.</span> <span class="toc-text">How difference between them</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conclusions"><span class="toc-number">1.5.</span> <span class="toc-text">Conclusions</span></a></li></ol></li></ol>
+        
+    </div>
+</div>
+
+    </div>
+</div>
+<footer id="footer">
+    <div id="copyright">&copy; Zengqiang Fang  2023</div>
+    <div id="theme">
+        Powered by <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a>. Theme by <a target="_blank" rel="noopener" href="https://github.com/markyong/hexo-theme-stage">Stage</a>
+    </div>
+</footer>
+<script src="/lib/js/waterrippleeffect.min.js"></script>
+<script src="/js/header-bg.main.js"></script>
+
+    <script src="/lib/js/smooth-scroll.min.js"></script>
+    <script src="/js/toc.main.js"></script>
+
+</body>
+</html>

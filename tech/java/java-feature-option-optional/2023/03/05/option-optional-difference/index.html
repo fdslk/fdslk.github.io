@@ -1,0 +1,185 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>option_optional_difference | 🪳的Daily Blog WebSite</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="">
+    <meta name="description" content="How to process nullable value in elegant wayoptional in java
+create optional
+of, set a null will throw nullPointerException
+ofNullable, set a null will throw no suchElementException
+
+
+orElse will create a default value whatever this.isPresent is true or not
+getOrElse the opposite of “orElse” operation
+handle exce...">
+    
+        <link rel="icon" href="/favicon.ico">
+    
+    
+        
+            <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+        
+            <link rel="stylesheet" href="/css/stage.css">
+        
+            <link rel="stylesheet" href="/css/avatar-bg.css">
+        
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+<header id="header">
+    <div class="menu">
+        <i class="fa fa-bars"></i>
+    </div>
+    <div class="header-main">
+        <h1><a href="/">🪳的Daily Blog WebSite</a></h1>
+    </div>
+    <div id="nav">
+        <div class="nav-img" id="nav-img"></div>
+        <div class="sentences">
+            云里写诗，泥里生活，岁月里洒脱。
+        </div>
+    </div>
+</header>
+
+<div id="content-outer">
+    <div id="content-inner">
+        <div class="clearfix">
+    <article id="post">
+        <h1>option_optional_difference</h1>
+        <div class="create">
+            <span>Created</span>
+            
+                <time datetime="2023-03-05T06:11:21.000Z">
+                    2023-03-05
+                </time>
+            
+            <ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/">tech</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/java/">java</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/java/java-feature-option-optional/">java feature option-optional</a></li></ul></li></ul></li></ul>
+        </div>
+        <h1 id="How-to-process-nullable-value-in-elegant-way"><a href="#How-to-process-nullable-value-in-elegant-way" class="headerlink" title="How to process nullable value in elegant way"></a>How to process nullable value in elegant way</h1><h2 id="optional-in-java"><a href="#optional-in-java" class="headerlink" title="optional in java"></a>optional in java</h2><ul>
+<li><strong>create</strong> optional<ul>
+<li><code>of</code>, set a null will throw nullPointerException</li>
+<li><code>ofNullable</code>, set a null will throw no suchElementException</li>
+</ul>
+</li>
+<li><code>orElse</code> will create a default value whatever this.isPresent is true or not</li>
+<li><code>getOrElse</code> the opposite of “orElse” operation</li>
+<li>handle exception<ul>
+<li><code>orElseThrow</code> works for optional.ofNullable</li>
+</ul>
+</li>
+<li><code>filter</code><ul>
+<li>This is used to check logic with different judge condition. incompatible for list operation</li>
+<li>If list, we can use stream filter directly</li>
+</ul>
+</li>
+<li>transforming<ul>
+<li><code>map</code><ul>
+<li>convert a optional value to other value</li>
+<li>also can filter a new list from original list with java stream operation</li>
+</ul>
+</li>
+<li><code>flatMap</code><ul>
+<li>for nested optional object, no need to unwrap, which can get it directly.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>serialize<ul>
+<li>with Jackson to treat an empty Optional as null, and to treat a present Optional as a field representing its value.</li>
+</ul>
+</li>
+</ul>
+<h2 id="option-in-vavr"><a href="#option-in-vavr" class="headerlink" title="option in vavr"></a>option in vavr</h2><ul>
+<li>option is used to eliminate nullable check, which can make our code more safe</li>
+<li>you can add the following dependency for using option vavr<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;io.vavr&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;vavr&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;0.9.0&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></li>
+<li>create option<ul>
+<li><code>Option.of</code>, then we can use getOrElse to get actual value or set a default value for returning</li>
+</ul>
+</li>
+<li>Tuple</li>
+<li>Try<ul>
+<li>replace try-catch block</li>
+<li>if it is failure, can use <code>getOrElse</code></li>
+<li>if dev wants to throw exception, can use getOrElseThrow</li>
+</ul>
+</li>
+<li>function Interface<ul>
+<li>Function</li>
+<li>BiFunction</li>
+<li>Function[num]</li>
+</ul>
+</li>
+<li>collections<ul>
+<li>include list, array, set, map, etc.</li>
+</ul>
+</li>
+<li>validation<ul>
+<li>combine</li>
+<li>valid</li>
+<li>invalid</li>
+<li>ap</li>
+</ul>
+</li>
+<li>Match Pattern<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Match(input).of(</span><br><span class="line">Case(...</span><br><span class="line">))</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://github.com/Fdslk/javaLearning/blob/master/code/option_optional_practice">source code</a></p>
+
+        <div>
+            
+        </div>
+        <div class="bottom-line"></div>
+        
+    <nav id="article-nav">
+        
+            <a href="/tech/java/spring-boot/webflux/2023/03/05/webflux-api/" id="article-nav-newer" class="article-nav-link-wrap">
+        <span class="article-nav-title">
+            
+                webflux_api
+            
+        </span>
+                <strong class="article-nav-caption">&gt;</strong>
+            </a>
+        
+        
+            <a href="/uncategorized/2023/03/05/integration-new-relic/" id="article-nav-older" class="article-nav-link-wrap">
+                <strong class="article-nav-caption">&lt;</strong>
+                <span class="article-nav-title">
+                    
+                        integration_new_relic
+                </span>
+                
+            </a>
+        
+    </nav>
+
+
+        
+    </article>
+    <div id="toc">
+        
+            <h2>Table of Contents</h2>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#How-to-process-nullable-value-in-elegant-way"><span class="toc-number">1.</span> <span class="toc-text">How to process nullable value in elegant way</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#optional-in-java"><span class="toc-number">1.1.</span> <span class="toc-text">optional in java</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#option-in-vavr"><span class="toc-number">1.2.</span> <span class="toc-text">option in vavr</span></a></li></ol></li></ol>
+        
+    </div>
+</div>
+
+    </div>
+</div>
+<footer id="footer">
+    <div id="copyright">&copy; Zengqiang Fang  2023</div>
+    <div id="theme">
+        Powered by <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a>. Theme by <a target="_blank" rel="noopener" href="https://github.com/markyong/hexo-theme-stage">Stage</a>
+    </div>
+</footer>
+<script src="/lib/js/waterrippleeffect.min.js"></script>
+<script src="/js/header-bg.main.js"></script>
+
+    <script src="/lib/js/smooth-scroll.min.js"></script>
+    <script src="/js/toc.main.js"></script>
+
+</body>
+</html>

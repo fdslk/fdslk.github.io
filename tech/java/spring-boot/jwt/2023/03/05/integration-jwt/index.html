@@ -1,0 +1,156 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>integration_jwt | 🪳的Daily Blog WebSite</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="">
+    <meta name="description" content="java spring-boot jwt
+what is jwt
+jwt (json token token), s a standard that is mostly used for securing REST APIs.
+how to sign a toke
+JWTs can be signed using a secret (with the HMAC algorithm) or a public&amp;#x2F;private key pair using RSA or ECDSA.
+the structure of jwt
+jwt token is componented by the following thre...">
+    
+        <link rel="icon" href="/favicon.ico">
+    
+    
+        
+            <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+        
+            <link rel="stylesheet" href="/css/stage.css">
+        
+            <link rel="stylesheet" href="/css/avatar-bg.css">
+        
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+<header id="header">
+    <div class="menu">
+        <i class="fa fa-bars"></i>
+    </div>
+    <div class="header-main">
+        <h1><a href="/">🪳的Daily Blog WebSite</a></h1>
+    </div>
+    <div id="nav">
+        <div class="nav-img" id="nav-img"></div>
+        <div class="sentences">
+            时光荏苒，旦夕之间，略有遗憾，似白驹过隙，蹉跎自悟。
+        </div>
+    </div>
+</header>
+
+<div id="content-outer">
+    <div id="content-inner">
+        <div class="clearfix">
+    <article id="post">
+        <h1>integration_jwt</h1>
+        <div class="create">
+            <span>Created</span>
+            
+                <time datetime="2023-03-05T06:24:03.000Z">
+                    2023-03-05
+                </time>
+            
+            <ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/">tech</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/java/">java</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/java/spring-boot/">spring-boot</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/java/spring-boot/jwt/">jwt</a></li></ul></li></ul></li></ul></li></ul>
+        </div>
+        <h1 id="java-spring-boot-jwt"><a href="#java-spring-boot-jwt" class="headerlink" title="java spring-boot jwt"></a>java spring-boot jwt</h1><ul>
+<li>what is jwt<ul>
+<li>jwt (json token token), s a standard that is mostly used for securing REST APIs.</li>
+<li>how to sign a toke<ul>
+<li>JWTs can be signed using a secret (with the HMAC algorithm) or a public&#x2F;private key pair using RSA or ECDSA.</li>
+<li>the structure of jwt<ul>
+<li>jwt token is componented by the following three parts (always like <em><strong>xxx.xxx.xxx</strong></em>)<ul>
+<li>header, tell the service the type of the token and the encoding algorithm<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;alg&quot;</span><span class="punctuation">:</span> <span class="string">&quot;HS256&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;typ&quot;</span><span class="punctuation">:</span> <span class="string">&quot;JWT&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure></li>
+<li>payload<ul>
+<li>different claim<ul>
+<li>Registered claims: issuer, expiration time, subject</li>
+<li>Public claims: name</li>
+<li>Private claims:</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>signature<ul>
+<li>to encode the header, payload and secret</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>why we use jwt<ul>
+<li>authentication</li>
+<li>authorization</li>
+</ul>
+</li>
+<li>how to use jwt token<ul>
+<li>the framework of jwt usage<br><img src="https://user-images.githubusercontent.com/6279298/222945366-272addd6-2174-4146-9824-f441893262f5.png" alt="sequence diagram of jwt usage"></li>
+<li>code implementation<br><img src="https://user-images.githubusercontent.com/6279298/163708514-6dc26c53-0fab-4b0e-8052-f71224ec23a9.png" alt="how to implement"></li>
+</ul>
+</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://github.com/Fdslk/javaLearning/blob/master/code/spring-boot-jwt">source code</a></p>
+
+        <div>
+            
+        </div>
+        <div class="bottom-line"></div>
+        
+    <nav id="article-nav">
+        
+            <a href="/tech/kotlin/idea-pulgins/2023/03/05/intellig-plugin-development/" id="article-nav-newer" class="article-nav-link-wrap">
+        <span class="article-nav-title">
+            
+                intellig_plugin_development
+            
+        </span>
+                <strong class="article-nav-caption">&gt;</strong>
+            </a>
+        
+        
+            <a href="/tech/java/swagger/open-api/2023/03/05/open-api-swagger/" id="article-nav-older" class="article-nav-link-wrap">
+                <strong class="article-nav-caption">&lt;</strong>
+                <span class="article-nav-title">
+                    
+                        open_api_swagger
+                </span>
+                
+            </a>
+        
+    </nav>
+
+
+        
+    </article>
+    <div id="toc">
+        
+            <h2>Table of Contents</h2>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#java-spring-boot-jwt"><span class="toc-number">1.</span> <span class="toc-text">java spring-boot jwt</span></a></li></ol>
+        
+    </div>
+</div>
+
+    </div>
+</div>
+<footer id="footer">
+    <div id="copyright">&copy; Zengqiang Fang  2023</div>
+    <div id="theme">
+        Powered by <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a>. Theme by <a target="_blank" rel="noopener" href="https://github.com/markyong/hexo-theme-stage">Stage</a>
+    </div>
+</footer>
+<script src="/lib/js/waterrippleeffect.min.js"></script>
+<script src="/js/header-bg.main.js"></script>
+
+    <script src="/lib/js/smooth-scroll.min.js"></script>
+    <script src="/js/toc.main.js"></script>
+
+</body>
+</html>

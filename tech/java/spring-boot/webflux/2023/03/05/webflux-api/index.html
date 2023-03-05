@@ -1,0 +1,218 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>webflux_api | 🪳的Daily Blog WebSite</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="">
+    <meta name="description" content="reactive-spring-webflux
+Spring Webflux
+flux 常用操作
+map
+transforming operator n-&amp;gt;n synchronously
+
+
+flatmap
+asynchronously 1 -&amp;gt; 0&amp;#x2F;n
+
+
+flatMapSequential
+asynchronously but keeping the original ordering
+
+
+filter
+reduce
+concatMap
+asynchronously
+
+
+transform
+receive a function and return a flux object
+
+
+concat
+...">
+    
+        <link rel="icon" href="/favicon.ico">
+    
+    
+        
+            <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+        
+            <link rel="stylesheet" href="/css/stage.css">
+        
+            <link rel="stylesheet" href="/css/avatar-bg.css">
+        
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+<header id="header">
+    <div class="menu">
+        <i class="fa fa-bars"></i>
+    </div>
+    <div class="header-main">
+        <h1><a href="/">🪳的Daily Blog WebSite</a></h1>
+    </div>
+    <div id="nav">
+        <div class="nav-img" id="nav-img"></div>
+        <div class="sentences">
+            时光荏苒，旦夕之间，略有遗憾，似白驹过隙，蹉跎自悟。
+        </div>
+    </div>
+</header>
+
+<div id="content-outer">
+    <div id="content-inner">
+        <div class="clearfix">
+    <article id="post">
+        <h1>webflux_api</h1>
+        <div class="create">
+            <span>Created</span>
+            
+                <time datetime="2023-03-05T06:15:13.000Z">
+                    2023-03-05
+                </time>
+            
+            <ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/">tech</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/java/">java</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/java/spring-boot/">spring-boot</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/java/spring-boot/webflux/">webflux</a></li></ul></li></ul></li></ul></li></ul>
+        </div>
+        <h1 id="reactive-spring-webflux"><a href="#reactive-spring-webflux" class="headerlink" title="reactive-spring-webflux"></a>reactive-spring-webflux</h1><ul>
+<li>Spring Webflux<ul>
+<li>flux 常用操作<ul>
+<li>map<ul>
+<li>transforming operator n-&gt;n synchronously</li>
+</ul>
+</li>
+<li>flatmap<ul>
+<li>asynchronously 1 -&gt; 0&#x2F;n</li>
+</ul>
+</li>
+<li>flatMapSequential<ul>
+<li>asynchronously but keeping the original ordering</li>
+</ul>
+</li>
+<li>filter</li>
+<li>reduce</li>
+<li>concatMap<ul>
+<li>asynchronously</li>
+</ul>
+</li>
+<li>transform<ul>
+<li>receive a function and return a flux object</li>
+</ul>
+</li>
+<li>concat<ul>
+<li>合并两个flux对象</li>
+</ul>
+</li>
+<li>concatWith<ul>
+<li>静态方法合并两个flux</li>
+</ul>
+</li>
+<li>merge</li>
+<li>zip<ul>
+<li>最大操作8个元素，Tuple8</li>
+</ul>
+</li>
+<li>zipWith</li>
+</ul>
+</li>
+<li>mono 常用操作<ul>
+<li>flatMap<ul>
+<li>asynchronously operator</li>
+</ul>
+</li>
+<li>flatMapMany<ul>
+<li>convert Mono object to Flux object</li>
+</ul>
+</li>
+<li>concatWith<ul>
+<li>将两个对象合并成flux对象</li>
+</ul>
+</li>
+<li>fromCallable<ul>
+<li>调用函数</li>
+</ul>
+</li>
+<li>zipWith</li>
+<li></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="issues"><a href="#issues" class="headerlink" title="issues"></a>issues</h1><ul>
+<li><p>when using embed mongodb I got the following erro log</p>
+<p>  <code>org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name &#39;embeddedMongoServer&#39; defined in class path resource  [org/springframework/boot/autoconfigure/mongo/embedded/EmbeddedMongoAutoConfiguration.class]: Unsatisfied dependency expressed through method &#39;embeddedMongoServer&#39; parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name &#39;embeddedMongoConfiguration&#39; defined in class path resource [org/springframework/boot/autoconfigure/mongo/embedded/EmbeddedMongoAutoConfiguration.class]: Bean instantiation via factory method failed;  nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [de.flapdoodle.embed.mongo.config.MongodConfig]: Factory method &#39;embeddedMongoConfiguration&#39; threw exception; nested exception is java.lang.IllegalStateException: Set the spring.mongodb.embedded.version property or define your own MongodConfig bean to use embedded MongoDB</code></p>
+</li>
+<li><p>solved by: adding annotation: @ImportAutoConfiguration(exclude &#x3D; EmbeddedMongoAutoConfiguration.class)<br>or @DataMongoTest(excludeAutoConfiguration &#x3D; EmbeddedMongoAutoConfiguration.class)</p>
+</li>
+<li><p>figure out the difference between spring web and spring reactive web</p>
+</li>
+<li><p><img src="https://user-images.githubusercontent.com/6279298/150519588-993743ee-890b-4754-907f-504888019a1f.png" alt="img.png"></p>
+</li>
+<li><p>route的匹配等级</p>
+<ul>
+<li>RouterFunctionMapping</li>
+<li>RequestMappingHandlerMapping</li>
+</ul>
+</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://github.com/Fdslk/javaLearning/blob/master/code/reactive-spring-webflux">Mono &amp; Flux basic operation</a><br><a target="_blank" rel="noopener" href="https://github.com/Fdslk/javaLearning/blob/master/code/reactiveWebApplication">webflux api</a></p>
+
+        <div>
+            
+        </div>
+        <div class="bottom-line"></div>
+        
+    <nav id="article-nav">
+        
+            <a href="/tech/java/swagger/open-api/2023/03/05/open-api-swagger/" id="article-nav-newer" class="article-nav-link-wrap">
+        <span class="article-nav-title">
+            
+                open_api_swagger
+            
+        </span>
+                <strong class="article-nav-caption">&gt;</strong>
+            </a>
+        
+        
+            <a href="/tech/java/java-feature-option-optional/2023/03/05/option-optional-difference/" id="article-nav-older" class="article-nav-link-wrap">
+                <strong class="article-nav-caption">&lt;</strong>
+                <span class="article-nav-title">
+                    
+                        option_optional_difference
+                </span>
+                
+            </a>
+        
+    </nav>
+
+
+        
+    </article>
+    <div id="toc">
+        
+            <h2>Table of Contents</h2>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#reactive-spring-webflux"><span class="toc-number">1.</span> <span class="toc-text">reactive-spring-webflux</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#issues"><span class="toc-number">2.</span> <span class="toc-text">issues</span></a></li></ol>
+        
+    </div>
+</div>
+
+    </div>
+</div>
+<footer id="footer">
+    <div id="copyright">&copy; Zengqiang Fang  2023</div>
+    <div id="theme">
+        Powered by <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a>. Theme by <a target="_blank" rel="noopener" href="https://github.com/markyong/hexo-theme-stage">Stage</a>
+    </div>
+</footer>
+<script src="/lib/js/waterrippleeffect.min.js"></script>
+<script src="/js/header-bg.main.js"></script>
+
+    <script src="/lib/js/smooth-scroll.min.js"></script>
+    <script src="/js/toc.main.js"></script>
+
+</body>
+</html>

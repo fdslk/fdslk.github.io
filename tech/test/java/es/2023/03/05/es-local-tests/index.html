@@ -1,0 +1,220 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>es_local_tests | 🪳的Daily Blog WebSite</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="">
+    <meta name="description" content="Elastic Search Integration test
+What is the Elastic Search Engine
+How to run local elastic search
+run docker cmd 123docker run -p 9200:9200 \-e &amp;quot;discovery.type=single-node&amp;quot; \docker.elastic.co/elasticsearch/elasticsearch:7.8.0
+check es healthy status http://localhost:9200
+
+
+How to integrate ES in spring ...">
+    
+        <link rel="icon" href="/favicon.ico">
+    
+    
+        
+            <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+        
+            <link rel="stylesheet" href="/css/stage.css">
+        
+            <link rel="stylesheet" href="/css/avatar-bg.css">
+        
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+<header id="header">
+    <div class="menu">
+        <i class="fa fa-bars"></i>
+    </div>
+    <div class="header-main">
+        <h1><a href="/">🪳的Daily Blog WebSite</a></h1>
+    </div>
+    <div id="nav">
+        <div class="nav-img" id="nav-img"></div>
+        <div class="sentences">
+            How goes the world with you?
+        </div>
+    </div>
+</header>
+
+<div id="content-outer">
+    <div id="content-inner">
+        <div class="clearfix">
+    <article id="post">
+        <h1>es_local_tests</h1>
+        <div class="create">
+            <span>Created</span>
+            
+                <time datetime="2023-03-05T03:53:56.000Z">
+                    2023-03-05
+                </time>
+            
+            <ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/">tech</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/test/">test</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/test/java/">java</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/test/java/es/">es</a></li></ul></li></ul></li></ul></li></ul>
+        </div>
+        <h1 id="Elastic-Search-Integration-test"><a href="#Elastic-Search-Integration-test" class="headerlink" title="Elastic Search Integration test"></a>Elastic Search Integration test</h1><ul>
+<li>What is the Elastic Search Engine<br><img src="https://user-images.githubusercontent.com/6279298/195224811-1137dceb-8857-4d3f-87fc-27cbb5768299.png" alt="some core definition of ES"></li>
+<li>How to run local elastic search<ul>
+<li>run docker cmd <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 9200:9200 \</span><br><span class="line">-e &quot;discovery.type=single-node&quot; \</span><br><span class="line">docker.elastic.co/elasticsearch/elasticsearch:7.8.0</span><br></pre></td></tr></table></figure></li>
+<li>check es healthy status <code>http://localhost:9200</code></li>
+</ul>
+</li>
+<li>How to integrate ES in spring boot project<ul>
+<li>add maven dependency<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.data<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-data-elasticsearch<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.0.0.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li>query methods<ul>
+<li>ElasticSearchRestTemplate<ul>
+<li>add <strong>ES</strong> configuration class, add a java bean to instantiate an <code>ElasticsearchRestTemplate</code></li>
+<li>autoWire <code>ElasticsearchRestTemplate</code></li>
+<li>add <code>NativeSearchQueryBuilder</code> to build query conditions</li>
+</ul>
+</li>
+<li>repository<ul>
+<li>add new interface to implement <code>ElasticsearchRepository</code></li>
+<li>add new index method to insert data into es, <strong>tip:</strong> search key-word should be included in the searched object</li>
+<li>add <code>Document</code> annotation in operating object, which can wrapped the wanted mapping object</li>
+</ul>
+</li>
+<li>high-level REST client<ul>
+<li>add pom dependency<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">  &lt;groupId&gt;org.elasticsearch.client&lt;/groupId&gt;</span><br><span class="line">  &lt;artifactId&gt;elasticsearch-rest-high-level-client&lt;/artifactId&gt;</span><br><span class="line">  &lt;version&gt;7.17.6&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></li>
+<li>initialize rest high level client</li>
+<li>use IndexRequest to build saving data<ul>
+<li>types<ul>
+<li>Json string directly, if you define an object at first, you can use <code>ObjectMapper</code> to execute mapper operation. </li>
+<li><code>Map</code> document definition then framework will convert it to <code>Json format</code></li>
+</ul>
+</li>
+<li>tips: If the id is fixed, the newly indexRequest will override the previous one.</li>
+</ul>
+</li>
+<li>how to search data<ul>
+<li>using <code>SearchRequest</code>, define index name, document type</li>
+<li>build <code>SearchSourceBuilder</code>, set query item. </li>
+<li>set the source of searchRequest by SearchSourceBuilder</li>
+<li>using the following cmd to verify all data<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">curl -X GET <span class="string">&quot;localhost:9200/&lt;your index&gt;/_search?pretty&quot;</span> -H <span class="string">&#x27;Content-Type: application/json&#x27;</span> -d</span><br><span class="line">   <span class="string">&#x27;&#123;</span></span><br><span class="line"><span class="string">     &quot;query&quot;: &#123;</span></span><br><span class="line"><span class="string">        &quot;match_all&quot;: &#123;&#125;</span></span><br><span class="line"><span class="string">      &#125;</span></span><br><span class="line"><span class="string">    &#125;&#x27;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>migrate <code>HLRC</code> to <code>co.elastic.clients</code></li>
+<li>Tips:<ul>
+<li>Actually, if you don’t set up configurations for connecting es, like port number, <code>ElasticsearchRestTemplate</code> has provided the DEFAULT value <strong>9200</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>How to mock ES in spring boot integration test<ul>
+<li>using docker to set up a real elastic search<ul>
+<li>if you take the <code>ElasticsearchRepository</code> as your ES connector, you will start real elastic search in your local machine for test</li>
+<li>step:<ul>
+<li>step1: set up an es by docker<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 9200:9200 \</span><br><span class="line">-e &quot;discovery.type=single-node&quot; \</span><br><span class="line">docker.elastic.co/elasticsearch/elasticsearch:7.8.0</span><br></pre></td></tr></table></figure></li>
+<li>instantiate <code>RestHighLevelClient</code> by annotation <code>@BeforeAll</code></li>
+<li>set up <code>restTemplate</code></li>
+<li>functional test class extends <code>BaseTestClass</code></li>
+<li>write test in the specific test class and make assertions</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>using embedded elastic-search,<ul>
+<li>embedded es cluster build flow<br>  <img src="https://user-images.githubusercontent.com/6279298/196337361-6cf41144-96d2-4667-a23e-2ce19a7d5818.png" alt="embedded-es-cluster"> </li>
+<li>add dependency<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.codelibs<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>elasticsearch-cluster-runner<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>6.6.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li>build default JVM ES cluster by defining a static <code>ElasticsearchClusterRunner</code></li>
+<li>define default <code>RestHighLevelClient</code> and set port number as <strong>9201</strong></li>
+<li>tips: If you want update the version of <code>elasticsearch-cluster-runner</code>, you must take care of the rest-high-level-client using elasticsearch version.<br> <img src="https://user-images.githubusercontent.com/6279298/193168951-9144cee0-f9d5-4c98-bc20-9fd6a6f4328a.png" alt="keep the version elasticsearch version be same"></li>
+</ul>
+</li>
+<li>using stub to mock elastic search server</li>
+<li>using ESIntegTestCase<ul>
+<li>Not good choice….</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>migration <code>rest-high-level-client</code> to <code>java-client</code><ul>
+<li>motivation<ul>
+<li>rest-high-level-client is deprecated since version 7.15.0, which means if you would want to use high level ES, the <code>rhlc</code> might take some incompatible problems.</li>
+<li><code>rhlc</code> used http to transport data, while elastic-search-java-api used transport protocol to transport data.</li>
+</ul>
+</li>
+<li>distinguish between the <code>rhlc</code> and <code>elasitc search java api</code></li>
+<li>how to<ul>
+<li>add new dependency<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>co.elastic.clients<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>elasticsearch-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>8.4.3<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.fasterxml.jackson.core<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jackson-databind<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.12.3<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li>use the same rest client</li>
+<li>set up compatibility mode by <code>.setApiCompatibilityMode(true)</code> for rest-high-level-client</li>
+<li><strong>tips</strong><ul>
+<li>if this <code>NoClassDefFoundError: jakarta/json/spi/JsonProvider</code> happens to application<br>you can add the following dependency<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>jakarta.json<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jakarta.json-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.0.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li>if this <code>&#123; &quot;error&quot; : &quot;Content-Type header [application/x-www-form-urlencoded] is not supported&quot;, &quot;status&quot; : 406 &#125;</code> happens to application<br>you can add a default header<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">RestClient.builder(</span><br><span class="line">      <span class="keyword">new</span> <span class="title class_">HttpHost</span>(<span class="string">&quot;127.0.0.1&quot;</span>, <span class="number">9201</span>))</span><br><span class="line">      .setDefaultHeaders(<span class="keyword">new</span> <span class="title class_">Header</span>[]&#123;</span><br><span class="line">              <span class="keyword">new</span> <span class="title class_">BasicHeader</span>(<span class="string">&quot;Content-type&quot;</span>, <span class="string">&quot;application/json&quot;</span>)</span><br><span class="line">      &#125;)</span><br><span class="line">      .build();</span><br></pre></td></tr></table></figure></li>
+<li>if you use the latest version elastic search, you might find out the following error:<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[2022-02-18T15:50:30,235][WARN ][o.e.x.s.t.n.SecurityNetty4HttpServerTransport] [Yusufs-MBP.home] received plaintext http traffic on an https channel, closing connection Netty4HttpChannel&#123;localAddress=/127.0.0.1:9200, remoteAddress=/127.0.0.1:52260&#125;</span><br></pre></td></tr></table></figure>
+you can define a custom elastic search docker image using custom <code>elasticsearch.yml</code> and close <code>xpack.security.enabled</code> and <code>xpack.security.http.ssl.enabled</code>.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://github.com/Fdslk/javaLearning/blob/master/code/estest">source code</a><br><a target="_blank" rel="noopener" href="https://github.com/Fdslk/javaLearning/blob/master/code/esjavaapi">source code for use es in java</a><br><a target="_blank" rel="noopener" href="https://github.com/Fdslk/javaLearning/blob/master/code/EmbededESIntegrationTest">source code for ElasticsearchClusterRunner</a></p>
+
+        <div>
+            <ul class="tags-category-list" itemprop="keywords"><li class="tags-category-list-item"><a class="tags-category-list-link" href="/tags/elastic-search-java-test/" rel="tag">elastic search, java, test</a></li></ul>
+        </div>
+        <div class="bottom-line"></div>
+        
+    <nav id="article-nav">
+        
+            <a href="/tech/video/ffmpeg/2023/03/05/ffmpeg_basic_concept/" id="article-nav-newer" class="article-nav-link-wrap">
+        <span class="article-nav-title">
+            
+                ffmpeg_basic_concept
+            
+        </span>
+                <strong class="article-nav-caption">&gt;</strong>
+            </a>
+        
+        
+            <a href="/tech/java/design-pattern/2023/03/05/easy-rule-demo/" id="article-nav-older" class="article-nav-link-wrap">
+                <strong class="article-nav-caption">&lt;</strong>
+                <span class="article-nav-title">
+                    
+                        easy_rule_demo
+                </span>
+                
+            </a>
+        
+    </nav>
+
+
+        
+    </article>
+    <div id="toc">
+        
+            <h2>Table of Contents</h2>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Elastic-Search-Integration-test"><span class="toc-number">1.</span> <span class="toc-text">Elastic Search Integration test</span></a></li></ol>
+        
+    </div>
+</div>
+
+    </div>
+</div>
+<footer id="footer">
+    <div id="copyright">&copy; Zengqiang Fang  2023</div>
+    <div id="theme">
+        Powered by <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a>. Theme by <a target="_blank" rel="noopener" href="https://github.com/markyong/hexo-theme-stage">Stage</a>
+    </div>
+</footer>
+<script src="/lib/js/waterrippleeffect.min.js"></script>
+<script src="/js/header-bg.main.js"></script>
+
+    <script src="/lib/js/smooth-scroll.min.js"></script>
+    <script src="/js/toc.main.js"></script>
+
+</body>
+</html>

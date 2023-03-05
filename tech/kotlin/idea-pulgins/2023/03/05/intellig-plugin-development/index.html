@@ -1,0 +1,195 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>intellig_plugin_development | 🪳的Daily Blog WebSite</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="">
+    <meta name="description" content="
+pomodprp-scheduleIntellig plugin for time management
+some concept
+plugins.xml
+Action
+definition, is the response of the interaction of user’s operationsand all the actions need to be defined and registered in IntelliJ platform
+how to
+define a custom action which needs to extend AnAction who is an abstract class
+...">
+    
+        <link rel="icon" href="/favicon.ico">
+    
+    
+        
+            <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+        
+            <link rel="stylesheet" href="/css/stage.css">
+        
+            <link rel="stylesheet" href="/css/avatar-bg.css">
+        
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+<header id="header">
+    <div class="menu">
+        <i class="fa fa-bars"></i>
+    </div>
+    <div class="header-main">
+        <h1><a href="/">🪳的Daily Blog WebSite</a></h1>
+    </div>
+    <div id="nav">
+        <div class="nav-img" id="nav-img"></div>
+        <div class="sentences">
+            云里写诗，泥里生活，岁月里洒脱。
+        </div>
+    </div>
+</header>
+
+<div id="content-outer">
+    <div id="content-inner">
+        <div class="clearfix">
+    <article id="post">
+        <h1>intellig_plugin_development</h1>
+        <div class="create">
+            <span>Created</span>
+            
+                <time datetime="2023-03-05T06:43:29.000Z">
+                    2023-03-05
+                </time>
+            
+            <ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/">tech</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/kotlin/">kotlin</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/kotlin/idea-pulgins/">idea pulgins</a></li></ul></li></ul></li></ul>
+        </div>
+        <p><a target="_blank" rel="noopener" href="https://github.com/Fdslk/pomodoro-schedule/actions/workflows/gradle.yml"><img src="https://github.com/Fdslk/pomodoro-schedule/actions/workflows/gradle.yml/badge.svg" alt="Java CI with Gradle"></a></p>
+<h1 id="pomodprp-schedule"><a href="#pomodprp-schedule" class="headerlink" title="pomodprp-schedule"></a>pomodprp-schedule</h1><p>Intellig plugin for time management</p>
+<h2 id="some-concept"><a href="#some-concept" class="headerlink" title="some concept"></a>some concept</h2><ul>
+<li>plugins.xml</li>
+<li>Action<ul>
+<li>definition, is the response of the interaction of user’s operations<br>and all the actions need to be defined and registered in IntelliJ platform</li>
+<li>how to<ul>
+<li>define a custom action which needs to extend AnAction who is an abstract class</li>
+<li>override <code>actionPerformed</code> method, this method will be triggered when user invokes some actions</li>
+<li>override <code>update</code> method, this method will use to enable the action and the default is enabled</li>
+<li>register custom action in <code>plugin.xml</code></li>
+</ul>
+</li>
+<li>how to group actions<ul>
+<li>add to a existing group<ul>
+<li>add tab &lt;group&gt;</li>
+<li>bind action to group by using tab &lt;add-to-group&gt; with the property <code>relative-to-action</code></li>
+</ul>
+</li>
+<li>create a new group<ul>
+<li>Extending <code>DefaultActionGroup</code></li>
+<li>register new group</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>how to do data persistence<ul>
+<li>the persistence data class is separated with the settings</li>
+<li>combine the settings into one class<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> void loadState(MyService state) &#123;</span><br><span class="line">  XmlSerializerUtil.copyBean(state, <span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>how to show UI<ul>
+<li>how to show input</li>
+<li>how to upload file</li>
+<li>tips<ul>
+<li>If your project is built by <strong>Gradle</strong>, GUI Designer will not generate java source code.</li>
+<li>you can generate sources code as following: <a target="_blank" rel="noopener" href="https://www.jetbrains.com/help/idea/work-with-gradle-projects.html#delegate_build_actions">using idea to build code</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>how to show dialog <ul>
+<li>go to your src folder-&gt;New-&gt;Swing GUI Designer-&gt;input required info-&gt;create</li>
+<li>if the UI related java code could not generate automatically, you can check the following<br>setting<br><img src="https://user-images.githubusercontent.com/6279298/184563693-fbf2e41e-0dc1-471b-83dd-4a555d111f2d.png" alt="GUI Designer"></li>
+</ul>
+</li>
+<li>how to show PopupList</li>
+<li>how to add widget<ul>
+<li>add a widget factory then register it<ul>
+<li><code>&lt;statusBarWidgetFactory implementation=&quot;pomodoro.widget.PomodoroWidgetFactory&quot;/&gt;</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>how to release a plugin in JetBrains MarketSpace<ul>
+<li>using gradle sign</li>
+<li>using CTL<ul>
+<li>package your code into <code>zip file</code>, running cmd <code>./gradlew build</code>, then you can find your plugin in the directory <code>./build/distributions</code></li>
+<li>try plugin in your local machine<br><img src="https://user-images.githubusercontent.com/6279298/199129178-ce977fc8-fc52-4a14-bca5-9da33b1fadc7.png" alt="install plugin to your local machine"></li>
+<li>If the following error occurs to u, <ul>
+<li>&#96;&#96;&#96;<br>Plugin ‘Kotlin’ (version ‘211-1.5.20-release-284-IJ7442.40’) is not compatible with the current version of the IDE, because it requires build 211.* or older but the current build is IU-212.4746.92<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">* you might set specific IDE build version in `build.gradle` and add build start version in `plugin.xml` like</span><br><span class="line">```xml</span><br><span class="line">  version.set(</span><br><span class="line">    System.getenv().getOrDefault(</span><br><span class="line">            &quot;IJ_VERSION&quot;,</span><br><span class="line">            &quot;213.7172.25&quot;</span><br><span class="line">    )</span><br><span class="line">  )</span><br></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;idea-version since-build=<span class="string">&quot;213.7172.25&quot;</span>/&gt;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>If everything is ok at here<ul>
+<li>generate private key<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">openssl genpkey\</span><br><span class="line">  -aes-<span class="number">256</span>-cbc\</span><br><span class="line">  -algorithm RSA\</span><br><span class="line">  -out private.pem\</span><br><span class="line">  -pkeyopt rsa_keygen_bits:<span class="number">4096</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>generate certificate<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">openssl req\</span><br><span class="line">  -key private.pem\</span><br><span class="line">  -new\</span><br><span class="line">  -x509\</span><br><span class="line">  -days <span class="number">365</span>\</span><br><span class="line">  -out chain.crt</span><br></pre></td></tr></table></figure></li>
+<li>sign your plugin zip. Download the latest <a target="_blank" rel="noopener" href="https://github.com/JetBrains/marketplace-zip-signer/releases">marketplace-zip-client</a><br>If the password includes some special characters, you need to add a <code>escape character</code> before it.<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">java -jar marketplace-zip-signer-cli.jar sign\</span><br><span class="line">  -in &quot;unsigned.zip&quot;\</span><br><span class="line">  -out &quot;signed.zip&quot;\</span><br><span class="line">  -cert-file &quot;/path/to/chain.crt&quot;\</span><br><span class="line">  -key-file &quot;/path/to/private.pem&quot;\</span><br><span class="line">  -key-pass &quot;PRIVATE_KEY_PASSWORD&quot;</span><br></pre></td></tr></table></figure></li>
+<li>create jetBrains account, here I use google account. upload your plugin and wait two business days. Market will send you the verification result.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        <div>
+            
+        </div>
+        <div class="bottom-line"></div>
+        
+    <nav id="article-nav">
+        
+            <a href="/tech/kotlin/101/2023/03/05/kotlin-101/" id="article-nav-newer" class="article-nav-link-wrap">
+        <span class="article-nav-title">
+            
+                kotlin_101
+            
+        </span>
+                <strong class="article-nav-caption">&gt;</strong>
+            </a>
+        
+        
+            <a href="/tech/java/spring-boot/jwt/2023/03/05/integration-jwt/" id="article-nav-older" class="article-nav-link-wrap">
+                <strong class="article-nav-caption">&lt;</strong>
+                <span class="article-nav-title">
+                    
+                        integration_jwt
+                </span>
+                
+            </a>
+        
+    </nav>
+
+
+        
+    </article>
+    <div id="toc">
+        
+            <h2>Table of Contents</h2>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#pomodprp-schedule"><span class="toc-number">1.</span> <span class="toc-text">pomodprp-schedule</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#some-concept"><span class="toc-number">1.1.</span> <span class="toc-text">some concept</span></a></li></ol></li></ol>
+        
+    </div>
+</div>
+
+    </div>
+</div>
+<footer id="footer">
+    <div id="copyright">&copy; Zengqiang Fang  2023</div>
+    <div id="theme">
+        Powered by <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a>. Theme by <a target="_blank" rel="noopener" href="https://github.com/markyong/hexo-theme-stage">Stage</a>
+    </div>
+</footer>
+<script src="/lib/js/waterrippleeffect.min.js"></script>
+<script src="/js/header-bg.main.js"></script>
+
+    <script src="/lib/js/smooth-scroll.min.js"></script>
+    <script src="/js/toc.main.js"></script>
+
+</body>
+</html>

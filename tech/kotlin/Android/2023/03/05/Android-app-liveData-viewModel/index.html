@@ -1,0 +1,186 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Android_app_liveData_viewModel | 🪳的Daily Blog WebSite</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="">
+    <meta name="description" content="viewModel
+what?
+It is used to store the UI-related data
+each fragment owns itself viewModel
+fragment will be created several times when the configurations are changed. However, viewModel just is created for once.
+
+
+How to
+restore app state
+add dependency in app level build.gradle implementation &amp;#39;androidx.life...">
+    
+        <link rel="icon" href="/favicon.ico">
+    
+    
+        
+            <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+        
+            <link rel="stylesheet" href="/css/stage.css">
+        
+            <link rel="stylesheet" href="/css/avatar-bg.css">
+        
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+<header id="header">
+    <div class="menu">
+        <i class="fa fa-bars"></i>
+    </div>
+    <div class="header-main">
+        <h1><a href="/">🪳的Daily Blog WebSite</a></h1>
+    </div>
+    <div id="nav">
+        <div class="nav-img" id="nav-img"></div>
+        <div class="sentences">
+            云里写诗，泥里生活，岁月里洒脱。
+        </div>
+    </div>
+</header>
+
+<div id="content-outer">
+    <div id="content-inner">
+        <div class="clearfix">
+    <article id="post">
+        <h1>Android_app_liveData_viewModel</h1>
+        <div class="create">
+            <span>Created</span>
+            
+                <time datetime="2023-03-05T06:50:40.000Z">
+                    2023-03-05
+                </time>
+            
+            <ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/">tech</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/kotlin/">kotlin</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/kotlin/Android/">Android</a></li></ul></li></ul></li></ul>
+        </div>
+        <h1 id="viewModel"><a href="#viewModel" class="headerlink" title="viewModel"></a>viewModel</h1><ul>
+<li>what?<ul>
+<li>It is used to store the UI-related data</li>
+<li>each fragment owns itself viewModel</li>
+<li>fragment will be created several times when the configurations are changed. However, viewModel just is created for once.</li>
+</ul>
+</li>
+<li>How to<ul>
+<li>restore app state</li>
+<li>add dependency in app level build.gradle <code>implementation &#39;androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0&#39;</code></li>
+<li>init viewModel in related fragment by <code>ViewModelProvider</code>, extract existing UI data</li>
+</ul>
+</li>
+<li><a target="_blank" rel="noopener" href="https://developer.android.com/topic/architecture">recommended layer architecture</a><ul>
+<li>UI layer<ul>
+<li>UI element, for Views and Jetpack Compose</li>
+<li>state holder, like viewModel classes, which can hold data, expose it to the UI, and handle logic.</li>
+</ul>
+</li>
+<li>Domain layer: for writing some complex business logic</li>
+<li>Data layer<ul>
+<li>repository, </li>
+<li>data sources, a file, network resource, or a local database</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="liveData"><a href="#liveData" class="headerlink" title="liveData"></a>liveData</h1><ul>
+<li>What?<ul>
+<li>liveData is a observable data holder<ul>
+<li>detect wrapped data changes</li>
+<li>is wrapper which can be used with any data</li>
+<li>can be associated with a liecycleOwner(activity and fragment), only updates the observer in active state (STARTED and RESUMED)</li>
+<li>mutableLive can allow user to edit its value rather than liveData is ReadOnly<ul>
+<li>liveData type value is exposed to other classes, which can restrict the using scope</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="data-binding-with-viewModel-and-liveData"><a href="#data-binding-with-viewModel-and-liveData" class="headerlink" title="data binding with viewModel and liveData"></a>data binding with viewModel and liveData</h1><ul>
+<li>how to integrate with viewModel<ul>
+<li>why?<ul>
+<li>it can unwrap the architecture dependency<ul>
+<li>Views is defined by XML layout</li>
+<li>data of views is saved by viewModel</li>
+<li>there is a UI controller between both of them.</li>
+</ul>
+</li>
+<li>not need to pass data to UI controller</li>
+</ul>
+</li>
+<li>operations<ul>
+<li>viewModel passes data to View XML by data binding directly</li>
+<li>add data-&gt;variable-&gt;binding viewModel with view XML</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>how to integrate with liveData<ul>
+<li>bind lifeCycle in Fragment class</li>
+<li>set value in XML by viewModel directly<br><a target="_blank" rel="noopener" href="https://github.com/Fdslk/KotlinRepository/tree/main/ViewModel">liveData &amp; viewModel</a></li>
+</ul>
+</li>
+</ul>
+
+        <div>
+            
+        </div>
+        <div class="bottom-line"></div>
+        
+    <nav id="article-nav">
+        
+            <a href="/tech/kotlin/Android/2023/03/05/Android-app-room-database/" id="article-nav-newer" class="article-nav-link-wrap">
+        <span class="article-nav-title">
+            
+                Android_app_room_database
+            
+        </span>
+                <strong class="article-nav-caption">&gt;</strong>
+            </a>
+        
+        
+            <a href="/tech/kotlin/Android/2023/03/05/Android-app-fragment/" id="article-nav-older" class="article-nav-link-wrap">
+                <strong class="article-nav-caption">&lt;</strong>
+                <span class="article-nav-title">
+                    
+                        Android_app_fragment
+                </span>
+                
+            </a>
+        
+    </nav>
+
+
+        
+    </article>
+    <div id="toc">
+        
+            <h2>Table of Contents</h2>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#viewModel"><span class="toc-number">1.</span> <span class="toc-text">viewModel</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#liveData"><span class="toc-number">2.</span> <span class="toc-text">liveData</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#data-binding-with-viewModel-and-liveData"><span class="toc-number">3.</span> <span class="toc-text">data binding with viewModel and liveData</span></a></li></ol>
+        
+    </div>
+</div>
+
+    </div>
+</div>
+<footer id="footer">
+    <div id="copyright">&copy; Zengqiang Fang  2023</div>
+    <div id="theme">
+        Powered by <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a>. Theme by <a target="_blank" rel="noopener" href="https://github.com/markyong/hexo-theme-stage">Stage</a>
+    </div>
+</footer>
+<script src="/lib/js/waterrippleeffect.min.js"></script>
+<script src="/js/header-bg.main.js"></script>
+
+    <script src="/lib/js/smooth-scroll.min.js"></script>
+    <script src="/js/toc.main.js"></script>
+
+</body>
+</html>

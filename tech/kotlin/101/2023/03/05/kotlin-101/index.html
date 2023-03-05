@@ -1,0 +1,238 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>kotlin_101 | 🪳的Daily Blog WebSite</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="">
+    <meta name="description" content="Kotlin 101 practiceHow to create a kotlin project IntelliJ IDEA
+click File -&amp;gt; New -&amp;gt; Kotlin, IDEA will help to create kotlin project with JVM
+You also can use REPL (Read-Eval-Print-Loop) interactive shell to practice the basic kotlin syntax
+
+Kotlin basic syntax
+Kotlin is very similar to java language, but a...">
+    
+        <link rel="icon" href="/favicon.ico">
+    
+    
+        
+            <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+        
+            <link rel="stylesheet" href="/css/stage.css">
+        
+            <link rel="stylesheet" href="/css/avatar-bg.css">
+        
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+<header id="header">
+    <div class="menu">
+        <i class="fa fa-bars"></i>
+    </div>
+    <div class="header-main">
+        <h1><a href="/">🪳的Daily Blog WebSite</a></h1>
+    </div>
+    <div id="nav">
+        <div class="nav-img" id="nav-img"></div>
+        <div class="sentences">
+            云里写诗，泥里生活，岁月里洒脱。
+        </div>
+    </div>
+</header>
+
+<div id="content-outer">
+    <div id="content-inner">
+        <div class="clearfix">
+    <article id="post">
+        <h1>kotlin_101</h1>
+        <div class="create">
+            <span>Created</span>
+            
+                <time datetime="2023-03-05T06:45:27.000Z">
+                    2023-03-05
+                </time>
+            
+            <ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/">tech</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/kotlin/">kotlin</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/kotlin/101/">101</a></li></ul></li></ul></li></ul>
+        </div>
+        <h1 id="Kotlin-101-practice"><a href="#Kotlin-101-practice" class="headerlink" title="Kotlin 101 practice"></a>Kotlin 101 practice</h1><h2 id="How-to-create-a-kotlin-project-IntelliJ-IDEA"><a href="#How-to-create-a-kotlin-project-IntelliJ-IDEA" class="headerlink" title="How to create a kotlin project IntelliJ IDEA"></a>How to create a kotlin project IntelliJ IDEA</h2><ul>
+<li>click <strong>File</strong> -&gt; <strong>New</strong> -&gt; <strong>Kotlin</strong>, IDEA will help to create kotlin project with JVM</li>
+<li>You also can use REPL (Read-Eval-Print-Loop) interactive shell to practice the basic kotlin syntax</li>
+</ul>
+<h2 id="Kotlin-basic-syntax"><a href="#Kotlin-basic-syntax" class="headerlink" title="Kotlin basic syntax"></a>Kotlin basic syntax</h2><ul>
+<li>Kotlin is very similar to java language, but also there is several difficulties between them.<ul>
+<li>using <code>fun</code> to define a function</li>
+<li>no semicolons in the end of a line</li>
+<li>using parentheses for function arguments</li>
+<li>using curly brace to define function block</li>
+</ul>
+</li>
+<li>Syntax<ul>
+<li>operator <code>var</code> and <code>val</code>, var is for mutable definition, val is for immutable definition.</li>
+<li>define variable type: <code>var rocks: Int = 1</code>, type is behind the variable and divided by colon.</li>
+<li>nullability<ul>
+<li>using operator <code>?</code> to define a nullable variable</li>
+<li>using operator <code>!!</code> to make a not-null announcement</li>
+</ul>
+</li>
+<li>list<ul>
+<li>listOf is immutable</li>
+<li>mutableListOf is mutable</li>
+</ul>
+</li>
+<li>array: create array by build-in function <code>arrayOf</code></li>
+<li>loop<ul>
+<li>do&#x2F; while</li>
+<li>foreach</li>
+<li>repeat<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">repeat(<span class="number">2</span>) &#123;</span><br><span class="line">   println(<span class="string">&quot;A fish is swimming&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>function<ul>
+<li>without return value<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">feedTheFish</span><span class="params">()</span></span> &#123;</span><br><span class="line">   println(<span class="string">&quot;test&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>with return value<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">feedTheFishWithValue</span><span class="params">()</span></span>: String &#123;</span><br><span class="line">   <span class="keyword">val</span> test = <span class="string">&quot;test string&quot;</span></span><br><span class="line">   <span class="keyword">return</span> test </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>default value of parameter<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">functionWithDefaultValueArgument</span><span class="params">(speed: <span class="type">String</span> = <span class="string">&quot;test speed&quot;</span>)</span></span> &#123;</span><br><span class="line">    println(<span class="string">&quot;test argument value <span class="variable">$speed</span>&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>lambdas</li>
+</ul>
+<p><code>var lambdas = &#123; inputValue: Int -&gt; inputValue / 2&#125;</code></p>
+<ul>
+<li>higher-order-functions: passing a lambda to another function<ul>
+<li>return value<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">returnValue</span><span class="params">(x: <span class="type">Int</span>, y: <span class="type">Int</span>, operate: (<span class="type">Int</span>, <span class="type">Int</span>) -&gt; <span class="type">Int</span>)</span></span>: <span class="built_in">Int</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> operate(x, y)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>you pass a lambdas, function or just a simple value as an input to a function</li>
+<li>lambdas<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> sum = &#123;(x: <span class="built_in">Int</span>, y: <span class="built_in">Int</span>) -&gt; x + y&#125;</span><br><span class="line">returnValue(<span class="number">1</span>, <span class="number">2</span>, sum)</span><br></pre></td></tr></table></figure></li>
+<li>regular function<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">sum</span><span class="params">(x: <span class="type">Int</span>, y:<span class="type">Int</span>)</span></span>: <span class="built_in">Int</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> x + y</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">returnValue(<span class="number">1</span>, <span class="number">2</span>, ::sum)</span><br></pre></td></tr></table></figure></li>
+<li>simple value</li>
+</ul>
+</li>
+<li>return function<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">operate</span><span class="params">()</span></span>: (<span class="built_in">Int</span>, <span class="built_in">Int</span>) -&gt; <span class="built_in">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> sum <span class="comment">//::sum &#x27;**sum**&#x27; is defined as a regular function, the former is a lambda expression</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>extensions, only can access to public api<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Class.extensionFunctionName(arg: type): returnValue &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.value</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>OO related knowledge<ul>
+<li>class<ul>
+<li>no needs to create getter and setter, they are created automatically.</li>
+<li>no needs to create an individual constructor method, rather than defining a constructor with class directly<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyClass</span>(arg1: String, arg2: String) &#123;</span><br><span class="line">    <span class="keyword">var</span> arg1Internal1: String = arg1</span><br><span class="line">    <span class="keyword">var</span> arg1Internal2: String = arg2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>providing init block in class constructor, you can write some logic in the init block</li>
+<li>providing secondary constructor in class<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyClass</span>(arg1: String, arg2: String) &#123;</span><br><span class="line">    <span class="keyword">var</span> arg1Internal1: String = arg1</span><br><span class="line">    <span class="keyword">var</span> arg1Internal2: String = arg2</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">constructor</span>(arg: <span class="built_in">Int</span>): <span class="keyword">this</span>() &#123;</span><br><span class="line">        <span class="comment">//your logic</span></span><br><span class="line">    &#125;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>subclass<ul>
+<li>by default kotlin cannot be subclassed, otherwise adding operator <code>open</code> before your class, the same as the property and member</li>
+</ul>
+</li>
+<li>inheritance<ul>
+<li>if the setter is defined as following block, it will throw <code>Exception in thread &quot;main&quot; java.lang.StackOverflowError</code><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="keyword">var</span> shape: String</span><br><span class="line">             <span class="keyword">get</span>() = towerTankShape</span><br><span class="line">             <span class="keyword">set</span>(value) &#123;</span><br><span class="line">                shape = value</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>delegation<ul>
+<li>declare an object as a singleton object which can set default color value and doesn’t need<br>to override super property<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">object</span> GolderColor: FishColor &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="keyword">val</span> color = <span class="string">&quot;golder&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ImplementClass</span>(fishColor: FishColor = GolderColor): Fishcolor <span class="keyword">by</span> fishColor &#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>special class<ul>
+<li>singleton class: just declares <a style="color:yellow"><strong>object</strong></a> operator key word </li>
+<li>enum class: just add <a style="color:yellow"><strong>enum</strong></a> key word</li>
+<li>sealed class<ul>
+<li>need to be added in the same file with the subclass</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>special data structure<ul>
+<li>pairs connect with two values by <strong>to</strong> keyword<ul>
+<li>pair can be constructed and deconstructed<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> pair = <span class="string">&quot;part one&quot;</span> to <span class="string">&quot;part two&quot;</span></span><br><span class="line">println(<span class="string">&quot;<span class="subst">$&#123;pair.first&#125;</span> with <span class="subst">$&#123;pair.second&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// nested pair</span></span><br><span class="line">(<span class="string">&quot;out part one&quot;</span> to <span class="string">&quot;out part two&quot;</span>) to <span class="string">&quot;inside part two&quot;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>triples is similar with java</li>
+<li>const: <ul>
+<li><strong>const</strong> keyword only can be used in object singleton class</li>
+<li>using const in class<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyClass</span> &#123;</span><br><span class="line">   <span class="keyword">companion</span> <span class="keyword">object</span> &#123;</span><br><span class="line">     <span class="keyword">const</span> <span class="keyword">val</span> CONSTANT3 = <span class="string">&quot;constant in companion&quot;</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>generic<ul>
+<li>class: how to define a generic class<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">GenericClass</span>&lt;<span class="type">T</span>&gt; (<span class="keyword">val</span> specificClass: T)</span><br></pre></td></tr></table></figure></li>
+<li>usage<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">GenericClass&lt;SpecificClass&gt;(SpecificClass())</span><br><span class="line"><span class="comment">// the class name in angle bracket can be removed as follow</span></span><br><span class="line">GenericClass(SpecificClass()) </span><br></pre></td></tr></table></figure></li>
+<li>methods</li>
+<li>functions</li>
+</ul>
+</li>
+<li>annotation<ul>
+<li>add <strong>annotation</strong> key work before the class<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">annotation</span> <span class="keyword">class</span> <span class="title class_">KotlinClass</span> </span><br></pre></td></tr></table></figure></li>
+<li><code>findAnnotation</code> method to get target annotation<ul>
+<li>target annotation, add <strong>@Target</strong> before the annotation class<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target(AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY, AnnotationTarget.FUNCTION)</span></span><br><span class="line"><span class="keyword">annotation</span> <span class="keyword">class</span> <span class="title class_">OnGet</span></span><br></pre></td></tr></table></figure></li>
+<li>then if this function scans related annotation, the later code block will add some logic</li>
+</ul>
+</li>
+<li><code>::class</code> is used to reflect the class internal information.<ul>
+<li>tips: you need to import <code>implementation(&quot;org.jetbrains.kotlin:kotlin-reflect:1.6.21&quot;)</code></li>
+</ul>
+</li>
+<li><code>@</code> keyword can be used as a labeled break, which can control the program flow</li>
+</ul>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">test</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="symbol">outstop@</span> <span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">1</span> .. <span class="number">100</span>)&#123;</span><br><span class="line">        print(<span class="string">&quot;<span class="variable">$i</span>&quot;</span>)</span><br><span class="line">        <span class="keyword">for</span> (j <span class="keyword">in</span> <span class="number">1</span> .. <span class="number">100</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span> (i &gt; <span class="number">10</span>)</span><br><span class="line">               <span class="keyword">break</span> <span class="meta">@outstop</span></span><br><span class="line">        &#125; </span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://github.com/Fdslk/KotlinRepository/blob/main/KotlinCodePractice">source code</a></p>
+
+        <div>
+            
+        </div>
+        <div class="bottom-line"></div>
+        
+    <nav id="article-nav">
+        
+            <a href="/tech/kotlin/Android/2023/03/05/Android-app-101/" id="article-nav-newer" class="article-nav-link-wrap">
+        <span class="article-nav-title">
+            
+                Android_app_101
+            
+        </span>
+                <strong class="article-nav-caption">&gt;</strong>
+            </a>
+        
+        
+            <a href="/tech/kotlin/idea-pulgins/2023/03/05/intellig-plugin-development/" id="article-nav-older" class="article-nav-link-wrap">
+                <strong class="article-nav-caption">&lt;</strong>
+                <span class="article-nav-title">
+                    
+                        intellig_plugin_development
+                </span>
+                
+            </a>
+        
+    </nav>
+
+
+        
+    </article>
+    <div id="toc">
+        
+            <h2>Table of Contents</h2>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Kotlin-101-practice"><span class="toc-number">1.</span> <span class="toc-text">Kotlin 101 practice</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#How-to-create-a-kotlin-project-IntelliJ-IDEA"><span class="toc-number">1.1.</span> <span class="toc-text">How to create a kotlin project IntelliJ IDEA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Kotlin-basic-syntax"><span class="toc-number">1.2.</span> <span class="toc-text">Kotlin basic syntax</span></a></li></ol></li></ol>
+        
+    </div>
+</div>
+
+    </div>
+</div>
+<footer id="footer">
+    <div id="copyright">&copy; Zengqiang Fang  2023</div>
+    <div id="theme">
+        Powered by <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a>. Theme by <a target="_blank" rel="noopener" href="https://github.com/markyong/hexo-theme-stage">Stage</a>
+    </div>
+</footer>
+<script src="/lib/js/waterrippleeffect.min.js"></script>
+<script src="/js/header-bg.main.js"></script>
+
+    <script src="/lib/js/smooth-scroll.min.js"></script>
+    <script src="/js/toc.main.js"></script>
+
+</body>
+</html>

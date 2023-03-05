@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Android_app_room_database | 🪳的Daily Blog WebSite</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="">
+    <meta name="description" content="How use local database in app
+make user experience more comfortable when your app cannot access to the internet. It also can persist data in your local machine.
+use annotation to create entity
+@Entity for creating table and defining table name
+@PrimaryKey define the primary key
+@ColumnInfo define the column name ...">
+    
+        <link rel="icon" href="/favicon.ico">
+    
+    
+        
+            <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+        
+            <link rel="stylesheet" href="/css/stage.css">
+        
+            <link rel="stylesheet" href="/css/avatar-bg.css">
+        
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+<header id="header">
+    <div class="menu">
+        <i class="fa fa-bars"></i>
+    </div>
+    <div class="header-main">
+        <h1><a href="/">🪳的Daily Blog WebSite</a></h1>
+    </div>
+    <div id="nav">
+        <div class="nav-img" id="nav-img"></div>
+        <div class="sentences">
+            How goes the world with you?
+        </div>
+    </div>
+</header>
+
+<div id="content-outer">
+    <div id="content-inner">
+        <div class="clearfix">
+    <article id="post">
+        <h1>Android_app_room_database</h1>
+        <div class="create">
+            <span>Created</span>
+            
+                <time datetime="2023-03-05T06:52:54.000Z">
+                    2023-03-05
+                </time>
+            
+            <ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/">tech</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/kotlin/">kotlin</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tech/kotlin/Android/">Android</a></li></ul></li></ul></li></ul>
+        </div>
+        <h1 id="How-use-local-database-in-app"><a href="#How-use-local-database-in-app" class="headerlink" title="How use local database in app"></a>How use local database in app</h1><ul>
+<li>make user experience more comfortable when your app cannot access to the internet. It also can persist data in your local machine.</li>
+<li>use annotation to create entity<ul>
+<li><strong>@Entity</strong> for creating table and defining table name</li>
+<li><strong>@PrimaryKey</strong> define the primary key</li>
+<li><strong>@ColumnInfo</strong> define the column name in the table</li>
+</ul>
+</li>
+<li>use <strong>@Dao</strong> to create query interface: <em><strong>data access object (DAO)</strong></em>, which is used to communicate with local DB<ul>
+<li>Dao has provided some basic interface like update, insert, Query, etc.</li>
+</ul>
+</li>
+<li>using <strong>@Database</strong> to create a new database or get a existing database</li>
+<li></li>
+</ul>
+<h2 id="traditional-Factory-to-generate-viewModel"><a href="#traditional-Factory-to-generate-viewModel" class="headerlink" title="traditional Factory to generate viewModel"></a>traditional Factory to generate viewModel</h2><ul>
+<li>add viewModel Factory to generate a params passing viewModel</li>
+<li>implement <code>ViewModelProvider.Factory</code> interface</li>
+<li>override create method</li>
+<li>usage<ul>
+<li><code>ViewModelProvider(this).get(ViewModel::class.java)</code></li>
+</ul>
+</li>
+<li>tip<ul>
+<li>if error occur to you<ul>
+<li>Inheritance from an interface with ‘@JvmDefault’ members is only allowed with -Xjvm-default option</li>
+<li>add the following section in app leve build.gradle  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">    ...</span><br><span class="line">    kotlinOptions &#123;</span><br><span class="line">        ...</span><br><span class="line">        freeCompilerArgs += [</span><br><span class="line">                 &quot;-Xjvm-default=all&quot;,</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="DI-to-generate-viewModel"><a href="#DI-to-generate-viewModel" class="headerlink" title="DI to generate viewModel"></a>DI to generate viewModel</h2><ul>
+<li>add dependency in app level build.gradle<ul>
+<li>&#96;&#96;&#96;<br>&#x2F;&#x2F; hilt<br>implementation “com.google.dagger:hilt-android:2.38.1”<br>kapt “com.google.dagger:hilt-android-compiler:2.38.1”<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">* add plugin in app level</span><br><span class="line">  * ```id &#x27;dagger.hilt.android.plugin&#x27;```</span><br><span class="line">* add dependency in project level</span><br><span class="line">  * ```classpath &quot;com.google.dagger:hilt-android-gradle-plugin:2.38.1&quot;```</span><br><span class="line">* add hilt application entry</span><br><span class="line">  ```kotlin</span><br><span class="line">  @HiltAndroidApp</span><br><span class="line">  class MainApplication: Application() &#123;&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>add MainApplication to manifest<br>*<br><code>android:name=&quot;MainApplication&quot;</code></li>
+<li>add annotation for viewModel injection <strong>@HiltViewModel</strong></li>
+<li>add annotation <strong>@inject</strong> for being injected construct, filed, method, etc.</li>
+<li>add annotation <strong>AndroidEntryPoint</strong> in Fragment or Activity who needs to use DI data</li>
+<li>add dependency <code>implementation &#39;androidx.fragment:fragment-ktx:1.5.0&#39;</code> in app level for view Model provider<ul>
+<li>val viewModel: SleepTrackerViewModel by viewModels()</li>
+</ul>
+</li>
+<li>add custom DI module<ul>
+<li>using the <strong>@Module</strong> annotation to mark the class as a DI class</li>
+<li>using the <strong>@InstallIn(SingletonComponent::class)</strong> to define provider life cycle</li>
+<li>using <strong>@Provides</strong> to annotate the method is related to the specific module</li>
+</ul>
+</li>
+</ul>
+<h3 id="coroutines-in-android"><a href="#coroutines-in-android" class="headerlink" title="coroutines in android"></a>coroutines in android</h3><ul>
+<li>what is it?<ul>
+<li>the way to handle long-running tasks elegantly and efficiently instead of callbacks</li>
+<li>like callback to process task in asynchronous and non-block way</li>
+<li>use <code>suspend</code> keyword for making asynchronous code in sequential way</li>
+<li>architecture<ul>
+<li>Job: using for operating coroutine</li>
+<li>Dispatcher: make coroutines run in different threads</li>
+<li>Scope: define which context the coroutines runs</li>
+</ul>
+</li>
+<li><strong>why coroutines is safe and how?</strong></li>
+</ul>
+</li>
+<li>How to use it?<ul>
+<li>add <strong>suspend</strong> in the front of a function signature in Dao</li>
+<li>add coroutine dependency in app level build.gradle<ul>
+<li>implementation “androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0”</li>
+<li>implementation “androidx.room:room-ktx:$room_version”</li>
+</ul>
+</li>
+<li>define MutableLiveData variable and init it by viewModeScope.launch starting a coroutine in current viewModel</li>
+</ul>
+</li>
+<li>Using it for long-running database</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://github.com/Fdslk/KotlinRepository/tree/main/TrackMySleepQuality">Room database</a></p>
+
+        <div>
+            
+        </div>
+        <div class="bottom-line"></div>
+        
+    <nav id="article-nav">
+        
+            <a href="/tech/ops/CD/2023/03/05/ops-argocd/" id="article-nav-newer" class="article-nav-link-wrap">
+        <span class="article-nav-title">
+            
+                ops_argocd
+            
+        </span>
+                <strong class="article-nav-caption">&gt;</strong>
+            </a>
+        
+        
+            <a href="/tech/kotlin/Android/2023/03/05/Android-app-liveData-viewModel/" id="article-nav-older" class="article-nav-link-wrap">
+                <strong class="article-nav-caption">&lt;</strong>
+                <span class="article-nav-title">
+                    
+                        Android_app_liveData_viewModel
+                </span>
+                
+            </a>
+        
+    </nav>
+
+
+        
+    </article>
+    <div id="toc">
+        
+            <h2>Table of Contents</h2>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#How-use-local-database-in-app"><span class="toc-number">1.</span> <span class="toc-text">How use local database in app</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#traditional-Factory-to-generate-viewModel"><span class="toc-number">1.1.</span> <span class="toc-text">traditional Factory to generate viewModel</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DI-to-generate-viewModel"><span class="toc-number">1.2.</span> <span class="toc-text">DI to generate viewModel</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#coroutines-in-android"><span class="toc-number">1.2.1.</span> <span class="toc-text">coroutines in android</span></a></li></ol></li></ol></li></ol>
+        
+    </div>
+</div>
+
+    </div>
+</div>
+<footer id="footer">
+    <div id="copyright">&copy; Zengqiang Fang  2023</div>
+    <div id="theme">
+        Powered by <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a>. Theme by <a target="_blank" rel="noopener" href="https://github.com/markyong/hexo-theme-stage">Stage</a>
+    </div>
+</footer>
+<script src="/lib/js/waterrippleeffect.min.js"></script>
+<script src="/js/header-bg.main.js"></script>
+
+    <script src="/lib/js/smooth-scroll.min.js"></script>
+    <script src="/js/toc.main.js"></script>
+
+</body>
+</html>
