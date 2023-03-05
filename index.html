@@ -71,6 +71,1194 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-ffmpeg-simple-convert" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/03/05/ffmpeg-simple-convert/" class="article-date">
+  <time class="dt-published" datetime="2023-03-05T03:57:25.000Z" itemprop="datePublished">2023-03-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/03/05/ffmpeg-simple-convert/">ffmpeg_simple_convert</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="浅谈ffmpeg"><a href="#浅谈ffmpeg" class="headerlink" title="浅谈ffmpeg"></a>浅谈ffmpeg</h1><h2 id="为什么要分享这个玩意"><a href="#为什么要分享这个玩意" class="headerlink" title="为什么要分享这个玩意"></a>为什么要分享这个玩意</h2><p>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;<font size=4 color=red><strong>One day,</strong></font> 我在Mac上下载了一部电影，然后想拷贝到U盘中，然后再连接电视上的接口。这时候呢，正当我要拷贝电影的时候，遇到了我的知识盲区了，为啥我的U盘能检测到，但是电脑上的文件没法往U盘里头送，但是U盘里面东西又可以往外面传呢？我尝试了下面几种方法：</p>
+<ul>
+<li>翻箱倒柜，找出其他的U盘，一个个的试&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;#10006;</li>
+<li>给电脑加一个hub，然后把U盘插到hub上&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;#10006; </li>
+<li>尝试不同的Mac&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;#10006;</li>
+</ul>
+<p>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;没法子了，只能Google一下了，其实就是格式的问题，U盘和移动硬盘一般都是NTFS格式的，而Mac是不支持这个格式磁盘的写入的，所以在Mac上无法拷贝文件到U盘。所以，要么就是格式化U盘，然后再重新刷U盘。<br><img src="https://user-images.githubusercontent.com/6279298/211694505-dac30b23-e055-4201-85c5-54c09544cb95.png" alt="Girl in a jacket" width="60" height="60"></p>
+<p>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;算了要不我直接在Mac上看吧，Mac上的唯一的播放器只有<code>QuickTimer</code>, 但是此播放器能支持的格式又是有限了，下载的电影格式一般都是<code>mkv</code>格式为主，所以QuickTime自然也就不支持的咯。这时候，解决办法想了两个。要么下载一个可以支持其他格式的播放器，要么就是转格式。我选择了后者，作为新生代农民工的我呢还是想要用自己的手艺来解决这个问题，那就是写代码搞定，其实是没有找到比较好的工具。<br>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;开始Google，<code>how to convert mkv to mp4 in java</code> <img width="200" alt="how to convert mkv to mp4 in java" src="https://user-images.githubusercontent.com/6279298/211951360-4aa64823-af8b-4005-815e-53942aa3c2e5.png"> ,<br><code>how to convert mkv to mp4 in python</code><img width="200" alt="how to convert mkv to mp4 in python" src="https://user-images.githubusercontent.com/6279298/211951383-352e6dde-5ca9-4615-be68-32ba84f1cf60.png"> ,<br><code>~ in golang</code> <img width="200" alt="how to convert mkv to mp4 in golang" src="https://user-images.githubusercontent.com/6279298/211951464-68d133a1-3748-4d34-a5f3-2f08333f43ed.png"><br>从每个搜索结果中都能发现一个相同的工具<font color=red size=3><strong>ffmpeg</strong></font>, 很好奇这个是干嘛的的东西，大家就接着往下看吧</p>
+<h2 id="ffmpeg是什么"><a href="#ffmpeg是什么" class="headerlink" title="ffmpeg是什么"></a>ffmpeg是什么</h2><p>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;<font><strong>FFmpeg</strong></font>是一个免费的开源软件项目，由一套处理视频、音频和其他多媒体文件和流的库和程序组成。ffmpeg主要是被当做命令行工具来使用，ffmpeg主要用于处理视频和音频文件。它被广泛用于格式转换、基本编辑(修剪和拼接)、视频缩放、视频后期制作效果</p><br>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;FFmpeg除了本身的工具之外，实际上是被分成了是三个工具<code>ffmpeg</code>，<code>ffprobe</code>以及<code>ffplay</code>。<a target="_blank" rel="noopener" href="http://ffmpeg.org/ffprobe.html">ffprobe</a>主要用于分析流媒体数据，提取流媒体中的音视频信息，<a target="_blank" rel="noopener" href="http://ffmpeg.org/ffplay.html">ffplay</a>是ffmpeg开发的minimal的视频播放器，但是这三类工具都是命令行工具，对于不太了解计算机的同学来说不是特别的友好。<br>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;ffmpeg整体都是基于<code>C++</code>开发的一套框架，因为是开源项目，所以有很大的DIY空间。于此同时，对于不太熟悉<code>C++</code>的同学来说，如果想用ffmpeg来做一些二次开发，现在也有很多其他语言的wrapper包，以下这几个是star数比较多，而且提了issue作者会给回答的项目：</p>
+<ul>
+<li>java <ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/bytedeco/javacpp-presets/tree/master/ffmpeg">javacpp-presets</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/bramp/ffmpeg-cli-wrapper">ffmpeg-cli-wrapper</a></li>
+</ul>
+</li>
+<li>go<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/u2takey/ffmpeg-go">ffmpeg-go</a></li>
+</ul>
+</li>
+</ul>
+<p>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;这里还有一个小提醒给大家，ffmpeg这么好用，其实很多的播放器都是基于了ffmpeg做了二次开发，那么对于使用ffmpeg的开发者来说，就有一条不成文的规则，如果你使用了这个框架，你就需要开源你的项目，否则你可能会被钉在ffmpeg的<a target="_blank" rel="noopener" href="http://ffmpeg.org/shame.html">Hall of Shame(耻辱柱)</a></p>
+<p>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;下面给大家顺带说一下，ffmpeg中使用的一些高频率的library</p>
+<ul>
+<li>libavcodec, 提供了一个通用的编码&#x2F;解码框架，包含音频、视频和字幕流的多个解码器和编码器</li>
+<li>libavformat, 为音频、视频和字幕流的多路复用和解复用(muxing和demuxing)提供了一个通用框架</li>
+<li>libavfilter，音视频流的处理，包括视频的比特率修改，音频的频率的修改，以及多个视频的合并等等操作</li>
+<li>libavdevice，提供了一个通用框架，用于从许多常见的多媒体输入&#x2F;输出设备抓取和呈现，并支持多种输入和输出设备，例如Video4Linux2、VfW、DShow和ALSA</li>
+</ul>
+<h2 id="ffmpeg的一些基础用法"><a href="#ffmpeg的一些基础用法" class="headerlink" title="ffmpeg的一些基础用法"></a>ffmpeg的一些基础用法</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ul>
+<li>大家可以根据自己的平台下载对应的安装包，在<a target="_blank" rel="noopener" href="http://ffmpeg.org/download.html#get-sources">ffmpeg官网</a>可以直接下载</li>
+<li>在Mac电脑上还可以使用<code>brew</code>直接安装，运行以下命令：<code>brew install ffmpeg</code></li>
+</ul>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><h4 id="ffplay"><a href="#ffplay" class="headerlink" title="ffplay"></a>ffplay</h4><p>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;ffplay使用方式非常简单，这里给大家介绍一些简单的命令</p>
+<ul>
+<li><code>ffplay &lt;input source path&gt;</code> 这样就是以ffplay提供的默认设置播放视频</li>
+<li><code>ffplay -x -y &lt;input source path&gt;</code> 这样就可以指定视频播放窗口的大小</li>
+<li><code>ffplay -fs &lt;input source path&gt;</code> 视频开始以全屏模式播放 </p></li>
+</ul>
+<p>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;除此之外，ffplay还很多其他的option，大家如果有兴趣可以参照官网的<a target="_blank" rel="noopener" href="http://ffmpeg.org/ffplay.html#Main-options">说明</a>尝试</p>
+<h4 id="ffprobe"><a href="#ffprobe" class="headerlink" title="ffprobe"></a>ffprobe</h4><p>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;ffprobe主要就是用于分析流媒体中的信息，比如说，你想知道，该视频中有几个视频流，有几个音频流，以及各自的编码方式是什么，等等诸如此类的东西，再给大家分享一些简单的命令</p>
+<ul>
+<li><code>ffprobe -v error &lt;input source path&gt; -show_format</code>, 用这个命令你就可以看到你这个容器中的流媒体的一些基本数据，如果你觉得用默认格式输出不好看的话，还可以添加一个参数，<code>-print_format json</code>，其中的参数<code>v</code>代表的是verbose<ul>
+<li>json文件中展现了container的信息，其中包括了container的文件名称，bitrate等等<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;format&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;filename&quot;</span><span class="punctuation">:</span> <span class="string">&quot;bullfinch.mov&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;nb_streams&quot;</span><span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;nb_programs&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;format_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;mov,mp4,m4a,3gp,3g2,mj2&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;format_long_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;QuickTime / MOV&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;start_time&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.000000&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;duration&quot;</span><span class="punctuation">:</span> <span class="string">&quot;5.022000&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;size&quot;</span><span class="punctuation">:</span> <span class="string">&quot;143724856&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;bit_rate&quot;</span><span class="punctuation">:</span> <span class="string">&quot;228952379&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;probe_score&quot;</span><span class="punctuation">:</span> <span class="number">100</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;tags&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">          <span class="attr">&quot;major_brand&quot;</span><span class="punctuation">:</span> <span class="string">&quot;qt  &quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;minor_version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;512&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;compatible_brands&quot;</span><span class="punctuation">:</span> <span class="string">&quot;qt  &quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;encoder&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Lavf58.45.100&quot;</span></span><br><span class="line">      <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><code>ffprobe -v error &lt;input source path&gt; -show_streams</code> 这里会展示出所有的stream的信息，所以使用参数<code>-select_streams</code>来选择某一种流媒体，再在后面添加一个<code>v</code>或者<code>a</code>。前者代表是video，后者是audio<ul>
+<li>视频流的数据，这里会列出当前流媒体中视频流中的编码方式等等数据<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;streams&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">      <span class="punctuation">&#123;</span></span><br><span class="line">          <span class="attr">&quot;index&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;codec_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;prores&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;codec_long_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Apple ProRes (iCodec Pro)&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;profile&quot;</span><span class="punctuation">:</span> <span class="string">&quot;HQ&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;codec_type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;video&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;codec_tag_string&quot;</span><span class="punctuation">:</span> <span class="string">&quot;apch&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;codec_tag&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0x68637061&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;width&quot;</span><span class="punctuation">:</span> <span class="number">1920</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;height&quot;</span><span class="punctuation">:</span> <span class="number">1080</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;coded_width&quot;</span><span class="punctuation">:</span> <span class="number">1920</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;coded_height&quot;</span><span class="punctuation">:</span> <span class="number">1080</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;closed_captions&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;film_grain&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;has_b_frames&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;sample_aspect_ratio&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1:1&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;display_aspect_ratio&quot;</span><span class="punctuation">:</span> <span class="string">&quot;16:9&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;pix_fmt&quot;</span><span class="punctuation">:</span> <span class="string">&quot;yuv422p10le&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;level&quot;</span><span class="punctuation">:</span> <span class="number">-99</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;color_range&quot;</span><span class="punctuation">:</span> <span class="string">&quot;tv&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;field_order&quot;</span><span class="punctuation">:</span> <span class="string">&quot;progressive&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;refs&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0x1&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;r_frame_rate&quot;</span><span class="punctuation">:</span> <span class="string">&quot;30000/1001&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;avg_frame_rate&quot;</span><span class="punctuation">:</span> <span class="string">&quot;30000/1001&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;time_base&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1/30000&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;start_pts&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;start_time&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.000000&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;duration_ts&quot;</span><span class="punctuation">:</span> <span class="number">150150</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;duration&quot;</span><span class="punctuation">:</span> <span class="string">&quot;5.005000&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;bit_rate&quot;</span><span class="punctuation">:</span> <span class="string">&quot;229589904&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;bits_per_raw_sample&quot;</span><span class="punctuation">:</span> <span class="string">&quot;10&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;nb_frames&quot;</span><span class="punctuation">:</span> <span class="string">&quot;150&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;disposition&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">              <span class="attr">&quot;default&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;dub&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;original&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;comment&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;lyrics&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;karaoke&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;forced&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;hearing_impaired&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;visual_impaired&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;clean_effects&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;attached_pic&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;timed_thumbnails&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;captions&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;descriptions&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;metadata&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;dependent&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;still_image&quot;</span><span class="punctuation">:</span> <span class="number">0</span></span><br><span class="line">          <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;tags&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">              <span class="attr">&quot;language&quot;</span><span class="punctuation">:</span> <span class="string">&quot;eng&quot;</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;handler_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;VideoHandler&quot;</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;vendor_id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;FFMP&quot;</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;encoder&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Lavc58.91.100 prores_ks&quot;</span></span><br><span class="line">          <span class="punctuation">&#125;</span></span><br><span class="line">      <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure></li>
+<li>如果我们想过滤一些只有我们关心的数据，可以使用<code>-show_entries stream=codec_name,codec_type,duration</code>，来选择我们想要的数据，这样返回的数据就会比较简洁<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;programs&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line"></span><br><span class="line">  <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;streams&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">      <span class="punctuation">&#123;</span></span><br><span class="line">          <span class="attr">&quot;codec_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;prores&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;codec_type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;video&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;duration&quot;</span><span class="punctuation">:</span> <span class="string">&quot;5.005000&quot;</span></span><br><span class="line">      <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h4 id="ffmpeg"><a href="#ffmpeg" class="headerlink" title="ffmpeg"></a>ffmpeg</h4><p>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;ffmpeg应该来说是这个里面BOSS了，能干的事情简直是太多了，比如说转换格式，剪辑视频，合并视频，添加视频的overlay，替换流媒体的音频，操作音频（合并声道，修改声道），生成playback文件等等</p>
+<ul>
+<li>转换格式就是ffmpeg非常基础的技能了，<code>ffmpeg -v error -y -i &lt;input source path&gt; &lt;output file name&gt;.mp4</code>。以下的场景是我们在网络上下载了一段视频，扩展名是<code>mkv</code>。这个显然是无法在Mac直接播放的<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;programs&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line"></span><br><span class="line">    <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;streams&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;codec_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;h264&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;codec_long_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10&quot;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;format&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;filename&quot;</span><span class="punctuation">:</span> <span class="string">&quot;test.mkv&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;nb_streams&quot;</span><span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;nb_programs&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;format_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;matroska,webm&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;format_long_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Matroska / WebM&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;start_time&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.000000&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;duration&quot;</span><span class="punctuation">:</span> <span class="string">&quot;5.016000&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;size&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1941253&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;bit_rate&quot;</span><span class="punctuation">:</span> <span class="string">&quot;3096097&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;probe_score&quot;</span><span class="punctuation">:</span> <span class="number">100</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;tags&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;COMPATIBLE_BRANDS&quot;</span><span class="punctuation">:</span> <span class="string">&quot;qt  &quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;MAJOR_BRAND&quot;</span><span class="punctuation">:</span> <span class="string">&quot;qt  &quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;MINOR_VERSION&quot;</span><span class="punctuation">:</span> <span class="string">&quot;512&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;ENCODER&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Lavf59.16.100&quot;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+我们来使用ffmpeg的转换技能，把<code>mkv</code>格式的文件转换成<code>mov</code>, <code>ffmpeg -v error -y -i test.mkv  test.mov</code>，这里不用指定流的编码方式，因为在转换的过程中会设定默认的合适的codec方法，等上一会，视频就是转好了。当我点击的时候给我来了个这个<img width="100" alt="image" src="https://user-images.githubusercontent.com/6279298/213137069-6b427048-435f-4f68-a81f-3f2fd6401974.png">，打开是能打开，但是看不了视频，只闻其声不见其人。我用ffprobe分析了一下stream的数据，发现codec的方式h264，quicktime是不支持的。<br>这时我添加了一个参数<code>ffmpeg -v error -y -i test.mkv  -vcodec prores test.mov</code>。这波操作，OK了，可以打开了</p><br>&amp;#8194;&amp;#8194;&amp;#8194;&amp;#8194;这时又有细心的朋友发现了些啥，为啥同样视频只是经过了一次转换，大小相差这么大<img width="200" alt="image" src="https://user-images.githubusercontent.com/6279298/213139598-262c3a73-3881-42a8-92c2-e2a1e0279bda.png">。具体原因是啥呢，我再用ffprobe分析一波。原来是因为<code>bitrate</code>相差了很多哦，这玩意就是用来决定视频的清晰度的。查了一下文档，原来ffmpeg在不设定bitrate的时候，为了加快转换速度自己又自作主张的加了点戏，减少了一些bitrate。<img width="1031" alt="image" src="https://user-images.githubusercontent.com/6279298/213140159-19c49e5d-72a3-4b9e-85ca-a1bf2d6bd7c1.png">
+&#8194;&#8194;&#8194;&#8194;那如果我想保持原来的大小该怎么办呢？这里我们可以使用`two-pass`的方式来设置想要转换的视频的bitrate的大小
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -v error -y -i test.mkv -vcodec prores -b:v 4M -pass 1 -f null /dev/null</span><br><span class="line">&amp;&amp; ffmpeg -v error -y -i test.mkv -vcodec prores -b:v 4M -pass 2 test.mov</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="心得"><a href="#心得" class="headerlink" title="心得"></a>心得</h2><p>&amp;#8194;&amp;#8194;&amp;#8194;&amp;#8194;故事讲到这里，算是已经都讲完了，也实现了在Mac上直接播放的愿望。其实在学习ffmpeg的过程中还是了解到了很多图像相关的概念的，在这里我只是介绍了ffmpeg冰山一角的能力。当然在学习的过程中也越遇到一些自己一知半解的问题，如果大家有相关经验可以一块交流啊。</p>
+<p>&amp;#8194;&amp;#8194;&amp;#8194;&amp;#8194;<font size=5><strong>最后</strong></font>预祝大家<font size=6 color=red face="微软雅黑"><strong>新</strong></font><font size=4 color=yellow face="微软雅黑"><strong>年</strong></font><font size=5 color=green face="微软雅黑"><strong>快</strong></font><font size=8 color=pink face="微软雅黑"><strong>乐</strong></font> <font size=4><strong>!!!</strong></font></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://fdslk.github.io/2023/03/05/ffmpeg-simple-convert/" data-id="cleuv5r3p00048whsffyw2c6p" data-title="ffmpeg_simple_convert" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ffmpeg-coverting-format/" rel="tag">ffmpeg, coverting format</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-ffmpeg_basic_concept" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/03/05/ffmpeg_basic_concept/" class="article-date">
+  <time class="dt-published" datetime="2023-03-05T03:56:02.000Z" itemprop="datePublished">2023-03-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/03/05/ffmpeg_basic_concept/">ffmpeg_basic_concept</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="ffmpeg-java-demo"><a href="#ffmpeg-java-demo" class="headerlink" title="ffmpeg java demo"></a>ffmpeg java demo</h1><ul>
+<li>What is ffmpeg</li>
+<li>High frequency using library<ul>
+<li>libavcodec, contains all encoders and decoders, which is used to encode or decode the resource you input</li>
+<li>libavformat, deal with the <font color=red><strong>muxers</strong></font> or <font color=red><strong>demuxers</strong></font> for various container. container is a file which is used to save your video, audio streams, and anyclose <font color=red size=3 font=black>what is muxer and demuxer in pic?</font></li>
+<li>libavfilter, used to modify audio or video</li>
+<li>libavdevice, used to support different input and output devices</li>
+<li>libavutil,</li>
+<li>libwscale,</li>
+<li>libswreasample</li>
+</ul>
+</li>
+<li>ffmpeg package tools<ul>
+<li>ffmpeg, itself is a command line tool which is used to process the video or audio resource</li>
+<li>ffplay, which is a minimal video player, you can use it play a large wide of video format</li>
+<li>ffprobe, which is used to extract video or audio information</li>
+</ul>
+</li>
+</ul>
+<h2 id="Media-Concepts"><a href="#Media-Concepts" class="headerlink" title="Media Concepts"></a>Media Concepts</h2><ul>
+<li>image<ul>
+<li>pixel, is a 2D point, has color RGB or YUV, alpha value transparency</li>
+<li>resolution, the quality of the image of the number of pixel of the image</li>
+<li>Aspect Ratio, the radio of the width and height</li>
+</ul>
+</li>
+<li>Audio<ul>
+<li>smallest digital representation of a sound</li>
+<li>8&#x2F;16&#x2F;24&#x2F;32 bit value, more bits means high quality video source</li>
+<li>audio frequency, how many samples during the per second, the higher, the higher quality</li>
+<li>audio channel, which means that several audios will be played together<ul>
+<li>for example, one audio channel is named ‘Mono’, two is named ‘Stereo’ and both of them are called <code>channel layouts</code></li>
+</ul>
+</li>
+<li>audio track, organize different audio channels<ul>
+<li>for example, an audio can obtain multilingual channel, an English channel or a French chanel, and also it can take a background chanel, some of them can be mixed</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Video<ul>
+<li>sequence of images, has the time duration, Each image is called a frame</li>
+<li>Video frame rate(FPS), Frame per second</li>
+<li>video compression, not very clear about the concept? remove redundant information, Spatial redundancy (<strong>within frame</strong>), Temporal redundancy (<strong>across frame</strong>). <font color=red><strong>How to make it?</strong></font></li>
+</ul>
+</li>
+<li>Codec &amp; Container<br><img src="https://user-images.githubusercontent.com/96409339/206092175-0a9d1d2c-a173-4407-93a8-7b1e4b306db2.png" alt="the overview of Codec and Container"><ul>
+<li>Codec<ul>
+<li>encode, because video is a very big file, if we transfer it directly, which is an impractical idea. and decode is used to play the video</li>
+<li>some encode algorithm<ul>
+<li>video, H.264, H.265, VP9, Prores, DNxHd,</li>
+<li>audio, PCM, AAC, MP3</li>
+<li>the benefits of different codec algorithm</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Container<ul>
+<li>use to package or wrapper a media file</li>
+<li>format<ul>
+<li>video, MP4, MXF, QT&#x2F;MOV, MKV</li>
+<li>audio, WAV, M4A</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Transcoding<ul>
+<li>transfer one codec to another one</li>
+<li>why we need transcode, because it depends on different situation, sometimes, we need take care of quality, being smaller during the transporting in the internet</li>
+<li>using scenario<ul>
+<li>Transmuxing, From one container to another</li>
+<li>thumbnail generation, preview image, search hit, hover-scrubbing on the web page, poster frame</li>
+<li>Frame rate conversion<ul>
+<li>support different TV standards</li>
+<li>higher FPS: preserve slow motion quality for editing</li>
+<li>lower FPS: playback or streaming</li>
+</ul>
+</li>
+<li>Bitrate conversion<ul>
+<li>quality the higher bitrate the higher quality</li>
+<li>smaller storage space</li>
+<li>support different network bandwidth</li>
+</ul>
+</li>
+<li>change GOP size<ul>
+<li>good for editing based on I-frame (keyframe) only, 保持一个关键帧，然后可以继续操作，就可以得到动画</li>
+<li>good for compression and streaming based on long GOP</li>
+</ul>
+</li>
+<li>overlay<ul>
+<li>logo ….</li>
+</ul>
+</li>
+<li>subtitle&#x2F;capture</li>
+<li>timecode</li>
+<li>covert video resolution</li>
+<li>Audio volume adjustment</li>
+<li>Audio mixing eg: mix the person speaking voice and the background voice</li>
+<li>audio resampling, changing the frequency</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="How-to-setup-it"><a href="#How-to-setup-it" class="headerlink" title="How to setup it?"></a>How to setup it?</h2><ul>
+<li>how to get it?<ul>
+<li>No official builds</li>
+<li>Build from source code, download it from <code>github</code> repo</li>
+<li>Download Pre-build packages, Use package management tool, like <code>homebrew</code> and <code>APT</code></li>
+</ul>
+</li>
+<li>support OS<ul>
+<li>macOS <code>brew install ffmpeg</code></li>
+<li>linux </li>
+<li>Windows</li>
+</ul>
+</li>
+</ul>
+<h2 id="How-to-use-its-sub-component-tool"><a href="#How-to-use-its-sub-component-tool" class="headerlink" title="How to use its sub-component tool"></a>How to use its sub-component tool</h2><ul>
+<li>ffprobe<ul>
+<li>When you install the ffmpeg in brew, you can use ffmpeg, ffmprobe or ffmplay directly. For the part, you will use ffmprobe to analyze the video or audio resource.</li>
+<li>Input the following command, <code>ffprobe xxxx.mp4</code>, you will get the following result with log.<img width="1293" alt="image" src="https://user-images.githubusercontent.com/96409339/205582566-4f4bdc33-242e-4884-ad27-8b68c20fc433.png">
+* If you don't need any log, you can input the following command, `ffprobe -v error bunny_1080p_60fps.mp4 -show_format`, you will retrieve the whole video format details
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">[FORMAT]</span><br><span class="line">filename=bunny_1080p_60fps.mp4</span><br><span class="line">nb_streams=3</span><br><span class="line">nb_programs=0</span><br><span class="line">format_name=mov,mp4,m4a,3gp,3g2,mj2</span><br><span class="line">format_long_name=QuickTime / MOV</span><br><span class="line">start_time=0.000000</span><br><span class="line">duration=634.533333</span><br><span class="line">size=355856562</span><br><span class="line">bit_rate=4486529</span><br><span class="line">probe_score=100</span><br><span class="line">TAG:major_brand=isom</span><br><span class="line">TAG:minor_version=1</span><br><span class="line">TAG:compatible_brands=isomavc1</span><br><span class="line">TAG:creation_time=2013-12-16T17:59:32.000000Z</span><br><span class="line">TAG:title=Big Buck Bunny, Sunflower version</span><br><span class="line">TAG:artist=Blender Foundation 2008, Janus Bager Kristensen 2013</span><br><span class="line">TAG:comment=Creative Commons Attribution 3.0 - http://bbb3d.renderfarming.net</span><br><span class="line">TAG:genre=Animation</span><br><span class="line">TAG:composer=Sacha Goedegebure</span><br><span class="line">[/FORMAT]</span><br></pre></td></tr></table></figure>
+* If you want to know the details of the stream, you can input `ffprobe -v error bunny_1080p_60fps.mp4 -show_format -show_streams`
+  * with parameter `-print_format`, you can only <font color=red size=3>**format**</font> output csv or json
+  <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">   <span class="attr">&quot;programs&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">   <span class="attr">&quot;streams&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">   <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;codec_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;h264&quot;</span></span><br><span class="line">   <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">   <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;codec_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;mp3&quot;</span></span><br><span class="line">   <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">   <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;codec_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ac3&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;side_data_list&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">&#123;</span><span class="punctuation">&#125;</span><span class="punctuation">]</span></span><br><span class="line">   <span class="punctuation">&#125;</span></span><br><span class="line"> <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+  * with parameter  `-show_stream -select-streams v`, only output video stream
+  <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;programs&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;streams&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">&#123;</span></span><br><span class="line">     <span class="attr">&quot;codec_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;h264&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+  * with parameter `-show_entries stream=codec_name`, only output codec name, you might need to remove the other parameters like `-show_stream` or `-show_format`
+  * with parameter `-print_format default=noprint_wrappers=1`, remove outside tag
+  <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">codec_name=h264</span><br><span class="line">codec_name=mp3</span><br><span class="line">codec_name=ac3</span><br></pre></td></tr></table></figure>
+  * with parameter `-print_format default=noprint_wrappers=1:nokey=1`, you can get the only value without key
+  <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">h264</span><br><span class="line">mp3</span><br><span class="line">ac3</span><br></pre></td></tr></table></figure>
+  * You can analyze the stream information by URL directly without downloading it to loacl machine
+  `ffprobe -v error <http url link>`
+* [more details, www.ffmpeg.org/ffprobe.html](https://www.ffmpeg.org/ffprobe.html)</li>
+</ul>
+</li>
+<li>ffplay<ul>
+<li>with the parameter <code>-x , -y</code>, you can control the size of the video window</li>
+<li>with the parameter <code>-noborder</code>, you can remove the border of the video window</li>
+<li>with the parameter <code>-top -left</code>, you can control the position of the video window</li>
+<li>with the parameter <code>-fs</code>, you can get the full screen video window</li>
+<li>with the parameter <code>-an</code>, you can disable the audio</li>
+<li>with the parameter <code>vn</code>, you can disable the video<ul>
+<li>tips, you can press key <code>W</code> to switch the show-mode</li>
+</ul>
+</li>
+<li>with the parameter <code>-showmode waves</code>, you can get the video wave</li>
+<li>with the parameter <code>-loop &lt;times&gt;</code>, you can get looping video</li>
+<li>with pressing key <code>S</code>, you can step through the frames of a video one frame at a time</li>
+</ul>
+</li>
+<li>ffmpeg<ul>
+<li>overview of how to edit media<br><img src="https://user-images.githubusercontent.com/96409339/206382829-5b872ed9-97a5-4b17-88c6-eae1c76651e4.png" alt="overview"></li>
+<li>details<ul>
+<li>input &amp; output<ul>
+<li><code>ffmpeg -i &lt;protocol&gt;:&lt;device&gt;</code>, file is default, you also can choose the network pattern, like http, ftp, rtp etc.</li>
+<li>according to the above processing, you can run the following command like <code>ffmpeg -i input.mov ...add some filter... output.mp4</code></li>
+<li>with the parameter, <code>-f extension</code>, you can do the muxing or demux use the command. During the input process, it was used to demux. During the output process, it was used to mux.<ul>
+<li><code>ffmpeg -i input.mov ... -f ... output.extension</code></li>
+</ul>
+</li>
+<li>with parameter <code>pipe:0</code>, don’t know very well</li>
+<li>capture, I guess this can be used to record screen;<ul>
+<li><code>ffmpeg -f avfoundation -list_devices true -i &quot;&quot;</code> list the useful device in the current machine</li>
+<li>screen<ul>
+<li><code>ffmpeg -f avfoundation -i &quot;:1&quot; ....</code></li>
+</ul>
+</li>
+<li>audio (microphone)<ul>
+<li><code>ffmpeg -f avfoundation -i &quot;:2&quot; ....</code></li>
+</ul>
+</li>
+<li>webcam<ul>
+<li><code>ffmpeg -f avfoundation -i &quot;default&quot; ....</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>testing<ul>
+<li><code>ffmpeg -f lavfi -i color=color=red...</code>, <strong>lavfi</strong> is a virtual space</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>stream selection<br><img src="https://user-images.githubusercontent.com/96409339/206649881-25b41eed-9089-408e-a477-1daebf2695be.png" alt="the example of streams in container"> <ul>
+<li>For one container, generally speaking, it includes one video stream and one more audios streams</li>
+<li>how to select a stream, <input-index>:<stream-type>:<stream-index>, these three inputs will control the stream you want to select.</li>
+<li><code>ffmpeg -v error -y -i bunny_1080p_60fps.mp4 -to 1 bunny_1080p_60fps-1s.mp4</code>, the command is used to edit a video<ul>
+<li><code>-y</code> override the file anyway</li>
+<li><code>-to</code> cut the video until 1 second</li>
+<li>For default, ffmpeg only picks up one video and one audio<ul>
+<li>get all, with parameter <code>-map 0</code></li>
+<li>get video, with parameter <code>-map 0:v</code></li>
+<li>get audio, with parameter <code>-map 0:a</code></li>
+<li>get first audio, with parameter <code>-map 0:a:0</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>You also can process multiple data together, integration some video, layout(logo), audio together<ul>
+<li><code>ffmpeg -v error -y -i bunny_1080p_60fps.mp4 -i bullfinch.mov -to 1 -map 0:v:0 -map 1:a:0 bunny_1080p_60fps-1s-mix.mp4</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>filter<ul>
+<li>do some change for the media, the common library is <code>libavfilter</code></li>
+<li>syntax, filter&#x3D;key1&#x3D;values:key2&#x3D;value2<ul>
+<li>eg: scale filter scale&#x3D;width&#x3D;1920:height&#x3D;1080<ul>
+<li>different filter labels are used <code>; [semicolon sign]</code> to split each others. <font color=red size=3>In my opinion, I think that semicolon sign is used to do the textual separation, which the filter is more readable.</font></li>
+<li>for one filter with multiple options, using <code>: [colon sign]</code> to split each other </li>
+<li>using comma <code>,</code> to split the different filter</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>it can be labeled, which can be referred for later option</li>
+<li>filter graph<ul>
+<li>with param <code>-vf</code> process graphs with <strong>single</strong> input and output, especially operate video resource</li>
+<li>eg: <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -v error -i &lt;medida name with extension&gt; -vf</span><br><span class="line">  &quot;split[bg][ol]; // split the media with the same two parts</span><br><span class="line">  [bg]scale=width=1920:height=1080,format=gray[bg_output];</span><br><span class="line">  [ol]scale=-1:480,hflip[ol_output];</span><br><span class="line">  [bg_output][ol_output]overlay=x=W-w:y=(H-h)/2&quot; &lt;ouput file &gt; // combine two outputs togther.</span><br></pre></td></tr></table></figure></li>
+<li>with param <code>-filter-complex</code>, you can manipulate all the streams, like video, audio and picture.<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -v error -y -i bullfinch.mov -i logo.png -filter_complex </span><br><span class="line">&quot;[1:v]scale=-1:200[s_logo];</span><br><span class="line">[0:v][s_logo]overlay=x=W-w-50:y=H-h-50,split=2[sd_in][hd_in];</span><br><span class="line">[sd_in]scale=-2:480[sd];[hd_in]scale=-2:1080[hd]&quot;</span><br><span class="line">-map \[sd\] bully-sd.mp4 -map \[hd\] bully-hd.mp4</span><br></pre></td></tr></table></figure>
+<ul>
+<li>tips: If you want to use it in <font color=red><strong>zsh</strong></font>, you should add escape symbol before the special character, like <code>&#39;[&#39;, &#39;]&#39;</code></li>
+</ul>
+</li>
+<li>with param <code>-af</code>, you can do some editions on audio stream <strong>only for one</strong> input and output</li>
+<li>common filter<ul>
+<li>scale, one input and one output</li>
+<li>split, one input and multiple output</li>
+<li>overlay, multiple input and one output</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>encoding<ul>
+<li>what is kind of thing should we take into consideration? <ul>
+<li>compression</li>
+<li>quality vs size</li>
+<li>stream vs <em>post-production</em></li>
+<li>target application</li>
+<li>compatibility, check the codec is supported by the container</li>
+</ul>
+</li>
+<li>converting<ul>
+<li>If you want to transfer one container to another and don’t set the specific codec method, ffmpeg will set a default codec (suitable one).<ul>
+<li>eg: <code>ffmpeg -v error -y -i bullfinch.mov transcoded.mxf</code></li>
+<li>with parameter, <code>-vcodec &lt;codec name&gt;</code> to set specific video codec method<ul>
+<li><code>ffmpeg -encoders</code>, list all the useful codec method</li>
+</ul>
+</li>
+<li>with parameter <code>-avodec</code>, set the specific audio codec method</li>
+</ul>
+</li>
+<li>detail of AVC short for advanced video codec, H.264<ul>
+<li>codec library: libx264</li>
+<li>profile, baseline, main, high, it is optional</li>
+<li>Rate control (edit the bitrate, effect the video quality)<ul>
+<li>with parameter <code>-crf</code> </li>
+<li>CRF: constant quality, variable bitrate, focus on high quality crf 0-51, the higher, the worse quality </li>
+<li>Two-pass ABR, this is a quantitative option, with parameter <code>-b:v 2M</code>, which means that the bitrate is set as 2Mbps<ul>
+<li>tips, it cannot give you very accurate bitrate, therefore you can use two pass method. like <code>-b:v 2M -pass 1 -f null /dev/null</code>, then <code>-b:v 2M -pass 2 filename</code>. The result of the first step will be saved into the statics</li>
+</ul>
+</li>
+<li>preset, which is used to control the speed of compression, the quicker, the bigger compression file you get</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Streaming<ul>
+<li>Basic Concept<ul>
+<li>The device connect to the internet, then you can get the media resource from the internet transportation, rather than download the media directly. This process can be called as streaming.</li>
+<li>And the streaming can be consumed without any waiting just watch it directly when your device connects to the internet<br><img src="https://user-images.githubusercontent.com/6279298/207742871-faf39080-f180-445b-b10d-eb4f73df3f54.png" alt="overview of the streaming get or provide"></li>
+<li>Streaming playback, it is a mechanism for keep a comfortable watching experience.<ul>
+<li>Playable instantly, without downloading the whole media files</li>
+<li>Seekable, when you choose the different timeline, the media can be played based on the correct timeline rather than play it from the start</li>
+<li>Adaptive, based on different network situation (<font size=3 color=red>adaptive streaming bitrate, how to make it? not only the network situation, but also the player window size</font>)<ul>
+<li>In my opinion, it will start with a file extended with <code>m3u8</code>. Actually, the following playable videos are separated very small parts whose format is <code>ts</code>. When the network becomes worse, it will retrieve some low bitrate media resource until the network turn to the good situation.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Streaming protocol<ul>
+<li>different protocol is suitable to different situations, some are applicable to ingest, some are for distribution.<ul>
+<li>RTMP<ul>
+<li>real-time-messaging protocol</li>
+<li>based on TCP</li>
+<li>low latency</li>
+<li>stop updating, so not support to latest codec method</li>
+<li>required flash plugin</li>
+<li>is popular to live-streaming ingest</li>
+</ul>
+</li>
+<li>HTTP<ul>
+<li>widest reach</li>
+<li>TCP based</li>
+<li>unlikely to be blocked anywhere</li>
+<li>support its native player <code>HTML5 video</code>, no need to add extra plugin, like flash</li>
+<li>native support HLS and MPEG-DASH adaptive method</li>
+<li>good at distribution, not widely used to ingest</li>
+</ul>
+</li>
+<li>SRT<ul>
+<li>secure reliable transport</li>
+<li>based on UDP based</li>
+<li>faster than RTMP</li>
+<li>cannot support any browsers, because its based on UDP, but it’s extremely applicable to ingest streaming</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Progressive Download<ul>
+<li>The progressive download method downloads and caches video on the viewer’s device. A short period of time is required to buffer and cache the beginning of the media file before it starts playing</li>
+<li>single-file media<ul>
+<li>advantage<ul>
+<li>Not segmented</li>
+<li>Easier to handle</li>
+<li>native browser support</li>
+<li>copy and download easily, you can send the whole file to other services</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>container formats<ul>
+<li>MP4, WebM, Ogg, these formats are supported by native browser</li>
+</ul>
+</li>
+<li>The index<ul>
+<li>It’s used to look up the media data of a time aor frame, just like a table or a map to save the media information</li>
+<li>It will be written into the end of the mp4 file</li>
+<li>Similar to Apple player format (QuickTime, MOV)</li>
+<li>the data will get some hierarchical sections, the section are atom&#x2F;box, atom will be set into the stream during the codec period<br><img src="https://user-images.githubusercontent.com/6279298/208073595-5d752c26-a57a-4b2c-a9f0-1f691431aff9.png" alt="what is the atom"><br><img src="https://user-images.githubusercontent.com/6279298/208075202-567b91f5-7b32-4472-b825-e8e89446d1b5.png" alt="the category of atoms"></li>
+</ul>
+</li>
+<li>fast-started<ul>
+<li><img src="https://user-images.githubusercontent.com/6279298/208084190-41a02855-edb8-4644-b2af-4399edb8563f.png" alt="fast-started structure"></li>
+<li>This will let the video be played gradually rather than download the whole file once time</li>
+<li>with command <code>ffmpeg -v trace -i &lt;video name&gt;</code>, you can get the verbose information</li>
+<li>pick atom <code>ffmpeg -v trace -i fast-start.mp4 2&gt;&amp;1 | grep -e type:\&#39;mdat\&#39; -e type:\&#39;moov\&#39;</code></li>
+<li>convert to a fast-started media <code> ffmpeg -i fast-start.mp4 -movflags +faststart -c copy test-fast-started.mp4</code><ul>
+<li>option <code>-movflag</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Adaptive Streaming<ul>
+<li>Sometime, the outside condition is changeable, for single-quality media, it just only has one quality, single resolution, bitrate choice</li>
+<li>adaptive resolution, different screen size the stream will choose some related stream. But if the screen resolution is greater than the low standard resolution and less than the high standard resolution, it will still use the higher one, take the 560p as an example, the play will still play the 720p media.</li>
+<li><font color=red>ffmpeg can do it?</font></li>
+<li>how it work<ul>
+<li>adaptive streaming solution<ul>
+<li>HLS, http live streaming<ul>
+<li>codec (H.264 avc H.265 havc) </li>
+<li>container (TS, fMP4, Fragmented MP4)</li>
+<li>manifest<ul>
+<li>m3u8 <ul>
+<li>master playlist is used to point the media playlist</li>
+<li>media playlist list the individual the segments of ts file in sequence</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>DASH, dynamic adaptive streaming over http<ul>
+<li>MPEG-DASH (mp4) </li>
+<li>codec freedom, H.264, H.265, VP9, etc. </li>
+<li>container only fMP4</li>
+<li>manifest (mdp, media presentation description, format is <code>xml</code>)</li>
+</ul>
+</li>
+<li>common characteristics<ul>
+<li>both can split media into several small segments</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>the facts need to consider when encoding the media to adaptive streaming <ul>
+<li>frame type</li>
+<li><img src="https://user-images.githubusercontent.com/6279298/209314973-8a7aa325-a305-42de-957a-ef14fd9966fe.png" alt="concept of frame"></li>
+<li>What is the self-contained in GOPs</li>
+</ul>
+</li>
+<li>how to use ffmpeg to convert the media into HLS or DASH<ul>
+<li>HLS, TS, A+V, the format of playlist is <code>m3u8</code> and the segment is <code>ts</code><ul>
+<li>&#96;&#96;&#96;yaml<br>  ffmpeg -y -i bunny_1080p_60fps.mp4 -to 10 <br>  -filter_complex “[0:v]fps&#x3D;30,split&#x3D;3[720_in][480_in][240_in];[720_in]scale&#x3D;-2:720[720_out];[480_in]scale&#x3D;-2:480[480_out];[240_in]scale&#x3D;-2:240[240_out]” <br>  -map [720_out] -map [480_out] -map [240_out] -map 0:a -map 0:a -map 0:a <br>  -b:v:0 3500k -maxrate:v:0 3500k -bufsize:v:0 3500k <br>  -b:v:1 1690k -maxrate:v:1 1690k -bufsize:v:1 1690k <br>  -b:v:2 326k -maxrate:v:2 326k -bufsize:v:2 326k <br>  -b:a:0 128k <br>  -b:a:1 96k <br>  -b:a:2 64k <br>  -x264-params “keyint&#x3D;60:min-keyint&#x3D;60:scenecut&#x3D;0” <br>  -var_stream_map “v:0,a:0,name:720-4M v:1,a:1,name:480-2M v:2,a:2,name:240p-500k” <br>  -hls_time 2 <br>  -hls_list_size 0 <br>  -hls_segment_filename adaptive-%v-%03d.ts <br>  -master_pl_name adaptive.m3u8 <br>  adaptive-%v.m3u8 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">          * `-b:v:0` is used to select the video stream and set the average bitrate, like `-b:v:0 128k`;</span><br><span class="line">          * `-bufsize` is used to check the average bitrate in this set value. eg: `-bufsize 128k`, During each 128k media transmission, ffmpeg will calculate the current average bitrate</span><br><span class="line">            * if the smaller value is set, the frequency of checking bitrate will be too high. Otherwise, it will take a long duration</span><br><span class="line">            * Generally speaking, it can set the same as the video average bitrate or even the half of it</span><br><span class="line">          * `-maxrate` is used to limit the max transmission bitrate. eg: Your max bandwidth is **1024kb/s**, and assuming you can totally use this bandwidth, audio will use 128k/s (this audio is stereo, 64k per channel), therefore, only 896k/s you can use, so you should set this value as your **maxrate**</span><br><span class="line">          * references</span><br><span class="line">            * [What does -bufsize do?](https://trac.ffmpeg.org/wiki/Limiting%20the%20output%20bitrate)</span><br><span class="line">            * [Encoding for streaming sites](https://trac.ffmpeg.org/wiki/EncodingForStreamingSites)</span><br><span class="line">        * HLS, TS separate the audio and video, only single audio stream, will have itself playlist manifest</span><br><span class="line">        * HLS, fMP4</span><br><span class="line">        * DASH, fMP4</span><br><span class="line">        * HLS+DASH, fMP4</span><br><span class="line">          * ![HLS DASH mixed pattern](https://user-images.githubusercontent.com/6279298/210923276-23ba054e-eec4-4120-9ac0-403ee39494b7.png) </span><br><span class="line">          * ```yaml</span><br><span class="line">            ffmpeg -y -i bullfinch.mov -to 10 \                                </span><br><span class="line">             -filter_complex &quot;[0:v]fps=30,split=3[720_in][480_in][240_in];[720_in]scale=-2:720[720_out];[480_in]scale=-2:480[480_out];[240_in]scale=-2:240[240_out]&quot; \</span><br><span class="line">             -map \[720_out\] -map \[480_out\] -map \[240_out\] -map 0:a \</span><br><span class="line">             -b:v:0 3500k -maxrate:v:0 3500k -bufsize:v:0 3500k \</span><br><span class="line">             -b:v:1 1690k -maxrate:v:1 1690k -bufsize:v:1 1690k \</span><br><span class="line">             -b:v:2 326k -maxrate:v:2 326k -bufsize:v:2 326k \</span><br><span class="line">             -b:a:2 128k \</span><br><span class="line">             -x264-params &quot;keyint=60:min-keyint=60:scenecut=0&quot; \</span><br><span class="line">             -hls_playlist 1 \</span><br><span class="line">             -hls_master_name adaptive.m3u8 \</span><br><span class="line">             -seg_duration 2 \</span><br><span class="line">             adaptive.mpd  </span><br><span class="line">            ```     </span><br><span class="line">* example of manipulate video</span><br><span class="line">  * Trimming</span><br><span class="line">    * `ffmpeg -y -v error -i nature.mp4 -ss 00:03:55 -to 240 bear.mp4`</span><br><span class="line">      * `-v [flags+]loglevel` set the processing log error verbose</span><br><span class="line">      * `-ss` set up the start second</span><br><span class="line">      * `-to` set up the total duration</span><br><span class="line">      * `-t` set up the segment duration, take the above command as an example, if you want to achieve the same behavior, you can use `-ss 00:03:55 -t 5`</span><br><span class="line">  * Merge</span><br><span class="line">    * define a list file</span><br><span class="line">      * ```text</span><br><span class="line">        file &#x27;bear.mp4&#x27;</span><br><span class="line">        file &#x27;flower.mp4&#x27;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>ffmpeg -y -v error -f concat -i list.txt merge.mp4</code></li>
+</ul>
+</li>
+<li>Thumbnail<ul>
+<li><code>ffmpeg -v error -i bullfinch.mov -vframes 1 bullfinch-poster-image.jpg</code><ul>
+<li><code>-vframes</code> set up the number of frames</li>
+<li>You also can use filter during this processing, by the following command<ul>
+<li><code>ffmpeg -v error -i bullfinch.mov -vframes 1 -vf scale=320:180 bullfinch-poster-image-thumbnail.jpg</code></li>
+</ul>
+</li>
+<li>if you don’t want to output the first frame as the thumbnail, you can add the <code>-ss</code> before the <code>-vframes</code></li>
+<li>If you want to output multiple frame pictures, you can run the following command<ul>
+<li><code>ffmpeg -v error -i bullfinch.mov  -vf fps=1,scale=320:180 bullfinch-thumbnail-%02d.jpg</code></li>
+<li><code>-%02d</code> is a template syntax, which can be used to generate multiple file</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Scaling<ul>
+<li>resize the media or photo resource<ul>
+<li><code>-vf scale=-2:480</code>, <strong>minus two</strong> means we want to keep the aspect ratio</li>
+<li>force original aspect ratio option, <code>force_original_aspect_ratio</code></li>
+<li>If you can want to keep the desired window size, you can add the <a target="_blank" rel="noopener" href="https://ffmpeg.org/ffmpeg-all.html#Examples-140">pad option</a>: <code>pad=640:480:(ow-iw)/2:(oh-oh)/2</code>, with this option, you can output the video in the desired bound box.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a target="_blank" rel="noopener" href="https://ffmpeg.org/ffmpeg-all.html#Examples-139">Overlay</a><ul>
+<li><code>ffmpeg -v error -y -i (video) -i (pic) -filter_complex &quot;overlay&quot; output_file.extension</code></li>
+<li>adjust the transparency of the overlay <code>-filter_complex &quot;[1:v]colorchannelmixer=aa=0.4[transparent_log];[0:v][transparent_log]overlay&quot;</code><ul>
+<li><code>aa</code> Adjust contribution of input red, green, blue and alpha channels for output alpha channel. Default is 1 for aa, and 0 for ar, ag and ab.</li>
+</ul>
+</li>
+<li>multiple overlay, overlay the video with logo at first, then set a label to them. Overlaying the previous output and the third input video</li>
+</ul>
+</li>
+<li>Drawing text and or timeCode<ul>
+<li>fixed text when play<ul>
+<li><code>ffplay bullfinch.mov -v error -an -vf &quot;drawtext=text=Bird&quot;</code><ul>
+<li><img src="https://user-images.githubusercontent.com/6279298/211193197-b5472769-c6da-4b7a-8758-a0c4ca25849e.png" alt="fixed draw text"></li>
+</ul>
+</li>
+<li>with parameter <code>x</code> and <code>y</code>, you can adjust its position, like <code>ffplay bullfinch.mov -v error -an -vf &quot;drawtext=fontfile=Example.ttf:text=Bird:x=(w-text_w)/2:y=(h-text_h)/2:fontsize=60&quot;</code><ul>
+<li><img src="https://user-images.githubusercontent.com/6279298/211193438-39bdde10-ab6f-45d9-85ba-a531bc880a8a.png" alt="Screen Shot 2023-01-08 at 7 22 05 PM"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>moving text when play<ul>
+<li>with parameter <code>t</code> which represents the time, if you want the text from the top to the center you can use the following command:<ul>
+<li><code>y=t*50</code></li>
+<li>Generally speaking, If you want to move the text from the right to the left, you can add the parameter <code>x=(w-text_w)/2-100*t</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>add time code<ul>
+<li>default<ul>
+<li><code>ffplay bullfinch.mov -v error -an -vf &quot;drawtext=fontfile=Example.ttf:text=Bird:x=(w-text_w)/2:y=(h-text_h)/2:fontsize=60:timecode=&#39;00\:00\:00\:00&#39;:rate=&#39;24000/1001&#39;</code></li>
+</ul>
+</li>
+<li>with boxColor<ul>
+<li><code>:box=1: boxcolor=red@0.2</code></li>
+<li><img src="https://user-images.githubusercontent.com/6279298/211194118-45ede122-c2b4-49c7-92e7-28342c21644b.png" alt="time code with color box"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>example of manipulation audio<ul>
+<li>extract channels<ul>
+<li>some channels play the voice, and some channels play the background music<ul>
+<li>with filter <code>amerge=inputs=2</code>, you can merge the whole stream to a one stream with multiple channels</li>
+<li>with the following command you can split the whole stream into different files <code>ffmpeg -v error -y -i two-stereo-tracks.m4a -filter_complex &quot;amerge=inputs=2,asplit=4[all0][all1][all2][all3];[all0]pan=mono|c0=c0[ch0];[all1]pan=mono|c0=c1[ch1];[all2]pan=mono|c0=c2[ch2];[all3]pan=mono|c0=c3[ch3]&quot; -map \[ch0\] ch0.m4a -map \[ch1\] ch1.m4a -map \[ch2\] ch2.m4a -map \[ch3\] ch3.m4a</code><ul>
+<li>with the filter <code>asplit</code> like <code>[in] asplit=&lt;output number&gt; [out0][out1][out2]</code>, you can get number of output</li>
+<li>with the filter <a target="_blank" rel="noopener" href="https://www.ffmpeg.org/ffmpeg-all.html#pan-1"><code>pan</code></a>, you can manipulate the audio</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>mix channels<ul>
+<li>with <code>ffmpeg -v error -y -i ch0.m4a -i ch1.m4a -i ch2.m4a -i ch3.m4a -filter_complex &quot;amerge=inputs=4&quot; mix_four_in_one_channel.m4a</code></li>
+<li>with the filter <code>amix=inputs=&lt;number of input&gt;</code>, it can work, but the mixed audio will drop down the volume</li>
+<li>with <code>&quot;amerge=inputs=4,pan=mono|c0=c0+c1+c2+c3&quot;</code>, you can avoid this issue</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://fdslk.github.io/2023/03/05/ffmpeg_basic_concept/" data-id="cleuv5r3p00058whsfmh6a7fr" data-title="ffmpeg_basic_concept" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ffmpeg/" rel="tag">ffmpeg</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-es-local-tests" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/03/05/es-local-tests/" class="article-date">
+  <time class="dt-published" datetime="2023-03-05T03:53:56.000Z" itemprop="datePublished">2023-03-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/03/05/es-local-tests/">es_local_tests</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Elastic-Search-Integration-test"><a href="#Elastic-Search-Integration-test" class="headerlink" title="Elastic Search Integration test"></a>Elastic Search Integration test</h1><ul>
+<li>What is the Elastic Search Engine<br><img src="https://user-images.githubusercontent.com/6279298/195224811-1137dceb-8857-4d3f-87fc-27cbb5768299.png" alt="some core definition of ES"></li>
+<li>How to run local elastic search<ul>
+<li>run docker cmd <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 9200:9200 \</span><br><span class="line">-e &quot;discovery.type=single-node&quot; \</span><br><span class="line">docker.elastic.co/elasticsearch/elasticsearch:7.8.0</span><br></pre></td></tr></table></figure></li>
+<li>check es healthy status <code>http://localhost:9200</code></li>
+</ul>
+</li>
+<li>How to integrate ES in spring boot project<ul>
+<li>add maven dependency<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.data<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-data-elasticsearch<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.0.0.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li>query methods<ul>
+<li>ElasticSearchRestTemplate<ul>
+<li>add <strong>ES</strong> configuration class, add a java bean to instantiate an <code>ElasticsearchRestTemplate</code></li>
+<li>autoWire <code>ElasticsearchRestTemplate</code></li>
+<li>add <code>NativeSearchQueryBuilder</code> to build query conditions</li>
+</ul>
+</li>
+<li>repository<ul>
+<li>add new interface to implement <code>ElasticsearchRepository</code></li>
+<li>add new index method to insert data into es, <strong>tip:</strong> search key-word should be included in the searched object</li>
+<li>add <code>Document</code> annotation in operating object, which can wrapped the wanted mapping object</li>
+</ul>
+</li>
+<li>high-level REST client<ul>
+<li>add pom dependency<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">  &lt;groupId&gt;org.elasticsearch.client&lt;/groupId&gt;</span><br><span class="line">  &lt;artifactId&gt;elasticsearch-rest-high-level-client&lt;/artifactId&gt;</span><br><span class="line">  &lt;version&gt;7.17.6&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></li>
+<li>initialize rest high level client</li>
+<li>use IndexRequest to build saving data<ul>
+<li>types<ul>
+<li>Json string directly, if you define an object at first, you can use <code>ObjectMapper</code> to execute mapper operation. </li>
+<li><code>Map</code> document definition then framework will convert it to <code>Json format</code></li>
+</ul>
+</li>
+<li>tips: If the id is fixed, the newly indexRequest will override the previous one.</li>
+</ul>
+</li>
+<li>how to search data<ul>
+<li>using <code>SearchRequest</code>, define index name, document type</li>
+<li>build <code>SearchSourceBuilder</code>, set query item. </li>
+<li>set the source of searchRequest by SearchSourceBuilder</li>
+<li>using the following cmd to verify all data<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">curl -X GET <span class="string">&quot;localhost:9200/&lt;your index&gt;/_search?pretty&quot;</span> -H <span class="string">&#x27;Content-Type: application/json&#x27;</span> -d</span><br><span class="line">   <span class="string">&#x27;&#123;</span></span><br><span class="line"><span class="string">     &quot;query&quot;: &#123;</span></span><br><span class="line"><span class="string">        &quot;match_all&quot;: &#123;&#125;</span></span><br><span class="line"><span class="string">      &#125;</span></span><br><span class="line"><span class="string">    &#125;&#x27;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>migrate <code>HLRC</code> to <code>co.elastic.clients</code></li>
+<li>Tips:<ul>
+<li>Actually, if you don’t set up configurations for connecting es, like port number, <code>ElasticsearchRestTemplate</code> has provided the DEFAULT value <strong>9200</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>How to mock ES in spring boot integration test<ul>
+<li>using docker to set up a real elastic search<ul>
+<li>if you take the <code>ElasticsearchRepository</code> as your ES connector, you will start real elastic search in your local machine for test</li>
+<li>step:<ul>
+<li>step1: set up an es by docker<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 9200:9200 \</span><br><span class="line">-e &quot;discovery.type=single-node&quot; \</span><br><span class="line">docker.elastic.co/elasticsearch/elasticsearch:7.8.0</span><br></pre></td></tr></table></figure></li>
+<li>instantiate <code>RestHighLevelClient</code> by annotation <code>@BeforeAll</code></li>
+<li>set up <code>restTemplate</code></li>
+<li>functional test class extends <code>BaseTestClass</code></li>
+<li>write test in the specific test class and make assertions</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>using embedded elastic-search,<ul>
+<li>embedded es cluster build flow<br>  <img src="https://user-images.githubusercontent.com/6279298/196337361-6cf41144-96d2-4667-a23e-2ce19a7d5818.png" alt="embedded-es-cluster"> </li>
+<li>add dependency<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.codelibs<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>elasticsearch-cluster-runner<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>6.6.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li>build default JVM ES cluster by defining a static <code>ElasticsearchClusterRunner</code></li>
+<li>define default <code>RestHighLevelClient</code> and set port number as <strong>9201</strong></li>
+<li>tips: If you want update the version of <code>elasticsearch-cluster-runner</code>, you must take care of the rest-high-level-client using elasticsearch version.<br> <img src="https://user-images.githubusercontent.com/6279298/193168951-9144cee0-f9d5-4c98-bc20-9fd6a6f4328a.png" alt="keep the version elasticsearch version be same"></li>
+</ul>
+</li>
+<li>using stub to mock elastic search server</li>
+<li>using ESIntegTestCase<ul>
+<li>Not good choice….</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>migration <code>rest-high-level-client</code> to <code>java-client</code><ul>
+<li>motivation<ul>
+<li>rest-high-level-client is deprecated since version 7.15.0, which means if you would want to use high level ES, the <code>rhlc</code> might take some incompatible problems.</li>
+<li><code>rhlc</code> used http to transport data, while elastic-search-java-api used transport protocol to transport data.</li>
+</ul>
+</li>
+<li>distinguish between the <code>rhlc</code> and <code>elasitc search java api</code></li>
+<li>how to<ul>
+<li>add new dependency<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>co.elastic.clients<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>elasticsearch-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>8.4.3<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.fasterxml.jackson.core<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jackson-databind<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.12.3<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li>use the same rest client</li>
+<li>set up compatibility mode by <code>.setApiCompatibilityMode(true)</code> for rest-high-level-client</li>
+<li><strong>tips</strong><ul>
+<li>if this <code>NoClassDefFoundError: jakarta/json/spi/JsonProvider</code> happens to application<br>you can add the following dependency<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>jakarta.json<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jakarta.json-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.0.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li>if this <code>&#123; &quot;error&quot; : &quot;Content-Type header [application/x-www-form-urlencoded] is not supported&quot;, &quot;status&quot; : 406 &#125;</code> happens to application<br>you can add a default header<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">RestClient.builder(</span><br><span class="line">      <span class="keyword">new</span> <span class="title class_">HttpHost</span>(<span class="string">&quot;127.0.0.1&quot;</span>, <span class="number">9201</span>))</span><br><span class="line">      .setDefaultHeaders(<span class="keyword">new</span> <span class="title class_">Header</span>[]&#123;</span><br><span class="line">              <span class="keyword">new</span> <span class="title class_">BasicHeader</span>(<span class="string">&quot;Content-type&quot;</span>, <span class="string">&quot;application/json&quot;</span>)</span><br><span class="line">      &#125;)</span><br><span class="line">      .build();</span><br></pre></td></tr></table></figure></li>
+<li>if you use the latest version elastic search, you might find out the following error:<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[2022-02-18T15:50:30,235][WARN ][o.e.x.s.t.n.SecurityNetty4HttpServerTransport] [Yusufs-MBP.home] received plaintext http traffic on an https channel, closing connection Netty4HttpChannel&#123;localAddress=/127.0.0.1:9200, remoteAddress=/127.0.0.1:52260&#125;</span><br></pre></td></tr></table></figure>
+you can define a custom elastic search docker image using custom <code>elasticsearch.yml</code> and close <code>xpack.security.enabled</code> and <code>xpack.security.http.ssl.enabled</code>.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://fdslk.github.io/2023/03/05/es-local-tests/" data-id="cleuv5r3o00038whs2ixlg4x2" data-title="es_local_tests" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/elastic-search-java-test/" rel="tag">elastic search, java, test</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-easy-rule-demo" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/03/05/easy-rule-demo/" class="article-date">
+  <time class="dt-published" datetime="2023-03-05T03:50:50.000Z" itemprop="datePublished">2023-03-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/03/05/easy-rule-demo/">easy_rule_demo</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="优雅的实现策略"><a href="#优雅的实现策略" class="headerlink" title="优雅的实现策略"></a>优雅的实现策略</h1><p><a href="#">阅读本文大约10min</a></p>
+<h2 id="什么是easy-rule"><a href="#什么是easy-rule" class="headerlink" title="什么是easy rule"></a>什么是easy rule</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/j-easy/easy-rules">easy rule</a> 是一个rule engine工具，用来代替复杂的<code>if</code> <code>else</code> block，在代码中使得业务能够得到更好的分离，从而让代码能够更好的使用策略模式来分离业务</li>
+<li><code>easy rule</code>除了支持java以外还支持，<code>Go</code>，<code>Groovy</code>，<code>C#</code> </li>
+<li>更多关于rule engine的details，给大家推荐一篇老马的文章<a target="_blank" rel="noopener" href="https://martinfowler.com/bliki/RulesEngine.html">RulesEngine</a></li>
+<li>与之相同的还有很多其他的java language的rule engine<ul>
+<li><a target="_blank" rel="noopener" href="https://www.drools.org/">Drool</a></li>
+<li><a target="_blank" rel="noopener" href="https://openl-tablets.org/">OpenL Tablets</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/deliveredtechnologies/rulebook">RuleBook</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="如何使用easy-rule"><a href="#如何使用easy-rule" class="headerlink" title="如何使用easy rule"></a>如何使用easy rule</h2><ul>
+<li><font size=4><strong>如何用不同的方式创建rule</strong></font><ul>
+<li><font size=3><strong>以面向对象的形式(</strong><em>OO</em><strong>)</strong></font><ul>
+<li>添加依赖，根据项目而定，<code>maven</code>和<code>gradle</code>都支持，在本文中使用maven<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.jeasy<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>easy-rules-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li>创建抽象类<code>BasicTestRule</code>继承easyRule中的<code>BasicRule</code>, 重载<code>evaluate()</code> &amp; <code>execute()</code>方法，前者为了执行不同的rule匹配规则，后者为了自定义执行满足条件之后的操作，🌰 ：打印某些日志，或者改变原先的facts的值；在以下的例子中，将对传入的facts与规则匹配上的时候在重载的<code>execute()</code>方法中执行了<code>setter</code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">BasicTestRule</span> <span class="keyword">extends</span> <span class="title class_">BasicRule</span> &#123;</span><br><span class="line">    </span><br><span class="line">   <span class="keyword">public</span> <span class="title function_">BasicTestRule</span><span class="params">(<span class="keyword">final</span> String name, <span class="keyword">final</span> <span class="type">int</span> priority)</span> &#123;</span><br><span class="line">       <span class="built_in">super</span>(name, DEFAULT_DESCRIPTION, priority);</span><br><span class="line">   &#125;</span><br><span class="line">    </span><br><span class="line">   <span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="type">boolean</span> <span class="title function_">hitCondition</span><span class="params">(<span class="keyword">final</span> RuleResult creatureFacts)</span>;</span><br><span class="line">   <span class="keyword">protected</span> <span class="keyword">abstract</span> String <span class="title function_">getType</span><span class="params">()</span>;</span><br><span class="line">   </span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">final</span> <span class="type">boolean</span> <span class="title function_">evaluate</span><span class="params">(<span class="keyword">final</span> Facts facts)</span> &#123;</span><br><span class="line">       <span class="keyword">return</span> hitCondition(facts.get(FACTS));</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title function_">execute</span><span class="params">(<span class="keyword">final</span> Facts facts)</span> &#123;</span><br><span class="line">       <span class="type">RuleResult</span> <span class="variable">ruleResult</span> <span class="operator">=</span> facts.get(FACTS);</span><br><span class="line">       ruleResult.setResultType(String.format(<span class="string">&quot;The class is %s&quot;</span>, getType()));</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在以上的例子中，<code>evaluate</code>函数是放置了一个<strong>Condition</strong>函数<code>hitCondition()</code>，一旦条件符合就会返回<code>TRUE</code>，表明该rule被匹配</li>
+</ul>
+</li>
+<li>定义满足条件的抽象函数<code>hitCondition</code>，每个rule继承Basic方法的之后，实现<code>hitCondition</code>方法，以demo中的<code>PersonTestRule</code>中被重载的函数为例： <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">protected</span> <span class="type">boolean</span> <span class="title function_">hitCondition</span><span class="params">(RuleResult creatureFacts)</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> Objects.equals(creatureFacts.getClassType(), <span class="built_in">this</span>.getClass().getSimpleName());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>当传入的 facts的type和当前类名一致时，将会被匹配上，并且在<code>BasicTestRule</code>中，同样重载了easyRule提供的<code>execute()</code>，当rule被匹配之后，将会执行该函数。在父类<code>BasicTestRule</code>中，提供了抽象方法<code>getType()</code>，在不同的子类型中会返回自己类的全称，然后被父类中<code>execute()</code>调用<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">protected</span> String <span class="title function_">getType</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> PersonTestRule.class.toString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><font size=3><strong>annotation的形式</strong></font><ul>
+<li>给类定义Rule名称，该注解将会把该类标记成一个rule，标记之后可以用上述步骤在Rules中注册</li>
+</ul>
+<p><code>@Rule(name = &quot;AnnotationTestRule&quot;, description = &quot;using annotation to match rule&quot;)</code></p>
+<ul>
+<li>定义一个<code>Condition</code>注解的方法，这里定义满足条件的标准<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Condition</span></span><br><span class="line"> <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">hitCondition</span><span class="params">(<span class="meta">@Fact(&quot;facts&quot;)</span> RuleResult ruleResult)</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> Objects.equals(ruleResult.getClassType(), <span class="built_in">this</span>.getClass().getSimpleName());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>定义一个<code>Action</code>注解的方法，这里定义当条件满足时的要做的业务<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> <span class="meta">@Action</span></span><br><span class="line"> <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">getType</span><span class="params">()</span> &#123;</span><br><span class="line">  System.out.println(AnnotationTestRule.class);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><font size=3><strong>Expression的形式定义rule</strong></font><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Rule</span> <span class="variable">testRule</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MVELRule</span>()</span><br><span class="line">            .name(<span class="string">&quot;Test Rule&quot;</span>)</span><br><span class="line">            .description(<span class="string">&quot;if class Type is `test`&quot;</span>)</span><br><span class="line">            .when(<span class="string">&quot;ruleResult.classType == &#x27;test&#x27;&quot;</span>)</span><br><span class="line">            .then(<span class="string">&quot;ruleResult.setResultType(&#x27;test&#x27;);&quot;</span>);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>初始化<code>MVELRule</code>，定义rule的<code>name</code>，<code>description</code>，触发条件<code>when</code>，action <code>then</code></li>
+<li>tips，定义Facts时需要保持key value和表达式中操作对象的名称一致<ul>
+<li><code> facts.put(&quot;ruleResult&quot;, ruleResult);</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><font size=3><strong>fluent programmatic的形式定义rule</strong></font><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Rule</span> <span class="variable">rule</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">RuleBuilder</span>()</span><br><span class="line">              .description(<span class="string">&quot;test&quot;</span>)</span><br><span class="line">              .name(<span class="string">&quot;checkAdult&quot;</span>)</span><br><span class="line">              .when(condition -&gt; &#123;</span><br><span class="line">                  <span class="type">RuleResult</span> <span class="variable">facts</span> <span class="operator">=</span> condition.get(<span class="string">&quot;facts&quot;</span>);</span><br><span class="line">                  <span class="keyword">return</span> facts.getClassType().equals(<span class="string">&quot;test&quot;</span>);</span><br><span class="line">              &#125;)</span><br><span class="line">              .then(facts -&gt; &#123;</span><br><span class="line">                  <span class="type">RuleResult</span> <span class="variable">ruleResult</span> <span class="operator">=</span> facts.get(<span class="string">&quot;facts&quot;</span>);</span><br><span class="line">                  System.out.println(<span class="string">&quot;--------matches-------&quot;</span>);</span><br><span class="line">                  ruleResult.setResultType(<span class="string">&quot;test&quot;</span>);</span><br><span class="line">              &#125;)</span><br><span class="line">              .build();</span><br></pre></td></tr></table></figure>
+<ul>
+<li>创建<code>RuleBuilder</code>，以builder的形式定义了Rule的描述<code>description</code>，名称<code>name</code>，条件<code>when</code>以及满足条件之后需要执行的行为<code>then</code></li>
+</ul>
+</li>
+<li><font size=3><strong>rule yml的形式定义rule</strong></font><ul>
+<li>定义一个yml文件，同样的，<code>MVELRuleFactory</code>也支持<code>json</code>格式的文件</li>
+<li>加入依赖<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.jeasy<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>easy-rules-mvel<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li>使用fileReader读取文件，构造到<code>MVELRuleFactory</code>中<ul>
+<li>首先先定义一个MVELRule的Factory，入参是用来接受rule文件的解析格式，easyRule支持<code>yml</code>&amp;<code>json</code>两种<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="type">MVELRuleFactory</span> <span class="variable">ruleFactory</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MVELRuleFactory</span>(<span class="keyword">new</span> <span class="title class_">YamlRuleDefinitionReader</span>());</span><br><span class="line">```  </span><br><span class="line">* 如果在一个yml文件中定义了多个rule，使用`createRules`，否则使用`createRule`</span><br><span class="line">```java</span><br><span class="line"><span class="type">Rules</span> <span class="variable">multipleRules</span> <span class="operator">=</span> ruleFactory.createRules(<span class="keyword">new</span> <span class="title class_">InputStreamReader</span>(resourceAsStream));</span><br></pre></td></tr></table></figure></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/imona/tutorial/wiki/MVEL-Guide#foreach">MVEL语法</a></li>
+<li>如果遇到以下的错误 <code>[Error: could not access field: org.zqf.easyruledemo.Person.age]</code><ul>
+<li>我的解决方法是将<code>Person</code>变成一个公有的方法 <strong style="color:green">原因是我当时第一次写的时候，是将<code>Person</code>定义在了当前的测试类中，所以当前class的级别为<code>default</code>，使用的范围是在当前包下。但是当easy rule的要使用person类中的方法时，因为没有在同一个包下，所以访问不了。</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>第一个🌰 是在一个yml文件中定义了多个规则，但是每一个规则都是一个简单规则，使用<code>---</code>分隔<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">non</span> <span class="string">adult</span> <span class="string">rule</span></span><br><span class="line"><span class="attr">description:</span> <span class="string">when</span> <span class="string">age</span> <span class="string">is</span> <span class="string">less</span> <span class="string">than</span> <span class="string">or</span> <span class="string">equal</span> <span class="number">18</span><span class="string">,</span> <span class="string">then</span> <span class="string">mark</span> <span class="string">as</span> <span class="string">non-adult</span></span><br><span class="line"><span class="attr">priority:</span> <span class="number">1</span></span><br><span class="line"><span class="attr">condition:</span> <span class="string">&quot;person.age &lt;= 18&quot;</span></span><br><span class="line"><span class="attr">actions:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">&quot;person.setAdult(false);&quot;</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">adult</span> <span class="string">rule</span></span><br><span class="line"><span class="attr">description:</span> <span class="string">when</span> <span class="string">age</span> <span class="string">is</span> <span class="string">greater</span> <span class="string">than</span> <span class="number">18</span><span class="string">,</span> <span class="string">then</span> <span class="string">mark</span> <span class="string">as</span> <span class="string">adult</span></span><br><span class="line"><span class="attr">priority:</span> <span class="number">2</span></span><br><span class="line"><span class="attr">condition:</span> <span class="string">&quot;person.age &gt; 18&quot;</span></span><br><span class="line"><span class="attr">actions:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">&quot;person.setAdult(true);&quot;</span></span><br></pre></td></tr></table></figure></li>
+<li><font size=2 color=red><strong>支持组合规则，适用于较为复杂的场景</strong></font><ul>
+<li><code>UnitRuleGroup</code>，在yml中定义<code>compositeRuleType</code>为<code>UnitRuleGroup</code>，被定义的规则需要都被匹配上才能被选择上，如果有一个<strong>子规则</strong>没有匹配上，那么结果仍然不会被匹配，这些规则具有<strong style="color:green">原子性</strong><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">adult</span> <span class="string">check</span> <span class="string">composing</span> <span class="string">rule</span></span><br><span class="line"><span class="attr">ompositeRuleType:</span> <span class="string">UnitRuleGroup</span></span><br><span class="line"><span class="attr">riority:</span> <span class="number">1</span></span><br><span class="line"><span class="attr">omposingRules:</span></span><br><span class="line"> <span class="attr">name:</span> <span class="string">adult</span></span><br><span class="line"> <span class="attr">description:</span> <span class="string">If</span> <span class="string">the</span> <span class="string">age</span> <span class="string">is</span> <span class="string">more</span> <span class="string">than</span> <span class="number">18</span></span><br><span class="line"> <span class="attr">priority:</span> <span class="number">1</span></span><br><span class="line"> <span class="attr">condition:</span> <span class="string">&quot;person.age &gt; 18&quot;</span></span><br><span class="line"> <span class="attr">actions:</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">&quot;person.setAdult(true);&quot;</span></span><br><span class="line"> <span class="attr">name:</span> <span class="string">foo-adult</span></span><br><span class="line"> <span class="attr">description:</span> <span class="string">If</span> <span class="string">the</span> <span class="string">name</span> <span class="string">is</span> <span class="string">&#x27;foo&#x27;</span></span><br><span class="line"> <span class="attr">priority:</span> <span class="number">1</span></span><br><span class="line"> <span class="attr">condition:</span> <span class="string">&quot;person.name == &#x27;foo&#x27;&quot;</span></span><br><span class="line"> <span class="attr">actions:</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">&quot;person.setAdult(true);&quot;</span></span><br></pre></td></tr></table></figure></li>
+<li><code>ConditionalRuleGroup</code>，举个🌰：这种group类似于一种组合拳，有一个规则必须先执行，然后再看有没有其他的规则能够匹配上，就像登录一样，验证通过之后，再去做一些其他的操作<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">adult</span> <span class="string">check</span> <span class="string">Condiftional</span> <span class="string">rule</span> <span class="string">Group</span></span><br><span class="line"><span class="attr">compositeRuleType:</span> <span class="string">ConditionalRuleGroup</span></span><br><span class="line"><span class="attr">priority:</span> <span class="number">1</span></span><br><span class="line"><span class="attr">composingRules:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">adult</span></span><br><span class="line">  <span class="attr">description:</span> <span class="string">If</span> <span class="string">the</span> <span class="string">age</span> <span class="string">is</span> <span class="string">more</span> <span class="string">than</span> <span class="number">18</span></span><br><span class="line">  <span class="attr">priority:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">condition:</span> <span class="string">&quot;person.age &gt; 18&quot;</span></span><br><span class="line">  <span class="attr">actions:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">&quot;person.setAdult(true);&quot;</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">foo-adult</span></span><br><span class="line">  <span class="attr">description:</span> <span class="string">If</span> <span class="string">the</span> <span class="string">name</span> <span class="string">is</span> <span class="string">&#x27;foo&#x27;</span></span><br><span class="line">  <span class="attr">priority:</span> <span class="number">2</span></span><br><span class="line">  <span class="attr">condition:</span> <span class="string">&quot;person.name == &#x27;foo&#x27;&quot;</span></span><br><span class="line">  <span class="attr">actions:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">&quot;person.setAdult(true);&quot;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li>tips，<code>ConditionalRuleGroup</code>将会检查<code>composingRules</code>中的优先级，其中只允许有一个<code>priority=1</code>的<strong>子规则</strong></li>
+</ul>
+</li>
+<li><code>ActivationRuleGroup</code>，只会有一个子规则匹配上，那么就会忽略其他的规则，直接执行这个被选择上的规则<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">adult</span> <span class="string">check</span> <span class="string">Condiftional</span> <span class="string">rule</span> <span class="string">Group</span></span><br><span class="line"> <span class="attr">compositeRuleType:</span> <span class="string">ActivationRuleGroup</span></span><br><span class="line"> <span class="attr">priority:</span> <span class="number">1</span></span><br><span class="line"> <span class="attr">composingRules:</span></span><br><span class="line"> <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">adult</span></span><br><span class="line">   <span class="attr">description:</span> <span class="string">If</span> <span class="string">the</span> <span class="string">age</span> <span class="string">is</span> <span class="string">more</span> <span class="string">than</span> <span class="number">18</span></span><br><span class="line">   <span class="attr">priority:</span> <span class="number">1</span></span><br><span class="line">   <span class="attr">condition:</span> <span class="string">&quot;person.age &gt; 18&quot;</span></span><br><span class="line">   <span class="attr">actions:</span></span><br><span class="line">   <span class="bullet">-</span> <span class="string">&quot;person.setAdult(true);&quot;</span></span><br><span class="line"> <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">foo-adult</span></span><br><span class="line">   <span class="attr">description:</span> <span class="string">If</span> <span class="string">the</span> <span class="string">name</span> <span class="string">is</span> <span class="string">&#x27;foo&#x27;</span></span><br><span class="line">   <span class="attr">priority:</span> <span class="number">2</span></span><br><span class="line">   <span class="attr">condition:</span> <span class="string">&quot;person.name == &#x27;foo&#x27;&quot;</span></span><br><span class="line">   <span class="attr">actions:</span></span><br><span class="line">   <span class="bullet">-</span> <span class="string">&quot;person.setAdult(true);&quot;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><font size=3><strong>对于<code>spring boot</code>项目，可以使用注解的方式，注入Rules</strong></font><ul>
+<li>定义一个Rule的configuration class，对该类使用注解<code>@Configuration</code>，spring boot的bean容器就会在启动的时候，将当前父类<code>BasicVegetableRule</code>下所有子类都加载到入参<code>basicVegetableRules</code>中，当然如果想要使用java的bean的便利，那么对于需要加载的子类也需要加上注解<code>@Component</code>。这样在spring boot项目启动的时候就会将其扫描到这个<code>Set</code>中。<code>Rule</code>是一个<strong style='color:RED'>interface</strong>，所以所有的实现都可以转成其本身。<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RuleBeans</span> &#123;</span><br><span class="line"><span class="meta">@Bean(&quot;BasicVegetableRule&quot;)</span></span><br><span class="line"><span class="keyword">public</span> Rules <span class="title function_">BasicVegetableRules</span><span class="params">(<span class="keyword">final</span> Set&lt;BasicVegetableRule&gt; basicVegetableRules)</span> &#123;</span><br><span class="line">   <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Rules</span>(basicVegetableRules.stream().map(Rule.class::cast).collect(Collectors.toSet()));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PotatoRule</span> <span class="keyword">extends</span> <span class="title class_">BasicVegetableRule</span> &#123;</span><br><span class="line">   xxxxx;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>在spring boot项目中，有一些不同的业务场景，可能需要用到大量的<code>if else</code>来完成不同的业务场景。将这些Component利用Java bean加载到Set对象中，将其构造到<code>Rules</code>，进而可以直接传入ruleEngine中完成规则匹配</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><font size=4><strong>如何使用ruleEngine</strong></font><ul>
+<li>定义RuleEngine，初始化rule parameter参数   <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">RulesEngineParameters</span> <span class="variable">parameters</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">RulesEngineParameters</span>()</span><br><span class="line">                                 .skipOnFirstAppliedRule(<span class="literal">true</span>)</span><br><span class="line">                                 .skipOnFirstFailedRule(<span class="literal">false</span>)</span><br><span class="line">                                 .skipOnFirstNonTriggeredRule(<span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>setSkipOnFirstAppliedRule</code>，这个配置决定了是否匹配到第一个rule就直接返回了</li>
+<li><code>isSkipOnFirstNonTriggeredRule</code>，当第一个规则没有被匹配成功的时候，如果当前值设置为<code>true</code>的时候，将不会执行其他的规则，一般可以设置为<code>false</code>，我理解这个是给最高优先级的规则匹配，如果第一个匹配不上，不用关心其他的规则</li>
+<li><code>skipOnFirstFailedRule</code>，当第一个匹配到的规则失败的时候，将会返回匹配到的下一个规则</li>
+</ul>
+</li>
+<li>创建ruleEngine <code>DefaultRulesEngine rulesEngine = new DefaultRulesEngine(parameters);</code></li>
+<li>定义Rule，并注册rule<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Rules</span> <span class="variable">rules</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Rules</span>();</span><br><span class="line">rules.register(<span class="keyword">new</span> <span class="title class_">PersonTestRule</span>());</span><br></pre></td></tr></table></figure></li>
+<li>定义Facts<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Facts</span> <span class="variable">facts</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Facts</span>();</span><br><span class="line"><span class="type">RuleResult</span> <span class="variable">ruleResult</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">RuleResult</span>();</span><br><span class="line">ruleResult.setClassType(classType);</span><br><span class="line">facts.put(FACTS, ruleResult);</span><br></pre></td></tr></table></figure></li>
+<li>最后定义一个通用的方法，使用RuleEngine的<code>fire</code>方法，来触发规则匹配<br><code>rulesEngine.fire(rules, facts);</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h2><ul>
+<li>rule engine可以将复杂的业务解耦，使每个类的职责更单一，方便维护与后期的扩展</li>
+<li>对于较为简单的规则，因为rule的优先级不同，以及被分散在每一个类中，这样可能不如使用<code>if else</code>直观，需要有足够的上下文，才能将每个rule联系起来</li>
+</ul>
+<h2 id="Q-amp-A"><a href="#Q-amp-A" class="headerlink" title="Q&amp;A"></a>Q&amp;A</h2><ul>
+<li>如果两个rule的优先级相同，rule在Rules的顺序是什么呢？<ul>
+<li><strong>answer</strong>：当两个rule的优先级相同时，匹配rule的顺序会使用rule的注册顺序，反之使用优先级(priority)排序</li>
+</ul>
+</li>
+</ul>
+<h2 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/Fdslk/javaLearning/tree/master/code/easyRule">非spring boot</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Fdslk/javaLearning/tree/master/code/easyruledemo">spring boot</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://fdslk.github.io/2023/03/05/easy-rule-demo/" data-id="cleuv5r3k00018whs1xtq3lp3" data-title="easy_rule_demo" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java-design-pattern-easy-rule/" rel="tag">java, design-pattern, easy-rule</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-spring101" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/03/05/spring101/" class="article-date">
+  <time class="dt-published" datetime="2023-03-05T03:45:38.000Z" itemprop="datePublished">2023-03-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/03/05/spring101/">spring101</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>restful api</li>
+<li>webflux<ul>
+<li><strong><em>constructor injection to wire up dependencies and @ComponentScan to find beans</em></strong></li>
+<li>using webflux router to build controller</li>
+</ul>
+</li>
+<li>junit.jupiter<ul>
+<li>webTestClient using as a test server client</li>
+<li>clientAndServer mock dependent client</li>
+</ul>
+</li>
+<li>maven<ul>
+<li>mvn spring-boot:run compile and run my application by mvn</li>
+</ul>
+</li>
+<li>@Value<ul>
+<li>need to care about the injection sequence.<ul>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/25764459/spring-boot-application-properties-value-not-populating">https://stackoverflow.com/questions/25764459/spring-boot-application-properties-value-not-populating</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>plantuml<ul>
+<li>Archimate-PlantUML<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/plantuml-stdlib/Archimate-PlantUML">https://github.com/plantuml-stdlib/Archimate-PlantUML</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://fdslk.github.io/2023/03/05/spring101/" data-id="cleuv5r3s000b8whs1mf2a1qk" data-title="spring101" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-integration-auth0-in-spring-boot" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/03/05/integration-auth0-in-spring-boot/" class="article-date">
+  <time class="dt-published" datetime="2023-03-05T03:44:09.000Z" itemprop="datePublished">2023-03-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/03/05/integration-auth0-in-spring-boot/">integration_auth0_in_spring-boot</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Auth0-In-Spring-Boot"><a href="#Auth0-In-Spring-Boot" class="headerlink" title="Auth0 In Spring-Boot"></a>Auth0 In Spring-Boot</h1><h2 id="What-is-auth0"><a href="#What-is-auth0" class="headerlink" title="What is auth0?"></a>What is auth0?</h2><ul>
+<li>Auth0 is a open-source service for providing authentication and authorization.</li>
+<li>You can create a auth0 application on the auth0 server, then it will generate clientId and client secret to you.</li>
+<li>Then you don’t need to create any authentication or authorization business in your machine<br>which can cut the unnecessary cost.</li>
+</ul>
+<h2 id="How-to-use-auth0-in-spring-boot"><a href="#How-to-use-auth0-in-spring-boot" class="headerlink" title="How to use auth0 in spring-boot?"></a>How to use auth0 in spring-boot?</h2><ul>
+<li>Firstly, you are supposed to create your auth0 application. <ul>
+<li>applications-&gt;applications-&gt;choose the category -&gt; create application<br><img src="https://user-images.githubusercontent.com/6279298/164350380-e1c2fbb2-7e41-42c3-8ea4-0158c1b97f4b.png" alt="create new application"></li>
+</ul>
+</li>
+<li>Secondly, you are supposed to create an application api to let your resource application can be protected<br><img src="https://user-images.githubusercontent.com/6279298/164351057-82118c2e-4e93-4287-8575-bd05b28e5d8d.png" alt="create new  api"></li>
+<li>Thirdly, you can test the newly api for obtaining a token by curl cmd.<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">curl --request POST \</span><br><span class="line">--url ‘&lt;DOMAIN&gt;/oauth/token&#x27; \</span><br><span class="line">--header &#x27;content-type: application/x-www-form-urlencoded&#x27; \</span><br><span class="line">--data grant_type=client_credentials \</span><br><span class="line">--data &#x27;client_id=YOUR_CLIENT_ID&#x27; \</span><br><span class="line">--data client_secret=YOUR_CLIENT_SECRET \</span><br><span class="line">--data audience=YOUR_API_IDENTIFIER</span><br></pre></td></tr></table></figure></li>
+<li>Adding spring-boot dependency in your application<ul>
+<li>add Oauth2 maven dependency</li>
+<li>setup OAuth2 configuration<ul>
+<li>set up the audience</li>
+<li>set up the issuer-url</li>
+</ul>
+</li>
+<li>add validator implements the OAuth2TokenValidator</li>
+<li>configure api permission</li>
+</ul>
+</li>
+</ul>
+<h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips:"></a>Tips:</h2><ul>
+<li>If this occurs to you:<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;error&quot;</span><span class="punctuation">:</span><span class="string">&quot;access_denied&quot;</span><span class="punctuation">,</span><span class="attr">&quot;error_description&quot;</span><span class="punctuation">:</span><span class="string">&quot;Client is not authorized to access \&quot;https://quickstarts/api\&quot;. You need to create a \&quot;client-grant\&quot; associated to this API. See: https://auth0.com/docs/api/v2#!/Client_Grants/post_client_grants&quot;</span><span class="punctuation">&#125;</span>%</span><br></pre></td></tr></table></figure></li>
+<li>solution<ul>
+<li>api should authorize the newly app.<br><img src="https://user-images.githubusercontent.com/6279298/164351811-db721670-2d43-4051-9b5f-429a3fc1be51.png"></li>
+</ul>
+</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://github.com/auth0-samples/auth0-spring-security5-api-sample/tree/master/01-Authorization-MVC/src">more details about how to use auth0 in spring-boot</a><br><a target="_blank" rel="noopener" href="https://github.com/Fdslk/javaLearning/blob/master/code/authbyzero">code source</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://fdslk.github.io/2023/03/05/integration-auth0-in-spring-boot/" data-id="cleuv5r3q00088whs94a49x5k" data-title="integration_auth0_in_spring-boot" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java-spring-boot-auth0/" rel="tag">java, spring-boot, auth0</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-java-customer-starter" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/03/05/java-customer-starter/" class="article-date">
+  <time class="dt-published" datetime="2023-03-05T03:43:13.000Z" itemprop="datePublished">2023-03-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/03/05/java-customer-starter/">java_customer_starter</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="为什么要开发-spring-starter"><a href="#为什么要开发-spring-starter" class="headerlink" title="为什么要开发 spring starter"></a>为什么要开发 spring starter</h2><ul>
+<li><p>为了理解为什么我们需要开发spring starter这样的一个工具，主要原因还要从spring mvc开始说起。因为早期的MVC框架中，如果要引入其他的依赖，需要在项目的xml中配置很多。那如果依赖的的越多，或者项目的越复杂，那么加入的配置也会越多，最终导致我们xml文件也会非常的复杂。</p>
+</li>
+<li><p>因为有了👆🏻的痛点之后，spring加入了<strong>auto-configuration</strong>的技术</p>
+<ul>
+<li>什么是auto-configuration?<ul>
+<li>可以把<strong>classpath</strong>中的jar包自动的导入在JVM中</li>
+<li>需要被auto-configuration的依赖都会被列举在<strong>spring.property</strong>文件中</li>
+<li>使用注解<strong>AutoConfiguration</strong>或者 <strong>SpringBootApplication</strong>在项目中加上，就可以使用auto-configuration的特性</li>
+<li>在pom文件中加入</li>
+<li>&lt; dependency &gt;<br>&lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;<br>&lt;artifactId&gt;spring-boot-configuration-processor&lt;&#x2F;artifactId&gt;<br>&lt;optional&gt;true&lt;&#x2F;optional&gt;<br>&lt;&#x2F;dependency&gt;<ul>
+<li><a target="_blank" rel="noopener" href="https://www.baeldung.com/intellij-resolve-spring-boot-configuration-properties">Cannot Resolve Spring Boot Configuration Properties Error</a></li>
+<li>加入了上述依赖之后，没有重新构建的时候都会在target&#x2F;classes&#x2F;创建’META-INF&#x2F;‘</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="什么是spring-starter"><a href="#什么是spring-starter" class="headerlink" title="什么是spring starter"></a>什么是spring starter</h2><ul>
+<li>starter可以在spring boot启动的时候把一些开源的资源文件或者一些配置文件提前加载到java bean中，这样就可以避免一些依赖的重复引入</li>
+<li>auto configuration class<ul>
+<li>在resource&#x2F;META-INF文件目录下，创建一个文件<strong>spring.factories</strong>，当spring boot启动的时候，加载spring.factories中的包含的对象<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># Auto Configure</span><br><span class="line">org.springframework.boot.autoconfigure.EnableAutoConfiguration=\</span><br><span class="line">org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.cassandra.CassandraAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration</span><br></pre></td></tr></table></figure></li>
+<li>不是加到了这个文件中，就会都能够正常使用，只是spring boot在启动的时候，会将这些类（以及相关的beans）加载到java bean中</li>
+<li>这些被引用的类，就可以被开箱即用</li>
+</ul>
+</li>
+<li>从application.property中装载自定的属性<ul>
+<li>使用注解**ConfigurationProperties(prefix &#x3D; “timeout”)**，关联java类中的属性和application中的关系</li>
+<li>使用注解<strong>Configuration</strong>定义java bean类型</li>
+<li>创建MATE-INF文件夹，并在创建<strong>additional-spring-configuration-metadata.json</strong>文件定义需要自动装载的property的名字</li>
+</ul>
+</li>
+<li>如何自定一个starter<ul>
+<li>定义自动配置的模块</li>
+<li>将需要自动化加载的类添加在configuration文件中，并加上注解<strong>ConditionalOnClass</strong></li>
+<li>pom文件中添加<strong>spring-boot-autoconfigure</strong></li>
+<li>在srping.factories中加上对应的configuration</li>
+<li>start命名规则<ul>
+<li>不能以<strong>spring boot</strong>开头</li>
+<li>以<strong>name-spring-boot-starter</strong>的格式来命名</li>
+</ul>
+</li>
+<li>自定中的starter不能在pom文件中添加其他的starter</li>
+</ul>
+</li>
+</ul>
+<h3 id="如何使用custom-starter"><a href="#如何使用custom-starter" class="headerlink" title="如何使用custom starter"></a>如何使用custom starter</h3><ul>
+<li>运行<code>mvn package</code>生成jar</li>
+<li>导入jar<ul>
+<li><code>mvn install:install-file</code></li>
+<li>将jar复制到当前目录下，pom引用时，加入<strong>system</strong>的标签，读取本地的jar</li>
+</ul>
+</li>
+</ul>
+<h2 id="如何配置slf4j的日志格式"><a href="#如何配置slf4j的日志格式" class="headerlink" title="如何配置slf4j的日志格式"></a>如何配置slf4j的日志格式</h2><ul>
+<li>引入<strong>spring-boot-starter-log4j2</strong>的pom依赖</li>
+<li>排除其他引入了logger的started，运行命令 <code>mvn dependency:tree</code>检查引入logger的dependency</li>
+<li>如果遇到问题，可能需要删除对应的external library，然后再用reload pom依赖</li>
+<li>加入log4j2.xml在resource目录下</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://github.com/Fdslk/javaLearning/blob/master/code/customstarter">code source</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://fdslk.github.io/2023/03/05/java-customer-starter/" data-id="cleuv5r3r00098whs7z68077i" data-title="java_customer_starter" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java-spring-customer-starter/" rel="tag">java, spring, customer-starter</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-streaming_protocol" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2023/03/05/streaming_protocol/" class="article-date">
@@ -356,10 +1544,12 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://fdslk.github.io/2023/03/05/streaming_protocol/" data-id="cleusx1k000003nhs98d422qq" data-title="Streaming protocol" class="article-share-link">Share</a>
+      <a data-url="http://fdslk.github.io/2023/03/05/streaming_protocol/" data-id="cleuv5r3t000d8whsg1213ycp" data-title="Streaming protocol" class="article-share-link">Share</a>
       
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ffmpeg-media-server/" rel="tag">ffmpeg, media-server</a></li></ul>
+
     </footer>
   </div>
   
@@ -378,9 +1568,23 @@
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/elastic-search-java-test/" rel="tag">elastic search, java, test</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ffmpeg/" rel="tag">ffmpeg</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ffmpeg-coverting-format/" rel="tag">ffmpeg, coverting format</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ffmpeg-media-server/" rel="tag">ffmpeg, media-server</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-design-pattern-easy-rule/" rel="tag">java, design-pattern, easy-rule</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-spring-customer-starter/" rel="tag">java, spring, customer-starter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-spring-boot-auth0/" rel="tag">java, spring-boot, auth0</a></li></ul>
+    </div>
+  </div>
+
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/elastic-search-java-test/" style="font-size: 10px;">elastic search, java, test</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/ffmpeg-coverting-format/" style="font-size: 10px;">ffmpeg, coverting format</a> <a href="/tags/ffmpeg-media-server/" style="font-size: 10px;">ffmpeg, media-server</a> <a href="/tags/java-design-pattern-easy-rule/" style="font-size: 10px;">java, design-pattern, easy-rule</a> <a href="/tags/java-spring-customer-starter/" style="font-size: 10px;">java, spring, customer-starter</a> <a href="/tags/java-spring-boot-auth0/" style="font-size: 10px;">java, spring-boot, auth0</a>
+    </div>
+  </div>
+
   
     
   <div class="widget-wrap">
@@ -399,7 +1603,23 @@
       <ul>
         
           <li>
-            <a href="/2023/03/05/streaming_protocol/">Streaming protocol</a>
+            <a href="/2023/03/05/ffmpeg-simple-convert/">ffmpeg_simple_convert</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/05/ffmpeg_basic_concept/">ffmpeg_basic_concept</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/05/es-local-tests/">es_local_tests</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/05/easy-rule-demo/">easy_rule_demo</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/05/spring101/">spring101</a>
           </li>
         
       </ul>
