@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>🪳的Daily Blog WebSite</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="🪳的Daily Blog WebSite">
+<meta property="og:url" content="http://fdslk.github.io/page/2/index.html">
+<meta property="og:site_name" content="🪳的Daily Blog WebSite">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="Zengqiang Fang">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="🪳的Daily Blog WebSite" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">🪳的Daily Blog WebSite</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://fdslk.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-easy-rule-demo" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/tech/java/design-pattern/2023/03/05/easy-rule-demo/" class="article-date">
+  <time class="dt-published" datetime="2023-03-05T03:50:50.000Z" itemprop="datePublished">2023-03-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/tech/">tech</a>►<a class="article-category-link" href="/categories/tech/java/">java</a>►<a class="article-category-link" href="/categories/tech/java/design-pattern/">design-pattern</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/tech/java/design-pattern/2023/03/05/easy-rule-demo/">easy_rule_demo</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="优雅的实现策略"><a href="#优雅的实现策略" class="headerlink" title="优雅的实现策略"></a>优雅的实现策略</h1><p><a href="#">阅读本文大约10min</a></p>
+<h2 id="什么是easy-rule"><a href="#什么是easy-rule" class="headerlink" title="什么是easy rule"></a>什么是easy rule</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/j-easy/easy-rules">easy rule</a> 是一个rule engine工具，用来代替复杂的<code>if</code> <code>else</code> block，在代码中使得业务能够得到更好的分离，从而让代码能够更好的使用策略模式来分离业务</li>
+<li><code>easy rule</code>除了支持java以外还支持，<code>Go</code>，<code>Groovy</code>，<code>C#</code> </li>
+<li>更多关于rule engine的details，给大家推荐一篇老马的文章<a target="_blank" rel="noopener" href="https://martinfowler.com/bliki/RulesEngine.html">RulesEngine</a></li>
+<li>与之相同的还有很多其他的java language的rule engine<ul>
+<li><a target="_blank" rel="noopener" href="https://www.drools.org/">Drool</a></li>
+<li><a target="_blank" rel="noopener" href="https://openl-tablets.org/">OpenL Tablets</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/deliveredtechnologies/rulebook">RuleBook</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="如何使用easy-rule"><a href="#如何使用easy-rule" class="headerlink" title="如何使用easy rule"></a>如何使用easy rule</h2><ul>
+<li><font size=4><strong>如何用不同的方式创建rule</strong></font><ul>
+<li><font size=3><strong>以面向对象的形式(</strong><em>OO</em><strong>)</strong></font><ul>
+<li>添加依赖，根据项目而定，<code>maven</code>和<code>gradle</code>都支持，在本文中使用maven<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.jeasy<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>easy-rules-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li>创建抽象类<code>BasicTestRule</code>继承easyRule中的<code>BasicRule</code>, 重载<code>evaluate()</code> &amp; <code>execute()</code>方法，前者为了执行不同的rule匹配规则，后者为了自定义执行满足条件之后的操作，🌰 ：打印某些日志，或者改变原先的facts的值；在以下的例子中，将对传入的facts与规则匹配上的时候在重载的<code>execute()</code>方法中执行了<code>setter</code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">BasicTestRule</span> <span class="keyword">extends</span> <span class="title class_">BasicRule</span> &#123;</span><br><span class="line">    </span><br><span class="line">   <span class="keyword">public</span> <span class="title function_">BasicTestRule</span><span class="params">(<span class="keyword">final</span> String name, <span class="keyword">final</span> <span class="type">int</span> priority)</span> &#123;</span><br><span class="line">       <span class="built_in">super</span>(name, DEFAULT_DESCRIPTION, priority);</span><br><span class="line">   &#125;</span><br><span class="line">    </span><br><span class="line">   <span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="type">boolean</span> <span class="title function_">hitCondition</span><span class="params">(<span class="keyword">final</span> RuleResult creatureFacts)</span>;</span><br><span class="line">   <span class="keyword">protected</span> <span class="keyword">abstract</span> String <span class="title function_">getType</span><span class="params">()</span>;</span><br><span class="line">   </span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">final</span> <span class="type">boolean</span> <span class="title function_">evaluate</span><span class="params">(<span class="keyword">final</span> Facts facts)</span> &#123;</span><br><span class="line">       <span class="keyword">return</span> hitCondition(facts.get(FACTS));</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title function_">execute</span><span class="params">(<span class="keyword">final</span> Facts facts)</span> &#123;</span><br><span class="line">       <span class="type">RuleResult</span> <span class="variable">ruleResult</span> <span class="operator">=</span> facts.get(FACTS);</span><br><span class="line">       ruleResult.setResultType(String.format(<span class="string">&quot;The class is %s&quot;</span>, getType()));</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在以上的例子中，<code>evaluate</code>函数是放置了一个<strong>Condition</strong>函数<code>hitCondition()</code>，一旦条件符合就会返回<code>TRUE</code>，表明该rule被匹配</li>
+</ul>
+</li>
+<li>定义满足条件的抽象函数<code>hitCondition</code>，每个rule继承Basic方法的之后，实现<code>hitCondition</code>方法，以demo中的<code>PersonTestRule</code>中被重载的函数为例： <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">protected</span> <span class="type">boolean</span> <span class="title function_">hitCondition</span><span class="params">(RuleResult creatureFacts)</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> Objects.equals(creatureFacts.getClassType(), <span class="built_in">this</span>.getClass().getSimpleName());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>当传入的 facts的type和当前类名一致时，将会被匹配上，并且在<code>BasicTestRule</code>中，同样重载了easyRule提供的<code>execute()</code>，当rule被匹配之后，将会执行该函数。在父类<code>BasicTestRule</code>中，提供了抽象方法<code>getType()</code>，在不同的子类型中会返回自己类的全称，然后被父类中<code>execute()</code>调用<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">protected</span> String <span class="title function_">getType</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> PersonTestRule.class.toString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><font size=3><strong>annotation的形式</strong></font><ul>
+<li>给类定义Rule名称，该注解将会把该类标记成一个rule，标记之后可以用上述步骤在Rules中注册</li>
+</ul>
+<p><code>@Rule(name = &quot;AnnotationTestRule&quot;, description = &quot;using annotation to match rule&quot;)</code></p>
+<ul>
+<li>定义一个<code>Condition</code>注解的方法，这里定义满足条件的标准<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Condition</span></span><br><span class="line"> <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">hitCondition</span><span class="params">(<span class="meta">@Fact(&quot;facts&quot;)</span> RuleResult ruleResult)</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> Objects.equals(ruleResult.getClassType(), <span class="built_in">this</span>.getClass().getSimpleName());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>定义一个<code>Action</code>注解的方法，这里定义当条件满足时的要做的业务<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> <span class="meta">@Action</span></span><br><span class="line"> <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">getType</span><span class="params">()</span> &#123;</span><br><span class="line">  System.out.println(AnnotationTestRule.class);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><font size=3><strong>Expression的形式定义rule</strong></font><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Rule</span> <span class="variable">testRule</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MVELRule</span>()</span><br><span class="line">            .name(<span class="string">&quot;Test Rule&quot;</span>)</span><br><span class="line">            .description(<span class="string">&quot;if class Type is `test`&quot;</span>)</span><br><span class="line">            .when(<span class="string">&quot;ruleResult.classType == &#x27;test&#x27;&quot;</span>)</span><br><span class="line">            .then(<span class="string">&quot;ruleResult.setResultType(&#x27;test&#x27;);&quot;</span>);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>初始化<code>MVELRule</code>，定义rule的<code>name</code>，<code>description</code>，触发条件<code>when</code>，action <code>then</code></li>
+<li>tips，定义Facts时需要保持key value和表达式中操作对象的名称一致<ul>
+<li><code> facts.put(&quot;ruleResult&quot;, ruleResult);</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><font size=3><strong>fluent programmatic的形式定义rule</strong></font><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Rule</span> <span class="variable">rule</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">RuleBuilder</span>()</span><br><span class="line">              .description(<span class="string">&quot;test&quot;</span>)</span><br><span class="line">              .name(<span class="string">&quot;checkAdult&quot;</span>)</span><br><span class="line">              .when(condition -&gt; &#123;</span><br><span class="line">                  <span class="type">RuleResult</span> <span class="variable">facts</span> <span class="operator">=</span> condition.get(<span class="string">&quot;facts&quot;</span>);</span><br><span class="line">                  <span class="keyword">return</span> facts.getClassType().equals(<span class="string">&quot;test&quot;</span>);</span><br><span class="line">              &#125;)</span><br><span class="line">              .then(facts -&gt; &#123;</span><br><span class="line">                  <span class="type">RuleResult</span> <span class="variable">ruleResult</span> <span class="operator">=</span> facts.get(<span class="string">&quot;facts&quot;</span>);</span><br><span class="line">                  System.out.println(<span class="string">&quot;--------matches-------&quot;</span>);</span><br><span class="line">                  ruleResult.setResultType(<span class="string">&quot;test&quot;</span>);</span><br><span class="line">              &#125;)</span><br><span class="line">              .build();</span><br></pre></td></tr></table></figure>
+<ul>
+<li>创建<code>RuleBuilder</code>，以builder的形式定义了Rule的描述<code>description</code>，名称<code>name</code>，条件<code>when</code>以及满足条件之后需要执行的行为<code>then</code></li>
+</ul>
+</li>
+<li><font size=3><strong>rule yml的形式定义rule</strong></font><ul>
+<li>定义一个yml文件，同样的，<code>MVELRuleFactory</code>也支持<code>json</code>格式的文件</li>
+<li>加入依赖<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.jeasy<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>easy-rules-mvel<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li>使用fileReader读取文件，构造到<code>MVELRuleFactory</code>中<ul>
+<li>首先先定义一个MVELRule的Factory，入参是用来接受rule文件的解析格式，easyRule支持<code>yml</code>&amp;<code>json</code>两种<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="type">MVELRuleFactory</span> <span class="variable">ruleFactory</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MVELRuleFactory</span>(<span class="keyword">new</span> <span class="title class_">YamlRuleDefinitionReader</span>());</span><br><span class="line">```  </span><br><span class="line">* 如果在一个yml文件中定义了多个rule，使用`createRules`，否则使用`createRule`</span><br><span class="line">```java</span><br><span class="line"><span class="type">Rules</span> <span class="variable">multipleRules</span> <span class="operator">=</span> ruleFactory.createRules(<span class="keyword">new</span> <span class="title class_">InputStreamReader</span>(resourceAsStream));</span><br></pre></td></tr></table></figure></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/imona/tutorial/wiki/MVEL-Guide#foreach">MVEL语法</a></li>
+<li>如果遇到以下的错误 <code>[Error: could not access field: org.zqf.easyruledemo.Person.age]</code><ul>
+<li>我的解决方法是将<code>Person</code>变成一个公有的方法 <strong style="color:green">原因是我当时第一次写的时候，是将<code>Person</code>定义在了当前的测试类中，所以当前class的级别为<code>default</code>，使用的范围是在当前包下。但是当easy rule的要使用person类中的方法时，因为没有在同一个包下，所以访问不了。</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>第一个🌰 是在一个yml文件中定义了多个规则，但是每一个规则都是一个简单规则，使用<code>---</code>分隔<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">non</span> <span class="string">adult</span> <span class="string">rule</span></span><br><span class="line"><span class="attr">description:</span> <span class="string">when</span> <span class="string">age</span> <span class="string">is</span> <span class="string">less</span> <span class="string">than</span> <span class="string">or</span> <span class="string">equal</span> <span class="number">18</span><span class="string">,</span> <span class="string">then</span> <span class="string">mark</span> <span class="string">as</span> <span class="string">non-adult</span></span><br><span class="line"><span class="attr">priority:</span> <span class="number">1</span></span><br><span class="line"><span class="attr">condition:</span> <span class="string">&quot;person.age &lt;= 18&quot;</span></span><br><span class="line"><span class="attr">actions:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">&quot;person.setAdult(false);&quot;</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">adult</span> <span class="string">rule</span></span><br><span class="line"><span class="attr">description:</span> <span class="string">when</span> <span class="string">age</span> <span class="string">is</span> <span class="string">greater</span> <span class="string">than</span> <span class="number">18</span><span class="string">,</span> <span class="string">then</span> <span class="string">mark</span> <span class="string">as</span> <span class="string">adult</span></span><br><span class="line"><span class="attr">priority:</span> <span class="number">2</span></span><br><span class="line"><span class="attr">condition:</span> <span class="string">&quot;person.age &gt; 18&quot;</span></span><br><span class="line"><span class="attr">actions:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">&quot;person.setAdult(true);&quot;</span></span><br></pre></td></tr></table></figure></li>
+<li><font size=2 color=red><strong>支持组合规则，适用于较为复杂的场景</strong></font><ul>
+<li><code>UnitRuleGroup</code>，在yml中定义<code>compositeRuleType</code>为<code>UnitRuleGroup</code>，被定义的规则需要都被匹配上才能被选择上，如果有一个<strong>子规则</strong>没有匹配上，那么结果仍然不会被匹配，这些规则具有<strong style="color:green">原子性</strong><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">adult</span> <span class="string">check</span> <span class="string">composing</span> <span class="string">rule</span></span><br><span class="line"><span class="attr">ompositeRuleType:</span> <span class="string">UnitRuleGroup</span></span><br><span class="line"><span class="attr">riority:</span> <span class="number">1</span></span><br><span class="line"><span class="attr">omposingRules:</span></span><br><span class="line"> <span class="attr">name:</span> <span class="string">adult</span></span><br><span class="line"> <span class="attr">description:</span> <span class="string">If</span> <span class="string">the</span> <span class="string">age</span> <span class="string">is</span> <span class="string">more</span> <span class="string">than</span> <span class="number">18</span></span><br><span class="line"> <span class="attr">priority:</span> <span class="number">1</span></span><br><span class="line"> <span class="attr">condition:</span> <span class="string">&quot;person.age &gt; 18&quot;</span></span><br><span class="line"> <span class="attr">actions:</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">&quot;person.setAdult(true);&quot;</span></span><br><span class="line"> <span class="attr">name:</span> <span class="string">foo-adult</span></span><br><span class="line"> <span class="attr">description:</span> <span class="string">If</span> <span class="string">the</span> <span class="string">name</span> <span class="string">is</span> <span class="string">&#x27;foo&#x27;</span></span><br><span class="line"> <span class="attr">priority:</span> <span class="number">1</span></span><br><span class="line"> <span class="attr">condition:</span> <span class="string">&quot;person.name == &#x27;foo&#x27;&quot;</span></span><br><span class="line"> <span class="attr">actions:</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">&quot;person.setAdult(true);&quot;</span></span><br></pre></td></tr></table></figure></li>
+<li><code>ConditionalRuleGroup</code>，举个🌰：这种group类似于一种组合拳，有一个规则必须先执行，然后再看有没有其他的规则能够匹配上，就像登录一样，验证通过之后，再去做一些其他的操作<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">adult</span> <span class="string">check</span> <span class="string">Condiftional</span> <span class="string">rule</span> <span class="string">Group</span></span><br><span class="line"><span class="attr">compositeRuleType:</span> <span class="string">ConditionalRuleGroup</span></span><br><span class="line"><span class="attr">priority:</span> <span class="number">1</span></span><br><span class="line"><span class="attr">composingRules:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">adult</span></span><br><span class="line">  <span class="attr">description:</span> <span class="string">If</span> <span class="string">the</span> <span class="string">age</span> <span class="string">is</span> <span class="string">more</span> <span class="string">than</span> <span class="number">18</span></span><br><span class="line">  <span class="attr">priority:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">condition:</span> <span class="string">&quot;person.age &gt; 18&quot;</span></span><br><span class="line">  <span class="attr">actions:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">&quot;person.setAdult(true);&quot;</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">foo-adult</span></span><br><span class="line">  <span class="attr">description:</span> <span class="string">If</span> <span class="string">the</span> <span class="string">name</span> <span class="string">is</span> <span class="string">&#x27;foo&#x27;</span></span><br><span class="line">  <span class="attr">priority:</span> <span class="number">2</span></span><br><span class="line">  <span class="attr">condition:</span> <span class="string">&quot;person.name == &#x27;foo&#x27;&quot;</span></span><br><span class="line">  <span class="attr">actions:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">&quot;person.setAdult(true);&quot;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li>tips，<code>ConditionalRuleGroup</code>将会检查<code>composingRules</code>中的优先级，其中只允许有一个<code>priority=1</code>的<strong>子规则</strong></li>
+</ul>
+</li>
+<li><code>ActivationRuleGroup</code>，只会有一个子规则匹配上，那么就会忽略其他的规则，直接执行这个被选择上的规则<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">adult</span> <span class="string">check</span> <span class="string">Condiftional</span> <span class="string">rule</span> <span class="string">Group</span></span><br><span class="line"> <span class="attr">compositeRuleType:</span> <span class="string">ActivationRuleGroup</span></span><br><span class="line"> <span class="attr">priority:</span> <span class="number">1</span></span><br><span class="line"> <span class="attr">composingRules:</span></span><br><span class="line"> <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">adult</span></span><br><span class="line">   <span class="attr">description:</span> <span class="string">If</span> <span class="string">the</span> <span class="string">age</span> <span class="string">is</span> <span class="string">more</span> <span class="string">than</span> <span class="number">18</span></span><br><span class="line">   <span class="attr">priority:</span> <span class="number">1</span></span><br><span class="line">   <span class="attr">condition:</span> <span class="string">&quot;person.age &gt; 18&quot;</span></span><br><span class="line">   <span class="attr">actions:</span></span><br><span class="line">   <span class="bullet">-</span> <span class="string">&quot;person.setAdult(true);&quot;</span></span><br><span class="line"> <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">foo-adult</span></span><br><span class="line">   <span class="attr">description:</span> <span class="string">If</span> <span class="string">the</span> <span class="string">name</span> <span class="string">is</span> <span class="string">&#x27;foo&#x27;</span></span><br><span class="line">   <span class="attr">priority:</span> <span class="number">2</span></span><br><span class="line">   <span class="attr">condition:</span> <span class="string">&quot;person.name == &#x27;foo&#x27;&quot;</span></span><br><span class="line">   <span class="attr">actions:</span></span><br><span class="line">   <span class="bullet">-</span> <span class="string">&quot;person.setAdult(true);&quot;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><font size=3><strong>对于<code>spring boot</code>项目，可以使用注解的方式，注入Rules</strong></font><ul>
+<li>定义一个Rule的configuration class，对该类使用注解<code>@Configuration</code>，spring boot的bean容器就会在启动的时候，将当前父类<code>BasicVegetableRule</code>下所有子类都加载到入参<code>basicVegetableRules</code>中，当然如果想要使用java的bean的便利，那么对于需要加载的子类也需要加上注解<code>@Component</code>。这样在spring boot项目启动的时候就会将其扫描到这个<code>Set</code>中。<code>Rule</code>是一个<strong style='color:RED'>interface</strong>，所以所有的实现都可以转成其本身。<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RuleBeans</span> &#123;</span><br><span class="line"><span class="meta">@Bean(&quot;BasicVegetableRule&quot;)</span></span><br><span class="line"><span class="keyword">public</span> Rules <span class="title function_">BasicVegetableRules</span><span class="params">(<span class="keyword">final</span> Set&lt;BasicVegetableRule&gt; basicVegetableRules)</span> &#123;</span><br><span class="line">   <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Rules</span>(basicVegetableRules.stream().map(Rule.class::cast).collect(Collectors.toSet()));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PotatoRule</span> <span class="keyword">extends</span> <span class="title class_">BasicVegetableRule</span> &#123;</span><br><span class="line">   xxxxx;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>在spring boot项目中，有一些不同的业务场景，可能需要用到大量的<code>if else</code>来完成不同的业务场景。将这些Component利用Java bean加载到Set对象中，将其构造到<code>Rules</code>，进而可以直接传入ruleEngine中完成规则匹配</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><font size=4><strong>如何使用ruleEngine</strong></font><ul>
+<li>定义RuleEngine，初始化rule parameter参数   <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">RulesEngineParameters</span> <span class="variable">parameters</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">RulesEngineParameters</span>()</span><br><span class="line">                                 .skipOnFirstAppliedRule(<span class="literal">true</span>)</span><br><span class="line">                                 .skipOnFirstFailedRule(<span class="literal">false</span>)</span><br><span class="line">                                 .skipOnFirstNonTriggeredRule(<span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>setSkipOnFirstAppliedRule</code>，这个配置决定了是否匹配到第一个rule就直接返回了</li>
+<li><code>isSkipOnFirstNonTriggeredRule</code>，当第一个规则没有被匹配成功的时候，如果当前值设置为<code>true</code>的时候，将不会执行其他的规则，一般可以设置为<code>false</code>，我理解这个是给最高优先级的规则匹配，如果第一个匹配不上，不用关心其他的规则</li>
+<li><code>skipOnFirstFailedRule</code>，当第一个匹配到的规则失败的时候，将会返回匹配到的下一个规则</li>
+</ul>
+</li>
+<li>创建ruleEngine <code>DefaultRulesEngine rulesEngine = new DefaultRulesEngine(parameters);</code></li>
+<li>定义Rule，并注册rule<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Rules</span> <span class="variable">rules</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Rules</span>();</span><br><span class="line">rules.register(<span class="keyword">new</span> <span class="title class_">PersonTestRule</span>());</span><br></pre></td></tr></table></figure></li>
+<li>定义Facts<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Facts</span> <span class="variable">facts</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Facts</span>();</span><br><span class="line"><span class="type">RuleResult</span> <span class="variable">ruleResult</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">RuleResult</span>();</span><br><span class="line">ruleResult.setClassType(classType);</span><br><span class="line">facts.put(FACTS, ruleResult);</span><br></pre></td></tr></table></figure></li>
+<li>最后定义一个通用的方法，使用RuleEngine的<code>fire</code>方法，来触发规则匹配<br><code>rulesEngine.fire(rules, facts);</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h2><ul>
+<li>rule engine可以将复杂的业务解耦，使每个类的职责更单一，方便维护与后期的扩展</li>
+<li>对于较为简单的规则，因为rule的优先级不同，以及被分散在每一个类中，这样可能不如使用<code>if else</code>直观，需要有足够的上下文，才能将每个rule联系起来</li>
+</ul>
+<h2 id="Q-amp-A"><a href="#Q-amp-A" class="headerlink" title="Q&amp;A"></a>Q&amp;A</h2><ul>
+<li>如果两个rule的优先级相同，rule在Rules的顺序是什么呢？<ul>
+<li><strong>answer</strong>：当两个rule的优先级相同时，匹配rule的顺序会使用rule的注册顺序，反之使用优先级(priority)排序</li>
+</ul>
+</li>
+</ul>
+<h2 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/Fdslk/javaLearning/tree/master/code/easyRule">非spring boot</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Fdslk/javaLearning/tree/master/code/easyruledemo">spring boot</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://fdslk.github.io/tech/java/design-pattern/2023/03/05/easy-rule-demo/" data-id="clev0pch70005ephs7vsqhzm7" data-title="easy_rule_demo" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java-design-pattern-easy-rule/" rel="tag">java, design-pattern, easy-rule</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-spring101" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/tech/java/spring-boot/2023/03/05/spring101/" class="article-date">
+  <time class="dt-published" datetime="2023-03-05T03:45:38.000Z" itemprop="datePublished">2023-03-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/tech/">tech</a>►<a class="article-category-link" href="/categories/tech/java/">java</a>►<a class="article-category-link" href="/categories/tech/java/spring-boot/">spring-boot</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/tech/java/spring-boot/2023/03/05/spring101/">spring101</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>restful api</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Fdslk/javaLearning/blob/master/code/demo">code source</a></li>
+<li>webflux<ul>
+<li><strong><em>constructor injection to wire up dependencies and @ComponentScan to find beans</em></strong></li>
+<li>using webflux router to build controller</li>
+</ul>
+</li>
+<li>junit.jupiter<ul>
+<li>webTestClient using as a test server client</li>
+<li>clientAndServer mock dependent client</li>
+</ul>
+</li>
+<li>maven<ul>
+<li>mvn spring-boot:run compile and run my application by mvn</li>
+</ul>
+</li>
+<li>@Value<ul>
+<li>need to care about the injection sequence.<ul>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/25764459/spring-boot-application-properties-value-not-populating">https://stackoverflow.com/questions/25764459/spring-boot-application-properties-value-not-populating</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>plantuml<ul>
+<li>Archimate-PlantUML<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/plantuml-stdlib/Archimate-PlantUML">https://github.com/plantuml-stdlib/Archimate-PlantUML</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://fdslk.github.io/tech/java/spring-boot/2023/03/05/spring101/" data-id="clev0pchi000wephsewh4h24y" data-title="spring101" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-integration-auth0-in-spring-boot" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/tech/java/spring-boot/auth0/2023/03/05/integration-auth0-in-spring-boot/" class="article-date">
+  <time class="dt-published" datetime="2023-03-05T03:44:09.000Z" itemprop="datePublished">2023-03-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/tech/">tech</a>►<a class="article-category-link" href="/categories/tech/java/">java</a>►<a class="article-category-link" href="/categories/tech/java/spring-boot/">spring-boot</a>►<a class="article-category-link" href="/categories/tech/java/spring-boot/auth0/">auth0</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/tech/java/spring-boot/auth0/2023/03/05/integration-auth0-in-spring-boot/">integration_auth0_in_spring-boot</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Auth0-In-Spring-Boot"><a href="#Auth0-In-Spring-Boot" class="headerlink" title="Auth0 In Spring-Boot"></a>Auth0 In Spring-Boot</h1><h2 id="What-is-auth0"><a href="#What-is-auth0" class="headerlink" title="What is auth0?"></a>What is auth0?</h2><ul>
+<li>Auth0 is a open-source service for providing authentication and authorization.</li>
+<li>You can create a auth0 application on the auth0 server, then it will generate clientId and client secret to you.</li>
+<li>Then you don’t need to create any authentication or authorization business in your machine<br>which can cut the unnecessary cost.</li>
+</ul>
+<h2 id="How-to-use-auth0-in-spring-boot"><a href="#How-to-use-auth0-in-spring-boot" class="headerlink" title="How to use auth0 in spring-boot?"></a>How to use auth0 in spring-boot?</h2><ul>
+<li>Firstly, you are supposed to create your auth0 application. <ul>
+<li>applications-&gt;applications-&gt;choose the category -&gt; create application<br><img src="https://user-images.githubusercontent.com/6279298/164350380-e1c2fbb2-7e41-42c3-8ea4-0158c1b97f4b.png" alt="create new application"></li>
+</ul>
+</li>
+<li>Secondly, you are supposed to create an application api to let your resource application can be protected<br><img src="https://user-images.githubusercontent.com/6279298/164351057-82118c2e-4e93-4287-8575-bd05b28e5d8d.png" alt="create new  api"></li>
+<li>Thirdly, you can test the newly api for obtaining a token by curl cmd.<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">curl --request POST \</span><br><span class="line">--url ‘&lt;DOMAIN&gt;/oauth/token&#x27; \</span><br><span class="line">--header &#x27;content-type: application/x-www-form-urlencoded&#x27; \</span><br><span class="line">--data grant_type=client_credentials \</span><br><span class="line">--data &#x27;client_id=YOUR_CLIENT_ID&#x27; \</span><br><span class="line">--data client_secret=YOUR_CLIENT_SECRET \</span><br><span class="line">--data audience=YOUR_API_IDENTIFIER</span><br></pre></td></tr></table></figure></li>
+<li>Adding spring-boot dependency in your application<ul>
+<li>add Oauth2 maven dependency</li>
+<li>setup OAuth2 configuration<ul>
+<li>set up the audience</li>
+<li>set up the issuer-url</li>
+</ul>
+</li>
+<li>add validator implements the OAuth2TokenValidator</li>
+<li>configure api permission</li>
+</ul>
+</li>
+</ul>
+<h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips:"></a>Tips:</h2><ul>
+<li>If this occurs to you:<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;error&quot;</span><span class="punctuation">:</span><span class="string">&quot;access_denied&quot;</span><span class="punctuation">,</span><span class="attr">&quot;error_description&quot;</span><span class="punctuation">:</span><span class="string">&quot;Client is not authorized to access \&quot;https://quickstarts/api\&quot;. You need to create a \&quot;client-grant\&quot; associated to this API. See: https://auth0.com/docs/api/v2#!/Client_Grants/post_client_grants&quot;</span><span class="punctuation">&#125;</span>%</span><br></pre></td></tr></table></figure></li>
+<li>solution<ul>
+<li>api should authorize the newly app.<br><img src="https://user-images.githubusercontent.com/6279298/164351811-db721670-2d43-4051-9b5f-429a3fc1be51.png"></li>
+</ul>
+</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://github.com/auth0-samples/auth0-spring-security5-api-sample/tree/master/01-Authorization-MVC/src">more details about how to use auth0 in spring-boot</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Fdslk/javaLearning/blob/master/code/authbyzero">code source</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://fdslk.github.io/tech/java/spring-boot/auth0/2023/03/05/integration-auth0-in-spring-boot/" data-id="clev0pchc000gephsg03j5s6y" data-title="integration_auth0_in_spring-boot" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java-spring-boot-auth0/" rel="tag">java, spring-boot, auth0</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-java-customer-starter" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/tech/java/spring-boot/2023/03/05/java-customer-starter/" class="article-date">
+  <time class="dt-published" datetime="2023-03-05T03:43:13.000Z" itemprop="datePublished">2023-03-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/tech/">tech</a>►<a class="article-category-link" href="/categories/tech/java/">java</a>►<a class="article-category-link" href="/categories/tech/java/spring-boot/">spring-boot</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/tech/java/spring-boot/2023/03/05/java-customer-starter/">java_customer_starter</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="为什么要开发-spring-starter"><a href="#为什么要开发-spring-starter" class="headerlink" title="为什么要开发 spring starter"></a>为什么要开发 spring starter</h2><ul>
+<li><p>为了理解为什么我们需要开发spring starter这样的一个工具，主要原因还要从spring mvc开始说起。因为早期的MVC框架中，如果要引入其他的依赖，需要在项目的xml中配置很多。那如果依赖的的越多，或者项目的越复杂，那么加入的配置也会越多，最终导致我们xml文件也会非常的复杂。</p>
+</li>
+<li><p>因为有了👆🏻的痛点之后，spring加入了<strong>auto-configuration</strong>的技术</p>
+<ul>
+<li>什么是auto-configuration?<ul>
+<li>可以把<strong>classpath</strong>中的jar包自动的导入在JVM中</li>
+<li>需要被auto-configuration的依赖都会被列举在<strong>spring.property</strong>文件中</li>
+<li>使用注解<strong>AutoConfiguration</strong>或者 <strong>SpringBootApplication</strong>在项目中加上，就可以使用auto-configuration的特性</li>
+<li>在pom文件中加入</li>
+<li>&lt; dependency &gt;<br>&lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;<br>&lt;artifactId&gt;spring-boot-configuration-processor&lt;&#x2F;artifactId&gt;<br>&lt;optional&gt;true&lt;&#x2F;optional&gt;<br>&lt;&#x2F;dependency&gt;<ul>
+<li><a target="_blank" rel="noopener" href="https://www.baeldung.com/intellij-resolve-spring-boot-configuration-properties">Cannot Resolve Spring Boot Configuration Properties Error</a></li>
+<li>加入了上述依赖之后，没有重新构建的时候都会在target&#x2F;classes&#x2F;创建’META-INF&#x2F;‘</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="什么是spring-starter"><a href="#什么是spring-starter" class="headerlink" title="什么是spring starter"></a>什么是spring starter</h2><ul>
+<li>starter可以在spring boot启动的时候把一些开源的资源文件或者一些配置文件提前加载到java bean中，这样就可以避免一些依赖的重复引入</li>
+<li>auto configuration class<ul>
+<li>在resource&#x2F;META-INF文件目录下，创建一个文件<strong>spring.factories</strong>，当spring boot启动的时候，加载spring.factories中的包含的对象<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># Auto Configure</span><br><span class="line">org.springframework.boot.autoconfigure.EnableAutoConfiguration=\</span><br><span class="line">org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.cassandra.CassandraAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration</span><br></pre></td></tr></table></figure></li>
+<li>不是加到了这个文件中，就会都能够正常使用，只是spring boot在启动的时候，会将这些类（以及相关的beans）加载到java bean中</li>
+<li>这些被引用的类，就可以被开箱即用</li>
+</ul>
+</li>
+<li>从application.property中装载自定的属性<ul>
+<li>使用注解**ConfigurationProperties(prefix &#x3D; “timeout”)**，关联java类中的属性和application中的关系</li>
+<li>使用注解<strong>Configuration</strong>定义java bean类型</li>
+<li>创建MATE-INF文件夹，并在创建<strong>additional-spring-configuration-metadata.json</strong>文件定义需要自动装载的property的名字</li>
+</ul>
+</li>
+<li>如何自定一个starter<ul>
+<li>定义自动配置的模块</li>
+<li>将需要自动化加载的类添加在configuration文件中，并加上注解<strong>ConditionalOnClass</strong></li>
+<li>pom文件中添加<strong>spring-boot-autoconfigure</strong></li>
+<li>在srping.factories中加上对应的configuration</li>
+<li>start命名规则<ul>
+<li>不能以<strong>spring boot</strong>开头</li>
+<li>以<strong>name-spring-boot-starter</strong>的格式来命名</li>
+</ul>
+</li>
+<li>自定中的starter不能在pom文件中添加其他的starter</li>
+</ul>
+</li>
+</ul>
+<h3 id="如何使用custom-starter"><a href="#如何使用custom-starter" class="headerlink" title="如何使用custom starter"></a>如何使用custom starter</h3><ul>
+<li>运行<code>mvn package</code>生成jar</li>
+<li>导入jar<ul>
+<li><code>mvn install:install-file</code></li>
+<li>将jar复制到当前目录下，pom引用时，加入<strong>system</strong>的标签，读取本地的jar</li>
+</ul>
+</li>
+</ul>
+<h2 id="如何配置slf4j的日志格式"><a href="#如何配置slf4j的日志格式" class="headerlink" title="如何配置slf4j的日志格式"></a>如何配置slf4j的日志格式</h2><ul>
+<li>引入<strong>spring-boot-starter-log4j2</strong>的pom依赖</li>
+<li>排除其他引入了logger的started，运行命令 <code>mvn dependency:tree</code>检查引入logger的dependency</li>
+<li>如果遇到问题，可能需要删除对应的external library，然后再用reload pom依赖</li>
+<li>加入log4j2.xml在resource目录下</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://github.com/Fdslk/javaLearning/blob/master/code/customstarter">code source</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://fdslk.github.io/tech/java/spring-boot/2023/03/05/java-customer-starter/" data-id="clev0pchg000oephs83p97wkl" data-title="java_customer_starter" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java-spring-customer-starter/" rel="tag">java, spring, customer-starter</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-streaming_protocol" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/tech/ffmpeg/media-server/2023/03/05/streaming_protocol/" class="article-date">
+  <time class="dt-published" datetime="2023-03-05T02:21:03.000Z" itemprop="datePublished">2023-03-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/tech/">tech</a>►<a class="article-category-link" href="/categories/tech/ffmpeg/">ffmpeg</a>►<a class="article-category-link" href="/categories/tech/ffmpeg/media-server/">media server</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/tech/ffmpeg/media-server/2023/03/05/streaming_protocol/">Streaming protocol</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><ul>
+<li>上一篇 <a target="_blank" rel="noopener" href="https://github.com/Fdslk/javaLearning/blob/master/code/ffmpeg_demo/Blog.md">文章</a> 中写到了，我是如何使用FFmpeg将不能直接播放的视频弄成QuickTime支持的格式。那些个操作感觉就是有些个笨拙，充满了程序员式的执著。难道我要在电视上播放一个视频，就非得转码，然后再拷贝到电视上么。<font size=4 color=green><strong>非也</strong></font>，其实任何音视频都是<font size=6>“<strong>流</strong>“</font>。那么流是不是就可以传输呢，水可以通过水管传输到我们想要的地方，那音视频怎么传播呢，靠的是网络架构中的传输层传递。那么在接下来的文章中，我将和大家来谈谈我怎么实现的流的传输。</li>
+</ul>
+<h3 id="streaming可以用来干什么？"><a href="#streaming可以用来干什么？" class="headerlink" title="streaming可以用来干什么？"></a>streaming可以用来干什么？</h3><ul>
+<li>流协议主要用于规范流媒体的delivery和ingest</li>
+</ul>
+<h3 id="streaming协议有哪些？"><a href="#streaming协议有哪些？" class="headerlink" title="streaming协议有哪些？"></a>streaming协议有哪些？</h3><ul>
+<li>普通的<ul>
+<li>RTMP（real-time message protocol） <ul>
+<li>RTMP使用的是TCP协议做的底层的传输协议，这样就可以保证低延迟，但是RMTP依赖于flash的播放器，<font size=4 color=red><strong>But</strong></font>现在浏览器中已经停止了对<code>flash</code>的支持，所以如果想要在浏览器中直接播放就需要安装flash相关的插件</li>
+</ul>
+</li>
+<li>SRT（Secure Reliable Transport） <ul>
+<li>是一种基于UDP的开源视频传输协议，SRT 专为低延迟实时视频传输而设计</li>
+</ul>
+</li>
+<li>WebRTC（Wowza’s Real-Time Streaming at Scale feature）<ul>
+<li>作为最快的可用技术，WebRTC可向任何主要浏览器传送近乎即时的语音和视频流</li>
+</ul>
+</li>
+<li>RTSP (real-time streaming protocol)<ul>
+<li>RTSP用于控制两个端点之间的音频&#x2F;视频传输，并促进低延迟流媒体内容在互联网上的传输，它的起源要早于RTMP</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>adaptive streaming protocol based on http<ul>
+<li>HLS (http live streaming)<ul>
+<li>协议使用包括两部分，第一部分是（manifest）描述文件<code>m3u8</code>， 第二部分是可播放的<code>ts</code>音视频文件，HLS最初源于IOS生态圈，随着技术的发展，HLS被越来越多的平台所接纳，例如，Google Chrome，Android，linux等等</li>
+</ul>
+</li>
+<li>MPEG-DASH （Dynamic Adaptive Streaming over HTTP）<ul>
+<li>MPEG-DASH 类似于另一种流媒体协议 HLS，因为它将视频分解成更小的块，并以不同的质量级别对这些块进行编码。 这使得可以流式传输不同质量级别的视频(举个🌰，这里的不同质量，只得是不同的分辨率的视频)，并在视频中间从一个质量级别切换到另一个质量级别，不同于HLS，DASH的manifest是使用<code>xml</code>，容器使用的<code>m4s</code>，个人感觉m3u8作为资源管理文件使用起来更加的清晰，因为DASH的所有配置都杂糅在一个文件中</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="流传输在现实中的使用场景"><a href="#流传输在现实中的使用场景" class="headerlink" title="流传输在现实中的使用场景"></a>流传输在现实中的使用场景</h3><ul>
+<li>桌面共享</li>
+<li>摄像头实时播放<ul>
+<li>安全监控</li>
+<li>直播</li>
+</ul>
+</li>
+<li>家庭影院</li>
+</ul>
+<h3 id="为什么不能直接播放流"><a href="#为什么不能直接播放流" class="headerlink" title="为什么不能直接播放流"></a>为什么不能直接播放流</h3><ul>
+<li>对于这个问题我们可以换个方式来问，我们可以这样问，”我们为什么需要一个流媒体服务器，它能帮我们干嘛？”举个🌰，假使我们的生活中没有media server，那么我们消费流媒体的流程如下，用户上传资源，某个平台提供视频资源下载，然后在本地播放，oops格式不支持，下载支持的播放器，或者下载转码工具，一番折腾之后开始看电影。但是如果有了media server，这个过程会变成什么样呢？<ul>
+<li><img src="https://user-images.githubusercontent.com/6279298/221451549-7481868f-3318-4d3b-9dc3-29af52606f68.png" alt="image"></li>
+<li>看完上图，我们可以清楚的发现，在原始的流媒体经过了media server之后，我们手动的转码，格式转换，以及local带宽的限制问题都悄然消失。对于消费者，只需要打开视频便可以看到现成的视频</li>
+</ul>
+</li>
+</ul>
+<h3 id="如何播放不同的streaming"><a href="#如何播放不同的streaming" class="headerlink" title="如何播放不同的streaming"></a>如何播放不同的streaming</h3><ul>
+<li>直接使用ffplay，在之前的一篇文章中，我已经对<a target="_blank" rel="noopener" href="https://github.com/Fdslk/javaLearning/blob/master/code/ffmpeg_demo/Blog.md">ffplay</a> 做了简单的介绍<ul>
+<li><code>ffplay -v quiet -y 200 &lt;path of the playlist resource&gt;</code></li>
+</ul>
+</li>
+<li>使用浏览器直接播放（html5的video），不需要其他的流传输服务器<ul>
+<li>在本地的playlist的manifest用server host起来，这里我们可以使用node环境的来把本地的某个<code>path</code>host起来<ul>
+<li>安装node host工具<code>npm install http-server -g</code></li>
+<li>host文件夹<ul>
+<li>cd到需要host的path下<ul>
+<li><code>cd &lt;path&gt;</code></li>
+<li><code>http-server</code></li>
+</ul>
+</li>
+<li>直接host需要访问的path<ul>
+<li><code>http-server &lt;path&gt;</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><img src="https://user-images.githubusercontent.com/6279298/216209862-96b23edb-4a75-4137-8619-ac4976a1d195.png" alt="host successfully"></li>
+<li>tips:<ul>
+<li>必须使用http server将需要的manifest和对应的音视频资源host，如果直接使用本机的file server是无法工作的</li>
+</ul>
+</li>
+<li>把manifest嵌入到<a target="_blank" rel="noopener" href="https://github.com/Fdslk/javaLearning/blob/master/code/ffmpeg_demo/src/main/resources/video..html">html</a> 中，使用现成的js库播放。或者还可以使用<a target="_blank" rel="noopener" href="https://github.com/Fdslk/javaLearning/blob/master/code/ffmpeg_demo/src/main/resources/adaptive-media-player.html">原生的js代码</a> 处理的web，来播放manifest</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>搭建streaming push server （搭建media server），本文中将介绍三种推流服务器的搭建方式<ul>
+<li>方法一<ul>
+<li>搭建<code>Ant Media server</code> (AMS)<ul>
+<li>什么是？<ul>
+<li>is one of the fastest-growing and most popular streaming engines. Ant Media Server supports WebRTC, CMAF, HLS, RTMP, RTSP, and more for your critical business streaming needs</li>
+<li>如果是个人用户可以免费使用，但是如果是企业级用户则需要付费</li>
+<li>更多的细节部分，大家可以参阅<a target="_blank" rel="noopener" href="https://resources.antmedia.io/docs">官网</a></li>
+</ul>
+</li>
+<li>how to<ul>
+<li>下载 <a target="_blank" rel="noopener" href="https://github.com/ant-media/Ant-Media-Server/releases/download/ams-v2.5.3/ant-media-server-community-2.5.3.zip">ant-media-server</a> 安装包</li>
+<li>cd <code>zip</code> 包的路径</li>
+<li>下载 <code>ant-media-server</code> 安装脚本 <code>wget https://raw.githubusercontent.com/ant-media/Scripts/master/install_ant-media-server.sh &amp;&amp; chmod 755 install_ant-media-server.sh</code></li>
+<li>使用脚本 <code>sudo ./install_ant-media-server.sh -i &lt;ANT_MEDIA_SERVER_INSTALLATION_FILE&gt;</code><ul>
+<li>tips<ul>
+<li>如果在<code>mac</code>上，直接运行 <code>unzip &lt;ANT_MEDIA_SERVER_INSTALLATION_FILE&gt;</code>，因为上述的安装脚本是针对于<code>Ubuntu</code>的linux系统，对于mac不适用</li>
+<li>或者还可以使用<a target="_blank" rel="noopener" href="https://github.com/Fdslk/javaLearning/blob/master/code/ffmpeg_demo/Dockerfile">docker</a> ，如果直接使用Java的基镜像时，还需要考虑当前镜像中的系统版本或者java版本是否被AMS支持</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>使用<ul>
+<li>启动 <code>sudo service antmedia stop</code></li>
+<li>终止 <code>sudo service antmedia start</code></li>
+<li>查看当前<code>ant media server</code>的状态 <code>sudo service antmedia status</code></li>
+<li>tips<ul>
+<li>如果在Mac上，可以直接进入到安装包中，然后运行 <code>./start.sh</code>，需要保证当前系统的java版本为<font size=3 color=blue><strong>java11</strong></font>以上</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>在浏览器中输入<code>http://SERVERHOST:5080/</code> ，第一次访问的时候能够在浏览器中看到以下的界面，那么恭喜你，AMS已经成功地完成搭建<ul>
+<li><img src="https://user-images.githubusercontent.com/6279298/217185934-1d2f733a-f230-42f0-b24b-90d851558267.png" alt="部署成功"></li>
+</ul>
+</li>
+<li>注册之后，登录到主界面，发布直播流<ul>
+<li><img src="https://user-images.githubusercontent.com/6279298/219321664-d205b8d1-d19b-44bd-a5ca-e9853c9b4300.png" alt="主界面"></li>
+</ul>
+</li>
+<li>进入到主界面之后<ul>
+<li>转播stream resource<ul>
+<li><img src="https://user-images.githubusercontent.com/6279298/219325653-0d7b411d-6ec5-4191-968a-19ee0fff1914.gif" alt="live stream output"></li>
+<li>tips: 使用<strong>QuickTime Player</strong>录屏，同样可以使用FFmpeg将mov文件转换成.gif文件<ul>
+<li>运行  <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg  -i  &lt;input file&gt; \</span><br><span class="line">  -vf &quot;fps=10,scale=320:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse&quot; \</span><br><span class="line">  -loop 0 output.gif</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>转播playlist<ul>
+<li><img src="https://user-images.githubusercontent.com/6279298/219523963-2e42d6f5-3cfe-41c4-8b48-4666988da521.gif" alt="playlist output"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>方法二<ul>
+<li>搭建nginx+RTMP<ul>
+<li>安装nginx <code>brew install nginx</code></li>
+<li>安装nginx rtmp module，<code>brew install nginx-full --with-rtmp-module</code><ul>
+<li>tip<ul>
+<li>当运行上述命令式报出以下错误时，<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/61931028/installing-homebrew-nginx-rtmp-in-macos-movaje-10-14"><code>Error: invalid option: --with-rtmp-module</code></a> 可以运行 <code>brew tap denji/nginx</code>，然后再安装rtmp module</li>
+<li>安装成功之后会有以下提示 <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">Docroot is: /usr/local/var/www</span><br><span class="line">The default port has been set in /usr/local/etc/nginx/nginx.conf to 8080 so that</span><br><span class="line">nginx can run without sudo.</span><br><span class="line">  </span><br><span class="line">nginx will load all files in /usr/local/etc/nginx/servers/.</span><br><span class="line">  </span><br><span class="line">- Tips -</span><br><span class="line">  Run port 80:</span><br><span class="line">  $ sudo chown root:wheel /usr/local/opt/nginx-full/bin/nginx</span><br><span class="line">  $ sudo chmod u+s /usr/local/opt/nginx-full/bin/nginx</span><br><span class="line">  Reload config:</span><br><span class="line">  $ nginx -s reload</span><br><span class="line">  Reopen Logfile:</span><br><span class="line">  $ nginx -s reopen</span><br><span class="line">  Stop process:</span><br><span class="line">  $ nginx -s stop</span><br><span class="line">  Waiting on exit process</span><br><span class="line">  $ nginx -s quit</span><br><span class="line">  </span><br><span class="line">To start denji/nginx/nginx-full now and restart at login:</span><br><span class="line">brew services start denji/nginx/nginx-full</span><br><span class="line">Or, if you don&#x27;t want/need a background service you can just run:</span><br><span class="line">nginx</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>使用ffmpeg推流，使用nginx的RTMP模块时，我这里使用的是live streaming的主动推流模式，也就是源头将streaming推送给media server，而不是media server主动去拉资源<ul>
+<li><pre><code>ffmpeg -v quiet -i &quot;&lt;stream resource locatopm&gt;&quot; \
+  -vf &quot;scale=-2:200,drawtext=fontfile=&#39;c\:/Windows/Fonts/courbd.ttf&#39;:text=RTMP:fontsize=30:x=10:y=20:fontcolor=#000000:box=1:boxborderw=5:boxcolor=#ff888888&quot; \
+  -vcodec libx264 -f flv &lt;rtmp server url&gt;
+</code></pre>
+</li>
+</ul>
+</li>
+<li>使用ffplay验证推流成功<ul>
+<li><code>ffplay -v quiet &lt;rtmp server url&gt;</code></li>
+<li><img src="https://user-images.githubusercontent.com/6279298/220020493-dc16cbc8-2a4a-4ae4-a442-5f4674266d2d.gif" alt="ffplay play pulling streaming successfully"></li>
+</ul>
+</li>
+<li>使用VLC验证推流成功<ul>
+<li>下载<a target="_blank" rel="noopener" href="https://get.videolan.org/vlc/3.0.18/macosx/vlc-3.0.18-intel64.dmg">VLC</a></li>
+<li><img src="https://user-images.githubusercontent.com/6279298/220246480-5f8027db-87e2-490d-8c7e-1acaa4a95dce.gif" alt="verify streaming by VLC"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>方法三<ul>
+<li>搭建<a target="_blank" rel="noopener" href="https://github.com/aler9/rtsp-simple-server">rtsp-simple-server</a> 服务器<ul>
+<li>使用方式<ul>
+<li>下载<a target="_blank" rel="noopener" href="https://github.com/aler9/rtsp-simple-server/releases">server release package</a> ，unzip该文件包，运行<code>./rtsp-simple-server</code></li>
+<li>使用docker方式启动</li>
+<li>OpenWRT</li>
+</ul>
+</li>
+<li>推流<ul>
+<li><code>ffmpeg -re -stream_loop -1 -i http://localhost:8080/nature.mp4  -c copy -f rtsp rtsp://localhost:8554/mystream</code></li>
+</ul>
+</li>
+<li>验证<ul>
+<li>ffmpeg</li>
+<li>vlc</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>各种推流服务器之间的比较<ul>
+<li><table>
+<thead>
+<tr>
+<th></th>
+<th align="center">pulling supported protocol</th>
+<th align="center">pushing supported protocol</th>
+<th>supported OS</th>
+<th align="center">freeium</th>
+<th align="center">latency</th>
+<th align="center">advantage</th>
+<th align="center">disadvantage</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ant media server</td>
+<td align="center">RTSP, RTMP &amp; HLS</td>
+<td align="center">RTMP &amp; WebRTC</td>
+<td>Linux&#x2F;MacOS&#x2F;Windows <br>(cloud:AWS&#x2F;Azure&#x2F;Alibaba&#x2F;Digital Ocean&#x2F;Linode)</td>
+<td align="center">yes</td>
+<td align="center">8s-12s for community version</td>
+<td align="center">provide GUI, user-friendly,<br>open source, community support</td>
+<td align="center">some features need payment</td>
+</tr>
+<tr>
+<td>nginx-rtmp-module</td>
+<td align="center">RTMP&#x2F;HLS&#x2F;MPEG-DASH</td>
+<td align="center">RTMP, HLS &amp; MPEG-DASH</td>
+<td>Linux&#x2F;FreeBSD&#x2F;MacOS&#x2F;Windows</td>
+<td align="center">yes</td>
+<td align="center">control by parameter</td>
+<td align="center">more flexible, open source, <br>community support</td>
+<td align="center">not support webRTC</td>
+</tr>
+<tr>
+<td>rtsp-simple-server</td>
+<td align="center">RTSP, RTMP, HLS &amp; WebRTC</td>
+<td align="center">RTSP, RTMP, HLS &amp; Raspberry Pi Cameras</td>
+<td>Linux&#x2F;MacOS&#x2F;Windows</td>
+<td align="center">yes</td>
+<td align="center">control by parameter</td>
+<td align="center">open source, community support</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="展望"><a href="#展望" class="headerlink" title="展望"></a>展望</h3><ul>
+<li>实现一个家庭观影系统</li>
+<li>考虑一下如何上云</li>
+</ul>
+<h3 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://www.wowza.com/blog/streaming-protocols">Streaming Protocols: Everything You Need to Know (Update)</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cloudflare.com/learning/video/what-is-mpeg-dash/">What is MPEG-DASH? | HLS vs. DASH</a></li>
+<li><a target="_blank" rel="noopener" href="https://antmedia.io/what-is-rtmp-server-how-to-set-up-a-free-rtmp-server/">RTMP server guide: How to set up a free RTMP server</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.wowza.com/blog/why-you-need-a-streaming-media-server#simulcasting">3 Reasons Why You Need a Streaming Media Server</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://fdslk.github.io/tech/ffmpeg/media-server/2023/03/05/streaming_protocol/" data-id="clev0pchj000yephsgb5l8bb0" data-title="Streaming protocol" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ffmpeg-media-server/" rel="tag">ffmpeg, media-server</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/java/">java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/java/101/">101</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/spring-boot/">spring-boot</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/java/spring-boot/webflux/">webflux</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">tech</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/ffmpeg/">ffmpeg</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/ffmpeg/media-server/">media server</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/ffmpeg/video-convert/">video convert</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/">java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/design-pattern/">design-pattern</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/lint/">lint</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/spring-boot/">spring-boot</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/spring-boot/auth0/">auth0</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/spring-boot/jwt/">jwt</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/swagger/">swagger</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/swagger/open-api/">open-api</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/test/">test</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/test/java/">java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/test/java/es/">es</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/video/">video</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/video/ffmpeg/">ffmpeg</a></li></ul></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/elastic-search-java-test/" rel="tag">elastic search, java, test</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es/" rel="tag">es</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ffmpeg/" rel="tag">ffmpeg</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ffmpeg-coverting-format/" rel="tag">ffmpeg, coverting format</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ffmpeg-media-server/" rel="tag">ffmpeg, media-server</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-design-pattern-easy-rule/" rel="tag">java, design-pattern, easy-rule</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-lint/" rel="tag">java, lint</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-spring-customer-starter/" rel="tag">java, spring, customer-starter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-spring-boot-auth0/" rel="tag">java, spring-boot, auth0</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/elastic-search-java-test/" style="font-size: 10px;">elastic search, java, test</a> <a href="/tags/es/" style="font-size: 10px;">es</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/ffmpeg-coverting-format/" style="font-size: 10px;">ffmpeg, coverting format</a> <a href="/tags/ffmpeg-media-server/" style="font-size: 10px;">ffmpeg, media-server</a> <a href="/tags/java-design-pattern-easy-rule/" style="font-size: 10px;">java, design-pattern, easy-rule</a> <a href="/tags/java-lint/" style="font-size: 10px;">java, lint</a> <a href="/tags/java-spring-customer-starter/" style="font-size: 10px;">java, spring, customer-starter</a> <a href="/tags/java-spring-boot-auth0/" style="font-size: 10px;">java, spring-boot, auth0</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/tech/java/spring-boot/jwt/2023/03/05/integration-jwt/">integration_jwt</a>
+          </li>
+        
+          <li>
+            <a href="/tech/java/swagger/open-api/2023/03/05/open-api-swagger/">open_api_swagger</a>
+          </li>
+        
+          <li>
+            <a href="/java/spring-boot/webflux/2023/03/05/webflux-api/">webflux_api</a>
+          </li>
+        
+          <li>
+            <a href="/java/101/2023/03/05/option-optional-difference/">option_optional_difference</a>
+          </li>
+        
+          <li>
+            <a href="/uncategorized/2023/03/05/integration-new-relic/">integration_new_relic</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 Zengqiang Fang<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

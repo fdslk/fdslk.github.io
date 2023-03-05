@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>integration_new_relic | 🪳的Daily Blog WebSite</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="How to integrate newRelic into spring-boot applicationFrom the stackoverflow, I found three ways to implement newRelic integration. Way one locally test by java cmd we can download java agent from the">
+<meta property="og:type" content="article">
+<meta property="og:title" content="integration_new_relic">
+<meta property="og:url" content="http://fdslk.github.io/uncategorized/2023/03/05/integration-new-relic/index.html">
+<meta property="og:site_name" content="🪳的Daily Blog WebSite">
+<meta property="og:description" content="How to integrate newRelic into spring-boot applicationFrom the stackoverflow, I found three ways to implement newRelic integration. Way one locally test by java cmd we can download java agent from the">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://user-images.githubusercontent.com/96409339/166885858-57be9335-04e4-4269-b843-13d8b8d1c195.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/96409339/166887000-12aa2119-ed36-409c-a4d0-293935025627.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/96409339/166887340-305a0dd5-4ca7-49f7-bd49-cbdd93c2a594.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/6279298/167244182-60e5ec52-6162-48e2-bb6f-18160ab409aa.png">
+<meta property="article:published_time" content="2023-03-05T06:07:20.000Z">
+<meta property="article:modified_time" content="2023-03-05T06:32:54.190Z">
+<meta property="article:author" content="Zengqiang Fang">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/96409339/166885858-57be9335-04e4-4269-b843-13d8b8d1c195.png">
+  
+    <link rel="alternate" href="/atom.xml" title="🪳的Daily Blog WebSite" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">🪳的Daily Blog WebSite</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://fdslk.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-integration-new-relic" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/uncategorized/2023/03/05/integration-new-relic/" class="article-date">
+  <time class="dt-published" datetime="2023-03-05T06:07:20.000Z" itemprop="datePublished">2023-03-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      integration_new_relic
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="How-to-integrate-newRelic-into-spring-boot-application"><a href="#How-to-integrate-newRelic-into-spring-boot-application" class="headerlink" title="How to integrate newRelic into spring-boot application"></a>How to integrate newRelic into spring-boot application</h1><h2 id="From-the-stackoverflow-I-found-three-ways-to-implement-newRelic-integration"><a href="#From-the-stackoverflow-I-found-three-ways-to-implement-newRelic-integration" class="headerlink" title="From the stackoverflow, I found three ways to implement newRelic integration."></a>From the <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/26901959/new-relic-for-spring-boot">stackoverflow</a>, I found three ways to implement newRelic integration.</h2><ul>
+<li>Way one locally test by java cmd<ul>
+<li>we can download java agent from the following <a target="_blank" rel="noopener" href="https://docs.newrelic.com/docs/release-notes/agent-release-notes/java-release-notes/">url</a>.</li>
+<li>unzip the zip file</li>
+<li>modify the license_key and app_name</li>
+<li>run <code>mvn package</code> to build your application jar package</li>
+<li>Enter this command java -javagent: &lt;path to your new relic jar&gt;\newrelic.jar -jar &lt;path to your application jar&gt;\<you rapplication jar name>.jar</li>
+<li>go to newrelic console<ul>
+<li>your application APM<br><img src="https://user-images.githubusercontent.com/96409339/166885858-57be9335-04e4-4269-b843-13d8b8d1c195.png" alt="APM service name"></li>
+<li>other metrics<br><img src="https://user-images.githubusercontent.com/96409339/166887000-12aa2119-ed36-409c-a4d0-293935025627.png" alt="metrics charts"></li>
+<li>logs contents<br><img src="https://user-images.githubusercontent.com/96409339/166887340-305a0dd5-4ca7-49f7-bd49-cbdd93c2a594.png" alt="logs contents"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Way two using newRelic agent locally<ul>
+<li>using intellig idea jvm, add newrelic.jar path to jvm option</li>
+<li>open Edit Configuration -&gt;<br><img src="https://user-images.githubusercontent.com/6279298/167244182-60e5ec52-6162-48e2-bb6f-18160ab409aa.png" alt="add agent path to jvm option"></li>
+<li>click debug&#x2F;run</li>
+<li>console will</li>
+</ul>
+</li>
+<li>Way three using maven dependency<ul>
+<li>add maven dependency<ul>
+<li><pre><code class="xml">&lt;dependency&gt;
+    &lt;groupId&gt;com.newrelic.telemetry&lt;/groupId&gt;
+    &lt;artifactId&gt;micrometer-registry-new-relic&lt;/artifactId&gt;
+    &lt;version&gt;0.8.0&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+</li>
+</ul>
+</li>
+<li>add <code>NewRelicMetricsExportAutoConfiguration</code> as a java been to auto detect interface<ul>
+<li>For example, adding apikey, application service name. etc. By Override existed methods.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Way four using dockerfile to access new relic agent<ul>
+<li>add new Dockerfile</li>
+<li>copy code src, pom, newrelic agent into docker images</li>
+<li><code>docker build -t local/newrelicjava .</code></li>
+<li><code>docker run -it -p 8080:8080 local/newrelicjava</code></li>
+</ul>
+</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://github.com/Fdslk/javaLearning/blob/master/code/newrelic">source code</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://fdslk.github.io/uncategorized/2023/03/05/integration-new-relic/" data-id="clev0pche000lephsbt50fam6" data-title="integration_new_relic" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/java/101/2023/03/05/option-optional-difference/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          option_optional_difference
+        
+      </div>
+    </a>
+  
+  
+    <a href="/tech/2023/03/05/elastic-search-basic-feature/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">elastic_search_basic_feature</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/java/">java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/java/101/">101</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/spring-boot/">spring-boot</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/java/spring-boot/webflux/">webflux</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">tech</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/ffmpeg/">ffmpeg</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/ffmpeg/media-server/">media server</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/ffmpeg/video-convert/">video convert</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/">java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/design-pattern/">design-pattern</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/lint/">lint</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/spring-boot/">spring-boot</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/spring-boot/auth0/">auth0</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/spring-boot/jwt/">jwt</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/swagger/">swagger</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/java/swagger/open-api/">open-api</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/test/">test</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/test/java/">java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/test/java/es/">es</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/video/">video</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/video/ffmpeg/">ffmpeg</a></li></ul></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/elastic-search-java-test/" rel="tag">elastic search, java, test</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es/" rel="tag">es</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ffmpeg/" rel="tag">ffmpeg</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ffmpeg-coverting-format/" rel="tag">ffmpeg, coverting format</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ffmpeg-media-server/" rel="tag">ffmpeg, media-server</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-design-pattern-easy-rule/" rel="tag">java, design-pattern, easy-rule</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-lint/" rel="tag">java, lint</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-spring-customer-starter/" rel="tag">java, spring, customer-starter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-spring-boot-auth0/" rel="tag">java, spring-boot, auth0</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/elastic-search-java-test/" style="font-size: 10px;">elastic search, java, test</a> <a href="/tags/es/" style="font-size: 10px;">es</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/ffmpeg-coverting-format/" style="font-size: 10px;">ffmpeg, coverting format</a> <a href="/tags/ffmpeg-media-server/" style="font-size: 10px;">ffmpeg, media-server</a> <a href="/tags/java-design-pattern-easy-rule/" style="font-size: 10px;">java, design-pattern, easy-rule</a> <a href="/tags/java-lint/" style="font-size: 10px;">java, lint</a> <a href="/tags/java-spring-customer-starter/" style="font-size: 10px;">java, spring, customer-starter</a> <a href="/tags/java-spring-boot-auth0/" style="font-size: 10px;">java, spring-boot, auth0</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/tech/java/spring-boot/jwt/2023/03/05/integration-jwt/">integration_jwt</a>
+          </li>
+        
+          <li>
+            <a href="/tech/java/swagger/open-api/2023/03/05/open-api-swagger/">open_api_swagger</a>
+          </li>
+        
+          <li>
+            <a href="/java/spring-boot/webflux/2023/03/05/webflux-api/">webflux_api</a>
+          </li>
+        
+          <li>
+            <a href="/java/101/2023/03/05/option-optional-difference/">option_optional_difference</a>
+          </li>
+        
+          <li>
+            <a href="/uncategorized/2023/03/05/integration-new-relic/">integration_new_relic</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 Zengqiang Fang<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
