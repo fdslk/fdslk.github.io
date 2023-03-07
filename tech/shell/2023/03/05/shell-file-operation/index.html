@@ -367,8 +367,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="pc">2023-03-05 16:27:32</span>
-            <span class="mobile">2023-03-05 16:27</span>
+            <span class="pc">2023-03-07 17:49:36</span>
+            <span class="mobile">2023-03-07 17:49</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -462,26 +462,32 @@
 </ul>
 </li>
 <li><p>-R 循环递归处理，将当前目录下的其他的文件采用同样的处理</p>
+<ul>
+<li>eg: <code>chmod [-R] xyz 文件或者目录</code>，表示连同次目录下的<strong>所有文件</strong>都会变更</li>
+</ul>
 </li>
 </ul>
 </li>
 <li>chmod <strong>(change mode)</strong><ul>
 <li>r - 4, w - 2, x - 1</li>
+<li><code>chmod u=rwx g=rx o=r file name</code>使用符号改变文件的权限</li>
 </ul>
 </li>
 </ul>
 <table>
 <thead>
 <tr>
-<th align="left">user</th>
-<th align="center">group</th>
-<th align="right">other user</th>
+<th align="center">user （属主）</th>
+<th align="center">group（属组）</th>
+<th align="center">other user</th>
+<th align="center">all</th>
 </tr>
 </thead>
 <tbody><tr>
-<td align="left">u</td>
+<td align="center">u</td>
 <td align="center">g</td>
-<td align="right">o</td>
+<td align="center">o</td>
+<td align="center">a</td>
 </tr>
 </tbody></table>
 <ul>
@@ -490,11 +496,18 @@
 <li>tip: 必须root用户才能执行该命令</li>
 </ul>
 </li>
-<li><p>比较两个文件的不同</p>
-</li>
-<li><p>diff</p>
+<li><p>linux文件查看命令</p>
 <ul>
-<li>diff<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">diff README.md ../README.md -y -W 50</span><br></pre></td></tr></table></figure></div></li>
+<li>cat 从文件第一行开始显示 <code>-b</code> 列出行号，空白不管，<code>-n</code>空白处行号, <code>-v</code>列出特殊字符，多个操作符可以组合操作 <strong>eg</strong>: <code>cat -b -v file name</code></li>
+<li>tac 从文件最后一行开始显示</li>
+<li>nl 直接显示文件的行号</li>
+<li>head 从头部开始获取文章</li>
+<li>tail 从尾部开始获取文章</li>
+</ul>
+</li>
+<li><p>比较两个文件的不同 <code>diff</code></p>
+<ul>
+<li><code>diff README.md ../README.md -y -W 50</code></li>
 </ul>
 <p><img  
                      lazyload
@@ -503,7 +516,7 @@
                       alt="并排比较"
                 ></p>
 <ul>
-<li><p>tips：**|** 表示同行有不同，**&lt;** 后文件比前文件少一行，**&gt;**后文件比前文件多一行</p>
+<li><p>tips：**|** 表示同行有不同，**&lt;** 后文件比前文件少一行，**&gt;** 后文件比前文件多一行</p>
 </li>
 <li><p>diff file1 file2 | diffstat, 统计两个文件的变化字数</p>
 </li>
