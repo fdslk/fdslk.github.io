@@ -9,18 +9,18 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-redefine.png">
     <!--- Seo Part-->
     
-    <link rel="canonical" href="http://fdslk.github.io/tech/kotlin/android/2023/03/05/android_app_color/"/>
+    <link rel="canonical" href="http://fdslk.github.io/vue/2023/03/31/quick-start-vue/"/>
     <meta name="robots" content="index,follow">
     <meta name="googlebot" content="index,follow">
     <meta name="revisit-after" content="1 days">
     <meta property="og:type" content="article">
-    <meta property="og:title" content="android app color and layout">
+    <meta property="og:title" content="作为后端dev我，第一次学习Vue">
     <meta property="og:description" content="record daily works and life">
-    <meta property="og:url" content="http://fdslk.github.iotech/kotlin/Android/2023/03/05/android_app_color/">
+    <meta property="og:url" content="http://fdslk.github.iovue/2023/03/31/quick-start-vue/">
     <meta property="og:image" content="/images/cat.png">
     <meta property="og:site_name" content="Qiang Brother Blogs">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="android app color and layout">
+    <meta name="twitter:title" content="作为后端dev我，第一次学习Vue">
     <meta name="twitter:description" content="record daily works and life">
     <meta name="twitter:image" content="/images/cat.png">
     <!--- Icon Part-->
@@ -31,7 +31,7 @@
     
     <title>
         
-            android app color and layout -
+            作为后端dev我，第一次学习Vue -
         
         Qiang Brother Blogs
     </title>
@@ -338,7 +338,7 @@
             
             
                 <div class="article-title">
-                    <h1 class="article-title-regular">android app color and layout</h1>
+                    <h1 class="article-title-regular">作为后端dev我，第一次学习Vue</h1>
                 </div>
             
                 
@@ -360,15 +360,15 @@
                             <div class="article-meta-info">
     <span class="article-date article-meta-item">
         <i class="fa-regular fa-pen-fancy"></i>&nbsp;
-        <span class="pc">2023-03-05 14:48:57</span>
-        <span class="mobile">2023-03-05 14:48</span>
+        <span class="pc">2023-03-31 17:31:20</span>
+        <span class="mobile">2023-03-31 17:31</span>
         <span class="hover-info">Created</span>
     </span>
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="pc">2023-03-22 12:41:02</span>
-            <span class="mobile">2023-03-22 12:41</span>
+            <span class="pc">2023-03-31 17:33:10</span>
+            <span class="mobile">2023-03-31 17:33</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -379,20 +379,23 @@
             <ul>
                 
                     <li>
-                        <a href="/categories/tech/">tech</a>&nbsp;
-                    </li>
-                
-                    <li>
-                        &gt; <a href="/categories/tech/kotlin/">kotlin</a>&nbsp;
-                    </li>
-                
-                    <li>
-                        &gt; <a href="/categories/tech/kotlin/Android/">Android</a>&nbsp;
+                        <a href="/categories/vue/">vue</a>&nbsp;
                     </li>
                 
             </ul>
         </span>
     
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/vue/">vue</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
     
 
     
@@ -411,23 +414,69 @@
             
 
             <div class="article-content markdown-body">
-                <h1 id="App-color-and-Layout"><a href="#App-color-and-Layout" class="headerlink" title="App color and Layout"></a>App color and Layout</h1><ul>
-<li>constraint<ul>
-<li>Only we set the related constraint, we can drag our element casually.</li>
-<li>Baseline constraint<ul>
-<li>given the developer more specific location constraint.</li>
-<li>bind the baseline of two elements and the two element can be set with same location or constraint and moved together</li>
+                <h1 id="Vue小白上手"><a href="#Vue小白上手" class="headerlink" title="Vue小白上手"></a>Vue小白上手</h1><h2 id="pre-perparation"><a href="#pre-perparation" class="headerlink" title="pre-perparation"></a>pre-perparation</h2><ul>
+<li>你需要准备node环境，<code>brew install npm</code></li>
+<li>你需要安装vue client, <code>npm install -g @vue/cli</code></li>
+<li>你还可以直接使用下列命令初始化vue项目，<code>npm init vue@latest</code><ul>
+<li>项目初始完成之后，进入到你的项目中<code>cd &lt;your project name&gt;</code></li>
+<li>安装依赖，<code>npm install</code></li>
+<li>运行项目，<code>npm run dev</code>，这个dev命令是在当前项目的<code>package.json</code>文件夹下定义的一些<code>vue-cli-service</code>命令的alias</li>
+</ul>
+</li>
+<li>完成了上述步骤，一个最基本的vue项目已经初始化好了</li>
+</ul>
+<h2 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h2><ul>
+<li>vue是基于组件化开发的一种前端框架，利用这种分离的方式使得前端业务得以解耦，每一个单体组件都被封装在一个<code>.vue</code>的文件中，只需要在用的地方加以引用便可以实现重复利用</li>
+</ul>
+<h3 id="加载app"><a href="#加载app" class="headerlink" title="加载app"></a>加载app</h3><ul>
+<li>定义一个<code>main.js</code>，这个类似于一个main函数入口，这个即被当做是当前vue项目的入口，在其中做出如下的定义：<ul>
+<li><p>在当前目录下定义一个<code>App.vue</code>文件，在其中定义布局，引用模块，在main.js中引用，然后再挂载<code>mount(&#39;#app&#39;)</code>，使用<code>#app</code>就是使用了css的元素选择器</p>
+<div class="highlight-container" data-rel="Js"><figure class="iseeu highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createApp &#125; <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span></span><br><span class="line"><span class="comment">// 从一个单文件组件中导入根组件</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">App</span> <span class="keyword">from</span> <span class="string">&#x27;./App.vue&#x27;</span></span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">createApp</span>(<span class="title class_">App</span>)</span><br><span class="line">app.<span class="title function_">mount</span>(<span class="string">&#x27;#app&#x27;</span>)</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+</li>
+</ul>
+<h3 id="文本替换"><a href="#文本替换" class="headerlink" title="文本替换"></a>文本替换</h3><ul>
+<li><p>使用模板语法赋值，<code>&#123;&#123;template field&#125;&#125;</code>，举个例子，<code>&lt;span&gt;Message: &#123;&#123; msg &#125;&#125;&lt;/span&gt;</code>当前的msg可以被定义在如下的代码中</p>
+<ul>
+<li><p>在<code>&lt;script&gt;&lt;/script&gt;</code>代码块中定义如下的声明，在html被渲染的时候将会进行替换，除了声明简单的文本，在Mustache中还可以定义一些表达式，<strong>请注意</strong>一定是表达式</p>
+<div class="highlight-container" data-rel="Js"><figure class="iseeu highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="title function_">data</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      <span class="attr">msg</span>: <span class="string">&quot;default value&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>Mustache的替换模式只能用来替换某个元素的值，如果想要替换html的属性的值，这里可以使用attribute，<code>v-bind</code>, <code>v-if</code>, <code>v-for</code>等等</p>
+<ul>
+<li><p>举个🌰：<code>&lt;input v-bind:id=&quot;someId&quot;&gt;&lt;/input&gt;</code>，因为v-bind使用的频率很高还可以用<code>&lt;input :id=&quot;someId&quot;&gt;&lt;/input&gt;</code>代替，其中的someId就可以使用以下的方式赋值:</p>
+<div class="highlight-container" data-rel="Js"><figure class="iseeu highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="title function_">data</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      <span class="attr">someId</span>: <span class="string">&quot;default value&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></li>
 </ul>
 </li>
 </ul>
 </li>
-<li>chain<ul>
-<li>make our several elements become a whole group.</li>
-<li>chain can set the constraint between the selected elements.</li>
+<li><p>计算值的方式</p>
+<ul>
+<li>计算属性缓存，使用compute属性，计算属性值会基于其响应式依赖被缓存。一个计算属性仅会在其响应式依赖更新时才重新计算</li>
+<li>方法，使用method属性，方法调用总是会在重渲染发生时再次执行函数</li>
 </ul>
 </li>
 </ul>
-<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/Fdslk/KotlinRepository/tree/main/ColorMyViews" >Color view <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<h3 id="基础事件支持"><a href="#基础事件支持" class="headerlink" title="基础事件支持"></a>基础事件支持</h3><ul>
+<li>类型<ul>
+<li><p>内联式，适用于比较简单的场景，直接把计算逻辑放在事件后面，🌰：html代码</p>
+<div class="highlight-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">onclick</span>=<span class="string">&quot;count++&quot;</span>&gt;</span>OK<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;&#123;count&#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="title function_">data</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">      <span class="keyword">return</span> &#123;</span></span><br><span class="line"><span class="language-javascript">        count : <span class="number">0</span></span></span><br><span class="line"><span class="language-javascript">      &#125;</span></span><br><span class="line"><span class="language-javascript">    &#125;</span></span><br><span class="line"><span class="language-javascript">  &#125;</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>方法式，将复杂的逻辑提取到method属性中，使用的时候，直接调用方法名即可</p>
+</li>
+</ul>
+</li>
+<li>vue支持的事件，可以参考 <a class="link"   target="_blank" rel="noopener" href="https://cn.vuejs.org/guide/essentials/event-handling.html" >官方文档 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
+</ul>
+<h3 id="表单事件绑定"><a href="#表单事件绑定" class="headerlink" title="表单事件绑定"></a>表单事件绑定</h3><ul>
+<li>直接使用<code>v-model</code>，实现双向绑定，支持所有的表单属性，当有对应的事件发生的时候，将会改变绑定对象的值</li>
+</ul>
+<h3 id="组件之间传值"><a href="#组件之间传值" class="headerlink" title="组件之间传值"></a>组件之间传值</h3><ul>
+<li><p>在父组件中使用子组件的属性传值，以下是父组件的例子</p>
+<div class="highlight-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ChatChannel</span> <span class="attr">:childComponent</span>=<span class="string">&quot;selected&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">export</span> <span class="title function_">default</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="title function_">data</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">      <span class="keyword">return</span> &#123;</span></span><br><span class="line"><span class="language-javascript">        <span class="attr">selected</span>: <span class="string">&quot;default value&quot;</span></span></span><br><span class="line"><span class="language-javascript">      &#125;</span></span><br><span class="line"><span class="language-javascript">    &#125;</span></span><br><span class="line"><span class="language-javascript">  &#125;</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>在子组件定义props接收父组件的传值，并使用它</p>
+<div class="highlight-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">export</span> <span class="title function_">default</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">props</span>: &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">childComponent</span>: &#123;</span></span><br><span class="line"><span class="language-javascript">        <span class="attr">type</span>: <span class="title class_">String</span>,</span></span><br><span class="line"><span class="language-javascript">        <span class="attr">required</span>: <span class="literal">true</span></span></span><br><span class="line"><span class="language-javascript">      &#125;</span></span><br><span class="line"><span class="language-javascript">    &#125;,</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">method</span>: &#123;</span></span><br><span class="line"><span class="language-javascript">      <span class="title function_">showChildComponent</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">        <span class="title function_">alert</span>(<span class="variable language_">this</span>.<span class="property">childComponent</span>)</span></span><br><span class="line"><span class="language-javascript">      &#125;</span></span><br><span class="line"><span class="language-javascript">    &#125;</span></span><br><span class="line"><span class="language-javascript">  &#125;</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span>  </span><br></pre></td></tr></table></figure></div></li>
+</ul>
 
             </div>
 
@@ -435,11 +484,11 @@
                 <div class="post-copyright-info">
                     <div class="article-copyright-info-container">
     <ul>
-        <li>Post title：android app color and layout</li>
+        <li>Post title：作为后端dev我，第一次学习Vue</li>
         <li>Post author：Zengqiang</li>
-        <li>Create time：2023-03-05 14:48:57</li>
+        <li>Create time：2023-03-31 17:31:20</li>
         <li>
-            Post link：https://fdslk.github.io/tech/kotlin/Android/2023/03/05/android_app_color/
+            Post link：https://fdslk.github.io/vue/2023/03/31/quick-start-vue/
         </li>
         <li>
             Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
@@ -451,35 +500,28 @@
             
 
             
+                <ul class="post-tags-box">
+                    
+                        <li class="tag-item">
+                            <a href="/tags/vue/">#vue</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            
 
             
 
             
                 <div class="article-nav">
                     
-                        <div class="article-prev">
-                            <a class="prev"
-                            rel="prev"
-                            href="/tech/kotlin/Android/2023/03/05/Android-app-fragment/"
-                            >
-                                <span class="left arrow-icon flex-center">
-                                    <i class="fa-solid fa-chevron-left"></i>
-                                </span>
-                                <span class="title flex-center">
-                                    <span class="post-nav-title-item">Android app fragment</span>
-                                    <span class="post-nav-item">Prev posts</span>
-                                </span>
-                            </a>
-                        </div>
-                    
                     
                         <div class="article-next">
                             <a class="next"
                             rel="next"
-                            href="/tech/kotlin/Android/2023/03/05/Android-app-101/"
+                            href="/tech/ops/proxy/2023/03/22/ops-nginx/"
                             >
                                 <span class="title flex-center">
-                                    <span class="post-nav-title-item">Android app 101</span>
+                                    <span class="post-nav-title-item">Nginx基础概念</span>
                                     <span class="post-nav-item">Next posts</span>
                                 </span>
                                 <span class="right arrow-icon flex-center">
@@ -500,8 +542,8 @@
                 <div class="post-toc-wrap">
     <div class="post-toc">
         <div class="toc-title">On this page</div>
-        <div class="page-title">android app color and layout</div>
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#App-color-and-Layout"><span class="nav-text">App color and Layout</span></a></li></ol>
+        <div class="page-title">作为后端dev我，第一次学习Vue</div>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Vue%E5%B0%8F%E7%99%BD%E4%B8%8A%E6%89%8B"><span class="nav-text">Vue小白上手</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#pre-perparation"><span class="nav-text">pre-perparation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95"><span class="nav-text">基础语法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E8%BD%BDapp"><span class="nav-text">加载app</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E6%9C%AC%E6%9B%BF%E6%8D%A2"><span class="nav-text">文本替换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E4%BA%8B%E4%BB%B6%E6%94%AF%E6%8C%81"><span class="nav-text">基础事件支持</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A8%E5%8D%95%E4%BA%8B%E4%BB%B6%E7%BB%91%E5%AE%9A"><span class="nav-text">表单事件绑定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%84%E4%BB%B6%E4%B9%8B%E9%97%B4%E4%BC%A0%E5%80%BC"><span class="nav-text">组件之间传值</span></a></li></ol></li></ol></li></ol>
 
     </div>
 </div>
