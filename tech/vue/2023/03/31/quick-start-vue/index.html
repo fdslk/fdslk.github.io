@@ -9,18 +9,18 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-redefine.png">
     <!--- Seo Part-->
     
-    <link rel="canonical" href="http://fdslk.github.io/tech/ops/proxy/2023/03/22/ops-nginx/"/>
+    <link rel="canonical" href="http://fdslk.github.io/tech/vue/2023/03/31/quick-start-vue/"/>
     <meta name="robots" content="index,follow">
     <meta name="googlebot" content="index,follow">
     <meta name="revisit-after" content="1 days">
     <meta property="og:type" content="article">
-    <meta property="og:title" content="Nginx基础概念">
+    <meta property="og:title" content="作为后端dev我，第一次学习Vue">
     <meta property="og:description" content="record daily works and life">
-    <meta property="og:url" content="http://fdslk.github.iotech/ops/proxy/2023/03/22/ops-nginx/">
+    <meta property="og:url" content="http://fdslk.github.iotech/vue/2023/03/31/quick-start-vue/">
     <meta property="og:image" content="/images/cat.png">
     <meta property="og:site_name" content="Qiang Brother Blogs">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Nginx基础概念">
+    <meta name="twitter:title" content="作为后端dev我，第一次学习Vue">
     <meta name="twitter:description" content="record daily works and life">
     <meta name="twitter:image" content="/images/cat.png">
     <!--- Icon Part-->
@@ -31,7 +31,7 @@
     
     <title>
         
-            Nginx基础概念 -
+            作为后端dev我，第一次学习Vue -
         
         Qiang Brother Blogs
     </title>
@@ -338,7 +338,7 @@
             
             
                 <div class="article-title">
-                    <h1 class="article-title-regular">Nginx基础概念</h1>
+                    <h1 class="article-title-regular">作为后端dev我，第一次学习Vue</h1>
                 </div>
             
                 
@@ -360,15 +360,15 @@
                             <div class="article-meta-info">
     <span class="article-date article-meta-item">
         <i class="fa-regular fa-pen-fancy"></i>&nbsp;
-        <span class="pc">2023-03-22 12:25:07</span>
-        <span class="mobile">2023-03-22 12:25</span>
+        <span class="pc">2023-03-31 17:31:20</span>
+        <span class="mobile">2023-03-31 17:31</span>
         <span class="hover-info">Created</span>
     </span>
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="pc">2023-03-22 12:33:38</span>
-            <span class="mobile">2023-03-22 12:33</span>
+            <span class="pc">2023-04-14 11:15:59</span>
+            <span class="mobile">2023-04-14 11:15</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -383,11 +383,7 @@
                     </li>
                 
                     <li>
-                        &gt; <a href="/categories/tech/ops/">ops</a>&nbsp;
-                    </li>
-                
-                    <li>
-                        &gt; <a href="/categories/tech/ops/proxy/">proxy</a>&nbsp;
+                        &gt; <a href="/categories/tech/vue/">vue</a>&nbsp;
                     </li>
                 
             </ul>
@@ -399,7 +395,7 @@
             <ul>
                 
                     <li>
-                        <a href="/tags/nginx/">nginx</a>&nbsp;
+                        <a href="/tags/vue/">vue</a>&nbsp;
                     </li>
                 
             </ul>
@@ -422,75 +418,68 @@
             
 
             <div class="article-content markdown-body">
-                <h1 id="Nginx基础概念"><a href="#Nginx基础概念" class="headerlink" title="Nginx基础概念"></a>Nginx基础概念</h1><ul>
-<li>Nginx是一个web服务器</li>
-<li>监听http端口</li>
-<li>静态或者动态的网站内容</li>
-<li>反向代理<ul>
-<li>负载均衡</li>
-<li>后端路由<ul>
-<li>eg：如果后端unhealthy的时候，可以做一些其他的事情，比如说使用其他的后端服务</li>
+                <h1 id="Vue小白上手"><a href="#Vue小白上手" class="headerlink" title="Vue小白上手"></a>Vue小白上手</h1><h2 id="pre-perparation"><a href="#pre-perparation" class="headerlink" title="pre-perparation"></a>pre-perparation</h2><ul>
+<li>你需要准备node环境，<code>brew install npm</code></li>
+<li>你需要安装vue client, <code>npm install -g @vue/cli</code></li>
+<li>你还可以直接使用下列命令初始化vue项目，<code>npm init vue@latest</code><ul>
+<li>项目初始完成之后，进入到你的项目中<code>cd &lt;your project name&gt;</code></li>
+<li>安装依赖，<code>npm install</code></li>
+<li>运行项目，<code>npm run dev</code>，这个dev命令是在当前项目的<code>package.json</code>文件夹下定义的一些<code>vue-cli-service</code>命令的alias</li>
 </ul>
 </li>
-<li>缓存（caching）<ul>
-<li>减少和后端的一些的重复的调用</li>
+<li>完成了上述步骤，一个最基本的vue项目已经初始化好了</li>
+</ul>
+<h2 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h2><ul>
+<li>vue是基于组件化开发的一种前端框架，利用这种分离的方式使得前端业务得以解耦，每一个单体组件都被封装在一个<code>.vue</code>的文件中，只需要在用的地方加以引用便可以实现重复利用</li>
+</ul>
+<h3 id="加载app"><a href="#加载app" class="headerlink" title="加载app"></a>加载app</h3><ul>
+<li>定义一个<code>main.js</code>，这个类似于一个main函数入口，这个即被当做是当前vue项目的入口，在其中做出如下的定义：<ul>
+<li><p>在当前目录下定义一个<code>App.vue</code>文件，在其中定义布局，引用模块，在main.js中引用，然后再挂载<code>mount(&#39;#app&#39;)</code>，使用<code>#app</code>就是使用了css的元素选择器</p>
+<div class="highlight-container" data-rel="Js"><figure class="iseeu highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createApp &#125; <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span></span><br><span class="line"><span class="comment">// 从一个单文件组件中导入根组件</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">App</span> <span class="keyword">from</span> <span class="string">&#x27;./App.vue&#x27;</span></span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">createApp</span>(<span class="title class_">App</span>)</span><br><span class="line">app.<span class="title function_">mount</span>(<span class="string">&#x27;#app&#x27;</span>)</span><br></pre></td></tr></table></figure></div></li>
 </ul>
 </li>
-<li>网管API<ul>
-<li>限制请求</li>
-<li>路由匹配 （根据API版本来路由匹配）</li>
 </ul>
-</li>
-</ul>
-</li>
-</ul>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://user-images.githubusercontent.com/6279298/159614434-20698a4f-4a61-4c3d-9281-a0ea8c63e4aa.jpg"
-                      alt="nginx 架构图"
-                ></p>
+<h3 id="文本替换"><a href="#文本替换" class="headerlink" title="文本替换"></a>文本替换</h3><ul>
+<li><p>使用模板语法赋值，<code>&#123;&#123;template field&#125;&#125;</code>，举个例子，<code>&lt;span&gt;Message: &#123;&#123; msg &#125;&#125;&lt;/span&gt;</code>当前的msg可以被定义在如下的代码中</p>
 <ul>
-<li>timeout in nginx<ul>
-<li>frontend timeouts (用户向nginx请求是发生的timeout)<ul>
-<li>client_header （读取用户https<strong>请求头部</strong>的timeout，默认60s）</li>
-<li>client_body</li>
-<li>send （默认60s，传输时间太长，导致超时，关闭链接）</li>
-<li>keepalive （默认75s，不会让idle的链接一直空闲在那里，eg：如果一个链接太久不用了，就会被关闭）</li>
-<li>lingering （用户可以发送请求，但是Nginx不会给回response，一直等待，网络超时，链接关闭）</li>
-<li>resolver （DNS域名解析超时，默认30s</li>
-</ul>
+<li><p>在<code>&lt;script&gt;&lt;/script&gt;</code>代码块中定义如下的声明，在html被渲染的时候将会进行替换，除了声明简单的文本，在Mustache中还可以定义一些表达式，<strong>请注意</strong>一定是表达式</p>
+<div class="highlight-container" data-rel="Js"><figure class="iseeu highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="title function_">data</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      <span class="attr">msg</span>: <span class="string">&quot;default value&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
 </li>
-<li>backend timeout<ul>
-<li>proxy_connect (NGINX和backend链接时，会有healthcheck，检查这个backend service是否正常工作，尽可能把这个设置的小，一般来说，<strong>不要超过75s</strong>)</li>
-<li>proxy_send （定义为两次连续的写操作之间的时间，接下来的是content超过了设置的时间没有发送给backend，这样nginx到backend的链接就会超时，关闭）<ul>
-<li>可以释放当前链接，以供其他的client建立链接</li>
-</ul>
-</li>
-<li>proxy_read （和写超时相反，nginx读后端返回数据时超时, 返回数据的时间太慢，proxy nginx将会关闭链接，有利于节约链接时长）</li>
-<li>proxy_next_upstream （默认0s，一般设置在4-5s左右，不需要太长的时候去决定使用哪一个上游服务）</li>
-<li>keepalive （减少空闲时间，如果太长时间没有数据的传输，关闭链接，一般设置为60s</li>
+<li><p>Mustache的替换模式只能用来替换某个元素的值，如果想要替换html的属性的值，这里可以使用attribute，<code>v-bind</code>, <code>v-if</code>, <code>v-for</code>等等</p>
+<ul>
+<li><p>举个🌰：<code>&lt;input v-bind:id=&quot;someId&quot;&gt;&lt;/input&gt;</code>，因为v-bind使用的频率很高还可以用<code>&lt;input :id=&quot;someId&quot;&gt;&lt;/input&gt;</code>代替，其中的someId就可以使用以下的方式赋值:</p>
+<div class="highlight-container" data-rel="Js"><figure class="iseeu highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="title function_">data</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      <span class="attr">someId</span>: <span class="string">&quot;default value&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></li>
 </ul>
 </li>
 </ul>
 </li>
-<li>nginx 4 layer or 7 layer Load balancing<ul>
-<li>layer 4&#x2F;7都是参考 OSI model，主要操作TCP&#x2F;Ip或者application</li>
-<li>layer 4 -&gt; TCP&#x2F;IP，当Nginx不用关心具体的协议时，这时Nginx可以用作第四层的代理（操作流）</li>
-<li>layer 7 -&gt; application，当NGINX需要转发后端的链接或者获取一些cache，或者向http的头部中添加信息，这时Nginx可以被用作是应用层的代理（操作内容）</li>
+<li><p>计算值的方式</p>
+<ul>
+<li>计算属性缓存，使用compute属性，计算属性值会基于其响应式依赖被缓存。一个计算属性仅会在其响应式依赖更新时才重新计算</li>
+<li>方法，使用method属性，方法调用总是会在重渲染发生时再次执行函数</li>
 </ul>
 </li>
-<li>TLS(Transport layer security，一种E2E的加密协议，比如说我们知道的对称密钥加密，<strong>协议只能保证数据在传输过程中不被监听或者篡改</strong>) Termination vs. TLS passThrough<ul>
-<li><strong>Termination</strong>就是在请求传输到Nginx的时候，Nginx会做解密操作，然后在转发到后端的接口（Nginx为https，BE为http，在cloud中不需要加密，服务之间可以直接通信），如果Nginx和BE都是https，那么Nginx在转发数据时，就需要先解密然后在加密（TLS origination），<strong>这两种模式的应用场景是啥?</strong></li>
-<li><strong>passThrough</strong>，不信任Nginx，不对数据做任何操作，只有TCP层的检查，检查，resource IP&amp;port，destination IP&amp;port，NGINX不知道传输的内容，这样可能更加的安全，Nginx在这种模式中就是充当一个隧道的作用，不好的地方，每一个http call都需要建立一个tunnel，这样会造成比较大的花销</li>
+</ul>
+<h3 id="基础事件支持"><a href="#基础事件支持" class="headerlink" title="基础事件支持"></a>基础事件支持</h3><ul>
+<li>类型<ul>
+<li><p>内联式，适用于比较简单的场景，直接把计算逻辑放在事件后面，🌰：html代码</p>
+<div class="highlight-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">onclick</span>=<span class="string">&quot;count++&quot;</span>&gt;</span>OK<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;&#123;count&#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="title function_">data</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">      <span class="keyword">return</span> &#123;</span></span><br><span class="line"><span class="language-javascript">        count : <span class="number">0</span></span></span><br><span class="line"><span class="language-javascript">      &#125;</span></span><br><span class="line"><span class="language-javascript">    &#125;</span></span><br><span class="line"><span class="language-javascript">  &#125;</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>方法式，将复杂的逻辑提取到method属性中，使用的时候，直接调用方法名即可</p>
+</li>
 </ul>
 </li>
-<li>NGINX internal architecture<ul>
-<li>NGINX会根据服务器的硬件CPU核心数来设置worker processor，比如说当前电脑的核心数是2 cores，那么worker processors将会被设置为4个（hyper threading disable，那么processor和核心数将会只有一一对应，这个设置取决于你电脑的配置），worker processor加解密数据，路由转发等等。</li>
-<li>kernel TLS ktls</li>
-<li>Question：每个processor是如何分配的，如果当前的processor都被占用了，如何等待？</li>
+<li>vue支持的事件，可以参考 <a class="link"   target="_blank" rel="noopener" href="https://cn.vuejs.org/guide/essentials/event-handling.html" >官方文档 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
 </ul>
+<h3 id="表单事件绑定"><a href="#表单事件绑定" class="headerlink" title="表单事件绑定"></a>表单事件绑定</h3><ul>
+<li>直接使用<code>v-model</code>，实现双向绑定，支持所有的表单属性，当有对应的事件发生的时候，将会改变绑定对象的值</li>
+</ul>
+<h3 id="组件之间传值"><a href="#组件之间传值" class="headerlink" title="组件之间传值"></a>组件之间传值</h3><ul>
+<li><p>在父组件中使用子组件的属性传值，以下是父组件的例子</p>
+<div class="highlight-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ChatChannel</span> <span class="attr">:childComponent</span>=<span class="string">&quot;selected&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">export</span> <span class="title function_">default</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="title function_">data</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">      <span class="keyword">return</span> &#123;</span></span><br><span class="line"><span class="language-javascript">        <span class="attr">selected</span>: <span class="string">&quot;default value&quot;</span></span></span><br><span class="line"><span class="language-javascript">      &#125;</span></span><br><span class="line"><span class="language-javascript">    &#125;</span></span><br><span class="line"><span class="language-javascript">  &#125;</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
 </li>
+<li><p>在子组件定义props接收父组件的传值，并使用它</p>
+<div class="highlight-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">export</span> <span class="title function_">default</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">props</span>: &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">childComponent</span>: &#123;</span></span><br><span class="line"><span class="language-javascript">        <span class="attr">type</span>: <span class="title class_">String</span>,</span></span><br><span class="line"><span class="language-javascript">        <span class="attr">required</span>: <span class="literal">true</span></span></span><br><span class="line"><span class="language-javascript">      &#125;</span></span><br><span class="line"><span class="language-javascript">    &#125;,</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">method</span>: &#123;</span></span><br><span class="line"><span class="language-javascript">      <span class="title function_">showChildComponent</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">        <span class="title function_">alert</span>(<span class="variable language_">this</span>.<span class="property">childComponent</span>)</span></span><br><span class="line"><span class="language-javascript">      &#125;</span></span><br><span class="line"><span class="language-javascript">    &#125;</span></span><br><span class="line"><span class="language-javascript">  &#125;</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span>  </span><br></pre></td></tr></table></figure></div></li>
 </ul>
 
             </div>
@@ -499,11 +488,11 @@
                 <div class="post-copyright-info">
                     <div class="article-copyright-info-container">
     <ul>
-        <li>Post title：Nginx基础概念</li>
+        <li>Post title：作为后端dev我，第一次学习Vue</li>
         <li>Post author：Zengqiang</li>
-        <li>Create time：2023-03-22 12:25:07</li>
+        <li>Create time：2023-03-31 17:31:20</li>
         <li>
-            Post link：https://fdslk.github.io/tech/ops/proxy/2023/03/22/ops-nginx/
+            Post link：https://fdslk.github.io/tech/vue/2023/03/31/quick-start-vue/
         </li>
         <li>
             Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
@@ -518,7 +507,7 @@
                 <ul class="post-tags-box">
                     
                         <li class="tag-item">
-                            <a href="/tags/nginx/">#nginx</a>&nbsp;
+                            <a href="/tags/vue/">#vue</a>&nbsp;
                         </li>
                     
                 </ul>
@@ -532,13 +521,13 @@
                         <div class="article-prev">
                             <a class="prev"
                             rel="prev"
-                            href="/tech/vue/2023/03/31/quick-start-vue/"
+                            href="/tech/golang/chatgpt/2023/04/14/command-chatpgt-init/"
                             >
                                 <span class="left arrow-icon flex-center">
                                     <i class="fa-solid fa-chevron-left"></i>
                                 </span>
                                 <span class="title flex-center">
-                                    <span class="post-nav-title-item">作为后端dev我，第一次学习Vue</span>
+                                    <span class="post-nav-title-item">命令行中的chatgpt</span>
                                     <span class="post-nav-item">Prev posts</span>
                                 </span>
                             </a>
@@ -548,10 +537,10 @@
                         <div class="article-next">
                             <a class="next"
                             rel="next"
-                            href="/tech/shell/2023/03/16/shell-101/"
+                            href="/tech/ops/proxy/2023/03/22/ops-nginx/"
                             >
                                 <span class="title flex-center">
-                                    <span class="post-nav-title-item">shell script语法</span>
+                                    <span class="post-nav-title-item">Nginx基础概念</span>
                                     <span class="post-nav-item">Next posts</span>
                                 </span>
                                 <span class="right arrow-icon flex-center">
@@ -572,8 +561,8 @@
                 <div class="post-toc-wrap">
     <div class="post-toc">
         <div class="toc-title">On this page</div>
-        <div class="page-title">Nginx基础概念</div>
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Nginx%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5"><span class="nav-text">Nginx基础概念</span></a></li></ol>
+        <div class="page-title">作为后端dev我，第一次学习Vue</div>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Vue%E5%B0%8F%E7%99%BD%E4%B8%8A%E6%89%8B"><span class="nav-text">Vue小白上手</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#pre-perparation"><span class="nav-text">pre-perparation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95"><span class="nav-text">基础语法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E8%BD%BDapp"><span class="nav-text">加载app</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E6%9C%AC%E6%9B%BF%E6%8D%A2"><span class="nav-text">文本替换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E4%BA%8B%E4%BB%B6%E6%94%AF%E6%8C%81"><span class="nav-text">基础事件支持</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A8%E5%8D%95%E4%BA%8B%E4%BB%B6%E7%BB%91%E5%AE%9A"><span class="nav-text">表单事件绑定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%84%E4%BB%B6%E4%B9%8B%E9%97%B4%E4%BC%A0%E5%80%BC"><span class="nav-text">组件之间传值</span></a></li></ol></li></ol></li></ol>
 
     </div>
 </div>
