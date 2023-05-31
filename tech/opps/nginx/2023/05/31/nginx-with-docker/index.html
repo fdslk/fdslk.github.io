@@ -9,18 +9,18 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-redefine.png">
     <!--- Seo Part-->
     
-    <link rel="canonical" href="http://fdslk.github.io/tech/java/filter/2023/04/27/little-stuffs-in-spring-filter/"/>
+    <link rel="canonical" href="http://fdslk.github.io/tech/opps/nginx/2023/05/31/nginx-with-docker/"/>
     <meta name="robots" content="index,follow">
     <meta name="googlebot" content="index,follow">
     <meta name="revisit-after" content="1 days">
     <meta property="og:type" content="article">
-    <meta property="og:title" content="如何获取request中的header的信息，并处理一些逻辑">
+    <meta property="og:title" content="Nginx在docker中的网络以及如何在OSI的应用层和传输层的load balance">
     <meta property="og:description" content="record daily works and life">
-    <meta property="og:url" content="http://fdslk.github.iotech/java/filter/2023/04/27/little-stuffs-in-spring-filter/">
+    <meta property="og:url" content="http://fdslk.github.iotech/opps/nginx/2023/05/31/nginx-with-docker/">
     <meta property="og:image" content="/images/cat.png">
     <meta property="og:site_name" content="Qiang Brother Blogs">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="如何获取request中的header的信息，并处理一些逻辑">
+    <meta name="twitter:title" content="Nginx在docker中的网络以及如何在OSI的应用层和传输层的load balance">
     <meta name="twitter:description" content="record daily works and life">
     <meta name="twitter:image" content="/images/cat.png">
     <!--- Icon Part-->
@@ -31,7 +31,7 @@
     
     <title>
         
-            如何获取request中的header的信息，并处理一些逻辑 -
+            Nginx在docker中的网络以及如何在OSI的应用层和传输层的load balance -
         
         Qiang Brother Blogs
     </title>
@@ -338,7 +338,7 @@
             
             
                 <div class="article-title">
-                    <h1 class="article-title-regular">如何获取request中的header的信息，并处理一些逻辑</h1>
+                    <h1 class="article-title-regular">Nginx在docker中的网络以及如何在OSI的应用层和传输层的load balance</h1>
                 </div>
             
                 
@@ -360,15 +360,15 @@
                             <div class="article-meta-info">
     <span class="article-date article-meta-item">
         <i class="fa-regular fa-pen-fancy"></i>&nbsp;
-        <span class="pc">2023-04-27 18:42:49</span>
-        <span class="mobile">2023-04-27 18:42</span>
+        <span class="pc">2023-05-31 09:24:54</span>
+        <span class="mobile">2023-05-31 09:24</span>
         <span class="hover-info">Created</span>
     </span>
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="pc">2023-04-28 16:27:37</span>
-            <span class="mobile">2023-04-28 16:27</span>
+            <span class="pc">2023-05-31 09:24:54</span>
+            <span class="mobile">2023-05-31 09:24</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -383,11 +383,11 @@
                     </li>
                 
                     <li>
-                        &gt; <a href="/categories/tech/java/">java</a>&nbsp;
+                        &gt; <a href="/categories/tech/opps/">opps</a>&nbsp;
                     </li>
                 
                     <li>
-                        &gt; <a href="/categories/tech/java/filter/">filter</a>&nbsp;
+                        &gt; <a href="/categories/tech/opps/nginx/">nginx</a>&nbsp;
                     </li>
                 
             </ul>
@@ -399,11 +399,15 @@
             <ul>
                 
                     <li>
-                        <a href="/tags/java/">java</a>&nbsp;
+                        <a href="/tags/nginx/">nginx</a>&nbsp;
                     </li>
                 
                     <li>
-                        | <a href="/tags/filter/">filter</a>&nbsp;
+                        | <a href="/tags/docker-network/">docker network</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/load-balance/">load balance</a>&nbsp;
                     </li>
                 
             </ul>
@@ -426,47 +430,99 @@
             
 
             <div class="article-content markdown-body">
-                <h2 id="实现方式"><a href="#实现方式" class="headerlink" title="实现方式"></a>实现方式</h2><ul>
-<li><p>参考文章 <a class="link"   target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000025152370" >SpringBoot 中使用 Filter 的正确姿势 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>，在这篇文章中解释很多种在spring-boot中实现filter的方式。我们在项目中使用的是可以去掉<code>url</code>区分的影响，所以我们使用<code>@Component</code>注解方式来实现DI，同时还可以使用<code>@Configuration</code>和<code>@Bean</code>的方式来实现DI。</p>
+                <h1 id="Nginx-with-Docker"><a href="#Nginx-with-Docker" class="headerlink" title="Nginx with Docker"></a>Nginx with Docker</h1><h2 id="How-to-Run-it-in-docker"><a href="#How-to-Run-it-in-docker" class="headerlink" title="How to Run it in docker"></a>How to Run it in docker</h2><ul>
+<li>docker cmd run docker image <code>docker run --name &lt;container name&gt; -p 80:80 --hostname &lt;hostname&gt; -d nginx</code><ul>
+<li>其中hostname是方便docker内部的容器之间的通信，如果不设置会有默认值</li>
+<li>本地Nginx遇到问题<code>nginx: [error] open() &quot;/usr/local/var/run/nginx.pid&quot; failed (2: No such file or directory)</code>，先运行<code>nginx -c /usr/local/etc/nginx/nginx.conf</code>指定好你的Nginx的配置的目录，然后重新reload即可</li>
+<li>使用minikube挂载docker VM启动docker时，需要使用minikube的ip+暴露的端口号来访问对应的服务，获取minikube的ip可以运行<code>minikube ip</code>，现在有一个问题，当我改变映射端口号为非80端口是，容器无法从外部访问，<strong>why?</strong></li>
+<li>minikube如何做volume，run <code>minikube mount &lt;path you want to mount&gt;:/&lt;path in the minikube&gt;</code>，然后再使用docker run启动容器，再把挂载在minikube中的volume挂载到docker容器中，<strong>但是</strong>，minikube mount的那个session需要一直打开<ul>
+<li>有什么替代方案？</li>
+</ul>
 </li>
-<li><p>实现步骤：</p>
+</ul>
+</li>
+<li>如何在docker中使用NGINX代理不同的app<ul>
+<li>使用IPTABLE</li>
+<li>只有一个Nginx暴露<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/6279298/233533679-5e7a2ce8-3672-4ba1-afad-77c58c0ec574.png"
+                      alt="image"
+                ><ul>
+<li><p>创建一个新的<code>nginx.conf</code>文件，启动docker的时候将会覆盖default文件，在<code>conf</code>中定义一个server，使用<code>proxy_pass</code>设置其转发地址</p>
+<div class="highlight-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 8080;</span><br><span class="line">    server_name localhost;</span><br><span class="line">    location / &#123;</span><br><span class="line">        proxy_pass http://nodebackend/;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>在定义一个upstream对象，其中放置的是集群的地址，放置多个地址时可以使用负载均衡算法</p>
+<div class="highlight-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">upstream nodebackend &#123;</span><br><span class="line"></span><br><span class="line">    server nodeapp1:8080;</span><br><span class="line">    server nodeapp2:8080;</span><br><span class="line">    server nodeapp3:8080;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>配置好NGINX的代理之后，就可以使用docker run命令把Nginx镜像run起来，然后再使用<code>-v</code>option，将本地的<code>nginx.conf</code>挂载到容器中<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/6279298/233530119-38cf490f-b52f-48e5-9c18-892a6909de80.png"
+                      alt="error in nginx container"
+                ></p>
 <ul>
-<li><p>所有自定义的filter都是需要实现<code>javax.servlet.Filter</code>，以下的例子是自定义一个记录日志的filter</p>
-<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> javax.servlet.Filter;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LoggingFilter</span> <span class="keyword">implements</span> <span class="title class_">Filter</span> &#123;</span><br><span class="line">    <span class="comment">//xxxxx        </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>将当前的自定义的filter注入到spring-boot容器</p>
-<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ConfigurationBeans</span> &#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> LoggingFilter <span class="title function_">loggingFilter</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">LoggingFilter</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></li>
+<li>出现上述原因是因为，NGINX和其他三个容器没有在同一个network中，所以我们需要创建一个网络，然后把nginx和其余的node app放到同一个network中，他们之间就可以相互通信，run<code>docker network create &lt;network name&gt;</code>，然后在run<code>docker network connect &lt;network name&gt; &lt;your app&gt;</code></li>
+<li>重启nginx容器<code>docker start nginx</code></li>
+<li><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/6279298/233533239-0b94f946-97d2-4d3a-a2fc-17724f0a5428.gif"
+                      alt="nginx will pass through the traffic"
+                ></li>
 </ul>
 </li>
 </ul>
-<h2 id="遇到的新问题，需要检查request中是否有trace-log-id，如果没有即需要添加一个新的"><a href="#遇到的新问题，需要检查request中是否有trace-log-id，如果没有即需要添加一个新的" class="headerlink" title="遇到的新问题，需要检查request中是否有trace-log-id，如果没有即需要添加一个新的"></a>遇到的新问题，需要检查request中是否有trace-log-id，如果没有即需要添加一个新的</h2><ul>
-<li>参考了一篇文章，<a class="link"   target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000020786961" >Java Web 中对 ServletRequest 的一些非常规操作解决方案 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>，确认了<code>ServletRequest</code>无法修改，只能是一个只读对象，需要使用<code>HttpServletRequestWrapper</code>封装才能修改，需要这里我们需要创建一个新的对象来继承<code>HttpServletRequestWrapper</code>。</li>
+</li>
+<li>多个Nginx暴露，并且Nginx之间还会相互指向</li>
 </ul>
-<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">  <span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">FilterRequest</span> <span class="keyword">extends</span> <span class="title class_">HttpServletRequestWrapper</span> &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> Map headerMap;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">FilterRequest</span><span class="params">(HttpServletRequest request)</span> &#123;</span><br><span class="line">      <span class="built_in">super</span>(request);</span><br><span class="line">      <span class="built_in">this</span>.headerMap = <span class="keyword">new</span> <span class="title class_">HashMap</span>();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addHeader</span><span class="params">(String name, String value)</span>&#123;</span><br><span class="line">      headerMap.put(name, value);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> String <span class="title function_">getHeader</span><span class="params">(String name)</span> &#123;</span><br><span class="line">      Object value;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span>((value = headerMap.get(<span class="string">&quot;&quot;</span>+name)) != <span class="literal">null</span>) &#123;</span><br><span class="line">          <span class="keyword">return</span> value.toString();</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="keyword">return</span> ((HttpServletRequest)getRequest()).getHeader(name);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-
-<ul>
-<li>第二步，我们需要在controller中使用注解<code>@RequestHeader</code>获取header中获取<code>customId</code>，按照文章提到的filter是在request到达Controller前处理，那么即使没有在request中带上头部，<code>loggingFilter</code>也会给当前的request添加一个新的<code>customId</code>。但是实际上没有，如下图所示没有获取到。<br><img  
+</li>
+</ul>
+<h2 id="docker-network"><a href="#docker-network" class="headerlink" title="docker network"></a>docker network</h2><ul>
+<li>network类型，bridge（docker default network），在容器内部如果没有特殊的设置是无法使用hostname来完成相互之间的访问，因为当使用hostname来访问服务时，会先去容器外面的DNS服务器查询对应hostname的ip，但是容器内部的hostname只是我们自定义的名称，在DNS服务器上是不可知的，所以访问不到，如果没有指定的话，只能使用ip互相通信<ul>
+<li>在 Docker 默认的 bridge 网络中，每个容器都被分配了一个 IP 地址，并且 Docker 引擎会在内部维护一个名为 docker0 的虚拟网桥，所有连接到 bridge 网络的容器都会加入到这个网桥中。由于 docker0 网桥中没有 DNS 服务或其他类似服务来维护容器名称和 IP 地址之间的映射关系，因此不能直接使用容器名称进行通信，而只能使用 IP 地址</li>
+<li>查看当前网络中的容器的ip，run <code>docker inspect network bridge</code></li>
+<li>创建一个带子网的网络，run<code>docker network &lt;network name&gt; --subnet &lt;ip/24&gt;</code></li>
+<li>将容器和创建的网络关联，run<code>docker network connect &lt;network name&gt; &lt;container name&gt;</code></li>
+</ul>
+</li>
+<li>不同子网之间的容器的通信<ul>
+<li>这么做的原因可以做的保护自己的业务服务，所以可以把Nginx和其他的后端或者DB隔离开，如果要使两个隔离的network之间相互通信。</li>
+<li>需要添加一个<code>gateway</code>，run<code>docker run --name gw --network snetwork -d myhttpd</code>, 用这个gateway来连接两个不同的网络。</li>
+<li>创建好了之后再把另外的网络关联起来，run <code>docker network connect &lt;another network name&gt; gw</code>这样，gw就可以访问两个隔离网络</li>
+<li>重启每个网络中的容器，并且设定网络，以及赋予该容器较大的权限使用<code>--cap-add=NET_ADMIN</code>，run <code>docker run --name &lt;container name&gt; -d --network &lt;network name&gt; --cap-add=NET_ADMIN -d myhttpd</code></li>
+<li>添加需要通信容器的两个路由，run<code>ip route add &lt;destination&gt; via &lt;gateway&gt;</code>，<strong>这里要注意每个服务都需要添加上述命令，因为每个容器也需要知道它自己能访问谁，另外一个服务接受到请求时要知道给谁反应（response）</strong>，这个也可以添加脚本在dockerfile中来避免每次的手动操作，如果下述图片不够清楚，<a class="link"   target="_blank" rel="noopener" href="https://user-images.githubusercontent.com/6279298/233882839-15d27709-3bc0-45dc-9370-06c53117ee4d.png" >原图 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a><br><img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="https://user-images.githubusercontent.com/6279298/234817061-c7aebc31-0f06-4f4c-93bc-d014c1d1e7a8.png"
-                      alt="image"
-                ><br><strong>这是为什么呢？</strong></li>
-<li>我们把注解<code>@RequestHeader</code>的源码下载下来，filter确实已经替换了原始的request，并且也把新的request传到了controller中<br><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://user-images.githubusercontent.com/6279298/234818601-6dbee3b5-77ec-465f-ab28-720cd28724c0.png"
-                      alt="image"
-                ><br>我们继续看了一下注解的实现，发现了原来<code>@RequestHeader</code>的注解使用的方法，我没有实现，<br><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://user-images.githubusercontent.com/6279298/234821067-8ccef930-7bb4-4372-96fc-1ecec0129d08.png"
-                      alt="image"
-                ><br>所以我做了如下的重构，重写了<code>getHeaders()</code>而不是<code>getHeader()</code>，上述过程中几个类的调用关系，如下图所示：<br><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://user-images.githubusercontent.com/6279298/234838931-389d475f-3f30-48ec-bf24-f54b5ca8f4a6.png"
+                     data-src="https://user-images.githubusercontent.com/6279298/233882839-15d27709-3bc0-45dc-9370-06c53117ee4d.png"
                       alt="image"
                 ></li>
+</ul>
+</li>
+</ul>
+<h2 id="Nginx在OSI-model中作为不同层的反向代理"><a href="#Nginx在OSI-model中作为不同层的反向代理" class="headerlink" title="Nginx在OSI model中作为不同层的反向代理"></a>Nginx在OSI model中作为不同层的反向代理</h2><h3 id="server-web"><a href="#server-web" class="headerlink" title="server web"></a>server web</h3><ul>
+<li>将Nginx服务作为一个静态代理服务器，用来管理一些静态资源，这些资源不会跟随业务而频繁变化。🌰，html中的css，js文件等。这里有一点需要注意，不同用户起的Nginx服务对于root的访问权限也是不一样的，🌰，使用<code>homebrew</code>安装的nginx无法使用<code>Users</code>目录底下的文件，只能放在nginx的default文件夹下新建其他的folder<ul>
+<li>使用<ul>
+<li>路由转发 <code>proxy_pass</code></li>
+<li>路由控制 <code>location xxxx &#123;&#125;</code>，其中<code>xxx</code>既可以是某个路径，也可以是一个regex</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="layer7-（http-level）"><a href="#layer7-（http-level）" class="headerlink" title="layer7 （http level）"></a>layer7 （http level）</h3><ul>
+<li><p>配置都放在http中 <code>http &#123; upstream xxx server xxx &#125;</code>，这样控制的就是应用层的load balance</p>
+<div class="highlight-container" data-rel="Nginx"><figure class="iseeu highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">  <span class="section">http</span> &#123;</span><br><span class="line">    <span class="section">server</span> &#123;</span><br><span class="line">        <span class="attribute">listen</span> <span class="number">8080</span>;</span><br><span class="line">    <span class="attribute">root</span> /usr/local/var/test;</span><br><span class="line">    <span class="section">location</span> <span class="regexp">~ .jpg$</span> &#123;</span><br><span class="line">          <span class="attribute">return</span> <span class="number">403</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">    <span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">8888</span>;</span><br><span class="line">    <span class="section">location</span> / &#123;</span><br><span class="line">          <span class="attribute">proxy_pass</span> http://localhost:8080;</span><br><span class="line">    &#125;</span><br><span class="line">      <span class="section">location</span> /img &#123;</span><br><span class="line">            <span class="attribute">proxy_pass</span> http://localhost:8080/images;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="section">events</span> &#123; &#125; </span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>负载均衡</p>
+<ul>
+<li>配置upstream，当用户访问某个资源的时候，将会通过算法(<code>round-robin</code>)自动分给不同的upstream</li>
+<li>在upstream添加<code>ip_hash</code>，用来保证同一个ip的用户永远都是访问同一个upstream，这样可以避免upstream中的多个服务cache同一个用户的相关资源</li>
+</ul>
+</li>
+</ul>
+<h3 id="layer4"><a href="#layer4" class="headerlink" title="layer4"></a>layer4</h3><ul>
+<li>最外层是<code>stream</code>，直接把流传递给后端，所有不会关心前端是什么协议，这里要注意的就是，使用stream时，只会建立一次tcp通信，所以如果请求是从浏览器发起的，那么之后的所有请求都是请求的同一个后端服务</li>
 </ul>
 
             </div>
@@ -475,11 +531,11 @@
                 <div class="post-copyright-info">
                     <div class="article-copyright-info-container">
     <ul>
-        <li>Post title：如何获取request中的header的信息，并处理一些逻辑</li>
+        <li>Post title：Nginx在docker中的网络以及如何在OSI的应用层和传输层的load balance</li>
         <li>Post author：Zengqiang</li>
-        <li>Create time：2023-04-27 18:42:49</li>
+        <li>Create time：2023-05-31 09:24:54</li>
         <li>
-            Post link：https://fdslk.github.io/tech/java/filter/2023/04/27/little-stuffs-in-spring-filter/
+            Post link：https://fdslk.github.io/tech/opps/nginx/2023/05/31/nginx-with-docker/
         </li>
         <li>
             Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
@@ -494,11 +550,15 @@
                 <ul class="post-tags-box">
                     
                         <li class="tag-item">
-                            <a href="/tags/java/">#java</a>&nbsp;
+                            <a href="/tags/nginx/">#nginx</a>&nbsp;
                         </li>
                     
                         <li class="tag-item">
-                            <a href="/tags/filter/">#filter</a>&nbsp;
+                            <a href="/tags/docker-network/">#docker network</a>&nbsp;
+                        </li>
+                    
+                        <li class="tag-item">
+                            <a href="/tags/load-balance/">#load balance</a>&nbsp;
                         </li>
                     
                 </ul>
@@ -509,29 +569,14 @@
             
                 <div class="article-nav">
                     
-                        <div class="article-prev">
-                            <a class="prev"
-                            rel="prev"
-                            href="/tech/opps/nginx/2023/05/31/nginx-with-docker/"
-                            >
-                                <span class="left arrow-icon flex-center">
-                                    <i class="fa-solid fa-chevron-left"></i>
-                                </span>
-                                <span class="title flex-center">
-                                    <span class="post-nav-title-item">Nginx在docker中的网络以及如何在OSI的应用层和传输层的load balance</span>
-                                    <span class="post-nav-item">Prev posts</span>
-                                </span>
-                            </a>
-                        </div>
-                    
                     
                         <div class="article-next">
                             <a class="next"
                             rel="next"
-                            href="/tech/golang/chatgpt/2023/04/14/command-chatpgt-init/"
+                            href="/tech/java/filter/2023/04/27/little-stuffs-in-spring-filter/"
                             >
                                 <span class="title flex-center">
-                                    <span class="post-nav-title-item">命令行中的chatgpt</span>
+                                    <span class="post-nav-title-item">如何获取request中的header的信息，并处理一些逻辑</span>
                                     <span class="post-nav-item">Next posts</span>
                                 </span>
                                 <span class="right arrow-icon flex-center">
@@ -552,8 +597,8 @@
                 <div class="post-toc-wrap">
     <div class="post-toc">
         <div class="toc-title">On this page</div>
-        <div class="page-title">如何获取request中的header的信息，并处理一些逻辑</div>
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F"><span class="nav-text">实现方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%81%87%E5%88%B0%E7%9A%84%E6%96%B0%E9%97%AE%E9%A2%98%EF%BC%8C%E9%9C%80%E8%A6%81%E6%A3%80%E6%9F%A5request%E4%B8%AD%E6%98%AF%E5%90%A6%E6%9C%89trace-log-id%EF%BC%8C%E5%A6%82%E6%9E%9C%E6%B2%A1%E6%9C%89%E5%8D%B3%E9%9C%80%E8%A6%81%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84"><span class="nav-text">遇到的新问题，需要检查request中是否有trace-log-id，如果没有即需要添加一个新的</span></a></li></ol>
+        <div class="page-title">Nginx在docker中的网络以及如何在OSI的应用层和传输层的load balance</div>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Nginx-with-Docker"><span class="nav-text">Nginx with Docker</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#How-to-Run-it-in-docker"><span class="nav-text">How to Run it in docker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#docker-network"><span class="nav-text">docker network</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nginx%E5%9C%A8OSI-model%E4%B8%AD%E4%BD%9C%E4%B8%BA%E4%B8%8D%E5%90%8C%E5%B1%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86"><span class="nav-text">Nginx在OSI model中作为不同层的反向代理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#server-web"><span class="nav-text">server web</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#layer7-%EF%BC%88http-level%EF%BC%89"><span class="nav-text">layer7 （http level）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#layer4"><span class="nav-text">layer4</span></a></li></ol></li></ol></li></ol>
 
     </div>
 </div>
