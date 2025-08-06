@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="works &amp; life">
+    
+    <meta name="author" content="Xiao Qiang">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set data attribute for CSS variables
+                root.setAttribute("data-theme", theme);
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes once DOM is ready
+            if (document.readyState !== "loading") {
+                document.body.classList.add(theme + "-mode");
+            } else {
+                document.addEventListener("DOMContentLoaded", () => {
+                    document.body.classList.add(theme + "-mode");
+                    document.body.classList.remove((theme === DARK ? LIGHT : DARK) + "-mode");
+                });
+            }
+        })();
+    </script>
+    
+    <!-- Critical CSS to prevent flash -->
+    <style>
+        :root[data-theme="dark"] {
+            --background-color: #202124;
+            --background-color-transparent: rgba(32, 33, 36, 0.6);
+            --second-background-color: #2d2e32;
+            --third-background-color: #34353a;
+            --third-background-color-transparent: rgba(32, 33, 36, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #ffffff;
+            --second-text-color: #eeeeee;
+            --third-text-color: #bebec6;
+            --fourth-text-color: #999999;
+            --default-text-color: #bebec6;
+            --invert-text-color: #373D3F;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(255, 255, 255, 0.08);
+            --shadow-color-2: rgba(255, 255, 255, 0.05);
+        }
+        
+        :root[data-theme="light"] {
+            --background-color: #fff;
+            --background-color-transparent: rgba(255, 255, 255, 0.6);
+            --second-background-color: #f8f8f8;
+            --third-background-color: #f2f2f2;
+            --third-background-color-transparent: rgba(241, 241, 241, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #16171a;
+            --second-text-color: #2f3037;
+            --third-text-color: #5e5e5e;
+            --fourth-text-color: #eeeeee;
+            --default-text-color: #373D3F;
+            --invert-text-color: #bebec6;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(0, 0, 0, 0.08);
+            --shadow-color-2: rgba(0, 0, 0, 0.05);
+        }
+        
+        body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+        
+        /* Apply body classes as soon as DOM is ready */
+        :root[data-theme="dark"] body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+    </style>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="http://fdslk.github.io/uncategorized/2024/12/13/redisson-optimization/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+    
+        
+        <meta name="description" content="a free blog website for personal use.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redis optimization based on redisson">
+<meta property="og:url" content="http://fdslk.github.io/uncategorized/2024/12/13/redisson-optimization/index.html">
+<meta property="og:site_name" content="🪳的Daily Blog WebSite">
+<meta property="og:description" content="a free blog website for personal use.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://fdslk.github.io/images/redefine-og.webp">
+<meta property="article:published_time" content="2024-12-13T11:46:36.000Z">
+<meta property="article:modified_time" content="2025-08-06T07:16:17.550Z">
+<meta property="article:author" content="Zengqiang Fang">
+<meta property="article:tag" content="java,redis,redison">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://fdslk.github.io/images/redefine-og.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/redefine-favicon.svg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/redefine-favicon.svg">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/redefine-favicon.svg">
+    <!--- Page Info-->
+    
+    <title>
+        
+            redis optimization based on redisson | 🪳的Daily Blog WebSite
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"fdslk.github.io","root":"/","language":"en"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":true,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/redefine-og.webp","description":"a free blog website for personal use."},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"a free blog website for sharing daily works and life","subtitle":{"text":[],"hitokoto":{"enable":false,"show_author":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":{"github":"https://github.com/fdslk","instagram":null,"zhihu":null,"twitter":null,"email":"zqfangmaster@163.com"},"qrs":{"weixin":"/images/qrcode.jpg"}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1"}},"version":"2.8.5","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"About":{"icon":"fa-regular fa-user","submenus":{"Me":"/about","Github":"https://github.com/fdslk","Blog":"https://fdslk.github.io"}}},"search":{"enable":false,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":null},"article_date_format":"auto","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2022/8/17 11:45:14"};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+
+<body>
+	<div class="progress-bar-container">
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                🪳的Daily Blog WebSite
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/archives"
+                                        >
+                                    <i class="fa-regular fa-archive fa-fw"></i>
+                                    ARCHIVES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown"
+                                   href="#"
+                                        onClick=&#34;return false;&#34;>
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    ABOUT
+                                    <i class="fa-solid fa-chevron-down fa-fw"></i>
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                        
+                                            <li>
+                                                <a href="/about">
+                                                    ME
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a target="_blank" rel="noopener" href="https://github.com/fdslk">
+                                                    GITHUB
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="https://fdslk.github.io">
+                                                    BLOG
+                                                </a>
+                                            </li>
+                                        
+                                    </ul>
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/archives"
+                        >
+                            <span>
+                                ARCHIVES
+                            </span>
+                            
+                                <i class="fa-regular fa-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item-sub text-base my-1.5 flex flex-col w-full">
+                        
+                        <div class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary cursor-pointer text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                             navbar-data-toggle="submenu-About"
+                        >
+                            <span>
+                                ABOUT
+                            </span>
+                            
+                                <i class="fa-solid fa-chevron-right fa-sm fa-fw transition-all"></i>
+                            
+                        </div>
+                        
+
+                        
+                            <div class="flex-col items-start px-2 py-2 hidden" data-target="submenu-About">
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/about">ME</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           target="_blank" rel="noopener" href="https://github.com/fdslk">GITHUB</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="https://fdslk.github.io">BLOG</a>
+                                    </div>
+                                
+                            </div>
+                        
+                    </li>
+            
+
+            
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">63</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">53</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">48</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			<div class="w-full flex items-center pt-6 justify-start">
+				<h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">redis optimization based on redisson</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+				<img src="/images/redefine-avatar.svg">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">Xiao Qiang</span>
+					
+					<span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv4</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2024-12-13 19:46:36</span>
+        <span class="mobile">2024-12-13 19:46:36</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2025-08-06 15:16:17</span>
+            <span class="mobile">2025-08-06 15:16:17</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/java-redis-redison/">java,redis,redison</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>周一大早上过来，发现在客户在jira上新建了一个bug卡。点进去一看原来是一个performance的issue，配图是NR中监控到redis的cpu直接被拉满的metric<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://github.com/user-attachments/assets/a1249f68-737c-44fe-a786-f52674937d58"
+                      alt="memoryDB metrics"
+                >，这个问题应该困扰了团队很久。之前出现问题的时候，在staging中使用jmeter压测过很多次，都没有复现像生产上的问题。由于出现了几次，客户这次可能还是想找到根因吧。接着我早上接下了这张卡，开始了redis性能瓶颈的“调优之旅”。其中找到问题的过程还是挺有意思的，所以写下了这篇博客来分享给大家。不管怎么说还是要<code>&lt;span style=&#39;color:yellow&#39;&gt;</code>敬畏生产！！！希望能给到大家一些借鉴。</p>
+<h3 id="在调优之前收集到的线索"><a href="#在调优之前收集到的线索" class="headerlink" title="在调优之前收集到的线索"></a>在调优之前收集到的线索</h3><ul>
+<li><strong>线索一</strong>：app在NR上被采样到错误日志中的 <code>Caused by: org.redisson.client.RedisTimeoutException: Subscription timeout after 3000ms. Check network and/or increase &#39;timeout&#39; parameter.</code></li>
+<li><strong>线索二</strong>：app在NR上采集到的错误日志中的 <code>Unable to load value by key xxx for map xxx_map</code></li>
+<li><strong>线索三</strong>：memoryDB中的metric，当出现性能瓶颈的时候，redis的 <code>currConnection</code>到达了3.2k</li>
+<li><strong>线索四</strong>：NR错误日志中，stack_trace中显示了代码中出现报错的具体函数的行数</li>
+</ul>
+<h3 id="寻找问题之路"><a href="#寻找问题之路" class="headerlink" title="寻找问题之路"></a>寻找问题之路</h3><h4 id="出航"><a href="#出航" class="headerlink" title="出航"></a>出航</h4><p>因为之前没有参与到这部分业务的开发，想着如果要彻底解决这个问题应该要把这个功能涉及到的代码都撸一遍。看完代码之后给大家总结一下，当前功能主要想使用 <code>Redisson</code>中提供的 <code>LocalCacheMap</code>来实现本地缓存，从而防止redis被高频访问而击穿。并且在当前项目还是用了webflux这类基于reactor的NIO的web框架，将local Cache中的value还会缓存在每一个Mono的pipeline的context中，以此来减少对内存缓存的调用。<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://github.com/user-attachments/assets/9bb73f94-12bb-41b3-ac3c-d383283b78ba"
+                      alt="multiple cache"
+                >如上图所示，这里有这么多层保护，redis是怎么被击穿的啊，真叫人头大。根据最直观的<code>&lt;strong style=&#39;color:red&#39;&gt;</code>线索四<code>&lt;/strong&gt;</code>，我们直接看到的是给Redisson提供的 <code>MapLoader</code>接口实现类中一段加了分布式锁的代码。在充斥着reactor编程习惯的项目中，看见对Mono对象进行block操作，有了一个先入为主的<code>&lt;strong style=&#39;color:yellow&#39;&gt;</code>假想一<code>&lt;/strong&gt;</code>，<code>&lt;u&gt;</code>是不是因为这里有高并发，所有的线程都在抢这个锁的时候无法及时的释放资源，最终导致了死锁<code>&lt;/u&gt;</code>。所以这时我们继续追看源码，发现Redisson在做load操作的时候自身就已经加锁了，所以我们自己代码中🔐是不是多余了。基于这两个现象，我越来越肯定是这个🔐导致的问题。所以我们在这里做了一下四组实验：</p>
+<ul>
+<li>保持当前同步loader的实现和保留🔐，出现了异常 <code>Subscription timeout after 3000ms. Check network and/or increase &#39;timeout&#39; parameter</code></li>
+<li>保持当前同步loader的实现和去掉🔐，<code>&lt;span style=&#39;color:green&#39;&gt;</code>程序有时候会崩掉【大家在这里要留意一下这个，我当时没想太多】</li>
+<li>使用Redisson提供的MapLoaderAsync中异步loader的实现和保留🔐，也出现了异常 <code>Operator called default onErrorDropped, stacktrace: RedisTimeoutException: Command still hasn&#39;t been written into connection</code></li>
+<li>使用Redisson提供的MapLoaderAsync中异步loader的实现和去掉🔐，程序未出现问题<br>上述实验都是用本机开多线程得到的结果，我越来越觉得这个同步（block了mono的操作）以及多余的🔐是导致当前问题的关键。看到这个结果之后，我们在staging上部署<strong>实验四</strong>的代码并使用jmeter测试进行测试，测试的时候并没有看到错误日志。但是当时tps和rps并没有上去，所以一直以为是staging的压测能力不够【<code>&lt;span style=&#39;color:green&#39;&gt;</code>这个时候QA给了一个结论，你们要先提高系统的性能，压测的并发才能上去，当时并不能理解这段话】。这个时候给出了一个分析分档，认为主要原因是同步🔐以及重复影响了性能。</li>
+</ul>
+<h4 id="再次起航"><a href="#再次起航" class="headerlink" title="再次起航"></a>再次起航</h4><p>客户看了文档之后，他说会继续keep这个问题，并表示了感谢。在他check的过程中，我发现自己还是没有说服自己为啥这个同步🔐为啥会导致程序崩了，怀着这态度我继续探究了一番。并且让小伙伴在Mono的后面加上了一个doOnError之后再压测一次看看是否会出现错误，这次发现程序每次都进入了loader方法，也就是说local的缓存都没有命中。同时自己也做了一些本地的测试，将 <code>LocalCachedMapOptions</code>的storeMode设置成 <code>LOACLCACHE</code>，和生产app中保持一致。这个配置就是完全本地的存储，不会将数据存入redis。</p>
+<div class="code-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RedissonLocalCacheMapTests</span> &#123;  </span><br><span class="line">    <span class="keyword">private</span> RedissonReactiveClient redissonReactiveClient;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">private</span> LocalCachedMapOptions localCachedMapOptions;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">RedissonLocalCacheMapTests</span><span class="params">()</span> <span class="keyword">throws</span> IOException &#123;  </span><br><span class="line">        <span class="type">String</span> <span class="variable">filePath</span> <span class="operator">=</span> getClass().getClassLoader().getResource(<span class="string">&quot;config.yaml&quot;</span>).getPath();  </span><br><span class="line">        redissonReactiveClient = Redisson  </span><br><span class="line">                .create(Config.fromYAML(<span class="keyword">new</span> <span class="title class_">String</span>(Files.readAllBytes(Paths.get(filePath)))))  </span><br><span class="line">                .reactive();  </span><br><span class="line">        localCachedMapOptions = LocalCachedMapOptions  </span><br><span class="line">                .name(<span class="string">&quot;localCacheMap&quot;</span>)  </span><br><span class="line">.storeMode(LocalCachedMapOptions.StoreMode.LOCALCACHE)  </span><br><span class="line">                .cacheSize(<span class="number">100</span>)</span><br><span class="line">                .timeToLive(Duration.ofSeconds(<span class="number">10</span>))  </span><br><span class="line">                .loader(<span class="keyword">new</span> <span class="title class_">MyMapLoader</span>());  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="meta">@Test</span>  </span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">createLocalCacheMap</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException &#123;  </span><br><span class="line">        RLocalCachedMapReactive&lt;String, String&gt; localCachedMap = redissonReactiveClient.getLocalCachedMap(localCachedMapOptions);  </span><br><span class="line">  </span><br><span class="line">        <span class="keyword">while</span> (<span class="literal">true</span>) &#123;  </span><br><span class="line">            Thread.sleep(<span class="number">5000L</span>);              System.out.println(localCachedMap.get(<span class="string">&quot;key1&quot;</span>).block());  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125; </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">MyMapLoader</span> <span class="keyword">implements</span> <span class="title class_">MapLoader</span> &#123;  </span><br><span class="line">  </span><br><span class="line">        <span class="meta">@Override</span>  </span><br><span class="line">        <span class="keyword">public</span> Object <span class="title function_">load</span><span class="params">(Object key)</span> &#123;  </span><br><span class="line">            System.out.println(<span class="string">&quot;load data from loader at first&quot;</span>);  </span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;key1-value&quot;</span>;</span><br><span class="line">        &#125;  </span><br><span class="line">  </span><br><span class="line">        <span class="meta">@Override</span>  </span><br><span class="line">        <span class="keyword">public</span> Iterable <span class="title function_">loadAllKeys</span><span class="params">()</span> &#123;  </span><br><span class="line">            <span class="keyword">return</span> List.of(<span class="string">&quot;localCache&quot;</span>);  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>根据上述代码，我理解当程序调用 <code>RLocalCachedMapReactive</code>的get方法会直接查询redis的键空间是否存在，如果不存在就会调用loader的实现类来获取original数据，然而我们使用的是 <code>LOCALCACHE</code>的存储模式，redis中永远都不会存储数据。于此同时 <code>RLocalCachedMapReactive</code>还提供了一个getCacheMap方法，这时我想是不是只要调用get方法才会去消费redis中的数据，然后再把数据存到cacheMap中。所以这个时候又得出<code>&lt;strong style=&#39;color:yellow&#39;&gt;</code>假想二<code>&lt;/strong&gt;</code>，<code>&lt;u&gt;</code>get方法用错了，应该以下述的方式来调用，只有cacheMap是空的时候采取调用get方法，这样就可以减少对laoder的调用，这样多线程就不会因为load方法中的lock的block而造成死锁。<code>&lt;/u&gt;</code></p>
+<div class="code-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (localCachedMap.getCachedMap().isEmpty())  </span><br><span class="line">    System.out.println(localCachedMap.get(<span class="string">&quot;key1&quot;</span>).block());  </span><br><span class="line">System.out.println(localCachedMap.getCachedMap());</span><br></pre></td></tr></table></figure></div>
+
+<p>因为redisson的源码中也没有提供get和getCacheMap的实现代码，所以上述结论也是我的猜测。这时大佬提点了我一下，这个get应该是实现应该是下述的逻辑。所以我上述的猜测可能还是没有找到根因，所以我又继续探索。。。</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">if local cache exists</span><br><span class="line">	return value</span><br><span class="line">if local cache not exists</span><br><span class="line">	check redis</span><br><span class="line">	if key exists in redis</span><br><span class="line">		return value and save to local cache</span><br><span class="line">	if key not exists in redis</span><br><span class="line">		trigger loader and save to local cache</span><br></pre></td></tr></table></figure></div>
+
+<h4 id="再再次起航"><a href="#再再次起航" class="headerlink" title="再再次起航"></a>再再次起航</h4><p>在我的测试中，如果只运行一个测试来消费localCacheMap，那么只有在local cache在ttl到期的时候才会调用loader。但是再添加一个相同的测试之后，两个测试都在不停地调用loader😯，原来只有在两个线程同时消费同一个localcache的时候，才会引发这个问题。各种猜测就来了，<code>&lt;span style=&#39;color:green&#39;&gt;</code>明明redis中没有这个key，都是在线程内部在维护这个cache，为什么两个线程就会相互影响？难道线程之间还会通信吗？难道这个cache是放到了一个共享的内存上吗？。大家还记得我之前提到过的<code>&lt;strong style=&#39;color:red&#39;&gt;</code>线索一<code>&lt;/strong&gt;</code>，以及Redisson中的文档中提到local cache会通过redis的key space event listen的方式来通知不同的线程来更新自己本地的数据。接着把Redisson的日志级别改成了<strong>trace</strong>，发现很多发布消息的日志。我明明使用的localCache的模式，为什么还会通知其他的消费者来保持数据的一致性？因为Redisson的配置默认的同步策略是 <code>INVALIDTED</code>【<code>Invalidate local cache entry across all LocalCachedMap instances on map entry change. Broadcasts map entry hash (16 bytes) to all instances.</code>】 人话就是，订阅当前键空间topic会清空当前的cache，并在下一次调用 <code>RLocalCachedMapReactive.get(key)</code>的时候会重新刷新Cache。然而LoaclCacheMap并不在redis，所以每次都会触发loader获取数据源。</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2024.11.15 15:34:31.257 TRACE CommandPubSubDecoder : reply: *3 $7 message $18 &#123;localCache&#125;:topic $37 &lt;9�C���^���_�ƘB����h�� , channel: [id: 0x6f5e1638, L:/127.0.0.1:62089 - R:127.0.0.1/127.0.0.1:6379], command: null 2024.11.15 15:34:31.258 DEBUG RedisExecutor : connection released for command: (PUBLISH), params: [&#123;localCache&#125;:topic, PooledUnsafeDirectByteBuf(ridx: 0, widx: 37, cap: 256)] from slot NodeSource [slot=0, addr=null, redisClient=null, redirect=null, entry=null] using connection RedisConnection@2097044822 [redisClient=[addr=redis://127.0.0.1:6379], channel=[id: 0xb0a3774f, L:/127.0.0.1:62092 - R:127.0.0.1/127.0.0.1:6379], currentCommand=CommandData [command=(PUBLISH), params: [&#123;localCache&#125;:topic, PooledUnsafeDirectByteBuf(ridx: 0, widx: 37, cap: 256)], promise: java.util.concurrent.CompletableFuture@211e417d[Completed normally], codec=org.redisson.client.codec.StringCodec], usage=0]</span><br></pre></td></tr></table></figure></div>
+
+<p>这次我又重新改变了我测试方案，使用了如下代码，每个一秒，并发数1w</p>
+<div class="code-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span>  </span><br><span class="line"><span class="keyword">void</span> <span class="title function_">localLoadTestToLocalCacheMap</span><span class="params">()</span> &#123;  </span><br><span class="line">    RLocalCachedMapReactive&lt;String, String&gt; localCachedMap = redissonReactiveClient.getLocalCachedMap(localCachedMapOptions);  </span><br><span class="line">  </span><br><span class="line">    Flux.interval(Duration.ofSeconds(<span class="number">1</span>))  </span><br><span class="line">            .flatMap(x -&gt; Flux.range(<span class="number">1</span>, <span class="number">10_000</span>))  </span><br><span class="line">            .parallel()  </span><br><span class="line">            .flatMap(x -&gt; localCachedMap.get(<span class="string">&quot;key1&quot;</span>))  </span><br><span class="line">            .then()  </span><br><span class="line">            .block();  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>最后在运行了一段时间之后，程序发生了雪崩，redis都连不上了，下图是JVM的监控，在程序运行了2m之后就发生了崩溃并打出了如下的日志<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://github.com/user-attachments/assets/cffa99de-cfb8-4b7b-bcc3-31cfab7a7cf5"
+                      alt="test jvm monitor"
+                ></p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Unable to acquire connection! java.util.concurrent.CompletableFuture@178b0321[Completed exceptionally: java.util.concurrent.CancellationException]Increase connection pool size or timeout. Node source: NodeSource [slot=0, addr=null, redisClient=null, redirect=null, entry=null], command: (HGET), params: [localCache, PooledUnsafeDirectByteBuf(ridx: 0, widx: 5, cap: 256)] after 0 retry attempts</span><br><span class="line">org.redisson.client.RedisTimeoutException: Unable to acquire connection! java.util.concurrent.CompletableFuture@178b0321[Completed exceptionally: java.util.concurrent.CancellationException]Increase connection pool size or timeout. Node source: NodeSource [slot=0, addr=null, redisClient=null, redirect=null, entry=null], command: (HGET), params: [localCache, PooledUnsafeDirectByteBuf(ridx: 0, widx: 5, cap: 256)] after 0 retry attempts</span><br></pre></td></tr></table></figure></div>
+
+<p>当我把同步机制关掉之后，虽然容器内的redis的cpu使用率没有下来，但是程序没有崩溃，一直保持高cpu运行，如下图所示<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://github.com/user-attachments/assets/e1c5cbd9-1784-4eee-9836-c5fb8e7c65c8"
+                      alt="redis metrics monitor"
+                ></p>
+<p>再次证明了，如果只是调用loader并不会将redis的cpu拉满，而开启了同步模式 <code>INVALIDATE</code>，Redisson就会发布和订阅localCacheMap的topic。进而Redisson在接收到topic就会清空本地的Cache，导致local cache失效。大量redis的channel订阅和发布冗余操作，就会占用redis的连接和资源，最终导致系统的雪崩。retrieve value-&gt;publish message-&gt;clean local cache，周而复始资源占用叠加【如下图所示】，最后导致redis承受不了导致雪崩。<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://github.com/user-attachments/assets/f719e007-254d-4c69-b1b0-00e0f9899613"
+                      alt="crush resaon"
+                ></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><h4 id="根因"><a href="#根因" class="headerlink" title="根因"></a>根因</h4><p>修改了 LocalCachedMapOptions 默认配置，storeMode LOCALCACHE和 syncStrategy INVALIDATE 不能同时使用。LocalCachedMapOptions 的 storeMode LOCALCACHE 和 syncStrategy INVALIDATE 配置在多实例环境下，导致每次请求数据时都要调用 loader，同时也增加了redission的 CPU 和网络占用率。</p>
+<h4 id="排查建议"><a href="#排查建议" class="headerlink" title="排查建议"></a>排查建议</h4><ul>
+<li>先查看对应的metric，cpu的利用率，内存的使用量，看看是和到达峰值</li>
+<li>检查系统的日志中心中的错误日志，查看是否能够看到有用的信息</li>
+<li>通过查询当前slowlog来定位代码位置</li>
+<li>查看代码中对redis有读写操作的部分，检查是否有可能出现高频的读写操作</li>
+<li>如果在代码中有in-memory Cache，考虑是否是没有命中Local Cache，而是都把打到了redis上</li>
+<li>在本地添加对应代码的测试压力测试来逐步缩小问题代码的范围，这里有个小tip，可以用reactor-core提供的方法来启动多线程的调用</li>
+<li>打开问题代码块的trace log</li>
+</ul>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> redis optimization based on redisson</li>
+        <li><strong>Author:</strong> Xiao Qiang</li>
+        <li><strong>Created at
+                :</strong> 2024-12-13 19:46:36</li>
+        
+            <li>
+                <strong>Updated at
+                    :</strong> 2025-08-06 15:16:17
+            </li>
+        
+        <li>
+            <strong>Link:</strong> http://fdslk.github.io/uncategorized/2024/12/13/redisson-optimization/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+
+            
+                This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a>.
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/java-redis-redison/">#java,redis,redison</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/tech/picture-processor/2024/12/16/remove-watermark/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">remove_watermark</span>
+						<span class="post-nav-item">Prev posts</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/tech/opps/nginx/2023/05/31/nginx-with-docker/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Nginx在docker中的网络以及如何在OSI的应用层和传输层的load balance</span>
+						<span class="post-nav-item">Next posts</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.mjs';
+
+      function loadWaline() {
+        init({
+          el: '#waline',
+          serverURL: 'https://example.example.com',
+          dark: 'body[class~="dark-mode"]',
+          reaction: false,
+          requiredMeta: ['nick', 'mail'],
+          emoji: [],
+                    lang: 'zh-CN',
+        });
+      }
+
+      if (typeof swup !== 'undefined') {
+        loadWaline();
+      } else {
+        window.addEventListener('DOMContentLoaded', loadWaline);
+      }
+    </script>
+
+
+
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">On this page</div>
+		<div class="page-title">redis optimization based on redisson</div>
+		<ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-text">背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E8%B0%83%E4%BC%98%E4%B9%8B%E5%89%8D%E6%94%B6%E9%9B%86%E5%88%B0%E7%9A%84%E7%BA%BF%E7%B4%A2"><span class="nav-text">在调优之前收集到的线索</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%BB%E6%89%BE%E9%97%AE%E9%A2%98%E4%B9%8B%E8%B7%AF"><span class="nav-text">寻找问题之路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2025&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">Xiao Qiang</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        48 posts in total
+                    </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.8.5</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog fa-spin"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container">
+	<img src="">
+</div>
+
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+
+	
+<script src="/js/build/tools/imageViewer.js" type="module"></script>
+
+<script src="/js/build/utils.js" type="module"></script>
+
+<script src="/js/build/main.js" type="module"></script>
+
+<script src="/js/build/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/build/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/build/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/build/layouts/categoryList.js" type="module"></script>
+
+
+
+
+
+    
+<script src="/js/build/tools/codeBlock.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/layouts/lazyload.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/tools/runtime.js"></script>
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/build/libs/Typed.min.js"></script>
+
+  
+<script src="/js/build/plugins/typed.js" type="module"></script>
+
+
+
+
+
+
+
+
+    
+<script src="/js/build/libs/anime.min.js"></script>
+
+
+
+
+
+    
+<script src="/js/build/tools/tocToggle.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/layouts/toc.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/plugins/tabs.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+<script src="/js/build/layouts/essays.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+
+	
+</body>
+
+</html>

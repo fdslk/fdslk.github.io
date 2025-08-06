@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="works &amp; life">
+    
+    <meta name="author" content="Xiao Qiang">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set data attribute for CSS variables
+                root.setAttribute("data-theme", theme);
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes once DOM is ready
+            if (document.readyState !== "loading") {
+                document.body.classList.add(theme + "-mode");
+            } else {
+                document.addEventListener("DOMContentLoaded", () => {
+                    document.body.classList.add(theme + "-mode");
+                    document.body.classList.remove((theme === DARK ? LIGHT : DARK) + "-mode");
+                });
+            }
+        })();
+    </script>
+    
+    <!-- Critical CSS to prevent flash -->
+    <style>
+        :root[data-theme="dark"] {
+            --background-color: #202124;
+            --background-color-transparent: rgba(32, 33, 36, 0.6);
+            --second-background-color: #2d2e32;
+            --third-background-color: #34353a;
+            --third-background-color-transparent: rgba(32, 33, 36, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #ffffff;
+            --second-text-color: #eeeeee;
+            --third-text-color: #bebec6;
+            --fourth-text-color: #999999;
+            --default-text-color: #bebec6;
+            --invert-text-color: #373D3F;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(255, 255, 255, 0.08);
+            --shadow-color-2: rgba(255, 255, 255, 0.05);
+        }
+        
+        :root[data-theme="light"] {
+            --background-color: #fff;
+            --background-color-transparent: rgba(255, 255, 255, 0.6);
+            --second-background-color: #f8f8f8;
+            --third-background-color: #f2f2f2;
+            --third-background-color-transparent: rgba(241, 241, 241, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #16171a;
+            --second-text-color: #2f3037;
+            --third-text-color: #5e5e5e;
+            --fourth-text-color: #eeeeee;
+            --default-text-color: #373D3F;
+            --invert-text-color: #bebec6;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(0, 0, 0, 0.08);
+            --shadow-color-2: rgba(0, 0, 0, 0.05);
+        }
+        
+        body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+        
+        /* Apply body classes as soon as DOM is ready */
+        :root[data-theme="dark"] body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+    </style>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="http://fdslk.github.io/tech/video/ffmpeg/2023/03/05/streaming_protocol/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+    
+        
+        <meta name="description" content="a free blog website for personal use.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何搭建自己的推流服务器">
+<meta property="og:url" content="http://fdslk.github.io/tech/video/ffmpeg/2023/03/05/streaming_protocol/index.html">
+<meta property="og:site_name" content="🪳的Daily Blog WebSite">
+<meta property="og:description" content="a free blog website for personal use.">
+<meta property="og:locale">
+<meta property="og:image" content="http://fdslk.github.io/images/redefine-og.webp">
+<meta property="article:published_time" content="2023-03-05T02:21:03.000Z">
+<meta property="article:modified_time" content="2025-08-06T07:16:17.551Z">
+<meta property="article:author" content="Zengqiang Fang">
+<meta property="article:tag" content="ffmpeg">
+<meta property="article:tag" content="media-server">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://fdslk.github.io/images/redefine-og.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/redefine-favicon.svg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/redefine-favicon.svg">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/redefine-favicon.svg">
+    <!--- Page Info-->
+    
+    <title>
+        
+            如何搭建自己的推流服务器 | 🪳的Daily Blog WebSite
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"fdslk.github.io","root":"/","language":"en"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":true,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/redefine-og.webp","description":"a free blog website for personal use."},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"a free blog website for sharing daily works and life","subtitle":{"text":[],"hitokoto":{"enable":false,"show_author":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":{"github":"https://github.com/fdslk","instagram":null,"zhihu":null,"twitter":null,"email":"zqfangmaster@163.com"},"qrs":{"weixin":"/images/qrcode.jpg"}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1"}},"version":"2.8.5","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"About":{"icon":"fa-regular fa-user","submenus":{"Me":"/about","Github":"https://github.com/fdslk","Blog":"https://fdslk.github.io"}}},"search":{"enable":false,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":null},"article_date_format":"auto","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2022/8/17 11:45:14"};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+
+<body>
+	<div class="progress-bar-container">
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                🪳的Daily Blog WebSite
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/archives"
+                                        >
+                                    <i class="fa-regular fa-archive fa-fw"></i>
+                                    ARCHIVES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown"
+                                   href="#"
+                                        onClick=&#34;return false;&#34;>
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    ABOUT
+                                    <i class="fa-solid fa-chevron-down fa-fw"></i>
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                        
+                                            <li>
+                                                <a href="/about">
+                                                    ME
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a target="_blank" rel="noopener" href="https://github.com/fdslk">
+                                                    GITHUB
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="https://fdslk.github.io">
+                                                    BLOG
+                                                </a>
+                                            </li>
+                                        
+                                    </ul>
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/archives"
+                        >
+                            <span>
+                                ARCHIVES
+                            </span>
+                            
+                                <i class="fa-regular fa-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item-sub text-base my-1.5 flex flex-col w-full">
+                        
+                        <div class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary cursor-pointer text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                             navbar-data-toggle="submenu-About"
+                        >
+                            <span>
+                                ABOUT
+                            </span>
+                            
+                                <i class="fa-solid fa-chevron-right fa-sm fa-fw transition-all"></i>
+                            
+                        </div>
+                        
+
+                        
+                            <div class="flex-col items-start px-2 py-2 hidden" data-target="submenu-About">
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/about">ME</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           target="_blank" rel="noopener" href="https://github.com/fdslk">GITHUB</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="https://fdslk.github.io">BLOG</a>
+                                    </div>
+                                
+                            </div>
+                        
+                    </li>
+            
+
+            
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">63</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">53</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">48</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			<div class="w-full flex items-center pt-6 justify-start">
+				<h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">如何搭建自己的推流服务器</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+				<img src="/images/redefine-avatar.svg">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">Xiao Qiang</span>
+					
+					<span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv4</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2023-03-05 10:21:03</span>
+        <span class="mobile">2023-03-05 10:21:03</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2025-08-06 15:16:17</span>
+            <span class="mobile">2025-08-06 15:16:17</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/tech/">tech</a>&nbsp;
+                        </li>
+                    
+                    
+                
+                    
+                        
+                            <li>></li>
+                        
+                        <li>
+                            <a href="/categories/tech/video/">video</a>&nbsp;
+                        </li>
+                    
+                    
+                
+                    
+                        
+                            <li>></li>
+                        
+                        <li>
+                            <a href="/categories/tech/video/ffmpeg/">ffmpeg</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/ffmpeg/">ffmpeg</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/media-server/">media-server</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><ul>
+<li>上一篇 <a class="link"   target="_blank" rel="noopener" href="https://github.com/Fdslk/javaLearning/blob/master/code/ffmpeg_demo/Blog.md" >文章<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> 中写到了，我是如何使用FFmpeg将不能直接播放的视频弄成QuickTime支持的格式。那些个操作感觉就是有些个笨拙，充满了程序员式的执著。难道我要在电视上播放一个视频，就非得转码，然后再拷贝到电视上么。<font size=4 color=green><strong>非也</strong></font>，其实任何音视频都是<font size=6>“<strong>流</strong>“</font>。那么流是不是就可以传输呢，水可以通过水管传输到我们想要的地方，那音视频怎么传播呢，靠的是网络架构中的传输层传递。那么在接下来的文章中，我将和大家来谈谈我怎么实现的流的传输。</li>
+</ul>
+<h3 id="streaming可以用来干什么？"><a href="#streaming可以用来干什么？" class="headerlink" title="streaming可以用来干什么？"></a>streaming可以用来干什么？</h3><ul>
+<li>流协议主要用于规范流媒体的delivery和ingest</li>
+</ul>
+<h3 id="streaming协议有哪些？"><a href="#streaming协议有哪些？" class="headerlink" title="streaming协议有哪些？"></a>streaming协议有哪些？</h3><ul>
+<li>普通的<ul>
+<li>RTMP（real-time message protocol） <ul>
+<li>RTMP使用的是TCP协议做的底层的传输协议，这样就可以保证低延迟，但是RMTP依赖于flash的播放器，<font size=4 color=red><strong>But</strong></font>现在浏览器中已经停止了对<code>flash</code>的支持，所以如果想要在浏览器中直接播放就需要安装flash相关的插件</li>
+</ul>
+</li>
+<li>SRT（Secure Reliable Transport） <ul>
+<li>是一种基于UDP的开源视频传输协议，SRT 专为低延迟实时视频传输而设计</li>
+</ul>
+</li>
+<li>WebRTC（Wowza’s Real-Time Streaming at Scale feature）<ul>
+<li>作为最快的可用技术，WebRTC可向任何主要浏览器传送近乎即时的语音和视频流</li>
+</ul>
+</li>
+<li>RTSP (real-time streaming protocol)<ul>
+<li>RTSP用于控制两个端点之间的音频&#x2F;视频传输，并促进低延迟流媒体内容在互联网上的传输，它的起源要早于RTMP</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>adaptive streaming protocol based on http<ul>
+<li>HLS (http live streaming)<ul>
+<li>协议使用包括两部分，第一部分是（manifest）描述文件<code>m3u8</code>， 第二部分是可播放的<code>ts</code>音视频文件，HLS最初源于IOS生态圈，随着技术的发展，HLS被越来越多的平台所接纳，例如，Google Chrome，Android，linux等等</li>
+</ul>
+</li>
+<li>MPEG-DASH （Dynamic Adaptive Streaming over HTTP）<ul>
+<li>MPEG-DASH 类似于另一种流媒体协议 HLS，因为它将视频分解成更小的块，并以不同的质量级别对这些块进行编码。 这使得可以流式传输不同质量级别的视频(举个🌰，这里的不同质量，只得是不同的分辨率的视频)，并在视频中间从一个质量级别切换到另一个质量级别，不同于HLS，DASH的manifest是使用<code>xml</code>，容器使用的<code>m4s</code>，个人感觉m3u8作为资源管理文件使用起来更加的清晰，因为DASH的所有配置都杂糅在一个文件中</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="流传输在现实中的使用场景"><a href="#流传输在现实中的使用场景" class="headerlink" title="流传输在现实中的使用场景"></a>流传输在现实中的使用场景</h3><ul>
+<li>桌面共享</li>
+<li>摄像头实时播放<ul>
+<li>安全监控</li>
+<li>直播</li>
+</ul>
+</li>
+<li>家庭影院</li>
+</ul>
+<h3 id="为什么不能直接播放流"><a href="#为什么不能直接播放流" class="headerlink" title="为什么不能直接播放流"></a>为什么不能直接播放流</h3><ul>
+<li>对于这个问题我们可以换个方式来问，我们可以这样问，”我们为什么需要一个流媒体服务器，它能帮我们干嘛？”举个🌰，假使我们的生活中没有media server，那么我们消费流媒体的流程如下，用户上传资源，某个平台提供视频资源下载，然后在本地播放，oops格式不支持，下载支持的播放器，或者下载转码工具，一番折腾之后开始看电影。但是如果有了media server，这个过程会变成什么样呢？<ul>
+<li><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/6279298/221451549-7481868f-3318-4d3b-9dc3-29af52606f68.png"
+                      alt="image"
+                ></li>
+<li>看完上图，我们可以清楚的发现，在原始的流媒体经过了media server之后，我们手动的转码，格式转换，以及local带宽的限制问题都悄然消失。对于消费者，只需要打开视频便可以看到现成的视频</li>
+</ul>
+</li>
+</ul>
+<h3 id="如何播放不同的streaming"><a href="#如何播放不同的streaming" class="headerlink" title="如何播放不同的streaming"></a>如何播放不同的streaming</h3><ul>
+<li>直接使用ffplay，在之前的一篇文章中，我已经对<a class="link"   target="_blank" rel="noopener" href="https://github.com/Fdslk/javaLearning/blob/master/code/ffmpeg_demo/Blog.md" >ffplay<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> 做了简单的介绍<ul>
+<li><code>ffplay -v quiet -y 200 &lt;path of the playlist resource&gt;</code></li>
+</ul>
+</li>
+<li>使用浏览器直接播放（html5的video），不需要其他的流传输服务器<ul>
+<li>在本地的playlist的manifest用server host起来，这里我们可以使用node环境的来把本地的某个<code>path</code>host起来<ul>
+<li>安装node host工具<code>npm install http-server -g</code></li>
+<li>host文件夹<ul>
+<li>cd到需要host的path下<ul>
+<li><code>cd &lt;path&gt;</code></li>
+<li><code>http-server</code></li>
+</ul>
+</li>
+<li>直接host需要访问的path<ul>
+<li><code>http-server &lt;path&gt;</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/6279298/216209862-96b23edb-4a75-4137-8619-ac4976a1d195.png"
+                      alt="host successfully"
+                ></li>
+<li>tips:<ul>
+<li>必须使用http server将需要的manifest和对应的音视频资源host，如果直接使用本机的file server是无法工作的</li>
+</ul>
+</li>
+<li>把manifest嵌入到<a class="link"   target="_blank" rel="noopener" href="https://github.com/Fdslk/javaLearning/blob/master/code/ffmpeg_demo/src/main/resources/video..html" >html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> 中，使用现成的js库播放。或者还可以使用<a class="link"   target="_blank" rel="noopener" href="https://github.com/Fdslk/javaLearning/blob/master/code/ffmpeg_demo/src/main/resources/adaptive-media-player.html" >原生的js代码<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> 处理的web，来播放manifest</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>搭建streaming push server （搭建media server），本文中将介绍三种推流服务器的搭建方式<ul>
+<li>方法一<ul>
+<li>搭建<code>Ant Media server</code> (AMS)<ul>
+<li>什么是？<ul>
+<li>is one of the fastest-growing and most popular streaming engines. Ant Media Server supports WebRTC, CMAF, HLS, RTMP, RTSP, and more for your critical business streaming needs</li>
+<li>如果是个人用户可以免费使用，但是如果是企业级用户则需要付费</li>
+<li>更多的细节部分，大家可以参阅<a class="link"   target="_blank" rel="noopener" href="https://resources.antmedia.io/docs" >官网<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+</ul>
+</li>
+<li>how to<ul>
+<li>下载 <a class="link"   target="_blank" rel="noopener" href="https://github.com/ant-media/Ant-Media-Server/releases/download/ams-v2.5.3/ant-media-server-community-2.5.3.zip" >ant-media-server<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> 安装包</li>
+<li>cd <code>zip</code> 包的路径</li>
+<li>下载 <code>ant-media-server</code> 安装脚本 <code>wget https://raw.githubusercontent.com/ant-media/Scripts/master/install_ant-media-server.sh &amp;&amp; chmod 755 install_ant-media-server.sh</code></li>
+<li>使用脚本 <code>sudo ./install_ant-media-server.sh -i &lt;ANT_MEDIA_SERVER_INSTALLATION_FILE&gt;</code><ul>
+<li>tips<ul>
+<li>如果在<code>mac</code>上，直接运行 <code>unzip &lt;ANT_MEDIA_SERVER_INSTALLATION_FILE&gt;</code>，因为上述的安装脚本是针对于<code>Ubuntu</code>的linux系统，对于mac不适用</li>
+<li>或者还可以使用<a class="link"   target="_blank" rel="noopener" href="https://github.com/Fdslk/javaLearning/blob/master/code/ffmpeg_demo/Dockerfile" >docker<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> ，如果直接使用Java的基镜像时，还需要考虑当前镜像中的系统版本或者java版本是否被AMS支持</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>使用<ul>
+<li>启动 <code>sudo service antmedia stop</code></li>
+<li>终止 <code>sudo service antmedia start</code></li>
+<li>查看当前<code>ant media server</code>的状态 <code>sudo service antmedia status</code></li>
+<li>tips<ul>
+<li>如果在Mac上，可以直接进入到安装包中，然后运行 <code>./start.sh</code>，需要保证当前系统的java版本为<font size=3 color=blue><strong>java11</strong></font>以上</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>在浏览器中输入<code>http://SERVERHOST:5080/</code> ，第一次访问的时候能够在浏览器中看到以下的界面，那么恭喜你，AMS已经成功地完成搭建<ul>
+<li><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/6279298/217185934-1d2f733a-f230-42f0-b24b-90d851558267.png"
+                      alt="部署成功"
+                ></li>
+</ul>
+</li>
+<li>注册之后，登录到主界面，发布直播流<ul>
+<li><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/6279298/219321664-d205b8d1-d19b-44bd-a5ca-e9853c9b4300.png"
+                      alt="主界面"
+                ></li>
+</ul>
+</li>
+<li>进入到主界面之后<ul>
+<li>转播stream resource<ul>
+<li><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/6279298/219325653-0d7b411d-6ec5-4191-968a-19ee0fff1914.gif"
+                      alt="live stream output"
+                ></li>
+<li>tips: 使用<strong>QuickTime Player</strong>录屏，同样可以使用FFmpeg将mov文件转换成.gif文件<ul>
+<li>运行  <div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg  -i  &lt;input file&gt; \</span><br><span class="line">  -vf &quot;fps=10,scale=320:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse&quot; \</span><br><span class="line">  -loop 0 output.gif</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>转播playlist<ul>
+<li><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/6279298/219523963-2e42d6f5-3cfe-41c4-8b48-4666988da521.gif"
+                      alt="playlist output"
+                ></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>方法二<ul>
+<li>搭建nginx+RTMP<ul>
+<li>安装nginx <code>brew install nginx</code></li>
+<li>安装nginx rtmp module，<code>brew install nginx-full --with-rtmp-module</code><ul>
+<li>tip<ul>
+<li>当运行上述命令式报出以下错误时，<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/61931028/installing-homebrew-nginx-rtmp-in-macos-movaje-10-14"><code>Error: invalid option: --with-rtmp-module</code></a> 可以运行 <code>brew tap denji/nginx</code>，然后再安装rtmp module</li>
+<li>安装成功之后会有以下提示 <div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">Docroot is: /usr/local/var/www</span><br><span class="line">The default port has been set in /usr/local/etc/nginx/nginx.conf to 8080 so that</span><br><span class="line">nginx can run without sudo.</span><br><span class="line">  </span><br><span class="line">nginx will load all files in /usr/local/etc/nginx/servers/.</span><br><span class="line">  </span><br><span class="line">- Tips -</span><br><span class="line">  Run port 80:</span><br><span class="line">  $ sudo chown root:wheel /usr/local/opt/nginx-full/bin/nginx</span><br><span class="line">  $ sudo chmod u+s /usr/local/opt/nginx-full/bin/nginx</span><br><span class="line">  Reload config:</span><br><span class="line">  $ nginx -s reload</span><br><span class="line">  Reopen Logfile:</span><br><span class="line">  $ nginx -s reopen</span><br><span class="line">  Stop process:</span><br><span class="line">  $ nginx -s stop</span><br><span class="line">  Waiting on exit process</span><br><span class="line">  $ nginx -s quit</span><br><span class="line">  </span><br><span class="line">To start denji/nginx/nginx-full now and restart at login:</span><br><span class="line">brew services start denji/nginx/nginx-full</span><br><span class="line">Or, if you don&#x27;t want/need a background service you can just run:</span><br><span class="line">nginx</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>使用ffmpeg推流，使用nginx的RTMP模块时，我这里使用的是live streaming的主动推流模式，也就是源头将streaming推送给media server，而不是media server主动去拉资源<ul>
+<li><pre><code>ffmpeg -v quiet -i &quot;&lt;stream resource locatopm&gt;&quot; \
+  -vf &quot;scale=-2:200,drawtext=fontfile=&#39;c\:/Windows/Fonts/courbd.ttf&#39;:text=RTMP:fontsize=30:x=10:y=20:fontcolor=#000000:box=1:boxborderw=5:boxcolor=#ff888888&quot; \
+  -vcodec libx264 -f flv &lt;rtmp server url&gt;
+</code></pre>
+</li>
+</ul>
+</li>
+<li>使用ffplay验证推流成功<ul>
+<li><code>ffplay -v quiet &lt;rtmp server url&gt;</code></li>
+<li><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/6279298/220020493-dc16cbc8-2a4a-4ae4-a442-5f4674266d2d.gif"
+                      alt="ffplay play pulling streaming successfully"
+                ></li>
+</ul>
+</li>
+<li>使用VLC验证推流成功<ul>
+<li>下载<a class="link"   target="_blank" rel="noopener" href="https://get.videolan.org/vlc/3.0.18/macosx/vlc-3.0.18-intel64.dmg" >VLC<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://user-images.githubusercontent.com/6279298/220246480-5f8027db-87e2-490d-8c7e-1acaa4a95dce.gif"
+                      alt="verify streaming by VLC"
+                ></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>方法三<ul>
+<li>搭建<a class="link"   target="_blank" rel="noopener" href="https://github.com/aler9/rtsp-simple-server" >rtsp-simple-server<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> 服务器<ul>
+<li>使用方式<ul>
+<li>下载<a class="link"   target="_blank" rel="noopener" href="https://github.com/aler9/rtsp-simple-server/releases" >server release package<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> ，unzip该文件包，运行<code>./rtsp-simple-server</code></li>
+<li>使用docker方式启动</li>
+<li>OpenWRT</li>
+</ul>
+</li>
+<li>推流<ul>
+<li><code>ffmpeg -re -stream_loop -1 -i http://localhost:8080/nature.mp4  -c copy -f rtsp rtsp://localhost:8554/mystream</code></li>
+</ul>
+</li>
+<li>验证<ul>
+<li>ffmpeg</li>
+<li>vlc</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>各种推流服务器之间的比较<ul>
+<li><table>
+<thead>
+<tr>
+<th></th>
+<th align="center">pulling supported protocol</th>
+<th align="center">pushing supported protocol</th>
+<th>supported OS</th>
+<th align="center">freeium</th>
+<th align="center">latency</th>
+<th align="center">advantage</th>
+<th align="center">disadvantage</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ant media server</td>
+<td align="center">RTSP, RTMP &amp; HLS</td>
+<td align="center">RTMP &amp; WebRTC</td>
+<td>Linux&#x2F;MacOS&#x2F;Windows <br>(cloud:AWS&#x2F;Azure&#x2F;Alibaba&#x2F;Digital Ocean&#x2F;Linode)</td>
+<td align="center">yes</td>
+<td align="center">8s-12s for community version</td>
+<td align="center">provide GUI, user-friendly,<br>open source, community support</td>
+<td align="center">some features need payment</td>
+</tr>
+<tr>
+<td>nginx-rtmp-module</td>
+<td align="center">RTMP&#x2F;HLS&#x2F;MPEG-DASH</td>
+<td align="center">RTMP, HLS &amp; MPEG-DASH</td>
+<td>Linux&#x2F;FreeBSD&#x2F;MacOS&#x2F;Windows</td>
+<td align="center">yes</td>
+<td align="center">control by parameter</td>
+<td align="center">more flexible, open source, <br>community support</td>
+<td align="center">not support webRTC</td>
+</tr>
+<tr>
+<td>rtsp-simple-server</td>
+<td align="center">RTSP, RTMP, HLS &amp; WebRTC</td>
+<td align="center">RTSP, RTMP, HLS &amp; Raspberry Pi Cameras</td>
+<td>Linux&#x2F;MacOS&#x2F;Windows</td>
+<td align="center">yes</td>
+<td align="center">control by parameter</td>
+<td align="center">open source, community support</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="展望"><a href="#展望" class="headerlink" title="展望"></a>展望</h3><ul>
+<li>实现一个家庭观影系统</li>
+<li>考虑一下如何上云</li>
+</ul>
+<h3 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h3><ul>
+<li><a class="link"   target="_blank" rel="noopener" href="https://www.wowza.com/blog/streaming-protocols" >Streaming Protocols: Everything You Need to Know (Update)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://www.cloudflare.com/learning/video/what-is-mpeg-dash/" >What is MPEG-DASH? | HLS vs. DASH<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://antmedia.io/what-is-rtmp-server-how-to-set-up-a-free-rtmp-server/" >RTMP server guide: How to set up a free RTMP server<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://www.wowza.com/blog/why-you-need-a-streaming-media-server#simulcasting" >3 Reasons Why You Need a Streaming Media Server<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+</ul>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> 如何搭建自己的推流服务器</li>
+        <li><strong>Author:</strong> Xiao Qiang</li>
+        <li><strong>Created at
+                :</strong> 2023-03-05 10:21:03</li>
+        
+            <li>
+                <strong>Updated at
+                    :</strong> 2025-08-06 15:16:17
+            </li>
+        
+        <li>
+            <strong>Link:</strong> http://fdslk.github.io/tech/video/ffmpeg/2023/03/05/streaming_protocol/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+
+            
+                This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a>.
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/ffmpeg/">#ffmpeg</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/media-server/">#media-server</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/tech/java/spring-boot/starter/2023/03/05/java-customer-starter/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">如何定义自己的spring starter</span>
+						<span class="post-nav-item">Prev posts</span>
+					</span>
+				</a>
+			</div>
+			
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.mjs';
+
+      function loadWaline() {
+        init({
+          el: '#waline',
+          serverURL: 'https://example.example.com',
+          dark: 'body[class~="dark-mode"]',
+          reaction: false,
+          requiredMeta: ['nick', 'mail'],
+          emoji: [],
+                    lang: 'zh-CN',
+        });
+      }
+
+      if (typeof swup !== 'undefined') {
+        loadWaline();
+      } else {
+        window.addEventListener('DOMContentLoaded', loadWaline);
+      }
+    </script>
+
+
+
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">On this page</div>
+		<div class="page-title">如何搭建自己的推流服务器</div>
+		<ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#streaming%E5%8F%AF%E4%BB%A5%E7%94%A8%E6%9D%A5%E5%B9%B2%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-text">streaming可以用来干什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#streaming%E5%8D%8F%E8%AE%AE%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-text">streaming协议有哪些？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%81%E4%BC%A0%E8%BE%93%E5%9C%A8%E7%8E%B0%E5%AE%9E%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-text">流传输在现实中的使用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E8%83%BD%E7%9B%B4%E6%8E%A5%E6%92%AD%E6%94%BE%E6%B5%81"><span class="nav-text">为什么不能直接播放流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%92%AD%E6%94%BE%E4%B8%8D%E5%90%8C%E7%9A%84streaming"><span class="nav-text">如何播放不同的streaming</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B1%95%E6%9C%9B"><span class="nav-text">展望</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reference"><span class="nav-text">reference</span></a></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2025&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">Xiao Qiang</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        48 posts in total
+                    </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.8.5</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog fa-spin"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container">
+	<img src="">
+</div>
+
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+
+	
+<script src="/js/build/tools/imageViewer.js" type="module"></script>
+
+<script src="/js/build/utils.js" type="module"></script>
+
+<script src="/js/build/main.js" type="module"></script>
+
+<script src="/js/build/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/build/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/build/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/build/layouts/categoryList.js" type="module"></script>
+
+
+
+
+
+    
+<script src="/js/build/tools/codeBlock.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/layouts/lazyload.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/tools/runtime.js"></script>
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/build/libs/Typed.min.js"></script>
+
+  
+<script src="/js/build/plugins/typed.js" type="module"></script>
+
+
+
+
+
+
+
+
+    
+<script src="/js/build/libs/anime.min.js"></script>
+
+
+
+
+
+    
+<script src="/js/build/tools/tocToggle.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/layouts/toc.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/plugins/tabs.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+<script src="/js/build/layouts/essays.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+
+	
+</body>
+
+</html>

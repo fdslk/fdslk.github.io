@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="works &amp; life">
+    
+    <meta name="author" content="Xiao Qiang">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set data attribute for CSS variables
+                root.setAttribute("data-theme", theme);
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes once DOM is ready
+            if (document.readyState !== "loading") {
+                document.body.classList.add(theme + "-mode");
+            } else {
+                document.addEventListener("DOMContentLoaded", () => {
+                    document.body.classList.add(theme + "-mode");
+                    document.body.classList.remove((theme === DARK ? LIGHT : DARK) + "-mode");
+                });
+            }
+        })();
+    </script>
+    
+    <!-- Critical CSS to prevent flash -->
+    <style>
+        :root[data-theme="dark"] {
+            --background-color: #202124;
+            --background-color-transparent: rgba(32, 33, 36, 0.6);
+            --second-background-color: #2d2e32;
+            --third-background-color: #34353a;
+            --third-background-color-transparent: rgba(32, 33, 36, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #ffffff;
+            --second-text-color: #eeeeee;
+            --third-text-color: #bebec6;
+            --fourth-text-color: #999999;
+            --default-text-color: #bebec6;
+            --invert-text-color: #373D3F;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(255, 255, 255, 0.08);
+            --shadow-color-2: rgba(255, 255, 255, 0.05);
+        }
+        
+        :root[data-theme="light"] {
+            --background-color: #fff;
+            --background-color-transparent: rgba(255, 255, 255, 0.6);
+            --second-background-color: #f8f8f8;
+            --third-background-color: #f2f2f2;
+            --third-background-color-transparent: rgba(241, 241, 241, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #16171a;
+            --second-text-color: #2f3037;
+            --third-text-color: #5e5e5e;
+            --fourth-text-color: #eeeeee;
+            --default-text-color: #373D3F;
+            --invert-text-color: #bebec6;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(0, 0, 0, 0.08);
+            --shadow-color-2: rgba(0, 0, 0, 0.05);
+        }
+        
+        body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+        
+        /* Apply body classes as soon as DOM is ready */
+        :root[data-theme="dark"] body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+    </style>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="http://fdslk.github.io/tech/big-data/etl/java/2025/08/06/现实中的数据接入/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+    
+        
+        <meta name="description" content="a free blog website for personal use.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="现实中的数据接入">
+<meta property="og:url" content="http://fdslk.github.io/tech/big-data/etl/java/2025/08/06/%E7%8E%B0%E5%AE%9E%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E6%8E%A5%E5%85%A5/index.html">
+<meta property="og:site_name" content="🪳的Daily Blog WebSite">
+<meta property="og:description" content="a free blog website for personal use.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://fdslk.github.io/images/redefine-og.webp">
+<meta property="article:published_time" content="2025-08-06T13:26:26.000Z">
+<meta property="article:modified_time" content="2025-08-06T07:34:24.895Z">
+<meta property="article:author" content="Zengqiang Fang">
+<meta property="article:tag" content="大数据">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://fdslk.github.io/images/redefine-og.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/redefine-favicon.svg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/redefine-favicon.svg">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/redefine-favicon.svg">
+    <!--- Page Info-->
+    
+    <title>
+        
+            现实中的数据接入 | 🪳的Daily Blog WebSite
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"fdslk.github.io","root":"/","language":"en"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":true,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/redefine-og.webp","description":"a free blog website for personal use."},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"a free blog website for sharing daily works and life","subtitle":{"text":[],"hitokoto":{"enable":false,"show_author":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":{"github":"https://github.com/fdslk","instagram":null,"zhihu":null,"twitter":null,"email":"zqfangmaster@163.com"},"qrs":{"weixin":"/images/qrcode.jpg"}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1"}},"version":"2.8.5","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"About":{"icon":"fa-regular fa-user","submenus":{"Me":"/about","Github":"https://github.com/fdslk","Blog":"https://fdslk.github.io"}}},"search":{"enable":false,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":null},"article_date_format":"auto","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2022/8/17 11:45:14"};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+
+<body>
+	<div class="progress-bar-container">
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                🪳的Daily Blog WebSite
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/archives"
+                                        >
+                                    <i class="fa-regular fa-archive fa-fw"></i>
+                                    ARCHIVES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown"
+                                   href="#"
+                                        onClick=&#34;return false;&#34;>
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    ABOUT
+                                    <i class="fa-solid fa-chevron-down fa-fw"></i>
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                        
+                                            <li>
+                                                <a href="/about">
+                                                    ME
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a target="_blank" rel="noopener" href="https://github.com/fdslk">
+                                                    GITHUB
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="https://fdslk.github.io">
+                                                    BLOG
+                                                </a>
+                                            </li>
+                                        
+                                    </ul>
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/archives"
+                        >
+                            <span>
+                                ARCHIVES
+                            </span>
+                            
+                                <i class="fa-regular fa-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item-sub text-base my-1.5 flex flex-col w-full">
+                        
+                        <div class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary cursor-pointer text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                             navbar-data-toggle="submenu-About"
+                        >
+                            <span>
+                                ABOUT
+                            </span>
+                            
+                                <i class="fa-solid fa-chevron-right fa-sm fa-fw transition-all"></i>
+                            
+                        </div>
+                        
+
+                        
+                            <div class="flex-col items-start px-2 py-2 hidden" data-target="submenu-About">
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/about">ME</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           target="_blank" rel="noopener" href="https://github.com/fdslk">GITHUB</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="https://fdslk.github.io">BLOG</a>
+                                    </div>
+                                
+                            </div>
+                        
+                    </li>
+            
+
+            
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">63</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">53</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">48</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			<div class="w-full flex items-center pt-6 justify-start">
+				<h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">现实中的数据接入</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+				<img src="/images/redefine-avatar.svg">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">Xiao Qiang</span>
+					
+					<span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv4</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2025-08-06 21:26:26</span>
+        <span class="mobile">2025-08-06 21:26:26</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2025-08-06 15:34:24</span>
+            <span class="mobile">2025-08-06 15:34:24</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/tech/">tech</a>&nbsp;
+                        </li>
+                    
+                    
+                
+                    
+                        
+                            <li>></li>
+                        
+                        <li>
+                            <a href="/categories/tech/big-data/">big-data</a>&nbsp;
+                        </li>
+                    
+                    
+                
+                    
+                        
+                            <li>></li>
+                        
+                        <li>
+                            <a href="/categories/tech/big-data/etl/">etl</a>&nbsp;
+                        </li>
+                    
+                    
+                
+                    
+                        
+                            <li>></li>
+                        
+                        <li>
+                            <a href="/categories/tech/big-data/etl/java/">java</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<p>作为干了多年应用开发，只是在项目上看看数据项目的我，现在已经开始转向了数据的方向，目前来看许多企业已经完成了信息化的转型，但是应用系统中产生的数据并没有被好好的利用起来，那么在我的认知里，数据化的转型应该是未来的一个长期方向。其中包括了数据的采集，清理和使用，这里我说的很简单，因为在公司里面很多的数据都是被集中化管理，几乎不存在我拿不到数据的情况。这是站在一个公司层面来理解和观察数据，与国家级别的数据级别来说就如同九牛一毛一样。其实不仅仅是数据级别，治理难度，收集难度也没有在一个层级上。最近我在做一些数据收集的工作，所以也有一些想法想法想写写。主要是因为这次的体验比较特殊，现实中接数可能更多的是库对库或者推流的模式，然而当前的项目确是以api为全部数据的接入途径。不仅数量多，而且来源也不同。下面主要从client的调用、数据落库、数据清理方案以及数据的抽数方案等方面来展开讨论。<br>业务背景为某智慧平台建设，除了需要内部系统数据之外，还需要收集一些公共数据来做预测和实时的监控。然而这些公共数据都是以api的形式来提供数据，因为购买的数据来自多家供应商，都是国内头部的地图厂商。来自多家厂商还不是最大的问题，提供的接口只是为了提供数据，所以数据返回数据的内容各不相同。其中最普遍的是application&#x2F;json，我天真的以为，这次的数据就是为了调用api之后简单的转换落库就完了。结果还有各种不同的content-type的response的返回。以下是应对两种不同的场景的请求实现：</p>
+<h3 id="Client调用方案"><a href="#Client调用方案" class="headerlink" title="Client调用方案"></a>Client调用方案</h3><h4 id="getZipFile-String-path"><a href="#getZipFile-String-path" class="headerlink" title="getZipFile(String path)"></a>getZipFile(String path)</h4><ul>
+<li>核心功能: 下载并尝试解压 GZIP 压缩的文件，同时兼容普通文本。</li>
+<li>应对场景: 服务器返回 GZIP 压缩的响应体：这是它的主要目标，response的头部中能够发现 <code>Content-Encoding</code>的值为 <code>zip</code>。服务器为了节省带宽，可能会将 JSON 或文本数据进行 GZIP 压缩后再发送。客户端收到后需要先解压才能读取原始内容。API 明确告知会返回压缩文件：例如，某个接口的文档里写着<strong>响应体是 GZIP 压缩的 JSON或者</strong>，那么就应该用这个方法来调用。</li>
+<li>实现关键点:</li>
+</ul>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">HTTP 响应</span><br><span class="line">├── URL: http://et-api.amap.com/state/areaJSONPub</span><br><span class="line">├── Request Headers:</span><br><span class="line">│   └── Accept-Encoding: gzip? （你没发，但可能默认支持）</span><br><span class="line">├── Response Headers:</span><br><span class="line">│   ├── Content-Type: application/x-zip-compressed   ← 名不副实，传回来的数据并不是一个真正的zip文件，不需要通过GZIP解压之后再用ZIP解压</span><br><span class="line">│   └── Content-Encoding: gzip</span><br><span class="line">└── 响应体：</span><br><span class="line">    └── GZIP 压缩的数据</span><br><span class="line">        └── 解压后是：一个叫 areaJSONPub 的 JSON 文本文件（纯字符串）</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>简单来说: 当你调用一个接口，它返回的是 .gz 或 .zip 格式的文件，而不是纯文本时，用这个方法。</li>
+</ul>
+<div class="code-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> String <span class="title function_">getZipFile</span><span class="params">(String path)</span> <span class="keyword">throws</span> IOException &#123;  </span><br><span class="line">    ResponseEntity&lt;<span class="type">byte</span>[]&gt; entity = restTemplate.getForEntity(path, <span class="type">byte</span>[].class);  </span><br><span class="line">    <span class="type">byte</span>[] body = entity.getBody();  </span><br><span class="line">    <span class="comment">// 所有流都从 body 创建，避免复用已读取的流  </span></span><br><span class="line">    <span class="type">ByteArrayInputStream</span> <span class="variable">bais2</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ByteArrayInputStream</span>(body);  </span><br><span class="line">    <span class="keyword">try</span> (<span class="type">GZIPInputStream</span> <span class="variable">gis</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">GZIPInputStream</span>(bais2)) &#123;  </span><br><span class="line">        <span class="keyword">return</span> streamToString(gis);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title function_">streamToString</span><span class="params">(InputStream is)</span> <span class="keyword">throws</span> IOException &#123;  </span><br><span class="line">    <span class="type">StringBuilder</span> <span class="variable">sb</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();  </span><br><span class="line">    <span class="keyword">try</span> (<span class="type">BufferedReader</span> <span class="variable">reader</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(<span class="keyword">new</span> <span class="title class_">InputStreamReader</span>(is))) &#123;  </span><br><span class="line">        String line;  </span><br><span class="line">        <span class="keyword">while</span> ((line = reader.readLine()) != <span class="literal">null</span>) &#123;  </span><br><span class="line">            sb.append(line);  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="keyword">return</span> sb.toString();  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<h4 id="那如果数据量再大一些该怎么办？这个时候我们可能就需要借助一些大数据处理的思想以及框架来处理数据"><a href="#那如果数据量再大一些该怎么办？这个时候我们可能就需要借助一些大数据处理的思想以及框架来处理数据" class="headerlink" title="那如果数据量再大一些该怎么办？这个时候我们可能就需要借助一些大数据处理的思想以及框架来处理数据"></a>那如果数据量再大一些该怎么办？这个时候我们可能就需要借助一些大数据处理的思想以及框架来处理数据</h4><ul>
+<li>case1，调用一个接口来处理一个T+3的数据，接口提供的数据不是普通的 <code>appliaction/json</code>格式而是一个zip文件的下载，处理方式有有两种<ul>
+<li>方式一，使用java程序将文件下载下来，将其解压，通过hdfs的put命令，将解压后的文件存储到hdfs中，<strong>优点</strong>是可以通过代码的方式来操作这些文件，通过代码来实现自动化；<strong>缺点</strong>是如果这样的case很多，就是在代码中出现很多的长连接，这样会极大的占用程序的IO资源，容易造成性能问题</li>
+<li>方式二，使用bash脚本，通过wget和unzip命令来下载文件，然后直接在linux系统上执行hdfs的put命令，然后再通过corn tab表达式执行T+3的定时调度。<strong>优点</strong>是简单，能够直接使用linux的资源，没有其他的网络带宽，方式比较直接；<strong>缺点</strong>是这种方式只能作为一种临时的方式提取数据的方案，代码不易维护，没有版本的管理等</li>
+<li>方式三，通过all in one的平台，编写调度任务<br>除了接口数据量大的问题，还有落数据的问题以及数据清理的问题</li>
+</ul>
+</li>
+</ul>
+<h3 id="大数据量批量落数方案"><a href="#大数据量批量落数方案" class="headerlink" title="大数据量批量落数方案"></a>大数据量批量落数方案</h3><p>通过使用框架的批量写数方案，能够在满足数据库的性能内，将一批数据写入数据，这样能够减少服务和数据连接数，和网络的占用。以下是主流的几种批量写数方案：</p>
+<ul>
+<li>使用jakarta.persistence提供的EntityManager，主动按照不同的批次执行</li>
+</ul>
+<div class="code-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">entityManager.flush();  %% 强制提交当前的上下文中的sql到数据中执行 %%</span><br><span class="line">entityManager.clear();</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>使用jdbctemplate的 <code>jdbcTemplate.batchUpdate</code>，这里有一点需要注意。如果没有添加 <code>@Transactional</code>，每一个batch都会自动提交。但是如果添加了注解，需要手动修改类型为 <code>REQUIRES_NEW</code></li>
+<li>mybatis的batchInsert接口</li>
+</ul>
+<h3 id="大数据量的清理方案"><a href="#大数据量的清理方案" class="headerlink" title="大数据量的清理方案"></a>大数据量的清理方案</h3><p>在落库的过程中，会产生大量的数据，为了不影响落数的速度，在建表的时候并没有添加索引。那么这将导致在数据量大了之后，很难查询对应的数据，也同时会影响对数据库修改的一些操作。所以产生的数据需要及时的清理，那么这里有几种清理方案，如下</p>
+<h4 id="主动处理"><a href="#主动处理" class="headerlink" title="主动处理"></a>主动处理</h4><p>数据处理方需要提供一个api来查询每次数据处理的状态，如果当前批次的数据处理成功，在每次数据清理之前调用当前接口获取数据处理的状态。每次重试3次，如果三次都失败，需要打印日志，或者将当前没有处理的数据放到某个未处理队列中，以供后续的处理。</p>
+<h4 id="被动处理"><a href="#被动处理" class="headerlink" title="被动处理"></a>被动处理</h4><p>数据消费方需要提供webhook，在每次数据处理完成之后通过webhook来调用数据存储方来清理数据。</p>
+<h4 id="涉及到的技术方案"><a href="#涉及到的技术方案" class="headerlink" title="涉及到的技术方案"></a>涉及到的技术方案</h4><ul>
+<li>通过使用jdbctemplate执行原始的sql批量删数语句删数</li>
+<li>使用存储过程删数，定义存储过程模版，再用jdbctemplate调用存储过程</li>
+<li>在存数的时候就需要考虑，按日期分表存储数据，每次只需要drop table即可</li>
+</ul>
+<h4 id="超级大数据的清理"><a href="#超级大数据的清理" class="headerlink" title="超级大数据的清理"></a>超级大数据的清理</h4><ul>
+<li><p>因为在删除数据的时候会对数据的索引产生<strong>间隙锁</strong>，导致插入数据的时候发生插入语句被删除的block，那么这里有两种处理方案</p>
+<ul>
+<li>减少每次删除的数量在sql中添加一个 <code>limit</code>，这样可以减少间隙锁的命中，通过下述两个sql来查询sql的运行状态</li>
+</ul>
+<div class="code-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> processList;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">waiting_trx_id,</span><br><span class="line">waiting_pid,</span><br><span class="line">waiting_query,</span><br><span class="line">blocking_trx_id,</span><br><span class="line">blocking_pid,</span><br><span class="line">blocking_query</span><br><span class="line"><span class="keyword">FROM</span> sys.innodb_lock_waits;</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>借助一个开关，使用内存或者Redis添加一个flag，当删除任务或者etl任务开始的时候，当前的写入数据的任务将切换一个临时表来写数，当长时间的任务结束之后再继续在原表中写数</li>
+</ul>
+</li>
+</ul>
+<h3 id="ETL方式"><a href="#ETL方式" class="headerlink" title="ETL方式"></a>ETL方式</h3><p>调度数据接口数量比较多，调度的频率也会不一样，并且数据接口返回的数据量也不一样。所以在选择框架上可以从以下几个方面来考虑</p>
+<table>
+<thead>
+<tr>
+<th>框架</th>
+<th>是否需要编码</th>
+<th>是否能够支持多线程</th>
+<th>维护性</th>
+<th>扩展性</th>
+<th>可视化界面</th>
+<th>适应场景</th>
+<th>相关官网</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>spring自带Schedule</td>
+<td>✅</td>
+<td>可以的，默认使用的是 <code>ConcurrentTaskExecutor</code>，可以通过bean的方式替换Executor，来开启不同的线程池</td>
+<td>需要通过写代码来设计</td>
+<td>需要代码设计</td>
+<td>无</td>
+<td>1、需要调度的任务较少 <code>&lt;br&gt;</code>2、一定需要编程解决的数据采集任务</td>
+<td></td>
+</tr>
+<tr>
+<td>Quartz Scheduler</td>
+<td>✅</td>
+<td>是的，还可以支持分布式任务调度，所有任务的metadata可以存储在数据库或者内存中。前者，持久化，不会因为服务的宕机而导致数据的丢失；后者因为存储在内存中，获取任务的metadata的速度会更快</td>
+<td>需要设计代码</td>
+<td>需要通过代码来设计</td>
+<td>无</td>
+<td>1、可以随时的开停正在运行的任务，不用额外设计【通过api】</td>
+<td><a class="link"   target="_blank" rel="noopener" href="https://www.quartz-scheduler.org/" >https://www.quartz-scheduler.org/<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></td>
+</tr>
+<tr>
+<td>xxljob</td>
+<td>❎</td>
+<td>是的，还可以部署集群来提高任务的执行效率</td>
+<td>不需要</td>
+<td>不需要</td>
+<td>有</td>
+<td>是否能够支持复杂的任务？</td>
+<td><a class="link"   target="_blank" rel="noopener" href="https://gitee.com/xuxueli0323/xxl-job" >https://gitee.com/xuxueli0323/xxl-job<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></td>
+</tr>
+<tr>
+<td>powerjob</td>
+<td>❎</td>
+<td>是的，还可以部署集群来提高任务的执行效率</td>
+<td>不需要</td>
+<td>不需要</td>
+<td>有</td>
+<td>支持更加复杂的工作流DAG</td>
+<td><a class="link"   target="_blank" rel="noopener" href="https://www.yuque.com/powerjob/guidence/intro" >https://www.yuque.com/powerjob/guidence/intro<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></td>
+</tr>
+</tbody></table>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>在目前的接数阶段中，主要遇到的是一些性能问题，配置问题等。如同公司的同事所说，通过api接数在现实中是比较少的，因为通过网络的传输会影响接数的效率。数据经过网络的传输都会有一定的延迟，通常一般都是使用库表、文件以及消息队列的方式来共享数据。通过这次项目，我发现在现实中不同的api的接口的性能不同，数据的接收方式不同，数据之间还存在一定的依赖的关系。对于提到的这些问题需要设计接数方案的时候在以下几个方面进行考虑：</p>
+<ul>
+<li>外界系统能够接受的QPS，如果太多将会影响系统的调用外部接口的成功次数，超过limit将会限流</li>
+<li>当前系统能够承载的最大的线程数量，如果超过当前系统的最大的承载数量将有可能会导致系统的IO堵塞</li>
+<li>设计方案，DAG+调度框架代码【Schedular或者quartz】，简单数据采集直接使用可视化界面的方式采集数据，复杂数据或者有依赖的数据使用代码的形式来实现数据的采集</li>
+<li>接口采集的频率以及次数，这些数据可以用来统计每天数据采集量，影响每天数据的采集配额。同时数据量的大小也会影响当前临时存储空间的大小</li>
+<li>数据的增量字段，该字段可以是自增id，也可以是create_at字段，这个数据有助于后续的ETL操作，否则ETL阶段的时候将不会有抽数的标记</li>
+<li>合理的设计索引，索引过多，或者过少都会影响插入数据或者写入数据的速度</li>
+<li>及时的清理数据，如果数据量一旦过大就会引起后续ETL抽数失效</li>
+<li>数据量过大时，数据的存储可以考虑直接存储在大数据集群，这里可能就是抽象的数据的入湖【数据湖】</li>
+</ul>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> 现实中的数据接入</li>
+        <li><strong>Author:</strong> Xiao Qiang</li>
+        <li><strong>Created at
+                :</strong> 2025-08-06 21:26:26</li>
+        
+            <li>
+                <strong>Updated at
+                    :</strong> 2025-08-06 15:34:24
+            </li>
+        
+        <li>
+            <strong>Link:</strong> http://fdslk.github.io/tech/big-data/etl/java/2025/08/06/现实中的数据接入/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+
+            
+                This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a>.
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/">#大数据</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/tech/ai/rag/2025/03/17/rag-general-understanding/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">General understanding about RAG</span>
+						<span class="post-nav-item">Next posts</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.mjs';
+
+      function loadWaline() {
+        init({
+          el: '#waline',
+          serverURL: 'https://example.example.com',
+          dark: 'body[class~="dark-mode"]',
+          reaction: false,
+          requiredMeta: ['nick', 'mail'],
+          emoji: [],
+                    lang: 'zh-CN',
+        });
+      }
+
+      if (typeof swup !== 'undefined') {
+        loadWaline();
+      } else {
+        window.addEventListener('DOMContentLoaded', loadWaline);
+      }
+    </script>
+
+
+
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">On this page</div>
+		<div class="page-title">现实中的数据接入</div>
+		<ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Client%E8%B0%83%E7%94%A8%E6%96%B9%E6%A1%88"><span class="nav-text">Client调用方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%87%8F%E6%89%B9%E9%87%8F%E8%90%BD%E6%95%B0%E6%96%B9%E6%A1%88"><span class="nav-text">大数据量批量落数方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%87%8F%E7%9A%84%E6%B8%85%E7%90%86%E6%96%B9%E6%A1%88"><span class="nav-text">大数据量的清理方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ETL%E6%96%B9%E5%BC%8F"><span class="nav-text">ETL方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2025&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">Xiao Qiang</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        48 posts in total
+                    </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.8.5</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog fa-spin"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container">
+	<img src="">
+</div>
+
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+
+	
+<script src="/js/build/tools/imageViewer.js" type="module"></script>
+
+<script src="/js/build/utils.js" type="module"></script>
+
+<script src="/js/build/main.js" type="module"></script>
+
+<script src="/js/build/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/build/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/build/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/build/layouts/categoryList.js" type="module"></script>
+
+
+
+
+
+    
+<script src="/js/build/tools/codeBlock.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/layouts/lazyload.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/tools/runtime.js"></script>
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/build/libs/Typed.min.js"></script>
+
+  
+<script src="/js/build/plugins/typed.js" type="module"></script>
+
+
+
+
+
+
+
+
+    
+<script src="/js/build/libs/anime.min.js"></script>
+
+
+
+
+
+    
+<script src="/js/build/tools/tocToggle.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/layouts/toc.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/plugins/tabs.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+<script src="/js/build/layouts/essays.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+
+	
+</body>
+
+</html>
