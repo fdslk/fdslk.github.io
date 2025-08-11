@@ -123,7 +123,7 @@
     
     <!--- Seo Part-->
     
-    <link rel="canonical" href="http://fdslk.github.io/tech/big-data/etl/java/2025/08/06/现实中的数据接入/"/>
+    <link rel="canonical" href="http://fdslk.github.io/tech/big-data/etl/java/2025/08/10/现实中的数据接入/"/>
     <meta name="robots" content="index,follow">
     <meta name="googlebot" content="index,follow">
     <meta name="revisit-after" content="1 days">
@@ -134,13 +134,13 @@
         <meta name="description" content="a free blog website for personal use.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="现实中的数据接入">
-<meta property="og:url" content="http://fdslk.github.io/tech/big-data/etl/java/2025/08/06/%E7%8E%B0%E5%AE%9E%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E6%8E%A5%E5%85%A5/index.html">
+<meta property="og:url" content="http://fdslk.github.io/tech/big-data/etl/java/2025/08/10/%E7%8E%B0%E5%AE%9E%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E6%8E%A5%E5%85%A5/index.html">
 <meta property="og:site_name" content="🪳的Daily Blog WebSite">
 <meta property="og:description" content="a free blog website for personal use.">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://fdslk.github.io/images/redefine-og.webp">
-<meta property="article:published_time" content="2025-08-06T07:26:26.000Z">
-<meta property="article:modified_time" content="2025-08-06T07:45:50.489Z">
+<meta property="article:published_time" content="2025-08-10T07:26:26.000Z">
+<meta property="article:modified_time" content="2025-08-11T00:47:31.794Z">
 <meta property="article:author" content="Zengqiang Fang">
 <meta property="article:tag" content="大数据">
 <meta name="twitter:card" content="summary">
@@ -481,15 +481,15 @@
 					<div class="article-meta-info">
     <span class="article-date article-meta-item">
         <i class="fa-regular fa-pen-fancy"></i>&nbsp;
-        <span class="desktop">2025-08-06 15:26:26</span>
-        <span class="mobile">2025-08-06 15:26:26</span>
+        <span class="desktop">2025-08-10 15:26:26</span>
+        <span class="mobile">2025-08-10 15:26:26</span>
         <span class="hover-info">Created</span>
     </span>
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2025-08-06 15:45:50</span>
-            <span class="mobile">2025-08-06 15:45:50</span>
+            <span class="desktop">2025-08-11 08:47:31</span>
+            <span class="mobile">2025-08-11 08:47:31</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -573,7 +573,7 @@
 
 
 		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
-			<p>作为干了多年应用开发，只是在项目上看看数据项目的我，现在已经开始转向了数据的方向，目前来看许多企业已经完成了信息化的转型，但是应用系统中产生的数据并没有被好好的利用起来，那么在我的认知里，数据化的转型应该是未来的一个长期方向。其中包括了数据的采集，清理和使用，这里我说的很简单，因为在公司里面很多的数据都是被集中化管理，几乎不存在我拿不到数据的情况。这是站在一个公司层面来理解和观察数据，与国家级别的数据级别来说就如同九牛一毛一样。其实不仅仅是数据级别，治理难度，收集难度也没有在一个层级上。最近我在做一些数据收集的工作，所以也有一些想法想法想写写。主要是因为这次的体验比较特殊，现实中接数可能更多的是库对库或者推流的模式，然而当前的项目确是以api为全部数据的接入途径。不仅数量多，而且来源也不同。下面主要从client的调用、数据落库、数据清理方案以及数据的抽数方案等方面来展开讨论。<br>业务背景为某智慧平台建设，除了需要内部系统数据之外，还需要收集一些公共数据来做预测和实时的监控。然而这些公共数据都是以api的形式来提供数据，因为购买的数据来自多家供应商，都是国内头部的地图厂商。来自多家厂商还不是最大的问题，提供的接口只是为了提供数据，所以数据返回数据的内容各不相同。其中最普遍的是application&#x2F;json，我天真的以为，这次的数据就是为了调用api之后简单的转换落库就完了。结果还有各种不同的content-type的response的返回。以下是应对两种不同的场景的请求实现：</p>
+			<p>作为干了多年应用开发，只是在项目上看看数据项目的我，现在已经开始转向了数据的方向，目前来看许多企业已经完成了信息化的转型，但是应用系统中产生的数据并没有被好好的利用起来，那么在我的认知里，数据化的转型应该是未来的一个长期方向。其中包括了数据的采集，清理和使用，这里我说的很简单，因为在公司里面很多的数据都是被集中化管理，几乎不存在我拿不到数据的情况。这是站在一个公司层面来理解和观察数据，与社会的公共数据级别来说就如同九牛一毛一样。其实不仅仅是数据级别，治理难度，收集难度也没有在一个层级上。最近我在做一些数据收集的工作，所以也有一些想法想法想写写。主要是因为这次的体验比较特殊，现实中接数可能更多的是库对库或者推流的模式，然而当前的项目确是以api为全部数据的接入途径。不仅数量多，而且来源也不同。下面主要从client的调用、数据落库、数据清理方案以及数据的抽数方案等方面来展开讨论。<br>业务背景为某智慧平台建设，除了需要内部系统数据之外，还需要收集一些公共数据来做预测和实时的监控。然而这些公共数据都是以api的形式来提供数据，因为购买的数据来自多家供应商，都是国内头部的地图厂商。来自多家厂商还不是最大的问题，提供的接口只是为了提供数据，所以数据返回数据的内容各不相同。其中最普遍的是 <code>application/json</code>，我天真的以为，这次的数据就是为了调用api之后简单的转换落库就完了。结果还有各种不同的 <code>content-type</code>的 <code>response</code>的返回。以下是应对两种不同的场景的请求实现：</p>
 <h3 id="Client调用方案"><a href="#Client调用方案" class="headerlink" title="Client调用方案"></a>Client调用方案</h3><h4 id="getZipFile-String-path"><a href="#getZipFile-String-path" class="headerlink" title="getZipFile(String path)"></a>getZipFile(String path)</h4><ul>
 <li>核心功能: 下载并尝试解压 GZIP 压缩的文件，同时兼容普通文本。</li>
 <li>应对场景: 服务器返回 GZIP 压缩的响应体：这是它的主要目标，response的头部中能够发现 <code>Content-Encoding</code>的值为 <code>zip</code>。服务器为了节省带宽，可能会将 JSON 或文本数据进行 GZIP 压缩后再发送。客户端收到后需要先解压才能读取原始内容。API 明确告知会返回压缩文件：例如，某个接口的文档里写着<strong>响应体是 GZIP 压缩的 JSON或者</strong>，那么就应该用这个方法来调用。</li>
@@ -700,15 +700,15 @@
         <li><strong>Title:</strong> 现实中的数据接入</li>
         <li><strong>Author:</strong> Xiao Qiang</li>
         <li><strong>Created at
-                :</strong> 2025-08-06 15:26:26</li>
+                :</strong> 2025-08-10 15:26:26</li>
         
             <li>
                 <strong>Updated at
-                    :</strong> 2025-08-06 15:45:50
+                    :</strong> 2025-08-11 08:47:31
             </li>
         
         <li>
-            <strong>Link:</strong> http://fdslk.github.io/tech/big-data/etl/java/2025/08/06/现实中的数据接入/
+            <strong>Link:</strong> http://fdslk.github.io/tech/big-data/etl/java/2025/08/10/现实中的数据接入/
         </li>
         <li>
             <strong>
