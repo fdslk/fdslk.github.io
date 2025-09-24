@@ -1,0 +1,922 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+
+<url>
+  <loc>https://fdslk.github.io/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/archives/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/about/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/LLM/agent/2025/09/24/LLM-Agent-general-understanding/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/LLM/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/LLM/agent/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/LLM/agent/RAG/2025/09/17/LLM%E5%9C%A8%E7%8E%B0%E5%AE%9E%E4%B8%AD%E7%9A%84%E8%B5%8B%E8%83%BD/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/LLM/agent/RAG/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/big-data/etl/java/2025/08/10/%E7%8E%B0%E5%AE%9E%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E6%8E%A5%E5%85%A5/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/big-data/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/big-data/etl/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/big-data/etl/java/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/ai/rag/2025/03/17/rag-general-understanding/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/ai/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/ai/rag/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/llm/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/ai/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/nlp/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/python/llm-agent/2025/03/08/dify-on-wechat-based-on-gewechat-understanding/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/python/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/python/llm-agent/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/python/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/agent/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/picture-processor/2024/12/16/remove-watermark/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/picture-processor/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/opencv/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/uncategorized/2024/12/13/redisson-optimization/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/java-redis-redison/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/opps/nginx/2023/05/31/nginx-with-docker/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/opps/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/opps/nginx/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/nginx/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/docker-network/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/load-balance/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/java/filter/2023/04/27/little-stuffs-in-spring-filter/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/java/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/java/filter/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/java/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/filter/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/golang/chatgpt/2023/04/14/command-chatpgt-init/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/golang/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/golang/chatgpt/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/command-line/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/chatgpt/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/golang/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/page/2/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/page/3/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/page/5/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/vue/2023/03/31/quick-start-vue/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/ops/proxy/2023/03/22/ops-nginx/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/shell/2023/03/16/shell-101/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/book/growth/society/university/2023/03/15/%E5%AF%92%E9%97%A8%E5%86%8D%E9%9A%BE%E5%87%BA%E8%B4%B5%E5%AD%90-%E6%88%91%E7%9A%84%E4%BA%8C%E6%9C%AC%E5%AD%A6%E7%94%9F/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/book/fiance/2023/03/15/%E6%8A%8A%E8%B4%A2%E5%AF%8C%E5%88%86%E4%BA%AB%E7%BB%99%E5%88%AB%E4%BA%BA-%E5%B0%8F%E5%B2%9B%E7%BB%8F%E6%B5%8E%E5%AD%A6/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/book/fiance/2023/03/14/%E6%9C%89%E8%B6%A3%E7%82%B9%E5%AD%90%E4%BA%A7%E7%94%9F%E4%BA%86-%E5%B0%8F%E5%B2%9B%E7%BB%8F%E6%B5%8E%E5%AD%A6/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/java/aop/2023/03/14/java-aop/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/dotnet-core/2023/03/05/dotnet-core-related/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/test/gatling/2023/03/05/gatling-load-test/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/test/gatling/2023/03/05/gatling-101/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/shell/2023/03/05/shell-disk-operation/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/shell/2023/03/05/shell-file-operation/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/ops/log/2023/03/05/ops-log-management/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/ops/cache/2023/03/05/ops-vanish/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/ops/k8s/secret/2023/03/05/ops-k8s-secret/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/ops/package/2023/03/05/ops-helm/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/ops/CD/2023/03/05/ops-skaffold/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/ops/CD/2023/03/05/ops-argocd/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/kotlin/Android/2023/03/05/Android-app-room-database/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/kotlin/Android/2023/03/05/Android-app-liveData-viewModel/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/kotlin/Android/2023/03/05/Android-app-fragment/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/kotlin/Android/2023/03/05/android_app_color/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/kotlin/Android/2023/03/05/Android-app-101/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/kotlin/101/2023/03/05/kotlin-101/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/kotlin/idea-pulgins/2023/03/05/intellig-plugin-development/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/java/spring-boot/jwt/2023/03/05/integration-jwt/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/java/swagger/open-api/2023/03/05/open-api-swagger/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/java/spring-boot/webflux/2023/03/05/webflux-api/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/java/java-feature-option-optional/2023/03/05/option-optional-difference/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/uncategorized/2023/03/05/integration-new-relic/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/2023/03/05/elastic-search-basic-feature/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/java/lint/2023/03/05/code-lint/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/video/ffmpeg/2023/03/05/ffmpeg-simple-convert/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/video/ffmpeg/2023/03/05/ffmpeg_basic_concept/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/test/java/es/2023/03/05/es-local-tests/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/java/design-pattern/2023/03/05/easy-rule-demo/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/java/spring-boot/101/2023/03/05/spring101/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/java/spring-boot/auth0/2023/03/05/integration-auth0-in-spring-boot/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/java/spring-boot/starter/2023/03/05/java-customer-starter/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tech/video/ffmpeg/2023/03/05/streaming_protocol/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/java-language-feature/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/Kotlin/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/Android/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/lint/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/dify/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/dow/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/gewechat/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/dotnet-core/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/design-pattern/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/easy-rule/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/es/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/elastic-search/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/integration-test/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/ffmpeg/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/coverting-format/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/gatling/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/load-test-performance-test/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/spring-boot/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/auth0/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/metrics/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/new-relic/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/jwt/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/Intellij-Plugins/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/aop/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/customer-starter/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/swagger/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/open-api/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/contract-test/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/ops/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/cd/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/argo-cd/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/helm/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/k8s/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/secret/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/skaffold/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/vanish/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/vue/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/rag/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/shell/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/media-server/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/webflux/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/book/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/growth/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/society/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/university/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/tags/fiance/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/book/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/book/fiance/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/book/growth/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/book/growth/society/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/book/growth/society/university/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/dotnet-core/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/java/aop/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/java/design-pattern/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/java/java-feature-option-optional/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/java/lint/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/java/spring-boot/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/java/spring-boot/101/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/java/spring-boot/auth0/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/java/spring-boot/jwt/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/java/spring-boot/starter/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/java/spring-boot/webflux/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/java/swagger/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/java/swagger/open-api/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/kotlin/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/kotlin/101/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/kotlin/Android/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/kotlin/idea-pulgins/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/ops/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/ops/CD/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/ops/cache/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/ops/k8s/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/ops/k8s/secret/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/ops/log/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/ops/package/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/ops/proxy/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/shell/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/test/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/test/gatling/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/test/java/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/test/java/es/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/video/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/video/ffmpeg/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/vue/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/page/2/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/page/3/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/page/5/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/java/page/2/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/page/4/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://fdslk.github.io/categories/tech/page/4/</loc>
+  <lastmod>2025-09-24T02:08:38+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+
+
+</urlset>
