@@ -140,7 +140,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://fdslk.github.io/images/redefine-og.webp">
 <meta property="article:published_time" content="2025-09-24T01:12:42.000Z">
-<meta property="article:modified_time" content="2025-09-24T01:12:42.916Z">
+<meta property="article:modified_time" content="2025-09-24T02:04:36.919Z">
 <meta property="article:author" content="Zengqiang Fang">
 <meta property="article:tag" content="AI">
 <meta name="twitter:card" content="summary">
@@ -488,8 +488,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2025-09-24 09:12:42</span>
-            <span class="mobile">2025-09-24 09:12:42</span>
+            <span class="desktop">2025-09-24 10:04:36</span>
+            <span class="mobile">2025-09-24 10:04:36</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -558,25 +558,25 @@
 <h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>)众所周知的是，LLM都是训练好的模型。训练的过程是将已有的材料数据输入到编写好的模型中，通过多轮训练形成最后输出模型。例如训练好的 <code>deepseek-chat</code>、<code>deepseek-reasoner</code>、<code>gpt-o1</code>等，但是这意味当用户给出了输入之后，LLM只能通过已有的知识给出输出。所以原有的交互过程入下图所示：<br><img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="https://github-production-user-asset-6210df.s3.amazonaws.com/6279298/493089972-72496db6-dc97-470b-a950-4c919fd972c7.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA/20250924/us-east-1/s3/aws4_request&X-Amz-Date=20250924T005225Z&X-Amz-Expires=300&X-Amz-Signature=c5d699ffb3fcf74382074b3c2a7f7b69026ba3ec806d60f99b1d8b9bc2b691d3&X-Amz-SignedHeaders=host"
+                     data-src="https://foruda.gitee.com/images/1758679376926318158/dbd14747_7387966.png"
                       alt="Pasted image 20250922162314.png"
                 >)<br>Agent 的出现部分是为了解决 LLM 静态知识不足的问题，但更核心的价值在于让 LLM 能够通过外部工具和环境交互来扩展能力。Agent 框架使 LLM 在一定程度上表现出自主性、适应性、感知能力和目标导向特征。其本质是将 <strong>推理（Reasoning）</strong> 与 <strong>行动（Acting）</strong> 结合，使模型能够根据推理过程决定如何调用工具并利用结果，从而生成更合适的响应。<br><img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="https://github-production-user-asset-6210df.s3.amazonaws.com/6279298/493090181-477b5740-08af-416a-8039-de28ad86f126.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA/20250924/us-east-1/s3/aws4_request&X-Amz-Date=20250924T005314Z&X-Amz-Expires=300&X-Amz-Signature=c4198acaac476fb174902a7aca8ff17e7b27d77ac21991a5757469c6c342b4ce&X-Amz-SignedHeaders=host"
+                     data-src="https://foruda.gitee.com/images/1758679331547603641/a0d08b6b_7387966.png"
                       alt="Pasted image 20250922171225.png"
                 ><br>通过查看当前主流框架 <code>langchain</code>和 <code>LlamaIndex</code>的分析，发现两者都采用了 <code>Thought/action/observation</code>的思想，在框架中都有自己的输出模版</p>
 <ul>
 <li>LlamaIndex的输出prompt<br><img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="https://github-production-user-asset-6210df.s3.amazonaws.com/6279298/493091327-952aa5a8-b518-4e22-999c-7f5d0f114d25.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA/20250924/us-east-1/s3/aws4_request&X-Amz-Date=20250924T005929Z&X-Amz-Expires=300&X-Amz-Signature=948abbbabba56fc6d19980b91b6ada4ef631594fff9a83f135cfa92281b5b6af&X-Amz-SignedHeaders=host"
+                     data-src="https://foruda.gitee.com/images/1758679412090969054/41c6713d_7387966.png"
                       alt="Pasted image 20250923172518.png"
                 ></li>
 <li>Langchain的prompt<img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="https://github-production-user-asset-6210df.s3.amazonaws.com/6279298/493090813-c411ac05-814b-457c-a7c9-e071679030d6.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA/20250924/us-east-1/s3/aws4_request&X-Amz-Date=20250924T005637Z&X-Amz-Expires=300&X-Amz-Signature=939ac414e3841d9c3ef41f2a00e8a2d1aa2e039b9a1807c12af0b61e2218aa45&X-Amz-SignedHeaders=host"
+                     data-src="https://foruda.gitee.com/images/1758679441235351075/5bbe9bbd_7387966.png"
                       alt="Pasted image 20250923172611.png"
                 ><br>所以根据上述两个框架的实现，agent最终又落到了prompt engineer上</li>
 </ul>
@@ -618,7 +618,7 @@
 <p>最终在浏览中搜索，来验证结果是否正确<img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="https://github-production-user-asset-6210df.s3.amazonaws.com/6279298/493091750-3b8ba651-51f9-4acb-b983-5d98800b7b07.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA/20250924/us-east-1/s3/aws4_request&X-Amz-Date=20250924T010157Z&X-Amz-Expires=300&X-Amz-Signature=a1d3571175abc1ffc2456781c1148fc3e223f19fbac06e2b0c7af376ca287b39&X-Amz-SignedHeaders=host"
+                     data-src="https://foruda.gitee.com/images/1758679466191138013/0ac9f128_7387966.png"
                       alt="Pasted image 20250923180851.png"
                 ><br>LLM通过自己的决策获得和实际情况相同的结果。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在使用agent之前，对于其定义和本身都感觉十分的模糊。通过这次的整体梳理，突然发现agent好像还是prompt工程的一种延伸，只不过是一类更加特殊的prompt。给LLM定义了一个特殊的角色，可以使用工具的角色。至此以后，agent的神秘感不在，以后更多的可能是关注其性能问题，如何能够在更短时间内获得用户想要的数据以及如何在token大量输入的情况下也可以让LLM能够快速的输出。</p>
@@ -641,7 +641,7 @@
         
             <li>
                 <strong>Updated at
-                    :</strong> 2025-09-24 09:12:42
+                    :</strong> 2025-09-24 10:04:36
             </li>
         
         <li>
