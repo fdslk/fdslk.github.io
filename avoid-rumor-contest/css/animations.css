@@ -1,0 +1,363 @@
+/* 气泡浮动动画 */
+@keyframes bubbleFloat {
+    0% {
+        transform: translateY(100vh) translateX(0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100px) translateX(50px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* 气泡破裂动画 */
+@keyframes bubbleBurst {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+/* 粒子效果动画 */
+@keyframes particleExplosion {
+    0% {
+        transform: scale(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* 弹窗滑入动画 */
+@keyframes popupSlideIn {
+    0% {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* 弹窗滑出动画 */
+@keyframes popupSlideOut {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+}
+
+/* 场景淡入动画 */
+@keyframes sceneFadeIn {
+    0% {
+        opacity: 0;
+        transform: scale(1.1);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* 场景淡出动画 */
+@keyframes sceneFadeOut {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+}
+
+/* 进度条填充动画 */
+@keyframes progressFill {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: var(--progress-width);
+    }
+}
+
+/* 按钮悬停动画 */
+@keyframes buttonHover {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-2px);
+    }
+}
+
+/* 加载动画 */
+@keyframes loadingPulse {
+    0% {
+        opacity: 0.6;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.6;
+    }
+}
+
+/* 成功闪烁动画 */
+@keyframes successBlink {
+    0%, 100% {
+        background-color: #4CAF50;
+    }
+    50% {
+        background-color: #8BC34A;
+    }
+}
+
+/* 错误震动动画 */
+@keyframes errorShake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    75% {
+        transform: translateX(5px);
+    }
+}
+
+/* 气泡生成动画 */
+@keyframes bubbleSpawn {
+    0% {
+        transform: scale(0) rotate(0deg);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.1) rotate(180deg);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1) rotate(360deg);
+        opacity: 1;
+    }
+}
+
+/* 场景切换过渡动画 */
+@keyframes sceneTransition {
+    0% {
+        filter: blur(0px);
+        transform: scale(1);
+    }
+    50% {
+        filter: blur(2px);
+        transform: scale(1.05);
+    }
+    100% {
+        filter: blur(0px);
+        transform: scale(1);
+    }
+}
+
+/* 净化效果动画 */
+@keyframes purificationEffect {
+    0% {
+        filter: grayscale(100%) brightness(0.7);
+    }
+    100% {
+        filter: grayscale(0%) brightness(1);
+    }
+}
+
+/* 文字打字机效果 */
+@keyframes typewriter {
+    0% {
+        width: 0;
+    }
+    100% {
+        width: 100%;
+    }
+}
+
+/* 星星闪烁动画 */
+@keyframes starTwinkle {
+    0%, 100% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+}
+
+/* 波纹扩散动画 */
+@keyframes ripple {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* 应用动画的CSS类 */
+.bubble.floating {
+    animation: bubbleFloat 10s linear forwards;
+}
+
+.bubble.bursting {
+    animation: bubbleBurst 0.5s ease-out forwards;
+}
+
+.bubble.spawning {
+    animation: bubbleSpawn 0.6s ease-out forwards;
+}
+
+.popup-slide-in {
+    animation: popupSlideIn 0.3s ease-out forwards;
+}
+
+.popup-slide-out {
+    animation: popupSlideOut 0.3s ease-out forwards;
+}
+
+.scene-fade-in {
+    animation: sceneFadeIn 1.5s ease-out forwards;
+}
+
+.scene-fade-out {
+    animation: sceneFadeOut 1.5s ease-out forwards;
+}
+
+.scene-transition {
+    animation: sceneTransition 1.5s ease-in-out forwards;
+}
+
+.purification-effect {
+    animation: purificationEffect 2s ease-out forwards;
+}
+
+.progress-fill-animated {
+    animation: progressFill 0.5s ease-out forwards;
+}
+
+.button-hover {
+    animation: buttonHover 0.3s ease-out forwards;
+}
+
+.loading-pulse {
+    animation: loadingPulse 1.5s ease-in-out infinite;
+}
+
+.success-blink {
+    animation: successBlink 0.5s ease-in-out 3;
+}
+
+.error-shake {
+    animation: errorShake 0.5s ease-in-out;
+}
+
+.star-twinkle {
+    animation: starTwinkle 2s ease-in-out infinite;
+}
+
+.ripple-effect {
+    animation: ripple 0.6s ease-out forwards;
+}
+
+/* 特殊效果类 */
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #4CAF50;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: particleExplosion 1s ease-out forwards;
+}
+
+.ripple {
+    position: absolute;
+    border: 2px solid #4CAF50;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: ripple 0.6s ease-out forwards;
+}
+
+/* 响应式动画调整 */
+@media (max-width: 768px) {
+    .bubble.floating {
+        animation-duration: 8s;
+    }
+    
+    .bubble.bursting {
+        animation-duration: 0.4s;
+    }
+    
+    .scene-fade-in,
+    .scene-fade-out {
+        animation-duration: 1s;
+    }
+}
+
+@media (max-width: 480px) {
+    .bubble.floating {
+        animation-duration: 6s;
+    }
+    
+    .bubble.bursting {
+        animation-duration: 0.3s;
+    }
+    
+    .popup-slide-in,
+    .popup-slide-out {
+        animation-duration: 0.2s;
+    }
+}
+
+/* 彩带动画 */
+@keyframes confettiFall {
+    0% {
+        transform: translateY(-100vh) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* 减少动画的偏好设置 */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

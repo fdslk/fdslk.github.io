@@ -1,0 +1,24 @@
+{
+  "name": "古都谣言净化录",
+  "version": "1.0.0",
+  "description": "西安市首届互联网辟谣优秀作品征集评选活动参赛作品",
+  "main": "index.html",
+  "scripts": {
+    "test": "node working-test.js",
+    "test-full": "node run-tests.js",
+    "start": "http-server",
+    "dev": "http-server"
+  },
+  "keywords": [
+    "辟谣",
+    "H5游戏",
+    "西安",
+    "网络清风侠"
+  ],
+  "author": "网络清风侠",
+  "license": "MIT",
+  "devDependencies": {},
+  "engines": {
+    "node": ">=12.0.0"
+  }
+}
