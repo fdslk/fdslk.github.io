@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="works &amp; life">
+    
+    <meta name="author" content="Xiao Qiang">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set data attribute for CSS variables
+                root.setAttribute("data-theme", theme);
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes once DOM is ready
+            if (document.readyState !== "loading") {
+                document.body.classList.add(theme + "-mode");
+            } else {
+                document.addEventListener("DOMContentLoaded", () => {
+                    document.body.classList.add(theme + "-mode");
+                    document.body.classList.remove((theme === DARK ? LIGHT : DARK) + "-mode");
+                });
+            }
+        })();
+    </script>
+    
+    <!-- Critical CSS to prevent flash -->
+    <style>
+        :root[data-theme="dark"] {
+            --background-color: #202124;
+            --background-color-transparent: rgba(32, 33, 36, 0.6);
+            --second-background-color: #2d2e32;
+            --third-background-color: #34353a;
+            --third-background-color-transparent: rgba(32, 33, 36, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #ffffff;
+            --second-text-color: #eeeeee;
+            --third-text-color: #bebec6;
+            --fourth-text-color: #999999;
+            --default-text-color: #bebec6;
+            --invert-text-color: #373D3F;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(255, 255, 255, 0.08);
+            --shadow-color-2: rgba(255, 255, 255, 0.05);
+        }
+        
+        :root[data-theme="light"] {
+            --background-color: #fff;
+            --background-color-transparent: rgba(255, 255, 255, 0.6);
+            --second-background-color: #f8f8f8;
+            --third-background-color: #f2f2f2;
+            --third-background-color-transparent: rgba(241, 241, 241, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #16171a;
+            --second-text-color: #2f3037;
+            --third-text-color: #5e5e5e;
+            --fourth-text-color: #eeeeee;
+            --default-text-color: #373D3F;
+            --invert-text-color: #bebec6;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(0, 0, 0, 0.08);
+            --shadow-color-2: rgba(0, 0, 0, 0.05);
+        }
+        
+        body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+        
+        /* Apply body classes as soon as DOM is ready */
+        :root[data-theme="dark"] body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+    </style>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="http://fdslk.github.io/llm/agent/vibe-coding/2026/06/16/agile-in-vibe-coding/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+    
+        
+        <meta name="description" content="a free blog website for personal use.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何让人在vibe coding的过程干预得更少">
+<meta property="og:url" content="http://fdslk.github.io/LLM/agent/vibe-coding/2026/06/16/agile-in-vibe-coding/index.html">
+<meta property="og:site_name" content="🪳的Daily Blog WebSite">
+<meta property="og:description" content="a free blog website for personal use.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://fdslk.github.io/images/redefine-og.webp">
+<meta property="article:published_time" content="2026-06-16T09:25:09.000Z">
+<meta property="article:modified_time" content="2026-06-16T09:25:09.810Z">
+<meta property="article:author" content="Zengqiang Fang">
+<meta property="article:tag" content="AI">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://fdslk.github.io/images/redefine-og.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/redefine-favicon.svg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/redefine-favicon.svg">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/redefine-favicon.svg">
+    <!--- Page Info-->
+    
+    <title>
+        
+            如何让人在vibe coding的过程干预得更少 | 🪳的Daily Blog WebSite
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"fdslk.github.io","root":"/","language":"en"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":true,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/redefine-og.webp","description":"a free blog website for personal use."},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"a free blog website for sharing daily works and life","subtitle":{"text":[],"hitokoto":{"enable":false,"show_author":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":{"github":"https://github.com/fdslk","instagram":null,"zhihu":null,"twitter":null,"email":"zqfangmaster@163.com"},"qrs":{"weixin":"/images/qrcode.jpg"}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1"}},"version":"2.8.5","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"About":{"icon":"fa-regular fa-user","submenus":{"Me":"/about","Github":"https://github.com/fdslk","Blog":"https://fdslk.github.io"}}},"search":{"enable":false,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":null},"article_date_format":"auto","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2022/8/17 11:45:14"};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+
+<body>
+	<div class="progress-bar-container">
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                🪳的Daily Blog WebSite
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/archives"
+                                        >
+                                    <i class="fa-regular fa-archive fa-fw"></i>
+                                    ARCHIVES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown"
+                                   href="#"
+                                        onClick=&#34;return false;&#34;>
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    ABOUT
+                                    <i class="fa-solid fa-chevron-down fa-fw"></i>
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                        
+                                            <li>
+                                                <a href="/about">
+                                                    ME
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a target="_blank" rel="noopener" href="https://github.com/fdslk">
+                                                    GITHUB
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="https://fdslk.github.io">
+                                                    BLOG
+                                                </a>
+                                            </li>
+                                        
+                                    </ul>
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/archives"
+                        >
+                            <span>
+                                ARCHIVES
+                            </span>
+                            
+                                <i class="fa-regular fa-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item-sub text-base my-1.5 flex flex-col w-full">
+                        
+                        <div class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary cursor-pointer text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                             navbar-data-toggle="submenu-About"
+                        >
+                            <span>
+                                ABOUT
+                            </span>
+                            
+                                <i class="fa-solid fa-chevron-right fa-sm fa-fw transition-all"></i>
+                            
+                        </div>
+                        
+
+                        
+                            <div class="flex-col items-start px-2 py-2 hidden" data-target="submenu-About">
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/about">ME</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           target="_blank" rel="noopener" href="https://github.com/fdslk">GITHUB</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="https://fdslk.github.io">BLOG</a>
+                                    </div>
+                                
+                            </div>
+                        
+                    </li>
+            
+
+            
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">67</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">62</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">55</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			<div class="w-full flex items-center pt-6 justify-start">
+				<h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">如何让人在vibe coding的过程干预得更少</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+				<img src="/images/redefine-avatar.svg">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">Xiao Qiang</span>
+					
+					<span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv4</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-06-16 17:25:09</span>
+        <span class="mobile">2026-06-16 17:25:09</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2026-06-16 17:25:09</span>
+            <span class="mobile">2026-06-16 17:25:09</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/LLM/">LLM</a>&nbsp;
+                        </li>
+                    
+                    
+                
+                    
+                        
+                            <li>></li>
+                        
+                        <li>
+                            <a href="/categories/LLM/agent/">agent</a>&nbsp;
+                        </li>
+                    
+                    
+                
+                    
+                        
+                            <li>></li>
+                        
+                        <li>
+                            <a href="/categories/LLM/agent/vibe-coding/">vibe coding</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/AI/">AI</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<p>某天早上看到了朋友转发的这个<a class="link"   target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/yzOrhNyTlsSF7tPK_rW_Tg" ># AI软件工程范式革命的思考原创 hadeswang 茹炳晟聊软件研发<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>里面写的东西挺干的，对于ai对现阶段生产力的影响描述得很到位，具体说了什么，大家可以点开那篇文章细细品读一番。以前为什么机器能够代替人类，是因为那些工作完完全全就是流水线作业，体力活。每一次都是完完全全的重复劳动，可以被标准流水线替代的工作内容，也能够通过一把标尺来衡量工作的质量的好坏。具体的标准化流水线如下图所示</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://foruda.gitee.com/images/1781599413684650967/c03cb2d9_7387966.png"
+                     
+                ></p>
+<p>即便现在的软件工程经过几十年的积累，输出了很多标准化的软件实践例如CI&#x2F;CD、TDD、devops等等，但是这些东西只是为了辅助人类把软件这个事情更快做好的一些工具，并不是把这些东西缝合在一起就能够代替人类，所以我也一直在想AI能不能完全代替人类，就算如今有如此好用的claude code fable5，我现在答案依然是”不能”。想用机器代替人脑，在我看来目前还不能完全实现，业务的确认、代码整体质量把控、方案在当前场景下是否合理等等，这些地方都需要人来确认。软件工程是一个很复杂的东西，如果拿瀑布模型来举例的话，可以分为需求确认、设计、编码、测试以及运维这几个阶段，在这个过程中，需求确认和设计部分是没办法用AI完全替代的，这些地方都需要反复推敲的。</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://foruda.gitee.com/images/1781599624435643315/9659d515_7387966.png"
+                      alt="img"
+                ></p>
+<p>所以从LLM爆发以来，人们其实一直在想着怎么提高生产力，但是人其实一直都没有从AI时代背景下的软件工程中完完全全地抽离出来。刚出来的时候LLM只是一个chatbot，让我们查阅问题的解决方案的速度变快了。再后来出现了agent，LLM可以自己通过loop的方式自己拿到每次编码后的反馈来调整自己的实现，但是在此过程中我们还是需要介入很多次，我们妄想着每次LLM的迭代更新，LLM输出越来越精确的答案就可以慢慢的取代人类在软件工程中的地位，就像工业时代中，动力越来越强劲，流水线的机械化程度越来越高，人类只需要通过一个固定按键模式来完成以前的体力工作。但是在vibe coding的过程中，我越来越发现AI没法取得完全的自动化，如果放任AI在代码中驰骋，你最后得到将会是一堆接着一堆的shit mountain。当然有的人也许会说，这有什么，代码烂了，大不了让ai重新帮我们写一遍就行了。当你说出这句话之后，LLM的出现并没有让coding完全变成自动化，你会使用越来越多的token，堆出越来越多的shit，最后产生的价值可能还比不上之前的手工代码。</p>
+<p>那这个时候，你们也会说了，这也不行那也不行，AI有个屁用。这个结论是不是下得太快了，我们首先要识别出哪些地方是纯纯的体力劳动，哪些地方人脑是没法替代的。识别这些之后，我们才能够研究哪些地方人类可以直接越过，vibe coding的过程中，最耗时的地方其实还是在交互上，如果我们input不够清晰，AI没法很清晰的理解我们的意图，他们就需要反复的和我们确认，这个该怎么样，那个该怎么样。最后我发现vibe coding下的软件工程又回到了最原来的prompt engineering了。软件工程中的每一步其实都不能少，少了就会增大AI的理解成本，就需要人类的过多干预。第一步还是写清楚我们的需求，然后列清楚tech design，workflow design，让AI根据这些context生成对应的plan，那么这个时候这个过程，很多东西都会被反复使用，沉淀成一个 <code>plan design</code>，这个可以对应瀑布模型中的需求分析和设计阶段。等plan和我们确认的很清晰之后，就可以让AI来编码了，当然在coding的过程中可以让AI遵守很多的编码规则和最佳实践，当然也可以给他指出有哪些pitfall，让他不会重蹈覆辙，这个过程可以总结成一个 <code>implement</code>的skill。后面的测试，运维这些都可以整理成对应的skill，串联成整体的workflow，总之写清楚plan，然后结合当前软件工程中一些良好的实践就可以最大程度的减少人为干预。</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://foruda.gitee.com/images/1781599656037322404/8c372c46_7387966.png"
+                     
+                ></p>
+<p>回过头看，工业时代机器替代的是人的”手”，而AI时代我们想让它替代的是”手”再加上一部分”脑”。完全抽身现在还做不到，但人的角色确实已经在变了：从一个全程握着方向盘的司机，慢慢变成只在plan这一个关口把关的质检员。需要人确认的干预并不会消失，但它可以被收敛到一个点上——把需求和设计沉淀成 <code>plan design</code>，把规范和pitfall沉淀成 <code>implement</code>，把测试运维串进workflow，剩下那些纯纯的体力劳动，就放心交给AI在它的流水线上跑。这大概就是现阶段vibe coding能做到的”干预得更少”。</p>
+<hr>
+<h2 id="具体实现：我是怎么把工作流串起来的"><a href="#具体实现：我是怎么把工作流串起来的" class="headerlink" title="具体实现：我是怎么把工作流串起来的"></a>具体实现：我是怎么把工作流串起来的</h2><p>上面讲的都是道，下面讲讲术。前面这套想法不是空想，我在自己手头的项目里已经用一组 skill 落地了，这一节就把它写清楚。</p>
+<p>先说一个前提。我们团队以前的项目大部分是按敏捷（Scrum）在跑的，一个迭代里会有这么几个雷打不动的环节：</p>
+<ul>
+<li><strong>IPM（Iteration Planning Meeting）</strong> —— 迭代开工前，整个迭代要做哪些卡，先有个全局的认识；</li>
+<li><strong>Backlog refine（过卡）</strong> —— 一张一张卡细抠，把实施方案和验收标准（AC）聊清楚；</li>
+<li><strong>Implement（TDD）</strong> —— 红→绿→重构，每条 AC 都有测试兜底；</li>
+<li><strong>Test（e2e）</strong> —— 端到端跑一遍，站在用户的角度验；</li>
+<li><strong>Desk check</strong> —— 基于卡里写好的 AC，逐条对着验收。</li>
+</ul>
+<p>到了 vibe coding 时代，很多人的第一反应是：”有 AI 了，这些流程是不是可以省掉了？一个任务丢给 AI，它自己做就好了。”我试过，结论是不行。你把需求原封不动丢给 AI，它一样要回过头来反复跟你 clarify——这个字段要不要、那个边界怎么处理、AC 到底是什么。<strong>只是把『人来回确认』换成了『跟 AI 来回确认』，并没有发生质变。</strong></p>
+<p>真正让 AI 在软件工程里发生质变的，不是更强的模型，而是 <strong>把敏捷的每个环节蒸馏成一个 skill，让流程本身替我把 context 喂到位</strong> 。每个环节该确认的东西，在进入下一环节之前就固化下来、写进文档，AI 拿到的不再是一句模糊的需求，而是一份已经被人把过关的、结构化的输入。环节不能省，省了就是把理解成本转嫁给后面，最后还是要人来兜。</p>
+<p>下面是我目前这套 skill 跟敏捷环节的对应关系：</p>
+<table>
+<thead>
+<tr>
+<th>敏捷环节</th>
+<th>对应 skill</th>
+<th>干的事</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>IPM &#x2F; 全局了解</td>
+<td><code>analyze-requirement</code></td>
+<td>吃进 Jira &#x2F; Confluence 链接，产出一份结构化的需求分析（现状 &#x2F; 要做什么 &#x2F; 影响范围 &#x2F; AC &#x2F; To be confirmed），落到 Obsidian</td>
+</tr>
+<tr>
+<td>Backlog refine（过卡）</td>
+<td><code>refine-ticket-plan</code></td>
+<td>一次只抠一张 ticket，跟 AI 多轮讨论敲定实施方案和 AC，最后把”已定稿”的 Implement Details 写回那张卡</td>
+</tr>
+<tr>
+<td>Implement（TDD）</td>
+<td><code>implement</code></td>
+<td>以 AC 为契约，test-first 实现单张 ticket，跑完 lint + 单测；多张无耦合的卡可以开多个 agent 并行</td>
+</tr>
+<tr>
+<td>Test（e2e）&#x2F; Desk check</td>
+<td><code>ui-test</code></td>
+<td>把 QA 的活蒸馏出来——从 ticket 生成 UI 测试用例，驱动浏览器在测试环境上真跑一遍，按 AC 出测试报告</td>
+</tr>
+</tbody></table>
+<p>辅助的还有两个小工具：<code>postman-request</code>（把刚写好的接口同步进 Postman 集合，联调时不用手敲）、<code>refresh-aws-credentials</code>（本地 AWS SSO token 过期了一键刷新，不用离开 Claude Code）。它们不在主线上，但属于”省掉一段纯体力交互”的同类。</p>
+<h3 id="一个完整-epic-迭代是怎么走下来的"><a href="#一个完整-epic-迭代是怎么走下来的" class="headerlink" title="一个完整 epic 迭代是怎么走下来的"></a>一个完整 epic 迭代是怎么走下来的</h3><ol>
+<li><strong><code>analyze-requirement</code></strong> —— 迭代一开始，把这次要做的需求（Jira epic &#x2F; Confluence PRD）丢进去，先拿到一份 general 的分析。这一步对应 IPM，目的是建立全局认识，把模糊的、待确认的点（To be confirmed）先暴露出来，而不是急着动手。</li>
+<li><strong><code>refine-ticket-plan</code></strong> —— 然后一张一张卡过。这是整个流程里<strong>人介入最重、也最该重</strong>的一步，对应敏捷里的过卡。我会和 AI 就每张 ticket 的具体实施方案、数据模型、边界、AC 反复聊，聊到方案落地、AC 能钉死 scope 为止，再把”已定稿”的 Implement Details 写回那张卡的文档里。这一份定稿，就是前面说的 <code>plan design</code>——它是后面所有自动化的地基。</li>
+<li><strong><code>implement</code></strong> —— 卡的方案定稿后，就可以让 AI 编码了。它会先去 Obsidian 里找那张卡的 Implement Details 当作权威实现说明，然后 test-first 地实现，跑 lint 和单测。关键点： <strong>只要 ticket 之间没有耦合，就可以同时开多个 agent 并行 implement</strong> ，几张卡一起推。这一步因为 plan 已经定稿，人几乎不用再介入——这正是”干预收敛到 plan 那一个关口”的体现。</li>
+<li><strong>联调 + <code>postman-request</code></strong> —— 后端写完，和前端联调。接口顺手用 <code>postman-request</code> 同步进集合。</li>
+<li><strong><code>ui-test</code></strong> —— 既然要”去 QA 化”，那就把 QA 这个角色也蒸馏成一个 skill。它从 ticket 生成 UI 测试用例（plan 模式只出用例给人 review，给了账号就直接驱动浏览器在测试环境上真跑），跑完出一份图文并茂的测试报告。这一步对应 e2e + desk check——而且因为用例本身就是从 ticket 的 AC 推出来的，desk check 的”对着 AC 逐条验”是天然内建的。</li>
+</ol>
+<p>走完这五步，一个 epic 的迭代开发就闭环了。</p>
+<h3 id="这套东西真正的价值在哪"><a href="#这套东西真正的价值在哪" class="headerlink" title="这套东西真正的价值在哪"></a>这套东西真正的价值在哪</h3><p>不在于某一个 skill 多聪明，而在于 <strong>它把敏捷的流程编排固化了下来</strong> ：每个环节的产出（分析文档、定稿的 plan、AC checklist、测试报告）都是下一个环节的结构化输入，人只需要在”过卡定 plan”这个关口认真把关，前后两端的体力活——查需求、读代码定位现状、写测试、点页面验收——就都交给 AI 在流水线上跑。需要人的地方一个都没省，但需要人的地方被收敛到了一个点上。</p>
+<blockquote>
+<p>这套 workflow 我还在持续调整，skill 也在迭代——上面写的是当前的形态，后面大概率还会变。先记到这里。</p>
+</blockquote>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> 如何让人在vibe coding的过程干预得更少</li>
+        <li><strong>Author:</strong> Xiao Qiang</li>
+        <li><strong>Created at
+                :</strong> 2026-06-16 17:25:09</li>
+        
+            <li>
+                <strong>Updated at
+                    :</strong> 2026-06-16 17:25:09
+            </li>
+        
+        <li>
+            <strong>Link:</strong> http://fdslk.github.io/LLM/agent/vibe-coding/2026/06/16/agile-in-vibe-coding/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+
+            
+                This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a>.
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/AI/">#AI</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/LLM/agent/vibe-coding/2026/05/01/dev-become-a-typer/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">脑力劳动者正在变成&#34;文员&#34;</span>
+						<span class="post-nav-item">Next posts</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+    <div id="giscus-container"></div>
+    <script data-swup-reload-script defer>
+        async function loadGiscus() {
+            const giscusConfig = {
+                'src': 'https://giscus.app/client.js',
+                'data-repo': 'fdslk/fdslk.github.io',
+                'data-repo-id': 'R_kgDOI3GIjg',
+                'data-category': 'General',
+                'data-category-id': 'DIC_kwDOI3GIjs4C8Ggz',
+                'data-mapping': 'pathname',
+                'data-strict': '0',
+                'data-reactions-enabled': '1',
+                'data-emit-metadata': '1',
+                'data-theme': 'preferred_color_scheme',
+                'data-lang': 'zh-CN',
+                'data-input-position': 'bottom',
+                'data-loading': 'lazy',
+                'crossorigin': 'anonymous',
+                'async': true
+            }
+            const giscusScript = document.createElement('script');
+            for (const key in giscusConfig) {
+                giscusScript.setAttribute(key, giscusConfig[key]);
+            }
+            document.getElementById('giscus-container').appendChild(giscusScript);
+        }
+        if ('true') {
+            let loadGiscusTimeout = setTimeout(() => {
+                loadGiscus();
+                clearTimeout(loadGiscusTimeout);
+            }, 1000);
+        } else {
+            document.addEventListener('DOMContentLoaded', loadGiscus);
+        }
+    </script>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">On this page</div>
+		<div class="page-title">如何让人在vibe coding的过程干预得更少</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0%EF%BC%9A%E6%88%91%E6%98%AF%E6%80%8E%E4%B9%88%E6%8A%8A%E5%B7%A5%E4%BD%9C%E6%B5%81%E4%B8%B2%E8%B5%B7%E6%9D%A5%E7%9A%84"><span class="nav-text">具体实现：我是怎么把工作流串起来的</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%B8%AA%E5%AE%8C%E6%95%B4-epic-%E8%BF%AD%E4%BB%A3%E6%98%AF%E6%80%8E%E4%B9%88%E8%B5%B0%E4%B8%8B%E6%9D%A5%E7%9A%84"><span class="nav-text">一个完整 epic 迭代是怎么走下来的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%99%E5%A5%97%E4%B8%9C%E8%A5%BF%E7%9C%9F%E6%AD%A3%E7%9A%84%E4%BB%B7%E5%80%BC%E5%9C%A8%E5%93%AA"><span class="nav-text">这套东西真正的价值在哪</span></a></li></ol></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">Xiao Qiang</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        55 posts in total
+                    </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.8.5</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog fa-spin"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container">
+	<img src="">
+</div>
+
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+
+	
+<script src="/js/build/tools/imageViewer.js" type="module"></script>
+
+<script src="/js/build/utils.js" type="module"></script>
+
+<script src="/js/build/main.js" type="module"></script>
+
+<script src="/js/build/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/build/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/build/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/build/layouts/categoryList.js" type="module"></script>
+
+
+
+
+
+    
+<script src="/js/build/tools/codeBlock.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/layouts/lazyload.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/tools/runtime.js"></script>
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/build/libs/Typed.min.js"></script>
+
+  
+<script src="/js/build/plugins/typed.js" type="module"></script>
+
+
+
+
+
+
+
+
+    
+<script src="/js/build/libs/anime.min.js"></script>
+
+
+
+
+
+    
+<script src="/js/build/tools/tocToggle.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/layouts/toc.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/plugins/tabs.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+<script src="/js/build/layouts/essays.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+
+	
+</body>
+
+</html>
