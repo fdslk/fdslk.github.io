@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="works &amp; life">
+    
+    <meta name="author" content="Xiao Qiang">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set data attribute for CSS variables
+                root.setAttribute("data-theme", theme);
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes once DOM is ready
+            if (document.readyState !== "loading") {
+                document.body.classList.add(theme + "-mode");
+            } else {
+                document.addEventListener("DOMContentLoaded", () => {
+                    document.body.classList.add(theme + "-mode");
+                    document.body.classList.remove((theme === DARK ? LIGHT : DARK) + "-mode");
+                });
+            }
+        })();
+    </script>
+    
+    <!-- Critical CSS to prevent flash -->
+    <style>
+        :root[data-theme="dark"] {
+            --background-color: #202124;
+            --background-color-transparent: rgba(32, 33, 36, 0.6);
+            --second-background-color: #2d2e32;
+            --third-background-color: #34353a;
+            --third-background-color-transparent: rgba(32, 33, 36, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #ffffff;
+            --second-text-color: #eeeeee;
+            --third-text-color: #bebec6;
+            --fourth-text-color: #999999;
+            --default-text-color: #bebec6;
+            --invert-text-color: #373D3F;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(255, 255, 255, 0.08);
+            --shadow-color-2: rgba(255, 255, 255, 0.05);
+        }
+        
+        :root[data-theme="light"] {
+            --background-color: #fff;
+            --background-color-transparent: rgba(255, 255, 255, 0.6);
+            --second-background-color: #f8f8f8;
+            --third-background-color: #f2f2f2;
+            --third-background-color-transparent: rgba(241, 241, 241, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #16171a;
+            --second-text-color: #2f3037;
+            --third-text-color: #5e5e5e;
+            --fourth-text-color: #eeeeee;
+            --default-text-color: #373D3F;
+            --invert-text-color: #bebec6;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(0, 0, 0, 0.08);
+            --shadow-color-2: rgba(0, 0, 0, 0.05);
+        }
+        
+        body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+        
+        /* Apply body classes as soon as DOM is ready */
+        :root[data-theme="dark"] body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+    </style>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="http://fdslk.github.io/llm/agent/harness/2026/09/06/harness-engineering-1/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+    
+        
+        <meta name="description" content="a free blog website for personal use.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="harness_engineering_1">
+<meta property="og:url" content="http://fdslk.github.io/LLM/agent/harness/2026/09/06/harness-engineering-1/index.html">
+<meta property="og:site_name" content="🪳的Daily Blog WebSite">
+<meta property="og:description" content="a free blog website for personal use.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://fdslk.github.io/images/redefine-og.webp">
+<meta property="article:published_time" content="2026-09-06T07:46:07.000Z">
+<meta property="article:modified_time" content="2026-09-06T07:46:07.925Z">
+<meta property="article:author" content="Zengqiang Fang">
+<meta property="article:tag" content="AI">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://fdslk.github.io/images/redefine-og.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/redefine-favicon.svg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/redefine-favicon.svg">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/redefine-favicon.svg">
+    <!--- Page Info-->
+    
+    <title>
+        
+            harness_engineering_1 | 🪳的Daily Blog WebSite
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"fdslk.github.io","root":"/","language":"en"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":true,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/redefine-og.webp","description":"a free blog website for personal use."},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"a free blog website for sharing daily works and life","subtitle":{"text":[],"hitokoto":{"enable":false,"show_author":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":{"github":"https://github.com/fdslk","instagram":null,"zhihu":null,"twitter":null,"email":"zqfangmaster@163.com"},"qrs":{"weixin":"/images/qrcode.jpg"}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1"}},"version":"2.8.5","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"About":{"icon":"fa-regular fa-user","submenus":{"Me":"/about","Github":"https://github.com/fdslk","Blog":"https://fdslk.github.io"}}},"search":{"enable":false,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":null},"article_date_format":"auto","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2022/8/17 11:45:14"};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+
+<body>
+	<div class="progress-bar-container">
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                🪳的Daily Blog WebSite
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/archives"
+                                        >
+                                    <i class="fa-regular fa-archive fa-fw"></i>
+                                    ARCHIVES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown"
+                                   href="#"
+                                        onClick=&#34;return false;&#34;>
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    ABOUT
+                                    <i class="fa-solid fa-chevron-down fa-fw"></i>
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                        
+                                            <li>
+                                                <a href="/about">
+                                                    ME
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a target="_blank" rel="noopener" href="https://github.com/fdslk">
+                                                    GITHUB
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="https://fdslk.github.io">
+                                                    BLOG
+                                                </a>
+                                            </li>
+                                        
+                                    </ul>
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/archives"
+                        >
+                            <span>
+                                ARCHIVES
+                            </span>
+                            
+                                <i class="fa-regular fa-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item-sub text-base my-1.5 flex flex-col w-full">
+                        
+                        <div class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary cursor-pointer text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                             navbar-data-toggle="submenu-About"
+                        >
+                            <span>
+                                ABOUT
+                            </span>
+                            
+                                <i class="fa-solid fa-chevron-right fa-sm fa-fw transition-all"></i>
+                            
+                        </div>
+                        
+
+                        
+                            <div class="flex-col items-start px-2 py-2 hidden" data-target="submenu-About">
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/about">ME</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           target="_blank" rel="noopener" href="https://github.com/fdslk">GITHUB</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="https://fdslk.github.io">BLOG</a>
+                                    </div>
+                                
+                            </div>
+                        
+                    </li>
+            
+
+            
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">67</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">63</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">57</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			<div class="w-full flex items-center pt-6 justify-start">
+				<h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">harness_engineering_1</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+				<img src="/images/redefine-avatar.svg">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">Xiao Qiang</span>
+					
+					<span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv4</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-09-06 15:46:07</span>
+        <span class="mobile">2026-09-06 15:46:07</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2026-09-06 15:46:07</span>
+            <span class="mobile">2026-09-06 15:46:07</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/LLM/">LLM</a>&nbsp;
+                        </li>
+                    
+                    
+                
+                    
+                        
+                            <li>></li>
+                        
+                        <li>
+                            <a href="/categories/LLM/agent/">agent</a>&nbsp;
+                        </li>
+                    
+                    
+                
+                    
+                        
+                            <li>></li>
+                        
+                        <li>
+                            <a href="/categories/LLM/agent/harness/">harness</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/AI/">AI</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<p>前两篇我聊了怎么减少人在 vibe coding 里的干预，还有怎么用 multi-agent 把搬砖的活外包出去省 token。这两件事解决之后，我的效率确实上来了，但有个问题一直没解决，而且它比 token 贵得多——<strong>agent 写出来的代码，语法全对，业务全错</strong>。</p>
+<p>测试全绿，lint 全过，PR 看着漂亮，合进去之后发现它理解的业务和 PM 想的根本不是一回事。这种返工不是改几行代码的事，是整个 ticket 白做。</p>
+<p>后来我看到 Martin Fowler 那篇 <a class="link"   target="_blank" rel="noopener" href="https://martinfowler.com/articles/harness-engineering.html" >Harness Engineering<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>，才知道这个东西有名字。他的说法是：你得给 agent 搭一个<strong>外挂的笼子</strong>，让它在轨道上高速试错，而不是指望它自己长出判断力。我读完对着自己的流程一格一格比，发现我前半段做得比大多数人都好，后半段基本是空的。</p>
+<hr>
+<h2 id="Harness-到底是个啥"><a href="#Harness-到底是个啥" class="headerlink" title="Harness 到底是个啥"></a>Harness 到底是个啥</h2><p>两个轴，四个格子。横轴是时间——写代码之前（前馈）和写代码之后（反馈）；纵轴是形态——给 AI 读的文档（guide）和能直接吐结果的工具（sensor）。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Guide</strong>（给 AI 读的）</th>
+<th><strong>Sensor</strong>（能直接吐反馈的）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>写之前</strong></td>
+<td>AGENTS.md、business rules、skill、术语表</td>
+<td>脚手架、模板、codemod、契约生成</td>
+</tr>
+<tr>
+<td><strong>写之后</strong></td>
+<td>AI reviewer（拿 business rules 当裁判手册）</td>
+<td>类型检查、lint、单测、架构约束测</td>
+</tr>
+</tbody></table>
+<p>这里最关键的一个区别，我一开始完全没意识到：<strong>guide 是概率性生效，sensor 是确定性生效</strong>。你的 skill 写到 46K 了，AI 读到第几条会漂谁也说不清；但一个 assert 红了就是红了，没有第二种可能。同一条规则你放在哪一格，效果差一个数量级。</p>
+<p>外面还套着两层循环：</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">     ┌─────────── 外层 STEERING LOOP（团队，周频）───────────┐</span><br><span class="line">     │  观察重复错误 → 判定：升级 guide？还是加 sensor？ → 落地  │</span><br><span class="line">     └──────────┬────────────────────────────┬──────────────┘</span><br><span class="line">                │ 升级前馈                   │ 加传感器</span><br><span class="line">                ▼                            ▼</span><br><span class="line">┌─── 写之前 ───┐                    ┌─── 写之后 ───┐</span><br><span class="line">│  guide       │   ┌────────┐       │  sensor       │</span><br><span class="line">│  sensor      │──▶│ 内层   │──────▶│  guide-sensor │</span><br><span class="line">│              │   │ LOOP   │       │  人（review） │</span><br><span class="line">└──────────────┘   │ AI 写  │       └───────────────┘</span><br><span class="line">                   │ 跑→改  │</span><br><span class="line">     ↑ 越左越便宜   └────────┘        越右越贵 ↑</span><br></pre></td></tr></table></figure></div>
+
+<p>内层 loop 就是 agent 写代码、跑测试、改，分钟级全自动。外层 loop 是我观察到它反复犯同一个错，然后决定加一条 guide 还是加一个 sensor，周级，人主导。Fowler 那篇里最有价值的一句话是：<strong>同一个错第三次出现，就必须动 harness</strong>，而不是第三次继续在 review 里手工纠正。</p>
+<hr>
+<h2 id="拿我自己的流程对一遍"><a href="#拿我自己的流程对一遍" class="headerlink" title="拿我自己的流程对一遍"></a>拿我自己的流程对一遍</h2><p>我现在是四个 skill 顺序跑：</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://foruda.gitee.com/images/1788667402192826260/15e7b3b4_7387966.png"
+                      alt="img"
+                ></p>
+<p>对着四个格子比下来，结果挺尴尬的：</p>
+<p><strong>前馈 guide 这一格，我塞得满满的。</strong> <code>.ai/*.md</code> 全项目自动加载，Obsidian 里十几份需求分析文档，还有一份 1213 行的领域技术设计——里面甚至写了权威仲裁规则，说清楚某个范围内”代码正确、需求已经 stale”。这一块我觉得比大多数团队都强。</p>
+<p><strong>前馈 sensor 这一格，完全是空的。</strong> 没有脚手架，没有模板，新 model 新 endpoint 全是从零手写。</p>
+<p><strong>反馈 sensor 这一格，只有最右边一小块。</strong> pre-commit 里躺着 black、isort、flake8，加上单元测试。听起来不少，但它们<strong>全部只管代码风格，一条业务规则都不管</strong>。</p>
+<p><strong>外层循环倒是在跑</strong>——我的 skill 里那些”血泪例子”、memory 里那十几条，都是它的产物。但我盯着看了半天才发现问题：<strong>它只往一个方向出货。</strong></p>
+<hr>
+<h2 id="最扎的一刀：我把该是-assert-的东西全写进了文档"><a href="#最扎的一刀：我把该是-assert-的东西全写进了文档" class="headerlink" title="最扎的一刀：我把该是 assert 的东西全写进了文档"></a>最扎的一刀：我把该是 assert 的东西全写进了文档</h2><p>我每次发现 agent 犯错，就往 skill 的 Pitfalls 里加一条。加了很久了，<code>implement/SKILL.md</code> 现在 46K。</p>
+<p>问题是这些条目里混着两类完全不同的东西。一类是<strong>确定性的结构约定</strong>——表前缀、路由形状、异常怎么抛，这些能写成 assert。另一类是<strong>需要语义判断的</strong>——“别无凭据把字段收紧成 NOT NULL”、”别把 out-of-scope 的东西塞进来”，这些只能靠读。</p>
+<p>我全都塞进了 Pitfalls。原因也不难猜：写进 Pitfalls 一分钟，写个 test 半小时，每次都选便宜的那个。</p>
+<p>代价在后面。第一类每多一条，第二类就被稀释一分。更糟的是<strong>guide 会写错</strong>——我有一条 pitfall 断言”表前缀跟着 app 走”，我一直以为这是铁律。这次真去跑了一遍全量 model，<strong>250 个里 42 个不满足，17%<strong>。而且那条 pitfall 举的例子是”<code>app/billing_v2/models/</code> 用 <code>billing_v2_*</code>“，我去看了一眼，</strong>那个目录是空包，一个 model 都没有</strong>。</p>
+<p>这才是最扎的地方：<strong>不准确的 guide 比没有 guide 更糟。</strong> 它会让 agent 拿着一条假规则，去改本来正确的东西。</p>
+<p>所以我给自己定了一条判定，现在每次要往 Pitfalls 加东西之前先过一遍：</p>
+<blockquote>
+<p><strong>这条规则能不能写成 <code>assert</code>？</strong><br>能——落成 sensor 脚本，Pitfalls 里只留一行”约束由某个脚本强制”。<br>不能——才留在 Pitfalls。</p>
+</blockquote>
+<p>然后我在仓库根开了个 <code>.harness_engineering/</code>，专门放这些 sensor。第一个脚本盯的就是表前缀，写完立刻验证它会不会红——清空 allowlist 之后准确报出 9 条历史遗留。<strong>只会 pass 的传感器等于没验证</strong>，这一步不能省。</p>
+<p>同时干的另一件事更重要：把那条 6 行的 pitfall 删到 2 行。<strong>这是我的 guide 第一次变短而不是变长。</strong></p>
+<hr>
+<h2 id="第二刀：我的质量左移是反的"><a href="#第二刀：我的质量左移是反的" class="headerlink" title="第二刀：我的质量左移是反的"></a>第二刀：我的质量左移是反的</h2><div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">               guide ←──────────→ sensor      ← 第一刀：纵轴（层级错配）</span><br><span class="line">                                     ▲</span><br><span class="line">analyze ── refine ── implement ── review</span><br><span class="line">   ✗        ✗          ✓ 全挤在这         ← 第二刀：横轴（阶段错配）</span><br></pre></td></tr></table></figure></div>
+
+<p>我的传感器全部堆在最右边。前面两个阶段产出的是 md 文档，一个自动检查都没有——而它们恰恰是最贵的阶段。需求理解错，后面全错。</p>
+<p>这里我犯了个反面教材式的错误，值得单独说。我想给 refine 阶段加个检查器，验证 plan 里那些 <code>file.py:123</code> 引用有没有随代码漂移。写之前先测了一下：**445 条引用，真实漂移只有 1 条，0.2%**。而且结果会随分支变化产生大量假阳性——同一份 plan 换个分支跑，一堆文件”不存在”，其实只是代码在别的分支上。</p>
+<p><strong>测量的结论是不该建这个闸门。</strong> sensor 也要过成本判定，不是越多越好。要是我先写完再测，那就是白干半天。</p>
+<p>不过换了个方向测就有收获了。同样扫那些 md，去查 URL 前缀有没有写反——我的 skill 里明明白白写着 billing 的接口是 <code>/billing/&lt;scope&gt;/&lt;name&gt;/</code>，结果 md 里有写成 <code>/client/billing/...</code> 的。我直接把 Django 的路由表打出来对，真实路径就是 <code>api/v2/billing/client/return-accounts/</code>，所以那些是真错。<strong>而且它们落在「API 契约 · 给前端」那张表里——前端照着调就是 404。</strong></p>
+<p>这条我写成了 sensor，一扫<strong>30 处</strong>，其中一份文档整篇 28 处全写反了。规则在 skill 里白纸黑字写着，还解释了拼接顺序，照样漂——而且一漂就是整份文档。<strong>同一条规则，写在 guide 里就漂了；写成 assert，根本漂不了。</strong></p>
+<p>那 30 处我没改，代码早就按正确路径上线了，文档错着也不影响谁。直接冻进 baseline，只对新出现的报警。</p>
+<hr>
+<h2 id="第三刀：裁判手册没人用"><a href="#第三刀：裁判手册没人用" class="headerlink" title="第三刀：裁判手册没人用"></a>第三刀：裁判手册没人用</h2><p>我的 implement skill 里有一层独立复核，会重新跑测试、核对改动范围、抓弱断言。但它只在<strong>把活外包给 copilot 的时候才跑</strong>，理由写在 skill 里：代码是 claude 自己刚写的，不存在信不过汇报这个问题。</p>
+<p>这个理由我当时觉得挺有道理，现在看是错的。它对<strong>虚假汇报</strong>成立，对<strong>业务规则读错</strong>完全不成立——claude 把一条业务规则读错的概率和 copilot 一样高，而且<strong>测试全绿也照样错，因为测的就是被误解的那条规则</strong>。</p>
+<p>更浪费的是，我手上有一份 1213 行的技术设计文档，写得非常细，连锁顺序和状态机的每条边都有。它一直只被”写代码的 agent”读，从来没被”审代码的 agent”读过。同一份文档，<strong>两个消费者我只接了一个</strong>。</p>
+<p>所以我把这一层单独拆出来，改成每次都跑，不管代码是谁写的：找到本次改动对应领域的技术设计文档，按章节比对状态流转、校验规则、锁顺序。加一句提示词的事，白捡一个传感器。</p>
+<p>顺着这个往前推，我发现更靠前的地方漏得更狠：<strong>refine 从来不读原始 spec。</strong> 它只 fetch Jira ticket，业务上下文全靠 analyze 那份二手摘要。于是整条链变成 PRD → 分析文档 → 方案 → 代码，<strong>每一跳都是有损压缩，没有任何一跳回头对源头</strong>。现在改成每张卡都必须回去读一次 PRD 或我直接给的文档，找不到就停下来问我，不许默认往下走。</p>
+<p>回读的方向也有讲究，和覆盖矩阵是一模一样的道理：<strong>从 spec 遍历方案，不是从方案遍历 spec</strong>。拿着方案去 spec 里找依据，永远看起来是全的——因为你只会去找你已经写了的那些。反过来才看得见漏。重点抓三类：漏、冲突，还有<strong>越权决定</strong>——spec 明明标着待确认，方案里却悄悄给了个实现。第三类最危险，它不报错，只会在上线半年后变成”当初谁定的”。</p>
+<p>顺带说个细节——这类文档常常自己写明了权威顺序，比如”某范围内代码正确、需求已 stale”。发现不一致的时候先看这个声明，落在该范围内的冲突代码赢，范围外的需求赢。<strong>没有这条声明，冲突就只能靠人猜。</strong></p>
+<hr>
+<h2 id="回到标题：scope-怎么才能清晰正确"><a href="#回到标题：scope-怎么才能清晰正确" class="headerlink" title="回到标题：scope 怎么才能清晰正确"></a>回到标题：scope 怎么才能清晰正确</h2><p>分析阶段理解不了业务，这是我最开始最想解决的事。折腾一圈之后我的答案是三层，缺一层就漏：</p>
+<p><strong>第一层，状态机图，定义全集。</strong> 一共有几条边。碰状态字段的卡必须配图，散文描述状态机是最难读的形式，读者要读三遍才拼得出来的东西，一张图三十秒。</p>
+<p><strong>第二层，覆盖矩阵，定义分配。</strong> 每条边归谁，哪条无主，哪条撞车。这一层是我原来完全没有的，而且我发现<strong>我原来的映射方向是反的，结构上不可能发现遗漏</strong>——我的表是「ticket → 干了什么」，按 ticket 遍历。这种表<strong>永远看起来是满的</strong>，因为行本身就是从 ticket 生成的，漏掉的那条业务边根本不会出现在表里。</p>
+<p>要发现漏，必须按业务流程遍历。三条硬规则：行从状态图的边抄，不从 ticket 抄（行数应该等于业务边数，如果恰好等于 ticket 数，基本可以确定是抄错方向了）；每行必须有归属，或者显式写”不在本 epic → 去哪了”，留空就是漏；<strong>一条边落了两个 ticket，那就是矛盾点</strong>，两张卡对同一条边给不同规则，是我后期返工的主要来源。</p>
+<p>这张表还有个意外的好处：<strong>它天然可检查</strong>。”每行非空”就是个 assert。所以它顺便就是分析阶段的第一个传感器。</p>
+<p><strong>第三层，AC 加测试，定义边界。</strong> 这张卡做到哪算完。这一层我本来就做得挺硬，所以单卡范围一直很清晰——<strong>问题恰恰是前两层没有，epic 级别的漏和矛盾只能等到实现阶段才浮出来</strong>。</p>
+<p>还有一点我很喜欢：<strong>图和测试是同一份业务规则的两种投影。</strong> 图给人看，测试给机器看。状态图上每条边就是一个测试名。补上之后，新人读测试文件就等于读业务规则清单，而且<strong>永不腐烂——因为它会红</strong>。</p>
+<hr>
+<h2 id="现在长什么样"><a href="#现在长什么样" class="headerlink" title="现在长什么样"></a>现在长什么样</h2><div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">                   ┌── 外层 STEERING LOOP ──┐</span><br><span class="line">                   │  教训先过 assert 判定： │</span><br><span class="line">                   │   能 assert → sensor   │</span><br><span class="line">                   │   不能 → skill guide   │</span><br><span class="line">                   └───────────┬────────────┘</span><br><span class="line">                               │ sensor 出口 = .harness_engineering/（已挂 pre-commit）</span><br><span class="line">     ┌─────────────────────────┴─────────────────────────┐</span><br><span class="line">     ▼                                                   ▼</span><br><span class="line">analyze ─────────▶ refine ─────────▶ implement ─────────▶ review</span><br><span class="line">  │                  │                 │                    │</span><br><span class="line">guide:             guide:           内层 LOOP:            人 + PR</span><br><span class="line"> 业务锚点 3 行       源规格回读 ★        TDD red→green</span><br><span class="line"> 业务覆盖矩阵         Implement</span><br><span class="line"> 状态图（必需）        Details 定稿      sensor:</span><br><span class="line"> 源规格回读 ★                           pre-commit（风格）</span><br><span class="line">                   sensor:              unit test</span><br><span class="line">sensor:             URL 拼法            业务规则对照 ★</span><br><span class="line"> 矩阵每行非空         db_table 前缀       model 前缀检查</span><br><span class="line"> （assert 形状）      矩阵自洽</span><br></pre></td></tr></table></figure></div>
+
+<p>★ 三处新接的裁判手册：analyze 和 refine 回读 PRD &#x2F; 我给的文档，implement 对照技术设计文档。都不看代码是谁写的，每次都跑。</p>
+<p>比最初多了四样东西：<strong>转向循环有了两个出口</strong>（以前所有教训都流向 guide）；<strong>guide 开始缩短而不是只增长</strong>（第一次闭环就删掉了 4 行，还顺手改掉一条 17% 代码不满足的假规则）；<strong>三个阶段都接上了裁判手册</strong>；<strong>refine 从零 sensor 变成有 sensor</strong>——它产出的 DDL、API 契约、落点是下游照抄的东西，错在这儿没人拦，测试还全绿。</p>
+<hr>
+<h2 id="还没做完的"><a href="#还没做完的" class="headerlink" title="还没做完的"></a>还没做完的</h2><ul>
+<li><strong>前馈 sensor 依然全空。</strong> 脚手架、模板、契约生成，一个都没有。新 model 新 endpoint 还是从零手写，只靠 guide 描述形状。</li>
+<li><strong>业务规则本身还没有计算性传感器。</strong> 恒等式、状态机的边，现在只有”图 + guide”，没有对应的一致性测试。图和测试那两种投影，我只做了一半。</li>
+<li><strong>sensor 是”自觉型”的。</strong> 已经挂进 pre-commit 了，但只在本地生效——托管 CI 的容器里没有项目环境，跑不了 Django，只能显式 skip 掉。谁没装 hook、或者 <code>--no-verify</code> 一下就绕过去了。要真正强制得让 CI 也装完整环境，代价不小，我现在这条链上就我一个人跑 agent，本地生效够用。</li>
+<li><strong>必填模板项该不该强制</strong>，我还没想清楚。我的 refine 模板要求四个必填项，结果扫了 49 个已定稿的块，「落点」这一项<strong>一次都没出现过</strong>。这时候不该急着加 sensor 逼自己遵守——<strong>更可能是这一项本身没价值</strong>。规则被长期无视，先怀疑规则。</li>
+</ul>
+<p>写到这儿我发现，这一整轮折腾下来，真正的收获不是多了几个脚本，而是那条判定：<strong>每次想往文档里加规则的时候，先问一句这条能不能写成 assert。</strong> 能，就别写文档。</p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> harness_engineering_1</li>
+        <li><strong>Author:</strong> Xiao Qiang</li>
+        <li><strong>Created at
+                :</strong> 2026-09-06 15:46:07</li>
+        
+            <li>
+                <strong>Updated at
+                    :</strong> 2026-09-06 15:46:07
+            </li>
+        
+        <li>
+            <strong>Link:</strong> http://fdslk.github.io/LLM/agent/harness/2026/09/06/harness-engineering-1/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+
+            
+                This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a>.
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/AI/">#AI</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/LLM/agent/vibe-coding/2026/07/25/multi-agent/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">这么做缓解了我的token焦虑</span>
+						<span class="post-nav-item">Next posts</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+    <div id="giscus-container"></div>
+    <script data-swup-reload-script defer>
+        async function loadGiscus() {
+            const giscusConfig = {
+                'src': 'https://giscus.app/client.js',
+                'data-repo': 'fdslk/fdslk.github.io',
+                'data-repo-id': 'R_kgDOI3GIjg',
+                'data-category': 'General',
+                'data-category-id': 'DIC_kwDOI3GIjs4C8Ggz',
+                'data-mapping': 'pathname',
+                'data-strict': '0',
+                'data-reactions-enabled': '1',
+                'data-emit-metadata': '1',
+                'data-theme': 'preferred_color_scheme',
+                'data-lang': 'zh-CN',
+                'data-input-position': 'bottom',
+                'data-loading': 'lazy',
+                'crossorigin': 'anonymous',
+                'async': true
+            }
+            const giscusScript = document.createElement('script');
+            for (const key in giscusConfig) {
+                giscusScript.setAttribute(key, giscusConfig[key]);
+            }
+            document.getElementById('giscus-container').appendChild(giscusScript);
+        }
+        if ('true') {
+            let loadGiscusTimeout = setTimeout(() => {
+                loadGiscus();
+                clearTimeout(loadGiscusTimeout);
+            }, 1000);
+        } else {
+            document.addEventListener('DOMContentLoaded', loadGiscus);
+        }
+    </script>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">On this page</div>
+		<div class="page-title">harness_engineering_1</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Harness-%E5%88%B0%E5%BA%95%E6%98%AF%E4%B8%AA%E5%95%A5"><span class="nav-text">Harness 到底是个啥</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8B%BF%E6%88%91%E8%87%AA%E5%B7%B1%E7%9A%84%E6%B5%81%E7%A8%8B%E5%AF%B9%E4%B8%80%E9%81%8D"><span class="nav-text">拿我自己的流程对一遍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E6%89%8E%E7%9A%84%E4%B8%80%E5%88%80%EF%BC%9A%E6%88%91%E6%8A%8A%E8%AF%A5%E6%98%AF-assert-%E7%9A%84%E4%B8%9C%E8%A5%BF%E5%85%A8%E5%86%99%E8%BF%9B%E4%BA%86%E6%96%87%E6%A1%A3"><span class="nav-text">最扎的一刀：我把该是 assert 的东西全写进了文档</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E5%88%80%EF%BC%9A%E6%88%91%E7%9A%84%E8%B4%A8%E9%87%8F%E5%B7%A6%E7%A7%BB%E6%98%AF%E5%8F%8D%E7%9A%84"><span class="nav-text">第二刀：我的质量左移是反的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E5%88%80%EF%BC%9A%E8%A3%81%E5%88%A4%E6%89%8B%E5%86%8C%E6%B2%A1%E4%BA%BA%E7%94%A8"><span class="nav-text">第三刀：裁判手册没人用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9E%E5%88%B0%E6%A0%87%E9%A2%98%EF%BC%9Ascope-%E6%80%8E%E4%B9%88%E6%89%8D%E8%83%BD%E6%B8%85%E6%99%B0%E6%AD%A3%E7%A1%AE"><span class="nav-text">回到标题：scope 怎么才能清晰正确</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%B0%E5%9C%A8%E9%95%BF%E4%BB%80%E4%B9%88%E6%A0%B7"><span class="nav-text">现在长什么样</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%98%E6%B2%A1%E5%81%9A%E5%AE%8C%E7%9A%84"><span class="nav-text">还没做完的</span></a></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">Xiao Qiang</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        57 posts in total
+                    </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.8.5</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog fa-spin"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container">
+	<img src="">
+</div>
+
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+
+	
+<script src="/js/build/tools/imageViewer.js" type="module"></script>
+
+<script src="/js/build/utils.js" type="module"></script>
+
+<script src="/js/build/main.js" type="module"></script>
+
+<script src="/js/build/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/build/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/build/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/build/layouts/categoryList.js" type="module"></script>
+
+
+
+
+
+    
+<script src="/js/build/tools/codeBlock.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/layouts/lazyload.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/tools/runtime.js"></script>
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/build/libs/Typed.min.js"></script>
+
+  
+<script src="/js/build/plugins/typed.js" type="module"></script>
+
+
+
+
+
+
+
+
+    
+<script src="/js/build/libs/anime.min.js"></script>
+
+
+
+
+
+    
+<script src="/js/build/tools/tocToggle.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/layouts/toc.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/plugins/tabs.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+<script src="/js/build/layouts/essays.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+
+	
+</body>
+
+</html>
