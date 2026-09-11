@@ -434,7 +434,7 @@
 
         <div class="statistics flex justify-around my-2.5">
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">67</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">69</div>
         <div class="label text-third-text-color text-sm">Tags</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
@@ -442,7 +442,7 @@
         <div class="label text-third-text-color text-sm">Categories</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">57</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">59</div>
         <div class="label text-third-text-color text-sm">Posts</div>
     </a>
 </div>
@@ -600,7 +600,7 @@
                 ></p>
 <h3 id="框架概述"><a href="#框架概述" class="headerlink" title="框架概述"></a>框架概述</h3><p>chatgpt-on-wechat 通过配置化方式实现与微信的通信，提供了 itchat 和 wechaty 两种接入方案。不同接入方式的主要逻辑如下：</p>
 <h4 id="1-wechaty（基于事件监听）"><a href="#1-wechaty（基于事件监听）" class="headerlink" title="1. wechaty（基于事件监听）"></a>1. wechaty（基于事件监听）</h4><p>wechaty 通过事件监听拦截微信消息，并进入框架的处理流程。</p>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启动一个 wechaty 机器人</span></span><br><span class="line">loop = asyncio.get_event_loop()</span><br><span class="line"><span class="comment"># 绑定 asyncio 的事件循环</span></span><br><span class="line">chat_channel.handler_pool._initializer = <span class="keyword">lambda</span>: asyncio.set_event_loop(loop)</span><br><span class="line">self.bot = Wechaty()</span><br><span class="line">self.bot.on(<span class="string">&quot;login&quot;</span>, self.on_login)</span><br><span class="line">self.bot.on(<span class="string">&quot;message&quot;</span>, self.on_message)</span><br><span class="line"><span class="keyword">await</span> self.bot.start()</span><br></pre></td></tr></table></figure></div>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启动一个 wechaty 机器人</span></span><br><span class="line">loop = asyncio.get_event_loop()</span><br><span class="line"><span class="comment"># 绑定 asyncio 的事件循环</span></span><br><span class="line">chat_channel.handler_pool._initializer = <span class="keyword">lambda</span>: asyncio.set_event_loop(loop)</span><br><span class="line"><span class="variable language_">self</span>.bot = Wechaty()</span><br><span class="line"><span class="variable language_">self</span>.bot.on(<span class="string">&quot;login&quot;</span>, <span class="variable language_">self</span>.on_login)</span><br><span class="line"><span class="variable language_">self</span>.bot.on(<span class="string">&quot;message&quot;</span>, <span class="variable language_">self</span>.on_message)</span><br><span class="line"><span class="keyword">await</span> <span class="variable language_">self</span>.bot.start()</span><br></pre></td></tr></table></figure></div>
 
 <h4 id="2-itchat（基于-Web-协议）"><a href="#2-itchat（基于-Web-协议）" class="headerlink" title="2. itchat（基于 Web 协议）"></a>2. itchat（基于 Web 协议）</h4><p>itchat 通过 Web 协议与微信通信，但由于 WeChat 限制，该方式已无法稳定使用。</p>
 <h3 id="主要模块解析"><a href="#主要模块解析" class="headerlink" title="主要模块解析"></a>主要模块解析</h3><p><img  
@@ -840,7 +840,7 @@
                 
                 <p class="post-count space-x-0.5">
                     <span>
-                        57 posts in total
+                        59 posts in total
                     </span>
                     
                 </p>
